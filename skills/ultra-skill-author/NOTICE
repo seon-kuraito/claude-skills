@@ -1,0 +1,37 @@
+ultra-skill-author
+Copyright 2026 Seon Kuraito
+
+This skill is derived from "skill-creator", part of Anthropic's Agent Skills
+(https://github.com/anthropics/skills), licensed under the Apache License,
+Version 2.0. A copy of the license is included in LICENSE.
+
+Original work:
+  Copyright 2026 Anthropic, PBC.
+
+This derivative modifies the original. Notable changes:
+  - Default flow reduced to a 3-step interview / draft / review; the eval,
+    description-tuning, and blind-comparison machinery is gated behind an
+    opt-in capability checkpoint rather than run by default.
+  - Added an "ultra-<single-token>-<verber>" skill naming convention.
+  - Review step presents structural decisions as bullets instead of pasting
+    the full SKILL.md into the conversation.
+  - Skill descriptions kept trigger-only; specification moved into the body.
+  - References reorganized into writing-guide / evals / description-tuning /
+    blind-comparison / environments for progressive disclosure.
+  - Claude Code treated as the primary environment; Claude.ai / Cowork
+    instructions moved into a reference file.
+  - Added a provenance gate at skill creation: original skills receive an
+    MIT LICENSE automatically; derived skills receive the upstream LICENSE
+    plus a NOTICE stating attribution and changes.
+  - Added a repository publishing workflow (default into the skills repo,
+    branch, create or modify, link, verify, gated commit) that delegates
+    branch and commit authoring to sibling skills; opening the PR is left
+    to the user.
+  - Added a per-skill README standard (Traditional Chinese, fixed sections,
+    objective tone, full-width heading spacers, two-level bullets) captured
+    in references/readme-guide.md.
+
+The bundled eval tooling under scripts/, agents/, eval-viewer/, and
+assets/eval_review.html is carried substantially unmodified from the
+original skill-creator. The file assets/license-mit.txt is original to
+this derivative.
