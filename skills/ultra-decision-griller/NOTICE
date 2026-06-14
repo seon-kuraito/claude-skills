@@ -1,0 +1,24 @@
+ultra-decision-griller
+Copyright 2026 Seon Kuraito
+
+This skill is derived from "grill-me", part of Matt Pocock's skills collection
+(https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md),
+licensed under the MIT License. A copy of the license is included in LICENSE.
+
+Original work:
+  Copyright (c) 2026 Matt Pocock
+
+This derivative modifies the original. Notable changes:
+  - Invert the recommendation flow: the user answers first and the skill
+    steel-mans then pushes back, instead of the skill leading with its
+    recommended answer (avoids anchoring the user).
+  - Restructure the single prose paragraph into explicit sections:
+    How to ask / How to recommend / When to stop.
+  - Add AskUserQuestion guidance — use multiple choice when a branch has
+    2-4 plausible answers.
+  - Add stop criteria plus a decision-summary and an opt-in persist-to-file step.
+  - Rename to ultra-decision-griller and broaden the description to trigger on
+    intent across languages.
+
+The core concept and several phrasings (relentless one-branch-at-a-time
+interviewing, "explore the codebase instead") are carried from the original.
