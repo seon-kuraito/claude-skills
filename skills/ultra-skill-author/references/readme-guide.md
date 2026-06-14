@@ -60,6 +60,7 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 
 - **Objective, documentation tone** — no first person (我) and no second person (你). State facts, not authorial intent.
 - **Traditional Chinese prose; identifiers stay in English.** Proper nouns (Anthropic, Claude Code) and technical keywords keep their English form; wrap code-like identifiers — file / field / tool / repo / skill names, the `ultra-<single-token>-<verber>` pattern — in backticks. Translate plain-English prose words: bullet → 條列, session → 工作階段, body → 內文.
+- **Fullwidth punctuation in Chinese prose.** Chinese sentences take fullwidth marks — `，。：；（）「」` — not halfwidth ASCII. Use halfwidth `,.:;()` only where the punctuated content is itself English or code: an English fragment like `Anthropic, PBC`, parentheses wrapping a bare code span or English term, and markdown link syntax `[text](url)` (always halfwidth). Parentheses around Chinese — even Chinese mixed with English — take fullwidth `（）`, e.g. `（可依需求抽換）`.
 
 ## Formatting
 
