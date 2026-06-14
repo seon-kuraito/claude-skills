@@ -1,0 +1,19 @@
+{
+  "skill_name": "ultra-branch-creator",
+  "evals": [
+    {
+      "id": 1,
+      "name": "simple-feature-branch",
+      "prompt": "Start a branch for adding an outro animation to the blank video template at src/templates/00-blank/.",
+      "expected_output": "A branch name in `<type>/<kebab-description>` format. Type should be `feat`. Description should be kebab-case English, 2-5 words, and should reflect the scope (likely include `00-blank` and `outro`). Example: `feat/00-blank-outro-animation`.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "wrong-type-correction",
+      "prompt": "Make a branch called `feature/new-intro` for me to start working on the intro scene.",
+      "expected_output": "Skill should detect that `feature/` is not the canonical Conventional Commits prefix and correct it to `feat/`. Should produce something like `feat/new-intro` or a more descriptive variant like `feat/00-blank-new-intro`. Should NOT silently use `feature/...` as the user asked.",
+      "files": []
+    }
+  ]
+}
