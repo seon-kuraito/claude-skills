@@ -1,0 +1,19 @@
+{
+  "skill_name": "ultra-commit-creator",
+  "evals": [
+    {
+      "id": 1,
+      "name": "scope-inference-from-path",
+      "prompt": "I just edited src/templates/00-blank/Composition.tsx to add a fade-in animation on the title text. Please write the git commit message for this change.",
+      "expected_output": "A Conventional Commits message of the form `feat(00-blank): <single English sentence>`. Type should be `feat`. Scope should be inferred as `00-blank` from the file path. Description should be one concise English imperative sentence describing the fade-in animation.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "chinese-trigger-reject-wip",
+      "prompt": "幫我 commit 這個 wip 的修改：我改了 src/Root.tsx，重新命名了 import 路徑。",
+      "expected_output": "Skill should trigger despite Chinese phrasing. Output should reject 'wip' and produce a proper Conventional Commits message — likely `refactor: <description>` or `refactor(root): <description>` describing the rename. Description should be single English sentence, imperative mood.",
+      "files": []
+    }
+  ]
+}
