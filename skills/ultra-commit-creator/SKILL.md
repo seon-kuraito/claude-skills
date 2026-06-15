@@ -3,7 +3,7 @@ name: ultra-commit-creator
 description: Authors git commit messages. Use whenever a commit is in play — about to run `git commit`, finishing a discrete unit of work, or asked how to phrase one — regardless of exact wording or language. Lean toward consulting it whenever a commit is being written or planned, even when 'Conventional Commits' is never said, rather than hand-writing a message ad hoc.
 ---
 
-# ultra-commit-creator
+# Ultra Commit Creator
 
 Author git commit messages strictly conforming to the Conventional Commits spec, with one extra rule: the description must be a single concise English sentence in imperative mood.
 

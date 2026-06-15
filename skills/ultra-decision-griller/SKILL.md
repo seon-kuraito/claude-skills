@@ -3,6 +3,8 @@ name: ultra-decision-griller
 description: Interview the user relentlessly to resolve each decision in a plan or design, walking the decision tree one branch at a time until reaching shared understanding. Use when the user wants to stress-test a plan or design, asks to be grilled on it, or otherwise wants their decisions pressure-tested — regardless of exact wording or language.
 ---
 
+# Ultra Decision Griller
+
 Interview me relentlessly to resolve every decision in this plan or design until we reach shared understanding. Walk down each branch of the decision tree, resolving dependencies between decisions one-by-one.
 
 ## How to ask

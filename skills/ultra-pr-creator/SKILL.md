@@ -1,11 +1,9 @@
 ---
 name: ultra-pr-creator
 description: Authors GitHub pull request descriptions and titles. Use whenever a pull request is in play — writing or editing a PR body, running or planning `gh pr create`, opening a branch as a PR, or asked how to phrase one — regardless of exact wording or language. Lean toward consulting it the moment a PR comes up, even when 'PR description' is never said.
-metadata:
-  type: skill
 ---
 
-# ultra-pr-creator
+# Ultra PR Creator
 
 Authors a GitHub pull request body in a fixed three-section format, populated from the branch's commits and diff against its base.
 
