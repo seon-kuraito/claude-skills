@@ -42,6 +42,11 @@ description: Brief description of capability. Use when [specific triggers].
 [Link to separate files: See REFERENCE.md]
 ```
 
+### Title and frontmatter
+
+- **Open with a single `# ` H1 in Title Case** — the skill name as a readable title (`Ultra Repo Creator`), placed right after the frontmatter. Uppercase acronyms (`PR`, not `Pr`) and use the readable form of filename tokens (`CLAUDE.md`, not `Claudemd`). Every SKILL.md has exactly one.
+- **Keep frontmatter to `name` + `description`** — plus a real behavior field (e.g. `allowed-tools`) only when actually needed. Don't add inert keys like `metadata: type: skill`; Claude Code's skill loader ignores them, so they are pure noise.
+
 ### Progressive disclosure (three-tier)
 
 Skills load in three tiers:

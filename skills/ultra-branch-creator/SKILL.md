@@ -3,7 +3,7 @@ name: ultra-branch-creator
 description: Authors git branch names. Use whenever a git branch is in play — about to create, switch to, or name one (`git checkout -b`, `git switch -c`, branch creation via `gh`), or whenever new work warrants its own branch — regardless of exact wording or language. Lean toward consulting it the moment branching comes up, rather than naming a branch ad hoc or waiting for an explicit 'branch name' request.
 ---
 
-# ultra-branch-creator
+# Ultra Branch Creator
 
 Author git branch names in `<type>/<kebab-description>` format. Reuses the Conventional Commits type vocabulary so branches and the commits that land on them share one consistent language.
 

@@ -3,7 +3,7 @@ name: ultra-claudemd-author
 description: Create, refine, and trim CLAUDE.md / AGENTS.md files (the per-project agent-onboarding doc loaded into every session by Claude Code / OpenCode / Cursor / Codex / Zed). Use whenever the user wants to scaffold one from scratch, is writing / editing / restructuring an existing CLAUDE.md (or AGENTS.md), asking what belongs in one, reviewing it for length / quality, deciding whether to split content out, or comparing CLAUDE.md across projects — regardless of exact wording or language. Do NOT trigger for general markdown docs, READMEs, design docs, or unrelated docs work.
 ---
 
-# Authoring a good CLAUDE.md
+# Ultra CLAUDE.md Author
 
 CLAUDE.md (and the open-equivalent AGENTS.md) is the file an agent harness loads into every session by default. It's the single highest-leverage onboarding lever in a project — every line affects every plan, every implementation, every review the agent ever produces in that repo. That leverage cuts both ways: a bad line is a bad line in every artifact, not just one.
 

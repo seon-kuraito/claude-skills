@@ -1,11 +1,9 @@
 ---
 name: ultra-repo-creator
 description: Bootstraps a new repository end to end — local git init, remote creation on GitHub, and branch protection. Use whenever creating or setting up a repo is in play — starting a new project, initializing version control, turning a folder into a git repo, creating a GitHub remote, or a directory that has files but isn't yet a git repo — regardless of exact wording or language. Lean toward consulting it the moment repo creation or first-time setup comes up.
-metadata:
-  type: skill
 ---
 
-# ultra-repo-creator
+# Ultra Repo Creator
 
 Bootstrap a new repository in three composable phases — **local init → remote → branch protection**. Enter at whichever phase fits and skip what's already done (e.g. the repo already exists and only needs protection).
 

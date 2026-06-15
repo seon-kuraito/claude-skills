@@ -1,4 +1,4 @@
-# ultra-claudemd-author
+# Ultra CLAUDE.md Author
 
 把寫好 CLAUDE.md 的原則，提煉成一套可執行的建立與精修流程。
 

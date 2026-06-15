@@ -1,4 +1,4 @@
-# ultra-decision-griller
+# Ultra Decision Griller
 
 像拷問一樣，逐一逼問計畫或設計裡的每個決策，沿決策樹一次一個分支往下，直到雙方達成共識。
 
