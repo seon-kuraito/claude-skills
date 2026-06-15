@@ -1,4 +1,4 @@
-# ultra-branch-creator
+# Ultra Branch Creator
 
 以 `<type>/<kebab-description>` 格式命名 git 分支，與 commit 共用同一套 Conventional Commits 詞彙。
 

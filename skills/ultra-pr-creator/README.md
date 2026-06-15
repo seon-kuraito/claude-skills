@@ -1,4 +1,4 @@
-# ultra-pr-creator
+# Ultra PR Creator
 
 根據目前分支與 base 分支之間的 commits 與 diff，自動產生 GitHub pull request 的標題與固定三段式 body。
 

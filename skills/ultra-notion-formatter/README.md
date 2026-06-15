@@ -1,4 +1,4 @@
-# ultra-notion-formatter
+# Ultra Notion Formatter
 
 把筆記內容整理成固定 house style 的 Notion 頁面：固定的屬性、結構、全形標點與詞彙表，每次整套套用。
 

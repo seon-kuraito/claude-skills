@@ -1,4 +1,4 @@
-# ultra-repo-creator
+# Ultra Repo Creator
 
 把建立一個新 repo 拆成三個可組合的階段：本地初始化、遠端、分支保護。
 

@@ -1,4 +1,4 @@
-# ultra-skill-author
+# Ultra Skill Author
 
 在 Anthropic skill-creator 的基礎上延伸而成的版本。
 

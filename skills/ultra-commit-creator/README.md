@@ -1,4 +1,4 @@
-# ultra-commit-creator
+# Ultra Commit Creator
 
 以 Conventional Commits 的 `<type>(<scope>): <description>` 格式撰寫 git commit 訊息，外加一條規則：description 必須是單句、祈使語氣的英文。
 
