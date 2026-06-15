@@ -5,7 +5,7 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 ## Skeleton
 
 ```
-# <skill-name>
+# <Skill Name>
 
 <one-line tagline — what the skill is>
 
@@ -47,7 +47,7 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 
 ## Sections — required vs conditional
 
-- **`# title` + tagline + `## 聲明` + `## Summary`** — always present.
+- **`# H1` + tagline + `## 聲明` + `## Summary`** — always present. The H1 is the skill name in **Title Case** (`Ultra Repo Creator`), matching the SKILL.md H1 — same acronym / filename rules (`PR`, `CLAUDE.md`).
 - **`## 聲明`** ties to the `Licensing` decision:
   - **Original** → `來源`：原創；`授權`：MIT（`LICENSE`）. No `NOTICE`.
   - **Derived** → `來源`：延伸自 `<upstream>`（link）；`授權`：the upstream license, pointing to `LICENSE` and `NOTICE`.
