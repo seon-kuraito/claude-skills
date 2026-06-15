@@ -51,6 +51,9 @@
 
 - **委派的 skill**：
   - 標題交給 `ultra-branch-creator`、逐筆 commit 訊息交給 `ultra-commit-creator`
+- **PR 的 assignee 與 label**：
+  - 預設自我指派（`@me`，即 repo 擁有者 `seon-kuraito`），並貼上分支 type 對應的標籤
+  - 依賴 repo 已建好那 10 個 type 標籤（與 branch／commit 同一套）；換的 repo 若沒有，跳過 `--label`
 - **預設 main 為 base 分支**：
   - 用 `master`／`develop`／feature trunk 時自行推斷或問一次
 - **語言慣例**：
