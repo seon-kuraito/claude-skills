@@ -24,9 +24,31 @@ For per-section guidance (what belongs in each, ✅/❌ bullets, `N/A` handling)
 
 The PR title is the branch name, verbatim — e.g. branch `chore/initial-project-setup` → title `chore/initial-project-setup`. Do not compose an imperative sentence for the title; branch names follow [ultra-branch-creator](../ultra-branch-creator/SKILL.md), so title quality is already enforced upstream.
 
+## Assignees and labels
+
+On `gh pr create`, default to two flags:
+
+- **`--assignee @me`** — self-assign every PR (resolves to the repo owner, `seon-kuraito`), so open PRs are easy to track.
+- **`--label <type>`** — tag the PR with its type, taken verbatim from the branch prefix (`feat/add-x` → `feat`). The repo carries one label per Conventional Commits type — the same vocabulary as [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-creator](../ultra-commit-creator/SKILL.md): `feat` `fix` `refactor` `chore` `docs` `style` `perf` `build` `ci` `test` (lowercase, matching the branch / commit type).
+
+Both are behavior-affecting — include them in the Execution gate preview. `--label` only adds an already-existing label; the ten type labels are set up in this repo, so for a *different* repo that lacks them, drop `--label` rather than letting the command error.
+
+## The `gh pr create` command
+
+Push the branch, then create the PR. Title is the branch name, body is the file you wrote, plus the two default flags:
+
+```sh
+git push -u origin <branch>
+gh pr create --base main --head <branch> \
+  --title "<branch>" --body-file <body-file> \
+  --assignee @me --label <type>
+```
+
+`<type>` is the branch prefix (`feat/add-x` → `feat`). Fill every placeholder in and show this exact command at the Execution gate before running it.
+
 ## Execution gate
 
-Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …), stop and show the user exactly what will be executed — the title, the full body, and any behavior-affecting flags (e.g. merge method, `--delete-branch`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
+Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …), stop and show the user exactly what will be executed — the title, the full body, and any behavior-affecting flags (e.g. merge method, `--delete-branch`, `--assignee`, `--label`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
 
 ## Merging
 
