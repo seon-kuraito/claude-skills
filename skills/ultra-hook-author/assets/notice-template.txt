@@ -1,0 +1,17 @@
+<hook-name>
+Copyright [year] Seon Kuraito
+
+This hook is derived from "<upstream-name>", part of <upstream-project>
+(<upstream-url>), licensed under <license>. A copy of the license is
+included in LICENSE.
+
+Original work:
+  <upstream-copyright>
+
+This derivative modifies the original. Notable changes:
+  - <change>
+  - <change>
+
+<If significant parts are reused verbatim, add one line naming them — e.g.
+"The bundled scripts/ are carried substantially unmodified from
+<upstream-name>." Otherwise omit this paragraph.>
