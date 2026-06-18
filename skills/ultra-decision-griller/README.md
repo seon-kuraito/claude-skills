@@ -1,40 +1,67 @@
 # Ultra Decision Griller
 
-像拷問一樣，逐一逼問計畫或設計裡的每個決策，沿決策樹一次一個分支往下，直到雙方達成共識。
+逐一追問計畫或設計裡的每個決策，沿決策樹一次走一個分支，直到雙方達成共識。
 
 　
 
 ## 聲明
 
 - **來源**：
-  - 延伸自 Matt Pocock 的 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)，非原創
+  - 延伸自 Matt Pocock 的 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md)
 - **授權**：
   - MIT（Copyright 2026 Matt Pocock）
   - 完整條款見同目錄 `LICENSE`，衍生改動聲明見 `NOTICE`
 
 　
 
-## Summary
+## 概述
 
-針對一份計畫或設計，逐一逼問其中的每個決策。決策樹一次只走一個分支、先解決上游依賴，直到雙方達成共識。收尾時把已定的決策整理成條列，並可選擇存成檔案。詳細規格見 `SKILL.md`。
-
-　
-
-## 設計取向（相對於 grill-me 的取捨）
-
-- **反轉建議順序，讓使用者先表態**：
-  - 原版每題先給出 AI 的建議答案
-  - 本版改成使用者先回答、AI 再回應
-  - 同意則簡短帶過，不同意則先幫使用者的論點補強，之後再反駁（steel-man）
-  - 用意：AI 先給建議會錨定使用者；讓使用者先表態，才會浮現真正的分歧，而非附和的點頭
-- **結構化成三段**：
-  - 原版是一整段散文
-  - 本版拆成 `How to ask`／`How to recommend`／`When to stop` 三段
-- **納入 `AskUserQuestion`**：
-  - 當分支有 2–4 個合理答案時改用多選，比開放式問答收斂更快
-- **明確的收尾**：
-  - 定義停止條件；收束時把決策整理成「分支 → 決定 → 一句理由」，並詢問是否存檔
+針對一份計畫或設計，逐一追問其中的每個決策。決策樹一次只走一個分支，並先處理上游依賴；收尾時把已定案的內容整理成條列，必要時可存成檔案。詳細規格見 `SKILL.md`。
 
 　
 
-> 附註：核心概念與部分措辭（一次一分支的逼問、「能用 codebase 回答就去查 codebase」）沿用自原版。
+## 安裝
+
+- **手動複製**：
+  - 把整個 skill 目錄複製進 `~/.claude/skills/` 即可
+  - skill 不依賴 symlink，但 repo 更新不會自動反映
+- **執行腳本**：
+
+  ```sh
+  cd claude-skills
+  scripts/link-skill.sh ultra-decision-griller
+  ```
+
+  - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
+  - 不覆寫同名的實體目錄，藉此保護直接安裝在 `~/.claude/skills/` 的第三方 skill
+
+　
+
+## 設計取向
+
+- **先讓使用者表態，再給出建議**：
+  - 原版每題會先提供 AI 的建議答案，容易錨定使用者，使訪談變成形式上的確認
+  - 本版改為先請使用者回答，再由 AI 回應；只有讓使用者先表態，才看得到真正的分歧與偏好
+  - 若雙方判斷一致，簡短確認即可；若判斷不同，先替使用者的論點補強，再提出反駁或替代觀點（steel-man）
+- **將訪談流程拆成三段**：
+  - 原版以散文方式描述訪談原則
+  - 本版改成 `How to ask`、`How to recommend`、`When to stop` 三段，讓 agent 更容易依序執行
+- **在明確分支中使用 AskUserQuestion**：
+  - 當問題有 2–4 個合理選項時，改用 `AskUserQuestion` 提供多選
+  - 相較開放式問答，多選能更快收斂，也能降低使用者重新組織答案的負擔
+- **明確定義收尾方式**：
+  - 設定停止條件，避免訪談無限延伸
+  - 收束時將決策整理成「分支 → 決定 → 一句理由」，並詢問是否存檔
+
+　
+
+> 附註：核心概念與部分措辭（一次只追問一個分支、「能用 codebase 回答就去查 codebase」）沿用自原版。
+
+　
+
+## 預設與相依
+
+- **相依的工具**：
+  - `AskUserQuestion`：Claude 內建 tool，2–4 個答案時用多選收斂，沒有此 tool 的環境退回純文字問答
+- **收尾存檔**：
+  - 預設把已定案決策整理成 `decisions.md`，也可附加到當前文件
