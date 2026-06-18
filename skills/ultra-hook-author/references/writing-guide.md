@@ -8,11 +8,14 @@ The static rules for authoring a Claude Code hook. Read this when drafting a hoo
 hooks/<name>/
 ├── hook.sh          (entry point — reads JSON on stdin, acts, sets exit code)
 ├── README.md        (house-style — see references/readme-guide.md)
+├── install.sh       (optional — post-link setup; run by scripts/link-hook.sh)
 ├── LICENSE          (+ NOTICE if derived)
 └── tests/fixtures/  (optional — sample event payloads, see references/testing.md)
 ```
 
 A hook is two halves of one thing: the **script** and its **registration** in `settings.json` under an event. Authoring isn't done until both exist — see `references/registration.md`.
+
+Some hooks also carry an optional **`install.sh`** — post-link setup that `scripts/link-hook.sh` runs automatically right after it symlinks the hook. Use it for one-time, idempotent setup a hook needs beyond the symlink: building a compiled artifact, generating an asset, or **checking** registration. It must *not* rewrite `settings.json` — registration stays declare-and-compare, so `install.sh` reports whether the hook is wired but leaves applying `settings.hooks.json` to the live file to the user. Document both install paths (manual copy vs. the script) and the manual registration steps in the README's `## 安裝` section (see `references/readme-guide.md`).
 
 ## 1. Choose the event
 
