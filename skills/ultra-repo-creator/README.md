@@ -28,9 +28,12 @@
 ## 這個 skill 做什麼（WHAT）
 
 - **從零建立 repository**：
-  - 本地 `git init` → 在 GitHub 建立遠端 → 套用 branch 保護，三階段可組合
-- **可從任一階段切入**：
-  - 三個階段彼此獨立，可跳過已完成的部分
+  - 本地 `git init` → 在 GitHub 建立遠端 → 套用 branch 保護，三階段彼此獨立
+- **可從任一階段切入，並自動偵測進度**：
+  - 會先偵測 git init、遠端與 main ruleset 的完成狀態，只補尚未完成的部分
+- **建立完成後可接續初始化專案**：
+  - 三階段都完成後，詢問是否進入初始化階段
+  - `.gitignore`、`.claude/CLAUDE.md`、GitHub Labels 等選配項目交由另一個 skill 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -57,9 +60,11 @@
 
 ### 設計取向
 
-- **支援從任意階段切入**：
-  - 本地初始化、遠端建立與 branch 保護三個階段彼此獨立
-  - 若既有 repo 只缺 branch 保護，可直接從第三階段開始，不必重跑前面的初始化流程
+- **兩階段模型與自動進度偵測**：
+  - 把專案設定分成「建立專案」（本 skill）與「初始化專案」（另一個 skill）兩階段
+  - 開頭先偵測是否已完成 `git init`、GitHub 遠端與 main ruleset，決定要從哪一步接續
+  - 三項皆完成代表建立階段結束，轉而詢問是否接續初始化階段；否則只補尚未完成的步驟
+  - 偵測採 best-effort；判斷不明時，改用詢問確認
 - **只負責 repo 建立與設定編排**：
   - 本 skill 專注於建立 repo、綁定遠端與套用基礎保護設定
   - commit、branch 與 PR 的命名和撰寫，分別委派給 [`ultra-commit-creator`](../ultra-commit-creator)、[`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-pr-creator`](../ultra-pr-creator)
@@ -67,9 +72,9 @@
   - 建立 repo、push、修改 repo 設定前，先攤開即將執行的指令與影響範圍
   - 不把多個階段串成一次跑完，避免在未確認的情況下連續改變本地與遠端狀態
 - **初始 commit 保持最小化**：
-  - 初始 commit 只放一份空的 `README.md`
-  - 既有檔案先保留在工作區並維持 untracked，等遠端綁定完成後，再依實際需求整理進後續 commit
-  - 避免在遠端建立與保護設定完成前，就把一批檔案寫進歷史
+  - 只放一份完全空白的 `README.md`，固定訊息為 `chore: initialize repository`
+  - `.gitignore` 不在此階段寫入，改由「初始化專案」階段選配
+  - 既有檔案先保留在工作區並維持 untracked，等遠端綁定完成後，再依實際需求整理進後續 commit（避免在遠端建立與保護設定完成前，就把一批檔案寫進歷史）
 - **預設建立 public repo**：
   - GitHub 免費方案的 ruleset 只對 public repo 生效，private repo 套用時會回傳 `403`
   - 若 repo 需要 branch 保護，應在建立時選擇 public；選擇 private 即代表放棄第三階段的保護設定
@@ -93,6 +98,9 @@
 - **branch 保護設定**：
   - `assets/main-protection-ruleset.json`（review count 0、無 bypass）
   - 協作 repo 可調高 review count
+- **交棒的初始化 skill**：
+  - 建立階段完成後，可接續交給「初始化專案」skill（例如：`ultra-project-initializer`）
+  - 該 skill 尚未建立或不存在時，詢問後略過即可
 - **委派的 skills**：
   - 後續整理委派給 [`ultra-branch-creator`](../ultra-branch-creator)／[`ultra-commit-creator`](../ultra-commit-creator)／[`ultra-pr-creator`](../ultra-pr-creator)
   - 若無這些 skill，替換為其他 branch／commit／PR 慣例即可

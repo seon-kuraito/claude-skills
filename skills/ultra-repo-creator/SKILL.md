@@ -5,9 +5,30 @@ description: Bootstraps a new repository end to end — local git init, remote c
 
 # Ultra Repo Creator
 
-Bootstrap a new repository in three composable phases — **local init → remote → branch protection**. Enter at whichever phase fits and skip what's already done (e.g. the repo already exists and only needs protection).
+Bootstrap a new repository in three composable phases — **local init → remote → branch protection**. This is the **create** stage of a two-stage project setup; once all three phases are done the repo is built, and the **initialize** stage (a separate skill) takes over the optional scaffolding — see *Hand-off*. Enter at whichever phase fits and skip what's already done.
 
 This skill orchestrates; it hands off to [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md) for the work that lands after the repo exists.
+
+## Stages & routing
+
+Project setup runs in two stages:
+
+- **Create** (this skill) — local `git init`, GitHub remote, and branch protection.
+- **Initialize** (a separate skill, e.g. `ultra-project-initializer`) — optional scaffolding once the repo exists: `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels.
+
+Start by detecting how far the create stage has progressed, then route:
+
+- **`git init`** — does a `.git` directory exist?
+- **remote** — is a GitHub remote bound? (`git remote`)
+- **branch protection** — does `main` carry a ruleset? (`gh api /repos/<owner>/<repo>/rules/branches/main`)
+
+Routing from the three signals:
+
+- **All three done** → the create stage is complete; don't redo it — go to *Hand-off*.
+- **None done (brand-new)** → run Phases 1–3 in one pass.
+- **Partially done** → run only the missing phases.
+
+Detection is best-effort; when a signal is ambiguous (e.g. the ruleset lookup is unclear), ask the user instead of guessing.
 
 ## Execution gate
 
@@ -18,12 +39,12 @@ Before running **any** command that creates a repo, pushes, or changes repo sett
 The convention for a brand-new project:
 
 1. **Guard first.** If the working directory already has files but is *not* a git repo, flag it before writing anything more — don't wait for the user to notice.
-2. `git init` and write a `.gitignore`.
-3. The **initial commit contains only a blank `README.md`** (an empty file).
+2. `git init`.
+3. The **initial commit contains only a blank `README.md`** (an empty file), committed with the fixed message `chore: initialize repository`. This bootstrap commit uses that message verbatim — it does not go through ultra-commit-creator.
 4. **Existing work stays in the working tree, untracked**, until the user binds a remote (Phase 2).
 5. Do **not** bundle existing files into the initial commit unless the user explicitly asks.
 
-After the remote is bound, organize the working-tree work into commits / branches — that is where ultra-branch-creator / ultra-commit-creator / ultra-pr-creator take over.
+`.gitignore` is **not** written here — it moved to the initialize stage as an opt-in (see *Hand-off*). After the remote is bound, organize the working-tree work into commits / branches — that is where ultra-branch-creator / ultra-commit-creator / ultra-pr-creator take over.
 
 ## Phase 2 — Remote creation
 
@@ -83,6 +104,15 @@ gh api /repos/<owner>/<repo>/rules/branches/main --jq '[.[].type]'
 - **No admin bypass by default.** Rulesets ship with an empty bypass list, so the owner is also forced through PRs on `main` — that is the intent.
 - **`~DEFAULT_BRANCH`** tracks whichever branch is default, so renaming the default branch never breaks the rule.
 - Optional config-as-code: `gh api /repos/<owner>/<repo>/rulesets/<id> > main-protection.json` to commit the ruleset for reuse.
+
+## Hand-off to the initialize stage
+
+After all three phases are complete, ask whether to continue into the **initialize** stage with `AskUserQuestion` (*enter the initialize stage now?*):
+
+- **Yes** → load the initialization skill (e.g. `ultra-project-initializer`) if it is available; if it is not present, say so and stop.
+- **No** → stop here and leave the next move to the user.
+
+Never auto-enter the initialize stage — it is always the user's choice. (That skill, in turn, confirms the create stage is done before it begins.)
 
 ## Related
 
