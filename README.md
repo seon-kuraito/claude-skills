@@ -20,7 +20,7 @@
 | [`ultra-project-initializer`](skills/ultra-project-initializer) | 在 repo 建立後補齊必要的專案初始化設定 | 原創 |
 | [`ultra-project-publisher`](skills/ultra-project-publisher) | 把專案部署到代管平台（目前 GitHub Pages） | 原創 |
 | [`ultra-decision-griller`](skills/ultra-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
-| [`ultra-notion-formatter`](skills/ultra-notion-formatter) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
+| [`ultra-notion-composer`](skills/ultra-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
 
 　
 
