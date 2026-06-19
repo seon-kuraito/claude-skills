@@ -76,6 +76,8 @@
 - **merge 時保留 commit 歷史與本地 branch**：
   - 預設使用 `--merge` 產生 merge commit，保留已整理過的逐筆 commit
   - 預設不使用 `--delete-branch`，讓本地 branch 標籤保留下來
+  - merge 後預設以 `git push origin --delete` 清掉遠端分支，本地標籤仍保留
+  - merge 確定後刪除 `--body-file` 用的暫存檔（如 `/tmp/pr-<branch>.md`），PR 開啟期間先保留以便必要時 `gh pr edit`
   - 不對已策展過的 branch 使用 `--squash`，避免抹掉刻意整理好的 commit 歷史
 - **將模板與細節拆到 references／assets**：
   - 逐段深入指南放在 `references/`（例如：sections 與 examples）

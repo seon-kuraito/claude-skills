@@ -9,7 +9,7 @@ Authors a GitHub pull request body in a fixed three-section format, populated fr
 
 ## Quick start
 
-Always author the PR body into a file (passed to `gh pr create --body-file`) — never print the full body into the terminal. The file follows the template bundled at `assets/pr-body-template.md`.
+Always author the PR body into a temporary staging file (e.g. `/tmp/pr-<branch>.md`), passed to `gh pr create --body-file` — never print the full body into the terminal. The file follows the template bundled at `assets/pr-body-template.md`.
 
 Four things to notice:
 
@@ -48,15 +48,16 @@ gh pr create --base main --head <branch> \
 
 ## Execution gate
 
-Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …), stop and show the user exactly what will be executed — the title, the path to the body file (not the body text; the user opens the file to review), and any behavior-affecting flags (e.g. merge method, `--delete-branch`, `--assignee`, `--label`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
+Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …) or the post-merge remote-branch prune (`git push origin --delete`), stop and show the user exactly what will be executed — the title, the path to the body file (not the body text; the user opens the file to review), and any behavior-affecting flags (e.g. merge method, `--delete-branch`, `--assignee`, `--label`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
 
 ## Merging
 
-Default to `--merge` without `--delete-branch` (`gh pr merge <n> --merge`): it creates a merge commit and preserves the branch's individual commits, keeping a deliberately-organized history intact on the base branch — and leaves the local branch in place as a historical label (this user keeps merged branch labels locally).
+Default to `--merge` without `--delete-branch` (`gh pr merge <n> --merge`): it creates a merge commit and preserves the branch's individual commits, keeping a deliberately-organized history intact on the base branch — and leaves the local branch in place as a historical label (this user keeps merged branch labels locally). After merging, run the default cleanup: prune the now-stale remote branch and delete the temp body file (see the points below).
 
 - **Do not `--squash`** a branch whose commits were intentionally curated — squashing collapses them into one and discards that structure. Reserve `--squash` for genuinely messy WIP branches where a single clean commit is the goal.
 - `--rebase` replays the commits onto the base without a merge commit, but loses the "this was one PR" grouping.
-- **Keep the local branch.** Don't pass `--delete-branch` — it removes the local branch too, and this user keeps merged branch labels. To tidy the *remote* PR branch afterward while keeping the local label, delete only the remote: `git push origin --delete <branch>`.
+- **Keep the local branch, prune the remote.** Don't pass `--delete-branch` — it removes the local branch too, and this user keeps merged branch labels. Instead, after every merge, delete only the *remote* branch by default: `git push origin --delete <branch>`. This clears the stale remote PR branch while the local label stays — a standard post-merge step, not an optional afterthought (show it at the Execution gate like any remote-touching command).
+- **Delete the temp body file.** Once the merge is confirmed, remove the staging file written for `--body-file` (e.g. `rm /tmp/pr-<branch>.md`). Keep it while the PR is open — a `gh pr edit --body-file` may still need it — and delete it only after merge.
 
 ## Populating from the branch
 
@@ -88,7 +89,7 @@ Reject and rewrite. Each pattern, then why it fails:
 - Non-English content — see Conventions.
 - Restating the PR title in Summary's first bullet — the title is already on the PR; don't waste a bullet.
 - Imperative-sentence PR titles (`chore: set up project scaffolding`) — the title is the branch name verbatim; see *PR title*.
-- Running a `gh` command without first showing what will run and getting explicit confirmation — see *Execution gate*.
+- Running a `gh` command (or the remote-prune) without first showing what will run and getting explicit confirmation — see *Execution gate*.
 - Squashing a branch with deliberately-organized commits — collapses the curated history into one; default to `--merge` (see *Merging*).
 - `This PR …` / `We now …` lead-ins — start each bullet with the verb.
 - Printing the full PR body into the terminal — write it to a file and show only the path; a full dump floods the terminal and buries the decisions (see Conventions).
