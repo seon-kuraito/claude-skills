@@ -60,8 +60,9 @@
 - **PR body 固定三段式結構**：
   - body 一律包含 Summary、Scope 與 Test plan 三段，並搭配 emoji 標題
   - 固定結構讓 reviewer 每次都能用相同方式掃讀 PR，降低理解成本
-- **整份 body 包成單一可複製區塊**：
-  - PR body 會包在 plain code block 中，不加語言標籤，避免部分 renderer 的 copy button 失效
+- **body 寫進檔案、不倒進終端機**：
+  - PR body 一律寫進獨立檔案，透過 `--body-file` 帶入，不把全文倒進終端機，只顯示檔案路徑供開檔審閱
+  - 檔案存放原始 markdown，不再外包一層 code fence（那層只為了終端機顯示）
   - section 之間使用全形空格（U+3000）保留間距，讓內容在 GitHub 上更容易掃讀
 - **PR title 直接沿用 branch 名稱**：
   - 不另外替 PR title 造句，直接逐字使用目前 branch 名稱

@@ -1,6 +1,6 @@
 # Examples
 
-Canonical PR body outputs. Each is what the skill should produce verbatim for the scenario described — including the outer plain ``` fence, the emoji-prefixed H2s, and the `　` (U+3000) full-width spacer lines.
+Canonical PR body files. Each is the exact markdown the skill writes to the body file (for `gh pr create --body-file`) for the scenario described — the emoji-prefixed H2s, the `　` (U+3000) full-width spacer lines, and the footer. The body file holds this raw markdown with no outer code fence; the fences below are only to display each example here.
 
 ## CI / repo-policy PR
 
