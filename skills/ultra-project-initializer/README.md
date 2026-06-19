@@ -33,7 +33,7 @@
   - 相對於 [`ultra-repo-creator`](../ultra-repo-creator) 的「建立」階段，本 skill 屬於「初始化」階段；通常在 repo 建好後先執行，也可在任意時間點插入
 - **project 層級**：
   - 一個 repo 可包含多個 project（monorepo），必要時先確認要對哪個 project 操作
-- **完整規格放在 SKILL.md**：
+- **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
 　
@@ -71,7 +71,7 @@
   - 有選到檔案建立項目時，建立 `chore/initial-project-setup` branch，並逐項各發一個固定訊息的 commit
   - 標籤先刪除 GitHub 的 9 個預設標籤、再建立 type 標籤；只改動 GitHub 端，不會產生 commit
 - **完成後提醒開 PR**：
-  - 檔案 commit 落在 `chore/initial-project-setup`，最後詢問是否開 PR（交給 [`ultra-pr-creator`](../ultra-pr-creator)）
+  - 檔案 commit 落在 `chore/initial-project-setup`，最後詢問是否開 PR（交給 [`ultra-pr-creator`](../ultra-pr-creator) 處理）
   - 只選標籤時沒有 branch／commit，也就沒有 PR
 - **只負責初始化，不重做建立階段**：
   - 不處理 `git init`／遠端／保護（由 [`ultra-repo-creator`](../ultra-repo-creator) 負責）
@@ -91,5 +91,5 @@
 - **空白檔**：
   - `.claude/CLAUDE.md` 建為空白檔
 - **委派的 skills**：
-  - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
-  - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可
+  - 後續整理委派給 [`ultra-branch-creator`](../ultra-branch-creator)／[`ultra-commit-creator`](../ultra-commit-creator)／[`ultra-pr-creator`](../ultra-pr-creator)
+  - 若無這些 skill，替換為其他 branch／commit／PR 慣例即可
