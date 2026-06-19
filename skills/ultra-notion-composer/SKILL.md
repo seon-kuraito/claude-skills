@@ -5,23 +5,22 @@ description: Formats note content into a Notion page in the user's fixed house s
 
 # Ultra Notion Composer
 
-Formats a note into a Notion page following the user's fixed house style. The rules below are the contract — apply all of them, every time. A related family of notes (e.g. a tutorial series) shares this exact structure — Type／Tag properties, Good-to-know callouts, glossary table, and code marking — so keep it consistent across the whole set, whether you format one page or create a batch.
+Formats a note into a Notion page following the user's fixed house style. The rules below are the contract — apply all of them, every time. A related family of notes (e.g. a tutorial series) shares this exact structure — the `Category` property, Good-to-know callouts, glossary table, and code marking — so keep it consistent across the whole set, whether you format one page or create a batch.
 
 ## Before you start
 
 - **Identify the target.** Two paths:
   - **Format an existing page** — ask the user for the page (URL or ID) and operate on it.
-  - **Create new page(s) from a database template** — when the user wants fresh notes, create them under the note database using its page template (`template_id`). This is now allowed: the template carries the house icon and default properties, so a created page is not an orphan. Batch creation is fine — one call can produce many pages.
-- **Fetch first.** For an existing page, fetch it to read its title, properties, and the draft / source content. For creation, fetch the parent **database** to get its data-source schema (exact property names) and the `<templates>` section (template IDs). Why: property names and the title property may differ from defaults — rely on the fetched schema, never guess.
+  - **Create new page(s) under a domain database** — when the user wants fresh notes and gives no page URL, first pick the target database. The note databases are named `<domain> Base` (e.g. `Frontend Base`, `Backend Base`, `Infra Base`), so `notion-search` for `Base`, list the matches, and let the user choose. Then create the page(s) under the chosen database using its page template (`template_id`) — the template carries the house icon and default properties, so a created page is not an orphan. Batch creation is fine — one call can produce many pages.
+- **Fetch first.** For an existing page, fetch it to read its title, properties, and the draft / source content. For creation, fetch the **chosen** database to get its data-source schema — the exact property names, its `Category` select options (which differ per database), and the `<templates>` section (template IDs). Why: property names, the `Category` options, and the title property differ across databases — rely on the fetched schema, never guess.
 - Content is written in **Notion-flavored Markdown**. The syntax used below (block color, inline span color, Quote block, callout, `<details>` toggle, `<empty-block/>`) is verified against the spec. If you hit anything not covered here, read the MCP resource `notion://docs/enhanced-markdown-spec` rather than guessing.
 
 ## Page properties
 
-Every note lives in a Notion database, so it always carries these properties — the icon represents the topic, the title carries only the note's own headline, and category and stack live in their own properties:
+Every note lives in a Notion database, so it always carries these properties — the icon represents the topic, the title carries only the note's own headline, and its category lives in the `Category` property:
 
-- **Title** — the placeholder is filler. Replace it with **only the note's real subject** — the headline derived from its content. Strip out the category label and any language／tool name; those move to the properties below. Example: a note on Ruby variable assignment → title `變數與賦值`, not `Ruby 變數（Concept）`.
-- **`Type`** — a select with exactly one of: `Concept`／`How-to`／`Overview`／`Setup`. Pick the one matching the note's intent.
-- **`Tag`** — the language／tool(s) the note is about (e.g. `Ruby`、`Notion`、`Bash`). Not the category.
+- **Title** — the placeholder is filler. Replace it with **only the note's real subject** — the headline derived from its content. Strip out the category label and any language／tool name; those move to the properties below. Example: a note on Ruby variable assignment → title `變數與賦值`, not `Ruby 變數`.
+- **`Category`** — set it with one of the **target database's own** `Category` select options. The options differ per database, so read them from the fetched schema and use only one that database actually offers — never invent a value.
 - **Icon** — inherited from the template's default when creating; it stands in for the old leading-image role of signaling the topic. Only override it if the user asks.
 
 ## Page structure, in order
@@ -40,7 +39,7 @@ The body always opens with the gray summary — there is **no leading-image requ
 
 - Start at **h2** (`##`); never put an h1 in the body. The page title is the only h1.
 - Every **h2 begins with a Chinese-numeral index + 、**: 一、二、三、四… Never use bracket-number style like 【1】.
-  Example: `## 一、種類（Type）欄位`
+  Example: `## 一、作用域（Scope）`
 - A **`零、` section is allowed for a preamble** such as `零、相關筆記`, placed before `一、`.
 - For **tutorial / step-by-step notes, number the sections in actual operation order**; the glossary is always last.
 - **No standalone 練習／Recap section.** Fold the key takeaways into the relevant section's Good-to-know callout, or drop them. Don't give recap its own h2.
@@ -76,7 +75,7 @@ Parentheses are gray **only in body / prose text**. Wrap the parentheses and eve
 
 **Everywhere else, parentheses stay plain** (white, no span) — h2 headings, callout `<summary>` titles, and glossary table cells:
 
-- Heading: `## 一、種類（Type）欄位`
+- Heading: `## 一、作用域（Scope）`
 - Summary / cell: `**根域（root／apex，@）**`
 
 Why: the gray is a reading-rhythm cue for asides in running prose; in a heading or a label it just looks broken.
@@ -124,16 +123,16 @@ Every note closes with a glossary as its last h2:
 
 **Formatting an existing page:**
 
-1. Set the properties with the `update_properties` command — `title`, `Type`, and `Tag`.
+1. Set the properties with the `update_properties` command — `title` and `Category` (pick a `Category` option the page's database offers).
 2. Write the body with the update tool (`replace_content`), summary block first.
-3. Briefly tell the user what changed — title／Type／Tag set, gray summary added, h2 headings renumbered, Good-to-know callouts added, glossary table added — so they can verify at a glance.
+3. Briefly tell the user what changed — title／Category set, gray summary added, h2 headings renumbered, Good-to-know callouts added, glossary table added — so they can verify at a glance.
 
 **Creating new page(s) from a template:**
 
-1. Create each page with `notion-create-pages`: `parent` = the note `data_source_id`, `template_id` = the house template (inherits icon + default properties), and `properties` = the title plus `Type`／`Tag`. Don't pass `content` — the template provides the starting content.
+1. Create each page with `notion-create-pages`: `parent` = the chosen database's `data_source_id`, `template_id` = that database's template (inherits icon + default properties), and `properties` = the title plus `Category` (an option from that database's schema). Don't pass `content` — the template provides the starting content.
 2. Write the formatted body into each new page with `update_page` (`replace_content`), summary block first.
 3. For a batch, repeat per note (one `create-pages` call takes up to 100 pages). Report the list of created pages and what each got.
 
 ## Out of scope
 
-This skill is for formatting note pages in the house style — single or batch. It does **not** cover unrelated Notion work like database queries, dashboards, or view/schema engineering. Creating note pages (including batches) from the note database's template is in scope; arbitrary page creation outside that flow is not.
+This skill is for formatting note pages in the house style — single or batch. It does **not** cover unrelated Notion work like database queries, dashboards, or view/schema engineering. Creating note pages (including batches) under a `<domain> Base` database from its template is in scope; arbitrary page creation outside that flow is not.
