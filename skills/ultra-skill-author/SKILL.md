@@ -57,7 +57,7 @@ Present key decisions in bullet form — frontmatter `name` / `description`, bod
 
 ## Publishing & licensing
 
-When a skill is destined for the user's `claude-skills` repo, follow `references/publishing.md` end to end: pick the license files by provenance (MIT for original; upstream `LICENSE` + `NOTICE` for derived; copyleft / unclear → don't publish), then run the git workflow — branch → create/edit → link → verify → gated commit, delegating to ultra-branch-creator / ultra-commit-creator. Read it before creating or modifying a repo skill.
+When a skill is destined for the user's `claude-skills` repo, follow `references/publishing.md` end to end: pick the license files by provenance (MIT for original; upstream `LICENSE` + `NOTICE` for derived; copyleft / unclear → don't publish), then run the git workflow — branch → create/edit → sync catalog → link → verify → gated commit, delegating to ultra-branch-creator / ultra-commit-creator. Read it before creating or modifying a repo skill.
 
 ## After the skill is complete
 
@@ -69,7 +69,7 @@ When a skill is destined for the user's `claude-skills` repo, follow `references
 
 - `references/writing-guide.md` — SKILL.md writing / Description format / Bundled resources / Review checklist / Interview depth / Communication style
 - `references/readme-guide.md` — per-skill README: sections / objective tone / heading spacers / two-level bullets
-- `references/publishing.md` — provenance → license files + the repo git workflow (branch → create/edit → link → verify → gated commit)
+- `references/publishing.md` — provenance → license files + the repo git workflow (branch → create/edit → sync catalog → link → verify → gated commit)
 - `references/evals.md` — Test cases / Workspace / Grading / Aggregation / Iteration (opt-in)
 - `references/description-tuning.md` — Trigger optimization loop (opt-in)
 - `references/blind-comparison.md` — Blind A/B between two skill versions (opt-in; surfaces only when modifying existing)

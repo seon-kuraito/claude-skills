@@ -58,7 +58,7 @@ For a deeper pass, spawn `agents/hook-reviewer.md` to adversarially check event-
 
 ## Registration & publishing
 
-A hook only takes effect once it is **registered in `settings.json`** — the step skills don't have. Follow `references/registration.md` for the settings scopes, the matcher / event contract, and the `claude-hooks` repo's declare-and-compare mechanism (`settings.hooks.json` + `scripts/link-hook.sh`). Then follow `references/publishing.md` end to end: license by provenance, then the git workflow — branch → create → link → register → verify → gated commit, delegating to ultra-branch-creator / ultra-commit-creator.
+A hook only takes effect once it is **registered in `settings.json`** — the step skills don't have. Follow `references/registration.md` for the settings scopes, the matcher / event contract, and the `claude-hooks` repo's declare-and-compare mechanism (`settings.hooks.json` + `scripts/link-hook.sh`). Then follow `references/publishing.md` end to end: license by provenance, then the git workflow — branch → create → sync catalog → link → register → verify → gated commit, delegating to ultra-branch-creator / ultra-commit-creator.
 
 ## References
 

@@ -4,6 +4,24 @@
 
 　
 
+## Skills 一覽
+
+本 repo 目前維護以下 skill：
+
+| skill | 用途 | 來源 |
+| --- | --- | --- |
+| [`ultra-skill-author`](skills/ultra-skill-author) | 建立、改寫與評估 skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
+| [`ultra-claudemd-author`](skills/ultra-claudemd-author) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
+| [`ultra-hook-author`](skills/ultra-hook-author) | 建立與審閱 Claude Code hook | 原創 |
+| [`ultra-branch-creator`](skills/ultra-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
+| [`ultra-commit-creator`](skills/ultra-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
+| [`ultra-pr-creator`](skills/ultra-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
+| [`ultra-repo-creator`](skills/ultra-repo-creator) | 以本地、遠端與 branch 保護三階段建立 repo | 原創 |
+| [`ultra-decision-griller`](skills/ultra-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
+| [`ultra-notion-formatter`](skills/ultra-notion-formatter) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
+
+　
+
 ## 運作方式
 
 Claude Code 會掃描 `~/.claude/skills/` 來探索可用的 skill。本 repo 不直接版控執行目錄，因為裡面可能有第三方安裝的 skill，也緊鄰私人 session 資料。這裡只保存自己維護的檔案，並逐一連結過去：
