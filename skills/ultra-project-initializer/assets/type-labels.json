@@ -1,0 +1,12 @@
+[
+  { "name": "feat", "color": "0e8a16" },
+  { "name": "fix", "color": "b60205" },
+  { "name": "refactor", "color": "5319e7" },
+  { "name": "chore", "color": "ffffff" },
+  { "name": "docs", "color": "1d76db" },
+  { "name": "style", "color": "fbca04" },
+  { "name": "perf", "color": "d93f0b" },
+  { "name": "build", "color": "000000" },
+  { "name": "ci", "color": "0052cc" },
+  { "name": "test", "color": "006b75" }
+]
