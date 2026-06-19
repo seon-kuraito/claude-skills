@@ -48,7 +48,7 @@ gh pr create --base main --head <branch> \
 
 ## Execution gate
 
-Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …) or the post-merge remote-branch prune (`git push origin --delete`), stop and show the user exactly what will be executed — the title, the path to the body file (not the body text; the user opens the file to review), and any behavior-affecting flags (e.g. merge method, `--delete-branch`, `--assignee`, `--label`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
+Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …) or the post-merge remote-branch prune (`git push origin --delete`), stop and show the user exactly what will be executed — the title, the body file as a clickable editor link (e.g. `[/tmp/pr-<branch>.md](vscode://file/tmp/pr-<branch>.md)`) rather than the body text — the user opens it in their editor to review — and any behavior-affecting flags (e.g. merge method, `--delete-branch`, `--assignee`, `--label`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
 
 ## Merging
 
@@ -74,7 +74,7 @@ Default base branch: `main`. If the repo uses `master` / `develop` / a feature t
 ## Conventions
 
 - **English only.** PR descriptions live alongside commits in tools (changelog generators, release-note writers, AI summarizers) that assume English.
-- **Body in a file, not the terminal.** Author the body into a file for `--body-file` and never print the full body into the terminal — show only its path. The user reviews and edits in the file (the same principle as ultra-skill-author: don't flood the terminal with full content). The file holds raw markdown with no outer code fence.
+- **Body in a file, not the terminal.** Author the body into a file for `--body-file` and never print the full body into the terminal — show only its path, as a clickable editor link (`vscode://file/<abs-path>`) the user can open. The user reviews and edits in the file (the same principle as ultra-skill-author: don't flood the terminal with full content). The file holds raw markdown with no outer code fence.
 - **Full-width spacer line.** Before each heading that has content above it, insert a three-line spacer: a blank line, a line containing a single `　` (U+3000), then a blank line. Renders as vertical breathing room on GitHub; a lone blank line collapses too tightly.
 - **Always three sections.** Do not omit Scope or Test plan even for tiny PRs — use `- N/A — <reason>` if truly nothing to say. The shape of the PR should be predictable.
 - **No nesting.** Top-level bullets only. If you reach for sub-bullets, the bullet is doing too much — split it.

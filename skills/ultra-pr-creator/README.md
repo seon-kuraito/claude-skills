@@ -61,7 +61,7 @@
   - body 一律包含 Summary、Scope 與 Test plan 三段，並搭配 emoji 標題
   - 固定結構讓 reviewer 每次都能用相同方式掃讀 PR，降低理解成本
 - **body 寫進檔案、不倒進終端機**：
-  - PR body 一律寫進獨立檔案，透過 `--body-file` 帶入，不把全文倒進終端機，只顯示檔案路徑供開檔審閱
+  - PR body 一律寫進獨立檔案，透過 `--body-file` 帶入，不把全文倒進終端機，只在終端機顯示一個可點的編輯器連結（`vscode://file/...`）供開檔審閱
   - 檔案存放原始 markdown，不再外包一層 code fence（那層只為了終端機顯示）
   - section 之間使用全形空格（U+3000）保留間距，讓內容在 GitHub 上更容易掃讀
 - **PR title 直接沿用 branch 名稱**：
@@ -94,5 +94,8 @@
   - 使用 `master`、`develop` 或 feature trunk 時，先自行推斷；不確定時再詢問一次
 - **語言慣例**：
   - PR body 一律用英文撰寫，方便後續被 changelog、release note 或其他自動化工具引用
+- **可點連結的編輯器 scheme**：
+  - gate 顯示 body 路徑時包成 `vscode://file/<絕對路徑>` 可點連結，預設在 VS Code 開啟
+  - 換其他編輯器時改用對應 scheme（例如：`cursor://file/...`）
 - **委派的 skill**：
   - 標題交給 [`ultra-branch-creator`](../ultra-branch-creator)、commit 訊息交給 [`ultra-commit-creator`](../ultra-commit-creator)
