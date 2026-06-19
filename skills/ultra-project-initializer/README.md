@@ -70,6 +70,9 @@
 - **檔案建立走固定 branch 與 commit**：
   - 有選到檔案建立項目時，建立 `chore/initial-project-setup` branch，並逐項各發一個固定訊息的 commit
   - 標籤先刪除 GitHub 的 9 個預設標籤、再建立 type 標籤；只改動 GitHub 端，不會產生 commit
+- **完成後提醒開 PR**：
+  - 檔案 commit 落在 `chore/initial-project-setup`，最後詢問是否開 PR（交給 [`ultra-pr-creator`](../ultra-pr-creator)）
+  - 只選標籤時沒有 branch／commit，也就沒有 PR
 - **只負責初始化，不重做建立階段**：
   - 不處理 `git init`／遠端／保護（由 [`ultra-repo-creator`](../ultra-repo-creator) 負責）
   - branch、commit 的命名與撰寫委派給 [`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-commit-creator`](../ultra-commit-creator)

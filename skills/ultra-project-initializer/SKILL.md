@@ -40,11 +40,18 @@ The file options land on a dedicated branch; the labels option is a GitHub-side 
 1. **File options** (`.gitignore`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to ultra-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through ultra-commit-creator):
    - `.gitignore` → `chore: add gitignore for macOS and editor artifacts`
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
-
-   Hand the branch back to the user afterward — the PR is not opened automatically (that is ultra-pr-creator).
 2. **GitHub labels** — make the repo's labels *exactly* the type set, in two steps:
    - **Delete the defaults first.** A new GitHub repo ships nine default labels — `bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`. Remove each that is present with `gh label delete <name> --yes`. Touch only these defaults — leave any custom labels alone.
    - **Then create the types.** For each entry in `assets/type-labels.json`, run `gh label create <name> --color <color>` (no description, mirroring the source); pass `--force` to overwrite a same-named label. This makes no commit.
+
+## Wrap up — open a PR
+
+The file commits land on `chore/initial-project-setup`, which always needs a PR to reach `main`. After the commits, ask the user whether to open one now:
+
+- **Yes** → hand to [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
+- **No** → leave the branch in place for the user.
+
+If only labels were selected, there is no branch or commit — skip this step.
 
 ## Execution gate
 
