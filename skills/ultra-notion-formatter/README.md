@@ -1,6 +1,6 @@
 # Ultra Notion Formatter
 
-把筆記整理成固定 house style 的 Notion 頁面，包含屬性、結構、全形標點與詞彙表。
+把筆記整理成符合固定 house style 的 Notion 頁面，包含屬性、頁面結構、全形標點與詞彙表。
 
 　
 
@@ -10,17 +10,35 @@
   - 原創
 - **授權**：
   - MIT
-  - 完整條款見同目錄 `LICENSE`
+  - 完整條款見同目錄 [`LICENSE`](LICENSE)
 
 　
 
-## 概述
+## 為什麼做這個 skill（WHY）
 
-把筆記格式化成 Notion 頁面，套用固定的 house style，包含：屬性（Title／Type／Tag／Icon）、頁面結構（灰底 Summary → 編號 h2 內容 → 詞彙表）、全形標點與灰括號等規則。可以格式化既有頁，也能從筆記 database 的 template 建立新頁（含批次）。詳細規格見 `SKILL.md`。
+- **筆記排版每次不一致**：
+  - 屬性、結構與標點各憑當下判斷，同系列筆記很容易長得不一樣
+- **手動套用 house style 重複耗時**：
+  - 灰底 Summary、編號 h2、詞彙表與全形標點每次都要重做一遍
+- **規則細節容易漏**：
+  - 「Good-to-know」callout、「詞彙表」命名等細節很容易被忘記
 
 　
 
-## 安裝
+## 這個 skill 做什麼（WHAT）
+
+- **把筆記格式化成 Notion 頁面**：
+  - 套用固定 house style，包含屬性、頁面結構、全形標點與詞彙表
+- **支援既有頁與新頁建立**：
+  - 可格式化既有頁，也能從筆記 database 的 template 建立新頁，並支援批次建立
+- **完整規格集中在 SKILL.md**：
+  - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
+
+　
+
+## 如何使用這個 skill（HOW）
+
+### 安裝
 
 - **手動複製**：
   - 把整個 skill 目錄複製進 `~/.claude/skills/` 即可
@@ -37,7 +55,7 @@
 
 　
 
-## 設計取向
+### 設計取向
 
 - **完整套用 house style**：
   - house style 視為筆記格式契約，每次整理都應完整套用，不挑選、不省略
@@ -52,15 +70,15 @@
   - 內文中的中英文標點皆使用全形（。，、（）「」…），只有 inline code 與 code block 例外
   - 灰色括號只用於內文 prose；標題、callout 標題與表格儲存格中的括號維持白色
 - **Good-to-know callout**：
-  - 每個內容段落都要補上一則 Good-to-know 的 callout block
-  - 內容應提供延伸觀念、常見坑或底層原理，補出讀者會覺得有收穫的資訊，而不是重述該段內容
+  - 每個內容段落都要補上一則「Good-to-know」的 callout
+  - 內容應提供延伸觀念、常見坑或底層原理，補上讀者會覺得有收穫的資訊，而不是重述該段內容
 - **以 Markdown table 詞彙表收尾**：
   - 頁面最後固定放置「詞彙表」
   - 詞彙表使用 Markdown table，欄位固定為「名詞｜英文｜說明」，命名使用「詞彙表」，不使用「名詞解釋」
 
 　
 
-## 預設與相依
+### 預設與相依
 
 - **Notion MCP**：
   - 依賴 Notion 的 MCP 工具（fetch、create-pages、update_page）與 `notion://docs/enhanced-markdown-spec` 規格

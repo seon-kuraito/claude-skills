@@ -1,6 +1,6 @@
 # Ultra Skill Author
 
-從 Anthropic skill-creator 延伸出來的個人版。
+建立、改寫、評估 Claude Code skill 的個人化流程。
 
 　
 
@@ -10,17 +10,37 @@
   - 延伸自 Anthropic 的 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator)
 - **授權**：
   - Apache License 2.0（Copyright 2026 Anthropic, PBC）
-  - 完整條款見同目錄 `LICENSE`，衍生改動聲明見 `NOTICE`
+  - 完整條款見同目錄 [`LICENSE`](LICENSE)，衍生改動聲明見 [`NOTICE`](NOTICE)
 
 　
 
-## 概述
+## 為什麼做這個 skill（WHY）
 
-處理 Claude Code skill 的建立、改寫、重構、命名、授權與評估。預設流程是輕量的「訪談 → 草擬 → 審閱」；evals、description 調校、新舊版盲測等較重的流程，只有需要時才開啟。詳細規格見 `SKILL.md`。
+- **要顧的太多、太散**：
+  - 建立一個 skill 牽涉 `SKILL.md` 結構、description 觸發、授權、README、測試，缺一條統一流程就容易漏、每次品質不一
+- **嚴謹與輕便難兩全**：
+  - 完整評測有其成本，但「只是想快速建一個」不該被重流程綁住
+- **個人 skill 容易各長各的**：
+  - 命名與文件樣式若沒有規範，久了風格就容易發散
 
 　
 
-## 安裝
+## 這個 skill 做什麼（WHAT）
+
+- **涵蓋完整 skill 工作流**：
+  - 支援 skill 的建立、改寫、重構、命名、授權與評估
+- **預設流程保持輕量**：
+  - 以「訪談 → 草擬 → 審閱」作為主線，讓常見情境可以快速完成
+- **重型機制按需啟用**：
+  - evals、description 調校、新舊版盲測走能力選用關卡（Capability Checkpoint），需要時才開
+- **完整規格集中在 SKILL.md**：
+  - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
+
+　
+
+## 如何使用這個 skill（HOW）
+
+### 安裝
 
 - **手動複製**：
   - 把整個 skill 目錄複製進 `~/.claude/skills/` 即可
@@ -37,7 +57,7 @@
 
 　
 
-## 設計取向
+### 設計取向
 
 - **預設流程保持輕量**：
   - 原版把完整評測流程放在主線中，適合高嚴謹度情境，但也會讓一般建立流程變重
@@ -65,12 +85,12 @@
   - 衍生 skill 需先釐清上游來源，再補上對應的 `LICENSE` 與 `NOTICE`
 - **內建發佈工作流**：
   - 在 `claude-skills` repo 中建立或調整 skill，並串起「檢查 git 狀態 → 開 branch → 建立／調整 → symlink（新建）→ 驗證 → commit」
-  - branch 與 commit 分別委派給 `ultra-branch-creator` 與 `ultra-commit-creator`
+  - branch 與 commit 分別委派給 [`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-commit-creator`](../ultra-commit-creator)
   - commit 前會停下讓使用者確認；PR 不會自動建立
 - **統一文件與發佈規格**：
-  - 每個 skill 都附一份固定格式的 `README.md`，內容包含聲明、概述與設計取向
+  - 每個 skill 都附一份固定格式的 `README.md`，規範見 [`references/readme-guide.md`](references/readme-guide.md)
   - 同步產出 `LICENSE` 與 `NOTICE`
-  - 語言、標題 spacer、列點與標點樣式需維持一致，詳細規範見 `references/readme-guide.md`
+  - 語言、標題 spacer、列點與標點樣式需維持一致
 
 　
 
@@ -78,12 +98,12 @@
 
 　
 
-## 預設與相依
+### 預設與相依
 
 - **目標 repo**：
   - 發佈流程預設在 `~/Developer/claude-skills` 操作
   - 如需指向其他 skills repo，改這個路徑即可
   - repo 不存在時，會退回「只在本機建立、跳過 git 流程」
 - **委派的 skills**：
-  - 開 branch 用 `ultra-branch-creator`、發 commit 用 `ultra-commit-creator`
+  - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可
