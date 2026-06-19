@@ -13,7 +13,7 @@ A hook is **a command registered in `settings.json` that fires deterministically
 
 ## Naming convention
 
-All hooks in this user's `claude-hooks` repo follow the pattern **`ultra-<single-token>-<verber>`** — the same convention as skills. Example: `ultra-attention-reminder`.
+All hooks in this user's `claude-hooks` repo follow the pattern **`ultra-<single-token>-<verber>`** — the same convention as skills. Example: `ultra-task-notifier`.
 
 Rules:
 
