@@ -1,6 +1,17 @@
 # JSON Schemas
 
-This document defines the JSON schemas used by skill-creator.
+This document defines the JSON schemas used by this skill's eval and packaging scripts.
+
+## Contents
+
+- `evals.json` — the evals defined for a skill
+- `history.json` — version progression across runs
+- `grading.json` — grader-agent output
+- `metrics.json` — executor-agent output
+- `timing.json` — wall-clock timing for a run
+- `benchmark.json` — benchmark-run output
+- `comparison.json` — blind-comparator output
+- `analysis.json` — post-hoc-analyzer output
 
 ---
 
