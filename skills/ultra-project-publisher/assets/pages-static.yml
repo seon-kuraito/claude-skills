@@ -1,0 +1,42 @@
+# Deploy static content to GitHub Pages.
+# Mirrors GitHub's official "Static HTML" starter workflow.
+# Docs: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+name: Deploy static content to Pages
+
+on:
+  # Run on pushes to the default branch
+  push:
+    branches: ['main']
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+# Grant GITHUB_TOKEN the permissions required to deploy to Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; do not cancel an in-progress run
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          # Upload the entire repository; narrow to a subfolder if needed
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

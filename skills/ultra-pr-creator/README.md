@@ -98,4 +98,5 @@
   - gate 顯示 body 路徑時包成 `vscode://file/<絕對路徑>` 可點連結，預設在 VS Code 開啟
   - 換其他編輯器時改用對應 scheme（例如：`cursor://file/...`）
 - **委派的 skill**：
-  - 標題交給 [`ultra-branch-creator`](../ultra-branch-creator)、commit 訊息交給 [`ultra-commit-creator`](../ultra-commit-creator)
+  - 標題 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
+  - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可
