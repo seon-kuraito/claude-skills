@@ -9,13 +9,13 @@ Handle any work on a Claude skill — creating, refining, restructuring, naming,
 
 ## Naming convention
 
-All skills in this user's `~/.claude/skills/` follow the pattern **`ultra-<single-token>-<verber>`**. Example: `ultra-claudemd-author`.
+All skills in this user's `~/.claude/skills/` follow the pattern **`ultra-<single-token>-<verber>`**. Example: `ultra-decision-griller`.
 
 Rules:
 
 - Always prefix with `ultra-`
 - Single-token domain — collapse multi-word concepts into one token (`claudemd`, not `claude-md`)
-- Verb-er suffix (`author`, `creator`, `formatter`, `griller`, `polisher`, etc.)
+- Verb-er suffix matching the skill's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `ultra-skill-author` and `ultra-hook-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
 
 When **creating a new skill**: propose a name in this format during Step 1 and confirm with the user before drafting.
 
