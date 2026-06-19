@@ -11,7 +11,7 @@
 | skill | 用途 | 來源 |
 | --- | --- | --- |
 | [`ultra-skill-author`](skills/ultra-skill-author) | 建立、改寫與評估 skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
-| [`ultra-claudemd-author`](skills/ultra-claudemd-author) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
+| [`ultra-claudemd-composer`](skills/ultra-claudemd-composer) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
 | [`ultra-hook-author`](skills/ultra-hook-author) | 建立與審閱 Claude Code hook | 原創 |
 | [`ultra-branch-creator`](skills/ultra-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
 | [`ultra-commit-creator`](skills/ultra-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
@@ -20,7 +20,7 @@
 | [`ultra-project-initializer`](skills/ultra-project-initializer) | 在 repo 建立後補齊必要的專案初始化設定 | 原創 |
 | [`ultra-project-publisher`](skills/ultra-project-publisher) | 把專案部署到代管平台（目前 GitHub Pages） | 原創 |
 | [`ultra-decision-griller`](skills/ultra-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
-| [`ultra-notion-formatter`](skills/ultra-notion-formatter) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
+| [`ultra-notion-composer`](skills/ultra-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
 
 　
 

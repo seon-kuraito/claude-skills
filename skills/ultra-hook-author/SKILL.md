@@ -19,7 +19,7 @@ Rules:
 
 - Always prefix with `ultra-`
 - Single-token domain — collapse multi-word concepts into one token (`claudemd`, not `claude-md`)
-- Verb-er suffix (`author`, `creator`, `formatter`, `griller`, `polisher`, etc.)
+- Verb-er suffix matching the hook's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `ultra-skill-author` and `ultra-hook-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
 
 Each hook lives one directory per hook under `hooks/<name>/`, holding a `hook.sh` entry point plus its own `README.md` and license files.
 

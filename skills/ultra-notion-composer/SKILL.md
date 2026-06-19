@@ -1,9 +1,9 @@
 ---
-name: ultra-notion-formatter
+name: ultra-notion-composer
 description: Formats note content into a Notion page in the user's fixed house style. Use when the user asks to write, format, or tidy up a Notion note, hands over a Notion note page, or wants note formatting / layout applied — regardless of exact wording or language. Do NOT trigger for non-note Notion work like database queries, dashboards, or view / schema engineering.
 ---
 
-# Ultra Notion Formatter
+# Ultra Notion Composer
 
 Formats a note into a Notion page following the user's fixed house style. The rules below are the contract — apply all of them, every time. A related family of notes (e.g. a tutorial series) shares this exact structure — Type／Tag properties, Good-to-know callouts, glossary table, and code marking — so keep it consistent across the whole set, whether you format one page or create a batch.
 
