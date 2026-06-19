@@ -25,11 +25,11 @@ Load [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-
 
 ## Feature selection
 
-Offer the options with a single multi-select `AskUserQuestion` — the user picks any combination:
+Always present the choice as one `AskUserQuestion` call with `multiSelect: true` — never ask in prose, and never one feature at a time. A single question (e.g. "Which items to set up?") whose options are the three features below; the user picks any combination (or none):
 
 - **`.gitignore`** — a root `.gitignore` from `assets/gitignore-template` (macOS + editor/IDE + log artifacts).
 - **`.claude/CLAUDE.md`** — a blank `.claude/CLAUDE.md`.
-- **GitHub labels** — the Conventional Commits type labels defined in `assets/type-labels.json`.
+- **GitHub labels** — replace the repo's default labels with the Conventional Commits type labels in `assets/type-labels.json`.
 
 If nothing is selected, stop.
 
@@ -40,13 +40,22 @@ The file options land on a dedicated branch; the labels option is a GitHub-side 
 1. **File options** (`.gitignore`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to ultra-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through ultra-commit-creator):
    - `.gitignore` → `chore: add gitignore for macOS and editor artifacts`
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
+2. **GitHub labels** — make the repo's labels *exactly* the type set, in two steps:
+   - **Delete the defaults first.** A new GitHub repo ships nine default labels — `bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`. Remove each that is present with `gh label delete <name> --yes`. Touch only these defaults — leave any custom labels alone.
+   - **Then create the types.** For each entry in `assets/type-labels.json`, run `gh label create <name> --color <color>` (no description, mirroring the source); pass `--force` to overwrite a same-named label. This makes no commit.
 
-   Hand the branch back to the user afterward — the PR is not opened automatically (that is ultra-pr-creator).
-2. **GitHub labels** — for each entry in `assets/type-labels.json`, run `gh label create <name> --color <color>` (no description, mirroring the source). This makes no commit. `gh label create` fails on a label that already exists; pass `--force` to update it, or skip the ones already present.
+## Wrap up — open a PR
+
+The file commits land on `chore/initial-project-setup`, which always needs a PR to reach `main`. After the commits, ask the user whether to open one now:
+
+- **Yes** → hand to [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
+- **No** → leave the branch in place for the user.
+
+If only labels were selected, there is no branch or commit — skip this step.
 
 ## Execution gate
 
-Before any command that writes to the remote or the repo's settings — `gh label create`, `git push` — stop, show exactly what will run, and wait for explicit confirmation. Never chain the whole selection into one uninterrupted run.
+Before any command that writes to the remote or the repo's settings — `gh label delete`, `gh label create`, `git push` — stop, show exactly what will run, and wait for explicit confirmation. Never chain the whole selection into one uninterrupted run.
 
 ## Related
 
