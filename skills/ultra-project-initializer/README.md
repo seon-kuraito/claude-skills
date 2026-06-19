@@ -28,7 +28,7 @@
 ## 這個 skill 做什麼（WHAT）
 
 - **補齊專案初始化設定**：
-  - 可選擇建立 `.gitignore`、空白 `.claude/CLAUDE.md`、GitHub 的 Conventional Commits type 標籤
+  - 可選擇建立 `.gitignore`、空白 `.claude/CLAUDE.md`，或以 Conventional Commits type 標籤取代 GitHub 預設標籤
 - **可隨時插入的階段**：
   - 相對於 [`ultra-repo-creator`](../ultra-repo-creator) 的「建立」階段，本 skill 屬於「初始化」階段；通常在 repo 建好後先執行，也可在任意時間點插入
 - **project 層級**：
@@ -69,12 +69,12 @@
   - 一律用 `AskUserQuestion` 的多選（`multiSelect`）一次列出三個選項，不以 prose 或逐題詢問
 - **檔案建立走固定 branch 與 commit**：
   - 有選到檔案建立項目時，建立 `chore/initial-project-setup` branch，並逐項各發一個固定訊息的 commit
-  - 建立標籤只會改動 GitHub 端，不會產生 commit
+  - 標籤先刪除 GitHub 的 9 個預設標籤、再建立 type 標籤；只改動 GitHub 端，不會產生 commit
 - **只負責初始化，不重做建立階段**：
   - 不處理 `git init`／遠端／保護（由 [`ultra-repo-creator`](../ultra-repo-creator) 負責）
   - branch、commit 的命名與撰寫委派給 [`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-commit-creator`](../ultra-commit-creator)
 - **高影響操作前先確認**：
-  - `gh label create`、push 前先列出即將執行的內容並取得確認
+  - `gh label delete`、`gh label create`、push 前先列出即將執行的內容並取得確認
 
 　
 
@@ -84,6 +84,7 @@
   - 內容為 macOS、編輯器／IDE 與 log 產物（[`assets/gitignore-template`](assets/gitignore-template)）
 - **type 標籤**：
   - 取自 Conventional Commits 的十個 type（[`assets/type-labels.json`](assets/type-labels.json)，含名稱與顏色，無描述）
+  - 建立前先刪除 GitHub 的 9 個預設標籤（`bug`、`documentation`、`duplicate`、`enhancement`、`good first issue`、`help wanted`、`invalid`、`question`、`wontfix`），自訂標籤保留
 - **空白檔**：
   - `.claude/CLAUDE.md` 建為空白檔
 - **委派的 skills**：

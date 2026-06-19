@@ -29,7 +29,7 @@ Always present the choice as one `AskUserQuestion` call with `multiSelect: true`
 
 - **`.gitignore`** — a root `.gitignore` from `assets/gitignore-template` (macOS + editor/IDE + log artifacts).
 - **`.claude/CLAUDE.md`** — a blank `.claude/CLAUDE.md`.
-- **GitHub labels** — the Conventional Commits type labels defined in `assets/type-labels.json`.
+- **GitHub labels** — replace the repo's default labels with the Conventional Commits type labels in `assets/type-labels.json`.
 
 If nothing is selected, stop.
 
@@ -42,11 +42,13 @@ The file options land on a dedicated branch; the labels option is a GitHub-side 
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
 
    Hand the branch back to the user afterward — the PR is not opened automatically (that is ultra-pr-creator).
-2. **GitHub labels** — for each entry in `assets/type-labels.json`, run `gh label create <name> --color <color>` (no description, mirroring the source). This makes no commit. `gh label create` fails on a label that already exists; pass `--force` to update it, or skip the ones already present.
+2. **GitHub labels** — make the repo's labels *exactly* the type set, in two steps:
+   - **Delete the defaults first.** A new GitHub repo ships nine default labels — `bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`. Remove each that is present with `gh label delete <name> --yes`. Touch only these defaults — leave any custom labels alone.
+   - **Then create the types.** For each entry in `assets/type-labels.json`, run `gh label create <name> --color <color>` (no description, mirroring the source); pass `--force` to overwrite a same-named label. This makes no commit.
 
 ## Execution gate
 
-Before any command that writes to the remote or the repo's settings — `gh label create`, `git push` — stop, show exactly what will run, and wait for explicit confirmation. Never chain the whole selection into one uninterrupted run.
+Before any command that writes to the remote or the repo's settings — `gh label delete`, `gh label create`, `git push` — stop, show exactly what will run, and wait for explicit confirmation. Never chain the whole selection into one uninterrupted run.
 
 ## Related
 
