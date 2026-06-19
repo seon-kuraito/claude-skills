@@ -71,6 +71,7 @@ When a skill is destined for the user's `claude-skills` repo, follow `references
 - `references/readme-guide.md` — per-skill README: sections / objective tone / heading spacers / two-level bullets
 - `references/publishing.md` — provenance → license files + the repo git workflow (branch → create/edit → sync catalog → link → verify → gated commit)
 - `references/evals.md` — Test cases / Workspace / Grading / Aggregation / Iteration (opt-in)
+- `references/schemas.md` — JSON schemas for the eval / benchmark / comparison artifacts
 - `references/description-tuning.md` — Trigger optimization loop (opt-in)
 - `references/blind-comparison.md` — Blind A/B between two skill versions (opt-in; surfaces only when modifying existing)
 - `references/environments.md` — Claude.ai / Cowork / Claude Code branches + packaging + modifying-existing path handling
