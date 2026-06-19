@@ -11,7 +11,7 @@
 | skill | 用途 | 來源 |
 | --- | --- | --- |
 | [`ultra-skill-author`](skills/ultra-skill-author) | 建立、改寫與評估 skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
-| [`ultra-claudemd-author`](skills/ultra-claudemd-author) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
+| [`ultra-claudemd-composer`](skills/ultra-claudemd-composer) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
 | [`ultra-hook-author`](skills/ultra-hook-author) | 建立與審閱 Claude Code hook | 原創 |
 | [`ultra-branch-creator`](skills/ultra-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
 | [`ultra-commit-creator`](skills/ultra-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
