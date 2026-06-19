@@ -60,8 +60,9 @@
 - **PR body 固定三段式結構**：
   - body 一律包含 Summary、Scope 與 Test plan 三段，並搭配 emoji 標題
   - 固定結構讓 reviewer 每次都能用相同方式掃讀 PR，降低理解成本
-- **整份 body 包成單一可複製區塊**：
-  - PR body 會包在 plain code block 中，不加語言標籤，避免部分 renderer 的 copy button 失效
+- **body 寫進檔案、不倒進終端機**：
+  - PR body 一律寫進獨立檔案，透過 `--body-file` 帶入，不把全文倒進終端機，只在終端機顯示一個可點的編輯器連結（`vscode://file/...`）供開檔審閱
+  - 檔案存放原始 markdown，不再外包一層 code fence（那層只為了終端機顯示）
   - section 之間使用全形空格（U+3000）保留間距，讓內容在 GitHub 上更容易掃讀
 - **PR title 直接沿用 branch 名稱**：
   - 不另外替 PR title 造句，直接逐字使用目前 branch 名稱
@@ -75,6 +76,8 @@
 - **merge 時保留 commit 歷史與本地 branch**：
   - 預設使用 `--merge` 產生 merge commit，保留已整理過的逐筆 commit
   - 預設不使用 `--delete-branch`，讓本地 branch 標籤保留下來
+  - merge 後預設以 `git push origin --delete` 清掉遠端分支，本地標籤仍保留
+  - merge 確定後刪除 `--body-file` 用的暫存檔（如 `/tmp/pr-<branch>.md`），PR 開啟期間先保留以便必要時 `gh pr edit`
   - 不對已策展過的 branch 使用 `--squash`，避免抹掉刻意整理好的 commit 歷史
 - **將模板與細節拆到 references／assets**：
   - 逐段深入指南放在 `references/`（例如：sections 與 examples）
@@ -91,5 +94,8 @@
   - 使用 `master`、`develop` 或 feature trunk 時，先自行推斷；不確定時再詢問一次
 - **語言慣例**：
   - PR body 一律用英文撰寫，方便後續被 changelog、release note 或其他自動化工具引用
+- **可點連結的編輯器 scheme**：
+  - gate 顯示 body 路徑時包成 `vscode://file/<絕對路徑>` 可點連結，預設在 VS Code 開啟
+  - 換其他編輯器時改用對應 scheme（例如：`cursor://file/...`）
 - **委派的 skill**：
   - 標題交給 [`ultra-branch-creator`](../ultra-branch-creator)、commit 訊息交給 [`ultra-commit-creator`](../ultra-commit-creator)
