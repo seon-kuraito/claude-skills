@@ -16,7 +16,8 @@
 | [`ultra-branch-creator`](skills/ultra-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
 | [`ultra-commit-creator`](skills/ultra-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
 | [`ultra-pr-creator`](skills/ultra-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
-| [`ultra-repo-creator`](skills/ultra-repo-creator) | 以本地、遠端與 branch 保護三階段建立 repo | 原創 |
+| [`ultra-repo-creator`](skills/ultra-repo-creator) | 依本地、遠端與 branch 保護三階段建立 repo | 原創 |
+| [`ultra-project-initializer`](skills/ultra-project-initializer) | 在 repo 建立後補齊必要的專案初始化設定 | 原創 |
 | [`ultra-decision-griller`](skills/ultra-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`ultra-notion-formatter`](skills/ultra-notion-formatter) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
 
