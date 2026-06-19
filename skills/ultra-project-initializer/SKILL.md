@@ -25,7 +25,7 @@ Load [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-
 
 ## Feature selection
 
-Offer the options with a single multi-select `AskUserQuestion` — the user picks any combination:
+Always present the choice as one `AskUserQuestion` call with `multiSelect: true` — never ask in prose, and never one feature at a time. A single question (e.g. "Which items to set up?") whose options are the three features below; the user picks any combination (or none):
 
 - **`.gitignore`** — a root `.gitignore` from `assets/gitignore-template` (macOS + editor/IDE + log artifacts).
 - **`.claude/CLAUDE.md`** — a blank `.claude/CLAUDE.md`.

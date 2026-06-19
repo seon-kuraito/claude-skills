@@ -66,7 +66,7 @@
   - `.gitignore`／`.claude/CLAUDE.md` 需要已完成 `git init`；標籤需要已有 GitHub 遠端
   - 分支保護不是前提；若連 repo 都還沒有，則指向 [`ultra-repo-creator`](../ultra-repo-creator)
 - **用多選確認要做哪些項目**：
-  - 用 `AskUserQuestion` 列出選項，讓使用者自由勾選組合
+  - 一律用 `AskUserQuestion` 的多選（`multiSelect`）一次列出三個選項，不以 prose 或逐題詢問
 - **檔案建立走固定 branch 與 commit**：
   - 有選到檔案建立項目時，建立 `chore/initial-project-setup` branch，並逐項各發一個固定訊息的 commit
   - 建立標籤只會改動 GitHub 端，不會產生 commit
