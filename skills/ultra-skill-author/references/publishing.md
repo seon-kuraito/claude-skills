@@ -19,9 +19,10 @@ Any change destined for the user's skills repo `claude-skills` (at `~/Developer/
 3. **Make the change** in `skills/<name>/` (the repo is the source of truth):
    - **New skill** — author `SKILL.md` + resources, plus the licensing files above.
    - **Existing skill** — edit in place; touch the licensing files above only if provenance changed.
-4. **Link** (new skill only) — run `scripts/link-skill.sh <skill-name>` to symlink it into `~/.claude/skills/`. An existing skill is already linked.
-5. **Verify** — confirm the skill resolves as an available skill and its files / structure are sound.
-6. **Confirmation gate** — stop, show the user what changed and what the commit will contain, and wait for explicit confirmation. Never auto-commit.
-7. **Commit** — hand off to [ultra-commit-creator](../../ultra-commit-creator/SKILL.md).
+4. **Sync the catalog** — keep the `Skills 一覽` table in the repo-root `README.md` in step with `skills/`: add a row for a new skill, update it on rename, drop it on removal, refresh `用途` / `來源` when they shift. A plain in-place edit that touches neither name nor purpose needs no change here.
+5. **Link** (new skill only) — run `scripts/link-skill.sh <skill-name>` to symlink it into `~/.claude/skills/`. An existing skill is already linked.
+6. **Verify** — confirm the skill resolves as an available skill and its files / structure are sound.
+7. **Confirmation gate** — stop, show the user what changed and what the commit will contain, and wait for explicit confirmation. Never auto-commit.
+8. **Commit** — hand off to [ultra-commit-creator](../../ultra-commit-creator/SKILL.md).
 
 Opening the pull request is **not** part of this flow — hand the branch back to the user after committing.
