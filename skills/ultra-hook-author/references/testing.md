@@ -9,7 +9,7 @@ The mental model: a `command` hook is a pure function of (stdin JSON, environmen
 A fixture is one sample event payload — the JSON Claude Code would deliver on stdin. Store them under the hook's `tests/fixtures/`:
 
 ```
-hooks/ultra-attention-reminder/
+hooks/ultra-task-notifier/
 └── tests/fixtures/
     ├── stop.json
     └── stop-active.json     (stop_hook_active: true — the loop-guard case)
@@ -37,7 +37,7 @@ Example `stop.json`:
 Pipe a fixture into the hook and capture exit code + stdout + stderr:
 
 ```bash
-scripts/run-hook-test.sh hooks/ultra-attention-reminder/hook.sh hooks/ultra-attention-reminder/tests/fixtures/stop.json
+scripts/run-hook-test.sh hooks/ultra-task-notifier/hook.sh hooks/ultra-task-notifier/tests/fixtures/stop.json
 ```
 
 The runner prints the exit code, stdout, and stderr. By hand it is just:

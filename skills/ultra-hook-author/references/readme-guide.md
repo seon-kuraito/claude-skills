@@ -83,7 +83,7 @@ Every hook in the repo carries a `README.md` beside its `hook.sh` — human-faci
 
 ## Sections — required vs conditional
 
-- **`# H1` + tagline + `## 聲明` + the three frame sections** — always present. The H1 is the hook name in **Title Case** (`Ultra Attention Reminder`) — same acronym / filename rules as skills (`PR`, `CLAUDE.md`). The tagline is a one-line, keyword-bearing gist of what the hook does and on which event.
+- **`# H1` + tagline + `## 聲明` + the three frame sections** — always present. The H1 is the hook name in **Title Case** (`Ultra Task Notifier`) — same acronym / filename rules as skills (`PR`, `CLAUDE.md`). The tagline is a one-line, keyword-bearing gist of what the hook does and on which event.
 - **The three frame headings are fixed, verbatim** — `## 為什麼做這個 hook（WHY）` / `## 這個 hook 做什麼（WHAT）` / `## 如何使用這個 hook（HOW）` (the skill READMEs use the same form with `skill` in place of `hook`). The trailing `（WHY/WHAT/HOW）` is a deliberate exception to the no-parenthetical / no-English heading rule (see Tone & language).
 - **`## 聲明`** ties to the licensing decision (see `references/publishing.md`):
   - **Original** → `來源`：原創；`授權`：MIT（[`LICENSE`](LICENSE)）. No `NOTICE`.
@@ -93,7 +93,7 @@ Every hook in the repo carries a `README.md` beside its `hook.sh` — human-faci
 - **`## 如何使用這個 hook（HOW）`** — a wrapper holding these `h3` subsections:
   - **`### 安裝`** — always present, and unlike a skill a hook needs registration to work. Three bold bullets: **手動安裝**, **執行腳本** (`scripts/link-hook.sh <hook-name>` — symlinks, and if an `install.sh` is present runs it to build artifacts and *check* registration), and **註冊到 `settings.json`** as explicit numbered (`1.`) steps. Registration is always manual — declare-and-compare: `settings.hooks.json` declares it, the live `settings.json` is never rewritten by the script — so spell the steps out and state plainly that the script does not register for you.
   - **`### 設計取向`** — design choices worth recording (the cadence gate, why a side-effect always exits 0, input / security handling). Omit if trivial.
-  - **`### <companion-program name>`** — optional; present only when the hook ships a companion program alongside `hook.sh` (a bundled `.app`, a helper binary, etc.). The heading is the artifact's literal name (e.g. `Reminder.app`). Document where its source lives, how it's built, its lifecycle (first build / rebuild), what is and isn't version-controlled, and any signing / dependency notes. Omit entirely for a hook that is just `hook.sh`.
+  - **`### <companion-program name>`** — optional; present only when the hook ships a companion program alongside `hook.sh` (a bundled `.app`, a helper binary, etc.). The heading is the artifact's literal name (e.g. `Notifier.app`). Document where its source lives, how it's built, its lifecycle (first build / rebuild), what is and isn't version-controlled, and any signing / dependency notes. Omit entirely for a hook that is just `hook.sh`.
   - **`### 預設與相依`** — hard-coded assumptions and swap points (platform, terminal mapping, sound name). Omit if none.
 
 ## Tone & language
