@@ -1,6 +1,6 @@
 # Ultra Repo Creator
 
-把建立新 repo 的流程拆成三個可組合的階段：本地初始化、遠端、branch 保護。
+把建立新 repo 的流程拆成三個可組合的階段：本地初始化、遠端建立與 branch 保護。
 
 　
 
@@ -10,17 +10,35 @@
   - 原創
 - **授權**：
   - MIT
-  - 完整條款見同目錄 `LICENSE`
+  - 完整條款見同目錄 [`LICENSE`](LICENSE)
 
 　
 
-## 概述
+## 為什麼做這個 skill（WHY）
 
-從零建立一個 repository：本地 `git init`、在 GitHub 建立遠端、套用 branch 保護。三個階段彼此獨立，可從任一階段進入，也可跳過已完成的部分。建立 repo 之後的 commit 與 branch 整理，交給 `ultra-branch-creator`／`ultra-commit-creator`／`ultra-pr-creator`。詳細規格見 `SKILL.md`。
+- **開 repo 是重複的多步驟**：
+  - init、建遠端、套 branch 保護都要手動處理，很容易漏掉其中一步
+- **保護設定難記**：
+  - ruleset、review count、admin bypass 等設定每次都要回頭查文件
+- **初始 commit 容易塞太多**：
+  - 遠端還沒綁好就把一批檔案寫進歷史，之後會比較難整理
 
 　
 
-## 安裝
+## 這個 skill 做什麼（WHAT）
+
+- **從零建立 repository**：
+  - 本地 `git init` → 在 GitHub 建立遠端 → 套用 branch 保護，三階段可組合
+- **可從任一階段切入**：
+  - 三個階段彼此獨立，可跳過已完成的部分
+- **完整規格集中在 SKILL.md**：
+  - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
+
+　
+
+## 如何使用這個 skill（HOW）
+
+### 安裝
 
 - **手動複製**：
   - 把整個 skill 目錄複製進 `~/.claude/skills/` 即可
@@ -37,14 +55,14 @@
 
 　
 
-## 設計取向
+### 設計取向
 
 - **支援從任意階段切入**：
   - 本地初始化、遠端建立與 branch 保護三個階段彼此獨立
   - 若既有 repo 只缺 branch 保護，可直接從第三階段開始，不必重跑前面的初始化流程
 - **只負責 repo 建立與設定編排**：
   - 本 skill 專注於建立 repo、綁定遠端與套用基礎保護設定
-  - commit、branch 與 PR 的命名和撰寫，分別委派給 `ultra-commit-creator`、`ultra-branch-creator` 與 `ultra-pr-creator`
+  - commit、branch 與 PR 的命名和撰寫，分別委派給 [`ultra-commit-creator`](../ultra-commit-creator)、[`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-pr-creator`](../ultra-pr-creator)
 - **高影響操作前先確認**：
   - 建立 repo、push、修改 repo 設定前，先攤開即將執行的指令與影響範圍
   - 不把多個階段串成一次跑完，避免在未確認的情況下連續改變本地與遠端狀態
@@ -65,16 +83,16 @@
 
 　
 
-## 預設與相依
+### 預設與相依
 
 - **遠端託管**：
   - 預設 GitHub，透過 `gh` CLI／`gh api` 操作
   - 換其他託管平台時，改遠端建立與 ruleset 套用方式即可
 - **預設 branch**：
-  - 一律 `main`(`git branch -M main`)
+  - 一律使用 `main`（`git branch -M main`）
 - **branch 保護設定**：
   - `assets/main-protection-ruleset.json`（review count 0、無 bypass）
   - 協作 repo 可調高 review count
 - **委派的 skills**：
-  - 後續整理委派給 `ultra-branch-creator`／`ultra-commit-creator`／`ultra-pr-creator`
+  - 後續整理委派給 [`ultra-branch-creator`](../ultra-branch-creator)／[`ultra-commit-creator`](../ultra-commit-creator)／[`ultra-pr-creator`](../ultra-pr-creator)
   - 若無這些 skill，替換為其他 branch／commit／PR 慣例即可
