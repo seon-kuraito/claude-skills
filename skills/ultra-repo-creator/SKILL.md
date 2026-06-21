@@ -1,38 +1,37 @@
 ---
 name: ultra-repo-creator
-description: Bootstraps a new repository end to end — local git init, remote creation on GitHub, and branch protection. Use whenever creating or setting up a repo is in play — starting a new project, initializing version control, turning a folder into a git repo, creating a GitHub remote, or a directory that has files but isn't yet a git repo — regardless of exact wording or language. Lean toward consulting it the moment repo creation or first-time setup comes up.
+description: Bootstraps a new repository end to end — local git init and public remote creation on GitHub. Use whenever creating or setting up a repo is in play — starting a new project, initializing version control, turning a folder into a git repo, creating a GitHub remote, or a directory that has files but isn't yet a git repo — regardless of exact wording or language. Lean toward consulting it the moment repo creation or first-time setup comes up.
 ---
 
 # Ultra Repo Creator
 
-Bootstrap a new repository in three composable phases — **local init → remote → branch protection**. This is the **create** stage of a two-stage project setup; once all three phases are done the repo is built, and the **initialize** stage (a separate skill) takes over the optional scaffolding — see *Hand-off*. Enter at whichever phase fits and skip what's already done.
+Bootstrap a new repository in two composable phases — **local init → remote**. This is the **create** stage of a two-stage project setup; once both phases are done the repo is built, and the **initialize** stage (a separate skill) takes over the optional scaffolding — including branch protection — see *Hand-off*. Enter at whichever phase fits and skip what's already done.
 
-This skill orchestrates; it hands off to [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md) for the work that lands after the repo exists.
+This skill covers only init and remote. The follow-up once the repo exists — organizing the working tree into commits / branches / PRs — is handled separately by [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
 
 ## Stages & routing
 
 Project setup runs in two stages:
 
-- **Create** (this skill) — local `git init`, GitHub remote, and branch protection.
-- **Initialize** (a separate skill, e.g. `ultra-project-initializer`) — optional scaffolding once the repo exists: `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels.
+- **Create** (this skill) — local `git init` and a public GitHub remote.
+- **Initialize** (a separate skill, e.g. `ultra-project-initializer`) — optional scaffolding once the repo exists: `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels, and branch protection.
 
 Start by detecting how far the create stage has progressed, then route:
 
 - **`git init`** — does a `.git` directory exist?
 - **remote** — is a GitHub remote bound? (`git remote`)
-- **branch protection** — does `main` carry a ruleset? (`gh api /repos/<owner>/<repo>/rules/branches/main`)
 
-Routing from the three signals:
+Routing from the two signals:
 
-- **All three done** → the create stage is complete; don't redo it — go to *Hand-off*.
-- **None done (brand-new)** → run Phases 1–3 in one pass.
-- **Partially done** → run only the missing phases.
+- **Both done** → the create stage is complete; don't redo it — go to *Hand-off*.
+- **Neither done (brand-new)** → run Phases 1–2 in one pass.
+- **Partially done** → run only the missing phase.
 
-Detection is best-effort; when a signal is ambiguous (e.g. the ruleset lookup is unclear), ask the user instead of guessing.
+Detection is best-effort; when a signal is ambiguous, ask the user instead of guessing.
 
 ## Execution gate
 
-Before running **any** command that creates a repo, pushes, or changes repo settings (`gh repo create`, `git push`, ruleset `POST` / `PUT` / `DELETE`), stop and show the user exactly what will run — including behavior-affecting flags like visibility and `--delete-branch` — and wait for explicit confirmation. Never chain phases into one uninterrupted run.
+Before running **any** command that creates a repo or pushes (`gh repo create`, `git push`), stop and show the user exactly what will run — including behavior-affecting flags like `--delete-branch` — and wait for explicit confirmation. Never chain phases into one uninterrupted run.
 
 ## Phase 1 — Local init
 
@@ -48,7 +47,7 @@ The convention for a brand-new project:
 
 ## Phase 2 — Remote creation
 
-1. **Default to public.** On GitHub Free, branch protection (Phase 3) works only on public repos — a private repo returns `403 Upgrade to Pro`. A repo that wants protection must therefore be public from the start; choose private only when skipping Phase 3 (or on Pro / Team / Enterprise). Confirm visibility with the user.
+1. **Always public.** This skill creates **public** repos and does not ask about visibility — a deliberate personal-fit default (create a private repo by hand if ever needed). Public is also what lets the later branch-protection option (now in the initialize stage) work on GitHub Free, where rulesets need a public repo.
 2. **Ensure the branch is `main` before pushing** — `git init` may have left the repo on `master`:
 
    ```sh
@@ -70,49 +69,14 @@ The convention for a brand-new project:
    git push -u origin main
    ```
 
-## Phase 3 — Branch protection
-
-Apply the standard ruleset to the default branch so `main` requires a PR to merge and blocks deletion + force-push.
-
-> **Precondition (GitHub Free):** rulesets apply only to **public** repos — a private repo returns `403 Upgrade to Pro`. Make the repo public in Phase 2 first (or use Pro / Team / Enterprise).
-
-**Pre-flight (read-only):**
-
-```sh
-gh auth status                                          # logged in + repo admin scope
-gh api /repos/<owner>/<repo>/rulesets --jq '.[].name'   # avoid duplicating a ruleset
-```
-
-**Apply** (after the Execution gate). The config is bundled at `assets/main-protection-ruleset.json` in this skill's directory; owner / repo live in the URL, so the file is reused verbatim for any repo:
-
-```sh
-gh api --method POST -H "Accept: application/vnd.github+json" \
-  /repos/<owner>/<repo>/rulesets \
-  --input <skill-dir>/assets/main-protection-ruleset.json
-```
-
-**Verify:**
-
-```sh
-gh api /repos/<owner>/<repo>/rules/branches/main --jq '[.[].type]'
-# expect: ["deletion","non_fast_forward","pull_request"]
-```
-
-### Protection gotchas
-
-- **Solo repo → `required_approving_review_count` must be 0.** You cannot approve your own PR; any higher count deadlocks every PR. The bundled config uses 0 — raise it only for a collaborative repo.
-- **No admin bypass by default.** Rulesets ship with an empty bypass list, so the owner is also forced through PRs on `main` — that is the intent.
-- **`~DEFAULT_BRANCH`** tracks whichever branch is default, so renaming the default branch never breaks the rule.
-- Optional config-as-code: `gh api /repos/<owner>/<repo>/rulesets/<id> > main-protection.json` to commit the ruleset for reuse.
-
 ## Hand-off to the initialize stage
 
-After all three phases are complete, ask whether to continue into the **initialize** stage with `AskUserQuestion` (*enter the initialize stage now?*):
+Once the remote is bound (Phase 2), the create stage is complete. Ask whether to continue into the **initialize** stage with `AskUserQuestion` (*enter the initialize stage now?*):
 
 - **Yes** → load the initialization skill (e.g. `ultra-project-initializer`) if it is available; if it is not present, say so and stop.
 - **No** → stop here and leave the next move to the user.
 
-Never auto-enter the initialize stage — it is always the user's choice. (That skill, in turn, confirms the create stage is done before it begins.)
+The initialize stage is where the optional scaffolding lives — `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels, and **branch protection** (moved here from this skill). Never auto-enter it — it is always the user's choice. (That skill, in turn, confirms the create stage is done before it begins.)
 
 ## Related
 
