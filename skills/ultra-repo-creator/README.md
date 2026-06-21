@@ -91,5 +91,3 @@
 - **接續的初始化 skill**：
   - 建立階段完成後，可接續交給「初始化專案」skill（例如：`ultra-project-initializer`）
   - 該 skill 尚未建立或不存在時，詢問後略過即可
-- **委派的 skills**：
-  - 後續整理委派給 [`ultra-project-initializer`](../ultra-project-initializer)

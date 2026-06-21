@@ -7,7 +7,7 @@ description: Bootstraps a new repository end to end — local git init and publi
 
 Bootstrap a new repository in two composable phases — **local init → remote**. This is the **create** stage of a two-stage project setup; once both phases are done the repo is built, and the **initialize** stage (a separate skill) takes over the optional scaffolding — including branch protection — see *Hand-off*. Enter at whichever phase fits and skip what's already done.
 
-This skill orchestrates; it hands off to [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md) for the work that lands after the repo exists.
+This skill covers only init and remote. The follow-up once the repo exists — organizing the working tree into commits / branches / PRs — is handled separately by [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
 
 ## Stages & routing
 
