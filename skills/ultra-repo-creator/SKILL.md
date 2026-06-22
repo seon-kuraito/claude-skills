@@ -1,82 +1,75 @@
 ---
 name: ultra-repo-creator
-description: Bootstraps a new repository end to end — local git init and public remote creation on GitHub. Use whenever creating or setting up a repo is in play — starting a new project, initializing version control, turning a folder into a git repo, creating a GitHub remote, or a directory that has files but isn't yet a git repo — regardless of exact wording or language. Lean toward consulting it the moment repo creation or first-time setup comes up.
+description: Bootstraps a new repository. Use whenever creating a project or binding a remote is in play — starting a new project, spinning up a quick local repo, initializing version control, turning a folder into a git repo, creating or binding a GitHub remote, or scaffolding a meta-repo over sibling projects — regardless of exact wording or language. Lean toward consulting it the moment repo creation or remote-binding comes up.
 ---
 
 # Ultra Repo Creator
 
-Bootstrap a new repository in two composable phases — **local init → remote**. This is the **create** stage of a two-stage project setup; once both phases are done the repo is built, and the **initialize** stage (a separate skill) takes over the optional scaffolding — including branch protection — see *Hand-off*. Enter at whichever phase fits and skip what's already done.
+Bootstrap a new repository — **built locally first, then optionally pushed to a remote**. This is the **create** stage of a two-stage project setup; the **initialize** stage (a separate skill) takes over the optional scaffolding afterwards — see *Hand-off*.
 
-This skill covers only init and remote. The follow-up once the repo exists — organizing the working tree into commits / branches / PRs — is handled separately by [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
+This skill covers only creating the repo. The follow-up once it exists — organizing the working tree into commits / branches / PRs — is handled separately by [ultra-branch-creator](../ultra-branch-creator/SKILL.md), [ultra-commit-creator](../ultra-commit-creator/SKILL.md), and [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
 
-## Stages & routing
+## How it runs
 
-Project setup runs in two stages:
+Load on the intent — there is **no "should I use this" pre-gate**; just enter the skill and start with the template menu. From there everything is local and reversible until the very end, so it runs without confirmation. The **only** confirmation is the single *Execution gate* before anything touches a remote.
 
-- **Create** (this skill) — local `git init` and a public GitHub remote.
-- **Initialize** (a separate skill, e.g. `ultra-project-initializer`) — optional scaffolding once the repo exists: `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels, and branch protection.
+1. **Pick a template** — **always** present a single-select `AskUserQuestion` (blank / meta-repo / framework), even when one seems obvious; the user makes the call.
+   - **blank** — a plain repo. The default for an ordinary new project.
+   - **meta-repo** — a coordination layer over `<prefix>-*` siblings. See [`references/meta-repo.md`](references/meta-repo.md).
+   - **framework** — a framework project (Next.js, Vite, …); not templated yet, so scaffolded conversationally.
 
-Start by detecting how far the create stage has progressed, then route:
-
-- **`git init`** — does a `.git` directory exist?
-- **remote** — is a GitHub remote bound? (`git remote`)
-
-Routing from the two signals:
-
-- **Both done** → the create stage is complete; don't redo it — go to *Hand-off*.
-- **Neither done (brand-new)** → run Phases 1–2 in one pass.
-- **Partially done** → run only the missing phase.
-
-Detection is best-effort; when a signal is ambiguous, ask the user instead of guessing.
+   If `.git` **already exists** (resuming a half-built repo), there is no template to pick — skip the menu and continue the repo as it stands.
+2. **Build it locally** — run the template's local steps (below) without confirmation.
+3. **Remote decision** — once the project stands up locally, the *Execution gate* asks whether to bind a public remote and push, or stay local. Every template passes through it.
+4. **Hand off** to the initialize stage — for **all three templates**.
 
 ## Execution gate
 
-Before running **any** command that creates a repo or pushes (`gh repo create`, `git push`), stop and show the user exactly what will run — including behavior-affecting flags like `--delete-branch` — and wait for explicit confirmation. Never chain phases into one uninterrupted run.
+Local steps — `git init`, commits, scaffolding — run freely; they are local and reversible. The **only** gate is the outward-facing one: **before binding a remote or pushing** (`gh repo create`, `git push`, `git remote add`), stop, show exactly what will run, and wait for explicit confirmation. This gate **is** the remote decision — confirming it means "create the public remote and push," declining means "stay local-only." Never reach a remote without it.
 
-## Phase 1 — Local init
+## blank
 
-The convention for a brand-new project:
+**Local (no confirmation):**
 
 1. **Guard first.** If the working directory already has files but is *not* a git repo, flag it before writing anything more — don't wait for the user to notice.
 2. `git init`.
-3. The **initial commit contains only a blank `README.md`** (an empty file), committed with the fixed message `chore: initialize repository`. This bootstrap commit uses that message verbatim — it does not go through ultra-commit-creator.
-4. **Existing work stays in the working tree, untracked**, until the user binds a remote (Phase 2).
-5. Do **not** bundle existing files into the initial commit unless the user explicitly asks.
+3. The **initial commit contains only a blank `README.md`** (an empty file), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator).
+4. Existing work stays **untracked** until the remote decision; don't bundle it into the initial commit unless the user explicitly asks. `.gitignore` is not written here — it's an opt-in in the initialize stage.
 
-`.gitignore` is **not** written here — it moved to the initialize stage as an opt-in (see *Hand-off*). After the remote is bound, organize the working-tree work into commits / branches — that is where ultra-branch-creator / ultra-commit-creator / ultra-pr-creator take over.
+**Remote decision (*Execution gate*)** — ask whether to bind a public remote and push:
 
-## Phase 2 — Remote creation
+- **Yes** → ensure the branch is `main` (`git branch -M main`), then:
 
-1. **Always public.** This skill creates **public** repos and does not ask about visibility — a deliberate personal-fit default (create a private repo by hand if ever needed). Public is also what lets the later branch-protection option (now in the initialize stage) work on GitHub Free, where rulesets need a public repo.
-2. **Ensure the branch is `main` before pushing** — `git init` may have left the repo on `master`:
+  ```sh
+  gh repo create <name> --public --source . --remote origin --push
+  ```
 
-   ```sh
-   git branch -M main
-   ```
+  Always **public** — no visibility question (a deliberate personal-fit default; create a private repo by hand if ever needed). If `gh` is unavailable, fall back to `git remote add origin <url>` → `git branch -M main` → `git push -u origin main`.
+- **No** → stay local-only; stop here (still offer the *Hand-off*).
 
-3. Create and bind in one step (after the Execution gate):
+## meta-repo
 
-   ```sh
-   gh repo create <name> --public --source . --remote origin --push
-   ```
+A coordination layer over `<prefix>-*` siblings — the pattern behind `claude-meta`, `bootcamp-rocket-meta`, and `personal-meta`. Built locally with its own scaffold + git ceremony, then through the **same remote decision and hand-off as the other templates** — the flow is fully uniform. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`, so the initialize stage's file items are usually redundant; labels / branch protection still apply once a remote is bound.
 
-   This creates the repo, binds it as `origin`, and pushes the blank-README initial commit to `main`.
-4. If `gh` is unavailable or unauthenticated, fall back to creating the repo in the web UI, then run GitHub's canonical push snippet:
+**Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 
-   ```sh
-   git remote add origin <url>
-   git branch -M main
-   git push -u origin main
-   ```
+## framework
+
+Framework scaffolding (Next.js, Vite, …) is **not templated yet**. Build it conversationally:
+
+1. Ask which framework / starter the user wants.
+2. Run its own init locally, commit as you go.
+3. **Remote decision (*Execution gate*)** — same as blank.
+4. **Hand off** to the initialize stage.
 
 ## Hand-off to the initialize stage
 
-Once the remote is bound (Phase 2), the create stage is complete. Ask whether to continue into the **initialize** stage with `AskUserQuestion` (*enter the initialize stage now?*):
+Applies to **all three templates**. Once the repo is built (local, or local + remote), ask whether to continue into the **initialize** stage with `AskUserQuestion` (*enter the initialize stage now?*):
 
 - **Yes** → load the initialization skill (e.g. `ultra-project-initializer`) if it is available; if it is not present, say so and stop.
 - **No** → stop here and leave the next move to the user.
 
-The initialize stage is where the optional scaffolding lives — `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels, and **branch protection** (moved here from this skill). Never auto-enter it — it is always the user's choice. (That skill, in turn, confirms the create stage is done before it begins.)
+The initialize stage holds the optional scaffolding — `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels, and branch protection. (Labels and branch protection need a remote, so they're skipped on a local-only repo.) Never auto-enter it — it is always the user's choice.
 
 ## Related
 

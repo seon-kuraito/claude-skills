@@ -1,6 +1,6 @@
 # Ultra Repo Creator
 
-把建立新 repo 的流程拆成兩個可接續的階段：本地初始化與遠端建立。
+從零建立 repo 時，先選一種模板（blank／meta-repo／framework），最後再確認要不要綁定遠端 repo。
 
 　
 
@@ -16,22 +16,28 @@
 
 ## 為什麼做這個 skill（WHY）
 
-- **開 repo 是重複的多步驟**：
-  - 每次都要跑繁瑣的 `git init`、建立遠端、綁定 remote 等流程
+- **開 repo 需要重複跑一串步驟**：
+  - 每次都要處理 `git init`、建立遠端、綁定 remote 等流程，手動做容易漏掉細節
 - **初始 commit 容易塞太多**：
-  - 遠端還沒綁好就把一批檔案寫進歷史，之後會比較難整理
+  - 遠端還沒綁好就把一批檔案寫進歷史，後面要整理會比較麻煩
 
 　
 
 ## 這個 skill 做什麼（WHAT）
 
-- **從零建立 repository**：
-  - 本地 `git init` → 在 GitHub 建立 public 遠端，兩個階段可以分開執行
-- **可從任一階段切入，並自動偵測進度**：
-  - 會先偵測 `git init` 與遠端的完成狀態，只補尚未完成的部分
+- **依模板建立對應的 repo**：
+  - 一律先選模板：blank／meta-repo／framework
+  - blank＝本地空白 repo
+  - meta-repo＝協調層（scaffold＋git ceremony）
+  - framework＝對話式建立
+- **先完成本地流程再碰遠端**：
+  - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
+  - 結尾再確認是否綁 public 遠端並 push
+- **可接續既有 repo**：
+  - 若已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
-  - 兩階段都完成後，詢問是否進入初始化階段
-  - `.gitignore`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目，交由其他 skill 處理
+  - 三種模板建好後都會詢問是否進入初始化階段
+  - `.gitignore`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目，交給初始化 skill 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -58,24 +64,26 @@
 
 ### 設計取向
 
-- **兩階段模型與自動進度偵測**：
-  - 把專案設定分成「建立專案」（本 skill）與「初始化專案」（另一個 skill）兩階段
-  - 開頭先偵測是否已完成 `git init` 與 GitHub 遠端，再決定要從哪一步接續
-  - 兩項都完成就視為建立階段結束，接著詢問是否進入初始化階段；否則只補尚未完成的步驟
-  - 偵測採 best-effort；判斷不明時，改用詢問確認
+- **直接執行本地建立流程**：
+  - 使用意圖明確就直接載入，一律先顯示模板選單
+  - 選定後，本地步驟（`git init`、commit、scaffold）直接執行、免確認
+- **兩階段模型與接續既有 repo**：
+  - 專案設定分「建立」（本 skill）與「初始化」（另一個 skill）兩階段
+  - 若已是 git repo，依目前狀態接續建立流程，只處理還沒完成的本地或遠端步驟
+- **模板只影響本地建立內容**：
+  - blank 建空白 repo；framework 依對話建立 starter；meta-repo 則建立覆蓋 sibling projects 的協調層
+  - 本地完成後，三種模板都走同一個遠端確認與初始化交接流程
 - **只負責 repo 建立與編排**：
   - 本 skill 專注於建立 repo 與綁定遠端
   - branch 保護交由 [`ultra-project-initializer`](../ultra-project-initializer) 在「初始化專案」階段選配
 - **高影響操作前先確認**：
-  - 建立 repo、push 前，先列出即將執行的指令與影響範圍
-  - 不把多個階段串成一次跑完，避免在未確認的情況下連續改變本地與遠端狀態
+  - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
+  - 這道確認同時決定要建立 public 遠端並 push，或先停在本機
+  - 若選擇綁遠端，固定 public，不再詢問可見性（要 private 時自行手動建立）
 - **初始 commit 保持最小化**：
   - 只放一份完全空白的 `README.md`，固定訊息為 `chore: initialize repository`
   - `.gitignore` 不在此階段寫入，改由「初始化專案」階段選配
-  - 既有檔案先留在工作區並維持 untracked，等遠端綁定完成後，再依實際需求整理進後續 commit
-- **固定建立 public repo**：
-  - 一律建立 public，不再詢問可見性（若有需要 private 可自行手動建立）
-  - GitHub 免費方案的 ruleset 只對 public repo 生效
+  - 既有檔案先留在工作區並維持 untracked，之後再依實際需求整理到後續 commit
 
 　
 
@@ -87,7 +95,7 @@
 - **預設 branch**：
   - 一律使用 `main`（`git branch -M main`）
 - **可見性**：
-  - 固定 public，不提供 private 選項
+  - 若綁遠端則固定 public、不提供 private 選項
 - **接續的初始化 skill**：
-  - 建立階段完成後，可接續交給「初始化專案」skill（例如：`ultra-project-initializer`）
-  - 該 skill 尚未建立或不存在時，詢問後略過即可
+  - 三種模板建好後都可接續交給「初始化專案」skill（例如：[`ultra-project-initializer`](../ultra-project-initializer)）
+  - 該 skill 尚未建立或不存在時，確認後略過即可

@@ -1,0 +1,58 @@
+# {{PREFIX_TITLE}} Meta
+
+`{{PREFIX}}-*` 系列專案給 AI 使用的跨 repo 工作入口：用來整理多個獨立專案的共同脈絡。
+
+> **本層 local-only**：固定留在 `main`、不上遠端（刻意決定，非待辦）；scaffold 透過共用的 `*-meta` git ceremony 提交。
+
+
+
+## 為什麼需要這一層
+
+- **保留獨立 repo 的協調方式**：
+  - 成員常常要一起改，但又必須能各自獨立連結、發佈與維護
+  - monorepo 會在架構上把它們綁死；meta 層則在保留獨立性的前提下協調它們
+- **讓 AI 拿到完整全貌**：
+  - 在這裡工作的 AI 一次看見所有成員，並按共用規範判斷
+  - 只從單一成員內部發動的修改，容易漏掉其他成員
+- **可複用的架構**：
+  - 「一個 meta 層協調 N 個獨立 repo」這個做法與 `claude-meta`、`bootcamp-rocket-meta` 共用
+
+
+
+## 專案組成
+
+{{#同型}}
+每個成員都是**同一種東西**，對應同一種角色。動手前先讀各成員自己的 `README.md`，別在這裡列舉成員內部（會 rot，成員 README 才是真正的 catalog）。
+{{/同型}}
+{{#混合}}
+這是一組**混合家族**：成員是不同的東西，靠擁有者／主題湊在一起，而非共同結構。別假設它們對稱——每個成員在自己的 `README.md` / `.claude/CLAUDE.md` 裡說明自己，動手前先讀那裡（下表只是指標、會 rot）。
+{{/混合}}
+
+{{MEMBER_TABLE}}
+
+
+
+## 運作方式
+
+- **用指向保留實際檔案位置**：
+  - 實際檔案留在各自的 `~/Developer/{{PREFIX}}-*`，這裡用 symlink（gitignored，`scripts/link-siblings.sh` 重建）把它們放進同一個視野
+  - VS Code 端用一份 multi-root workspace 把成員並列
+- **命名規則**：
+  - 成員是 `{{PREFIX}}-<token>`、本層是 `{{PREFIX}}-meta`
+  - `link-siblings.sh` 從本 repo 名稱去掉 `-meta` 推導前綴，新增成員不必改腳本
+- **git ceremony**：
+  - 本層 local-only，走共用 `*-meta` ceremony（subject-only commit、不帶 `Co-Authored-By`、`--no-ff` 合併、保留分支）
+- **新成員加入時**：
+  - 在本 repo 的記憶庫補一張成員卡，並跑 `scripts/link-siblings.sh`
+
+
+
+## 判斷準則
+
+- **先貼合自己的工作流**：
+  - 當「貼合自己」與「外人也好用」衝突時，前者優先
+  - 寫死的個人偏好與中文 README 都是刻意的
+- **git／remote／可見性由各成員自行決定**：
+  - 本層不追蹤這些狀態
+- **先做出可用版本**：
+  - 先把眼前需要的版本做出來，再保留後續調整空間（成員數量照此處理）
