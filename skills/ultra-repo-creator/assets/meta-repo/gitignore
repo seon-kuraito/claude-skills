@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs / scratch
+*.log
+
+# AI Agents
+AGENTS.md
+.agents/
+.codex/
+.gemini/
+.copilot/
+
+# Linked sibling repos — created by scripts/link-siblings.sh. The real repos
+# live at ~/Developer/{{PREFIX}}-*; these are local-view symlinks, not content.
+# A new member links automatically — add its name here to keep the link untracked.
+{{MEMBER_IGNORE_LINES}}

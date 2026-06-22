@@ -1,0 +1,49 @@
+# CLAUDE.md — {{PREFIX}}-meta
+
+The **coordination layer** for the `{{PREFIX}}-*` family: a meta repo that sits above several independent sibling projects. It exists so that an agent working here gets the *whole* picture across them at once, governed by shared norms — instead of editing one blind to the others.
+
+It holds coordination docs, not project content. Each member is its own repo with its own lifecycle; this layer never holds their files.
+
+> **This layer is local-only** — it stays on `main` with no remote, by deliberate decision (not a deferred to-do). Its scaffold is committed via the shared `*-meta` git ceremony.
+
+## The family
+
+{{#同型}}
+Every member is the **same kind of thing** — they map 1:1 onto one shared role. Read each member's own `README.md` before working there; don't enumerate a member's internals here (that list rots — the member's README is the real catalog).
+{{/同型}}
+{{#混合}}
+This is a **mixed family**: the members are different kinds of thing, united by owner / theme rather than a shared structural type. Don't assume symmetry between them — each documents itself in its own `README.md` / `.claude/CLAUDE.md`; read that before working there (the table below is a pointer, not a catalog, and it rots).
+{{/混合}}
+
+Members, all siblings under `~/Developer/`, linked in-tree here:
+
+{{MEMBER_TABLE}}
+
+## Why this layer exists
+
+- **Coordinate without a monorepo.** The members are coupled (they change together, share norms) but must stay independent repos — each linkable and ownable on its own. A monorepo would bind them architecturally; a meta layer coordinates them without that cost.
+- **Give the AI the full picture.** Working one member blind to the others drifts. Running coordination from here — with this file and the siblings in view — is the anti-drift mechanism, by context and norms rather than check scripts.
+- **A reusable pattern.** The same "meta layer over N independent repos" shape is shared with `claude-meta`, `bootcamp-rocket-meta`, and other clusters.
+
+## How the family is wired
+
+- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth) and are symlinked in-tree here at `./{{PREFIX}}-*` (gitignored — recreate with `scripts/link-siblings.sh`). A `{{PREFIX}}-meta.code-workspace` (under `.vscode/`, local-only) lists every member as a VS Code root.
+- **Naming.** Members are `{{PREFIX}}-<token>`; this layer is `{{PREFIX}}-meta`. `link-siblings.sh` derives the family prefix by stripping `-meta` from this repo's own name, so a new member links with no edit to the script — just add its name to `.gitignore` to keep the link untracked.
+- **Git ceremony.** This layer is local-only and follows the shared `*-meta` ceremony — subject-only Conventional Commits, no `Co-Authored-By`, `--no-ff` merges, kept branches. The members keep their own git lifecycles; confirm per repo.
+- **Provenance.** Per-member `LICENSE`. Each member owns its own git / remote / visibility setup; this layer does not track that state.
+
+## Working across the family
+
+- **The coupling rule.** A convention worth keeping in one member is often worth carrying to the others. When you touch shared structure in one, check whether the siblings want the same move.
+- **Run coordination from here.** This file loads only in `{{PREFIX}}-meta` sessions, so cross-member work should be driven from this layer — the siblings are symlinked in-tree and the workspace lists them. Commits still land in each real repo (`~/Developer/{{PREFIX}}-*`), never here.
+- **When a new member joins**, author a matching per-member memory card in this repo's memory store (what it is + where its own docs live + one durable gotcha), then run `scripts/link-siblings.sh`.
+
+## North star & judgment frame
+
+- **Personal-fit is the hard constraint.** These repos serve the maintainer's own workflow first; when fitting that workflow conflicts with outside reusability, personal-fit wins. Hard-coded preferences and Chinese READMEs are deliberate.
+{{#同型}}
+- **Each member concrete and closed; the family open.** A finished member is frozen as a record; the architecture appends new members of the same kind without committing to any particular future one.
+{{/同型}}
+{{#混合}}
+- **Concrete and closed today, architecturally open tomorrow.** Ship one concrete thing, leave the architecture open. The cluster starts with its current members and neither precludes nor commits to more.
+{{/混合}}
