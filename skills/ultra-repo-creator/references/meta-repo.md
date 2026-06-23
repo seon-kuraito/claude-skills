@@ -56,7 +56,7 @@ Placeholders (same set across templates):
 
 - `{{PREFIX}}` — lowercase family prefix (e.g. `personal`); `{{PREFIX_TITLE}}` — display form for the README heading (e.g. `Personal`).
 - `{{YEAR}}` — current year, in `LICENSE`.
-- `{{MEMBER_TABLE}}` — a `| repo | what it is |` markdown table, one row per member (English in `CLAUDE.md`, Traditional Chinese in `README.md`); names are `{{PREFIX}}-<token>`.
+- `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member (path `../{{PREFIX}}-<token>`), then a final self-row for `{{PREFIX}}-meta` with path `.` — mirrors claude-meta. English in `CLAUDE.md`, Traditional Chinese in `README.md`; member names are `{{PREFIX}}-<token>`.
 - `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{PREFIX}}-<token>", "path": "../../{{PREFIX}}-<token>" },` line per member (workspace).
 
 Notes:
