@@ -75,4 +75,4 @@ Notes:
 The Meta Repo template **creates the coordination layer only**. It does **not**:
 
 - rename or move sibling projects into the family — members are recorded as planned; renaming/adoption happens later;
-- write any memory cards. The generated `CLAUDE.md` *points at* the operating conventions (author a per-member memory card when a member joins; reach siblings at `../<prefix>-*`) but the template does not execute them.
+- write any memory cards. The meta-repo keeps **no per-member cards by design** — each member documents itself in its own repo, so don't add member cards to the store here; the generated `CLAUDE.md` points at the member repos (`../<prefix>-*`), not a memory store.
