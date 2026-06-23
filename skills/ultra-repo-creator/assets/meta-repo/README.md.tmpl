@@ -2,7 +2,7 @@
 
 `{{PREFIX}}-*` 系列專案給 AI 使用的跨 repo 工作入口：用來整理多個獨立專案的共同脈絡。
 
-> **本層 local-only**：固定留在 `main`、不上遠端（刻意決定，非待辦）；scaffold 透過共用的 `*-meta` git ceremony 提交。
+> 本層走共用的 `*-meta` git ceremony 提交（subject-only commit、不帶 `Co-Authored-By`）。
 
 
 
@@ -41,7 +41,7 @@
   - 成員是 `{{PREFIX}}-<token>`、本層是 `{{PREFIX}}-meta`
   - 新成員不必在這裡接線——比照其他成員，用 `../{{PREFIX}}-<token>` 觸及即可
 - **git ceremony**：
-  - 本層 local-only，走共用 `*-meta` ceremony（subject-only commit、不帶 `Co-Authored-By`、`--no-ff` 合併、保留分支）
+  - 走共用 `*-meta` ceremony（subject-only commit、不帶 `Co-Authored-By`；成員是 content repo，反而保留 trailer）
 - **新成員加入時**：
   - 在本 repo 的記憶庫補一張成員卡
 

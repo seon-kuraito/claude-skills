@@ -65,16 +65,10 @@ Notes:
 
 ## 3 · Git ceremony
 
-The `*-meta` repos share one git ceremony, aligned to `claude-meta`. Apply it verbatim — it produces a history that visually mirrors claude-meta's.
+`git init`, write the whole scaffold, and make it **one commit** — no setup branch, no merge (like a framework scaffold's initial commit). Binding a remote is the generic end-gate every template passes through (the skill's Execution gate), applied after; the single commit then pushes cleanly, with nothing having bypassed a PR.
 
-- **No remote in the ceremony.** It builds and commits on `main` only; binding a remote is the separate end-gate decision (the same one every template passes through), applied *after* this ceremony.
-- **Initial commit** — a blank (0-byte) `README.md`, fixed message `chore: initialize repository`.
-- **`chore/initial-project-setup` branch** — one commit per file, in this order:
-  `chore: add .gitignore` → `chore: add README.md` → `chore: add CLAUDE.md` → `chore: add LICENSE`.
-- Merge the branch into `main` with **`git merge --no-ff`** (plain `Merge branch '…'` message — no PR number, since there is no remote). **Keep the branch** after merging (the user keeps merged branch labels locally).
-- **Commit style:** subject-only Conventional Commits, **no `Co-Authored-By` trailer** — to mirror claude-meta exactly. This deliberately overrides the harness default of appending the trailer.
-
-**Editing a tracked setup file later** (e.g. `CLAUDE.md`): don't add a follow-up commit — **amend** the change into its original `chore: add <file>` commit and **rebuild** the downstream `--no-ff` structure (reset to the initial commit, replay the chore commits with the edited file, then re-merge), so history reads as if the file was always correct. (This is an operating concern, not part of first creation.)
+- **One commit** — all scaffold files at once (`README.md`, `CLAUDE.md`, `.gitignore`, `LICENSE`, `.vscode/settings.json`, `.vscode/{{PREFIX}}-meta.code-workspace`), message `chore: scaffold {{PREFIX}}-meta coordination layer`.
+- **Commit style:** subject-only Conventional Commits, **no `Co-Authored-By` trailer** — the meta-repo convention, deliberately overriding the harness default (members, as content repos, *do* keep the trailer).
 
 ## Scope
 

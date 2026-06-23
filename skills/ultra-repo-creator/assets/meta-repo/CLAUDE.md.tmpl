@@ -4,7 +4,7 @@ The **coordination layer** for the `{{PREFIX}}-*` family: a meta repo that sits 
 
 It holds coordination docs, not project content. Each member is its own repo with its own lifecycle; this layer never holds their files.
 
-> **This layer is local-only** — it stays on `main` with no remote, by deliberate decision (not a deferred to-do). Its scaffold is committed via the shared `*-meta` git ceremony.
+> This layer follows the shared `*-meta` git ceremony — subject-only commits, no `Co-Authored-By`.
 
 ## The family
 
@@ -29,7 +29,7 @@ Members, all siblings under `~/Developer/` — reach them at `../{{PREFIX}}-*`:
 
 - **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth); they are **not** mirrored in-tree here — reach them at the relative paths `../{{PREFIX}}-*`. A committed `{{PREFIX}}-meta.code-workspace` (under `.vscode/`) lists every member as a VS Code root for human review.
 - **Naming.** Members are `{{PREFIX}}-<token>`; this layer is `{{PREFIX}}-meta`. A new member needs no wiring here — reach it at `../{{PREFIX}}-<token>` like the rest.
-- **Git ceremony.** This layer is local-only and follows the shared `*-meta` ceremony — subject-only Conventional Commits, no `Co-Authored-By`, `--no-ff` merges, kept branches. The members keep their own git lifecycles; confirm per repo.
+- **Git ceremony.** Follows the shared `*-meta` ceremony — subject-only Conventional Commits, **no `Co-Authored-By`** (members, as content repos, *do* keep the trailer). The members keep their own git lifecycles; confirm per repo.
 - **Provenance.** Per-member `LICENSE`. Each member owns its own git / remote / visibility setup; this layer does not track that state.
 
 ## Working across the family
