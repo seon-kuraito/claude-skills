@@ -27,7 +27,7 @@ Members, all siblings under `~/Developer/` — reach them at `../{{PREFIX}}-*`:
 
 ## How the family is wired
 
-- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth); they are **not** mirrored in-tree here — reach them at the relative paths `../{{PREFIX}}-*`. A `{{PREFIX}}-meta.code-workspace` (under `.vscode/`, gitignored / local-only) lists every member as a VS Code root for human review.
+- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth); they are **not** mirrored in-tree here — reach them at the relative paths `../{{PREFIX}}-*`. A committed `{{PREFIX}}-meta.code-workspace` (under `.vscode/`) lists every member as a VS Code root for human review.
 - **Naming.** Members are `{{PREFIX}}-<token>`; this layer is `{{PREFIX}}-meta`. A new member needs no wiring here — reach it at `../{{PREFIX}}-<token>` like the rest.
 - **Git ceremony.** This layer is local-only and follows the shared `*-meta` ceremony — subject-only Conventional Commits, no `Co-Authored-By`, `--no-ff` merges, kept branches. The members keep their own git lifecycles; confirm per repo.
 - **Provenance.** Per-member `LICENSE`. Each member owns its own git / remote / visibility setup; this layer does not track that state.

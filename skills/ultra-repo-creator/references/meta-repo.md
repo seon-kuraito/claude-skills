@@ -47,6 +47,7 @@ Generate these into the meta repo from `assets/meta-repo/`, substituting the int
 | `README.md` | `README.md.tmpl` | same, in Traditional Chinese |
 | `.gitignore` | `gitignore` | verbatim |
 | `LICENSE` | `LICENSE` | verbatim (MIT) |
+| `.vscode/settings.json` | `settings.json` | verbatim (empty `{}`) |
 | `.vscode/{{PREFIX}}-meta.code-workspace` | `code-workspace.tmpl` | member folder list |
 
 `CLAUDE.md.tmpl` carries **both** family-type blocks, marked `{{#同型}} … {{/同型}}` and `{{#混合}} … {{/混合}}`: keep the chosen one, delete the markers and the other block.
@@ -60,7 +61,7 @@ Placeholders (same set across templates):
 
 Notes:
 
-- **`.vscode/` is gitignored** (local-only) — create the workspace file, but it is **not** part of the committed scaffold below.
+- **The `.vscode/` config is committed; other contents stay local** — `.gitignore` uses `.vscode/*` with `!` exceptions for `*.code-workspace` and `settings.json`, so those two are part of the committed scaffold while any other `.vscode/` file (an extension's local cache, etc.) stays untracked.
 
 ## 3 · Git ceremony
 
