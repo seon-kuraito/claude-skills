@@ -35,15 +35,15 @@
 ## 運作方式
 
 - **用指向保留實際檔案位置**：
-  - 實際檔案留在各自的 `~/Developer/{{PREFIX}}-*`，這裡用 symlink（gitignored，`scripts/link-siblings.sh` 重建）把它們放進同一個視野
+  - 實際檔案留在各自的 `~/Developer/{{PREFIX}}-*`；不在這裡鏡像，透過相對路徑 `../{{PREFIX}}-*` 觸及
   - VS Code 端用一份 multi-root workspace 把成員並列
 - **命名規則**：
   - 成員是 `{{PREFIX}}-<token>`、本層是 `{{PREFIX}}-meta`
-  - `link-siblings.sh` 從本 repo 名稱去掉 `-meta` 推導前綴，新增成員不必改腳本
+  - 新成員不必在這裡接線——比照其他成員，用 `../{{PREFIX}}-<token>` 觸及即可
 - **git ceremony**：
   - 本層 local-only，走共用 `*-meta` ceremony（subject-only commit、不帶 `Co-Authored-By`、`--no-ff` 合併、保留分支）
 - **新成員加入時**：
-  - 在本 repo 的記憶庫補一張成員卡，並跑 `scripts/link-siblings.sh`
+  - 在本 repo 的記憶庫補一張成員卡
 
 
 
