@@ -3,8 +3,10 @@
 .AppleDouble
 .LSOverride
 
-# Editor / IDE
-.vscode/
+# Editor / IDE — keep the committed workspace + settings, ignore the rest
+.vscode/*
+!.vscode/*.code-workspace
+!.vscode/settings.json
 .idea/
 *.swp
 
@@ -17,8 +19,3 @@ AGENTS.md
 .codex/
 .gemini/
 .copilot/
-
-# Linked sibling repos — created by scripts/link-siblings.sh. The real repos
-# live at ~/Developer/{{PREFIX}}-*; these are local-view symlinks, not content.
-# A new member links automatically — add its name here to keep the link untracked.
-{{MEMBER_IGNORE_LINES}}

@@ -4,7 +4,7 @@ The **coordination layer** for the `{{PREFIX}}-*` family: a meta repo that sits 
 
 It holds coordination docs, not project content. Each member is its own repo with its own lifecycle; this layer never holds their files.
 
-> **This layer is local-only** — it stays on `main` with no remote, by deliberate decision (not a deferred to-do). Its scaffold is committed via the shared `*-meta` git ceremony.
+> This layer follows the shared `*-meta` git ceremony — subject-only commits, no `Co-Authored-By`.
 
 ## The family
 
@@ -15,7 +15,7 @@ Every member is the **same kind of thing** — they map 1:1 onto one shared role
 This is a **mixed family**: the members are different kinds of thing, united by owner / theme rather than a shared structural type. Don't assume symmetry between them — each documents itself in its own `README.md` / `.claude/CLAUDE.md`; read that before working there (the table below is a pointer, not a catalog, and it rots).
 {{/混合}}
 
-Members, all siblings under `~/Developer/`, linked in-tree here:
+Members, all siblings under `~/Developer/` — reach them at `../{{PREFIX}}-*`:
 
 {{MEMBER_TABLE}}
 
@@ -27,16 +27,16 @@ Members, all siblings under `~/Developer/`, linked in-tree here:
 
 ## How the family is wired
 
-- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth) and are symlinked in-tree here at `./{{PREFIX}}-*` (gitignored — recreate with `scripts/link-siblings.sh`). A `{{PREFIX}}-meta.code-workspace` (under `.vscode/`, local-only) lists every member as a VS Code root.
-- **Naming.** Members are `{{PREFIX}}-<token>`; this layer is `{{PREFIX}}-meta`. `link-siblings.sh` derives the family prefix by stripping `-meta` from this repo's own name, so a new member links with no edit to the script — just add its name to `.gitignore` to keep the link untracked.
-- **Git ceremony.** This layer is local-only and follows the shared `*-meta` ceremony — subject-only Conventional Commits, no `Co-Authored-By`, `--no-ff` merges, kept branches. The members keep their own git lifecycles; confirm per repo.
+- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth); they are **not** mirrored in-tree here — reach them at the relative paths `../{{PREFIX}}-*`. A committed `{{PREFIX}}-meta.code-workspace` (under `.vscode/`) lists every member as a VS Code root for human review.
+- **Naming.** Members are `{{PREFIX}}-<token>`; this layer is `{{PREFIX}}-meta`. A new member needs no wiring here — reach it at `../{{PREFIX}}-<token>` like the rest.
+- **Git ceremony.** Follows the shared `*-meta` ceremony — subject-only Conventional Commits, **no `Co-Authored-By`** (members, as content repos, *do* keep the trailer). The members keep their own git lifecycles; confirm per repo.
 - **Provenance.** Per-member `LICENSE`. Each member owns its own git / remote / visibility setup; this layer does not track that state.
 
 ## Working across the family
 
 - **The coupling rule.** A convention worth keeping in one member is often worth carrying to the others. When you touch shared structure in one, check whether the siblings want the same move.
-- **Run coordination from here.** This file loads only in `{{PREFIX}}-meta` sessions, so cross-member work should be driven from this layer — the siblings are symlinked in-tree and the workspace lists them. Commits still land in each real repo (`~/Developer/{{PREFIX}}-*`), never here.
-- **When a new member joins**, author a matching per-member memory card in this repo's memory store (what it is + where its own docs live + one durable gotcha), then run `scripts/link-siblings.sh`.
+- **Run coordination from here.** This file loads only in `{{PREFIX}}-meta` sessions, so cross-member work should be driven from this layer — reach the siblings at `../{{PREFIX}}-*` (the workspace lists them too). Scope `Grep`/`Glob` to those sibling paths explicitly; a bare `.` search stays inside this repo and won't reach them. Commits still land in each real repo (`~/Developer/{{PREFIX}}-*`), never here.
+- **When a new member joins**, author a matching per-member memory card in this repo's memory store (what it is + where its own docs live + one durable gotcha).
 
 ## North star & judgment frame
 
