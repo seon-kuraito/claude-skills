@@ -36,7 +36,6 @@ Members, all siblings under `~/Developer/` — reach them at `../{{PREFIX}}-*`:
 
 - **The coupling rule.** A convention worth keeping in one member is often worth carrying to the others. When you touch shared structure in one, check whether the siblings want the same move.
 - **Run coordination from here.** This file loads only in `{{PREFIX}}-meta` sessions, so cross-member work should be driven from this layer — reach the siblings at `../{{PREFIX}}-*` (the workspace lists them too). Scope `Grep`/`Glob` to those sibling paths explicitly; a bare `.` search stays inside this repo and won't reach them. Commits still land in each real repo (`~/Developer/{{PREFIX}}-*`), never here.
-- **When a new member joins**, author a matching per-member memory card in this repo's memory store (what it is + where its own docs live + one durable gotcha).
 
 ## North star & judgment frame
 
