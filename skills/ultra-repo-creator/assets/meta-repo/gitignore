@@ -3,10 +3,9 @@
 .AppleDouble
 .LSOverride
 
-# Editor / IDE — keep the committed workspace + settings, ignore the rest
+# Editor / IDE — keep the committed workspace, ignore local editor settings
 .vscode/*
 !.vscode/*.code-workspace
-!.vscode/settings.json
 .idea/
 *.swp
 
