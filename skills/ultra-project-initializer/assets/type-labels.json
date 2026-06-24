@@ -1,12 +1,57 @@
 [
-  { "name": "feat", "color": "0e8a16" },
-  { "name": "fix", "color": "b60205" },
-  { "name": "refactor", "color": "5319e7" },
-  { "name": "chore", "color": "ffffff" },
-  { "name": "docs", "color": "1d76db" },
-  { "name": "style", "color": "fbca04" },
-  { "name": "perf", "color": "d93f0b" },
-  { "name": "build", "color": "000000" },
-  { "name": "ci", "color": "0052cc" },
-  { "name": "test", "color": "006b75" }
+  {
+    "name": "feat",
+    "color": "23c552",
+    "description": "New feature or new user-facing content"
+  },
+  {
+    "name": "fix",
+    "color": "ff4d57",
+    "description": "Bug fix"
+  },
+  {
+    "name": "improve",
+    "color": "ff8a1e",
+    "description": "User-visible polish, not a new feature or a bug fix"
+  },
+  {
+    "name": "perf",
+    "color": "f2b705",
+    "description": "Performance improvement"
+  },
+  {
+    "name": "refactor",
+    "color": "e058c8",
+    "description": "Code change that neither adds a feature nor fixes a bug"
+  },
+  {
+    "name": "style",
+    "color": "c6e000",
+    "description": "Code formatting, not visual or CSS styling"
+  },
+  {
+    "name": "test",
+    "color": "12c9b6",
+    "description": "Adding or modifying tests"
+  },
+  {
+    "name": "docs",
+    "color": "2b9bff",
+    "description": "Documentation changes"
+  },
+  {
+    "name": "build",
+    "color": "9d5cff",
+    "description": "Build system or external dependency changes"
+  },
+  {
+    "name": "ci",
+    "color": "5b7bff",
+    "description": "CI/CD configuration changes"
+  },
+  {
+    "name": "chore",
+    "color": "ffffff",
+    "description": "Tooling, dependencies, maintenance"
+  }
 ]

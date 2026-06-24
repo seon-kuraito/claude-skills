@@ -87,7 +87,7 @@
 - **`.gitignore` 模板**：
   - 內容為 macOS、編輯器／IDE 與 log 產物（[`assets/gitignore-template`](assets/gitignore-template)）
 - **type 標籤**：
-  - 取自 Conventional Commits 的十個 type（[`assets/type-labels.json`](assets/type-labels.json)，含名稱與顏色，無描述）
+  - 取自 Conventional Commits 的 11 種分類（[`assets/type-labels.json`](assets/type-labels.json)，含名稱、顏色與描述）
   - 建立前先刪除 GitHub 的 9 個預設標籤（`bug`、`documentation`、`duplicate`、`enhancement`、`good first issue`、`help wanted`、`invalid`、`question`、`wontfix`），自訂標籤保留
 - **分支保護 ruleset**：
   - [`assets/main-protection-ruleset.json`](assets/main-protection-ruleset.json)（鎖定 `~DEFAULT_BRANCH`、review count 0、無 admin bypass）
