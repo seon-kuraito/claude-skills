@@ -67,7 +67,7 @@ Notes:
 `git init`, write the whole scaffold, and make it **one commit** — no setup branch, no merge (like a framework scaffold's initial commit). Binding a remote is the generic end-gate every template passes through (the skill's Execution gate), applied after; the single commit then pushes cleanly, with nothing having bypassed a PR.
 
 - **One commit** — all scaffold files at once (`README.md`, `CLAUDE.md`, `.gitignore`, `LICENSE`, `.vscode/{{PREFIX}}-meta.code-workspace`), message `chore: scaffold {{PREFIX}}-meta coordination layer`.
-- **Commit style:** subject-only Conventional Commits, **no `Co-Authored-By` trailer** — the meta-repo convention, deliberately overriding the harness default (members, as content repos, *do* keep the trailer).
+- **Commit style:** subject-only Conventional Commits — the harness default applies (including the `Co-Authored-By` trailer).
 
 ## Scope
 
