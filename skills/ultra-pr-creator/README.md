@@ -89,7 +89,7 @@
 
 - **PR 的 assignee 與 label**：
   - 預設自我指派（`@me`，即 repo 擁有者 `seon-kuraito`），並貼上 branch type 對應的標籤
-  - 依賴 repo 已建好那 10 個 type 標籤（與 branch／commit 同一套）；換到沒有這些標籤的 repo 時，跳過 `--label`
+  - 依賴 repo 已先建好 11 個 type 標籤（與 branch／commit 同一套）；換到沒有這些標籤的 repo 時，跳過 `--label`
 - **預設 main 為 base branch**：
   - 使用 `master`、`develop` 或 feature trunk 時，先自行推斷；不確定時再詢問一次
 - **語言慣例**：

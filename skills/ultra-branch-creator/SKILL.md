@@ -15,7 +15,7 @@ A correct example: `feat/00-blank-intro-animation`
 
 ## Format
 
-- `<type>` — required, lowercase, exactly one of the 10 types listed below.
+- `<type>` — required, lowercase, exactly one of the 11 types listed below.
 - `<kebab-description>` — required. Lowercase English, kebab-case, 2–5 words.
 
 ## Type vocabulary
@@ -26,14 +26,15 @@ Identical to Conventional Commits. See [ultra-commit-creator](../ultra-commit-cr
 |---|---|
 | `feat` | New feature or content |
 | `fix` | Bug fix |
-| `refactor` | Refactoring |
-| `chore` | Tooling, deps, maintenance |
-| `docs` | Documentation |
-| `style` | Code formatting (NOT visual styling) |
+| `improve` | User-visible polish |
 | `perf` | Performance work |
-| `build` | Build-system changes |
-| `ci` | CI / CD changes |
+| `refactor` | Refactoring |
+| `style` | Code formatting (NOT visual styling) |
 | `test` | Tests |
+| `docs` | Documentation |
+| `build` | Build-system changes |
+| `ci` | CI/CD changes |
+| `chore` | Tooling, deps, maintenance |
 
 ## Description rules
 
@@ -59,11 +60,12 @@ Reject and rewrite. Each pattern, then why it fails:
 ```
 feat/00-blank-intro-animation
 fix/audio-sync-issue
-refactor/templates-folder-rename
-chore/upgrade-remotion
-docs/claude-md-restructure
+improve/intro-transition-easing
 perf/render-frame-caching
+refactor/templates-folder-rename
+docs/claude-md-restructure
 ci/add-typecheck-action
+chore/upgrade-remotion
 ```
 
 ## Related

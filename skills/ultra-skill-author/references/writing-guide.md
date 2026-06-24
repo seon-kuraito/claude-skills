@@ -92,7 +92,7 @@ The `description` field is **the only thing the agent sees** when deciding which
 The description loads into *every* session for *every* installed skill, and it exists for one job: helping the agent decide whether to trigger. Carry only trigger-relevant content — the capability as one short phrase, plus the activation conditions. Keep out everything the agent needs only *after* the skill fires:
 
 - Output templates or format strings (`<type>/<kebab>`, a section layout) → body.
-- Exhaustive coverage lists (all 10 types, the 24 patterns) → body.
+- Exhaustive coverage lists (all 11 types, the 24 patterns) → body.
 - Output-style rules (imperative mood, kebab-case, full-width spacers) → body.
 - Execution mechanics (how it reads the diff, that it pauses for confirmation) → body.
 
@@ -100,7 +100,7 @@ Why: spec in the description doesn't improve triggering, and it carries an ongoi
 
 ```
 Before: "Authors git commit messages in strict Conventional Commits format —
-         `<type>(<scope>): <description>` ... Covers all 10 types (feat, fix, ...),
+         `<type>(<scope>): <description>` ... Covers all 11 types (feat, fix, ...),
          BREAKING CHANGE footer, scope inference ..., rejects `wip` / `update X` ..."
 
 After:  "Authors git commit messages. Use whenever Claude is about to write a commit

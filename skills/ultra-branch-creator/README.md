@@ -30,7 +30,7 @@
 - **產生一致的 git branch 名稱**：
   - 格式固定 `<type>/<kebab-description>`（例如：`feat/00-blank-intro-animation`）
 - **與 commit 共用 type 語彙**：
-  - type 沿用 Conventional Commits 的十種類型，讓 branch 和 commit 對齊
+  - type 沿用 Conventional Commits 的 11 種分類，讓 branch 和 commit 對齊
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 

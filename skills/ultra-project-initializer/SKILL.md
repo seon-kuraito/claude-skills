@@ -42,7 +42,7 @@ The file options land on a dedicated branch; the labels and branch-protection op
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
 2. **GitHub labels** — make the repo's labels *exactly* the type set, in two steps:
    - **Delete the defaults first.** A new GitHub repo ships nine default labels — `bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`. Remove each that is present with `gh label delete <name> --yes`. Touch only these defaults — leave any custom labels alone.
-   - **Then create the types.** For each entry in `assets/type-labels.json`, run `gh label create <name> --color <color>` (no description, mirroring the source); pass `--force` to overwrite a same-named label. This makes no commit.
+   - **Then create the types.** For each entry in `assets/type-labels.json`, run `gh label create <name> --color <color> --description <description>` (each entry carries `name`, `color`, and `description`); pass `--force` to overwrite a same-named label. This makes no commit.
 3. **Branch protection** — apply the standard ruleset to the default branch so `main` requires a PR to merge and blocks deletion + force-push. A GitHub side-effect, no commit.
    - **Precondition (GitHub Free):** rulesets apply only to a **public** repo — a private repo returns `403 Upgrade to Pro`. If the repo has no remote or is private (and not on Pro / Team / Enterprise), explain that and **skip this item** rather than erroring.
    - **Pre-flight (read-only):**

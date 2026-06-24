@@ -21,7 +21,7 @@ A correct example: `feat(00-blank): add intro fade-in animation`
 
 ## Format
 
-- `<type>` — required, lowercase, exactly one of the 10 types below.
+- `<type>` — required, lowercase, exactly one of the 11 types below.
 - `<scope>` — optional, lowercase, kebab-case. Omit when no single scope fits.
 - `<description>` — required. Single concise English sentence, imperative mood, lowercase first letter, no trailing period, ideally under 50 chars.
 - BREAKING CHANGE footer — required by the spec when the change breaks API or user-facing behavior. Footer is also one English sentence.
@@ -33,14 +33,15 @@ A correct example: `feat(00-blank): add intro fade-in animation`
 |---|---|
 | `feat` | New feature or new user-facing content |
 | `fix` | Bug fix |
-| `refactor` | Code change that neither adds a feature nor fixes a bug |
-| `chore` | Tooling, dependencies, maintenance |
-| `docs` | Documentation changes |
-| `style` | Code formatting (whitespace, semicolons) — NOT visual / CSS styling |
+| `improve` | User-visible polish, not a new feature or a bug fix |
 | `perf` | Performance improvement |
-| `build` | Build system or external dependency changes |
-| `ci` | CI / CD configuration changes |
+| `refactor` | Code change that neither adds a feature nor fixes a bug |
+| `style` | Code formatting, not visual or CSS styling |
 | `test` | Adding or modifying tests |
+| `docs` | Documentation changes |
+| `build` | Build system or external dependency changes |
+| `ci` | CI/CD configuration changes |
+| `chore` | Tooling, dependencies, maintenance |
 
 If a change spans types, pick the dominant one. If two changes are clearly distinct, split into two commits — easier to read in `git log` and safer to revert.
 
@@ -95,11 +96,12 @@ Reject and rewrite. Each pattern, then why it fails:
 ```
 feat(00-blank): add intro fade-in animation
 fix: incorrect duration on title scene
-refactor: rename templates folder to videos
-chore: bump remotion to 4.0.500
-docs(claude): update structure section
+improve: soften easing on intro transition
 perf(render): cache frames to reduce render time
+refactor: rename templates folder to videos
+docs(claude): update structure section
 ci: add github action for typecheck
+chore: bump remotion to 4.0.500
 ```
 
 Breaking example:
