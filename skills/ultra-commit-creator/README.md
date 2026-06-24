@@ -58,7 +58,7 @@
 ### 設計取向
 
 - **與 [`ultra-branch-creator`](../ultra-branch-creator) 共用同一套 type 語彙**：
-  - type 採用 Conventional Commits 的十種類型，並與 `ultra-branch-creator` 保持一致
+  - type 採用 Conventional Commits 的 11 種分類，並與 `ultra-branch-creator` 保持一致
   - `ultra-commit-creator` 是 type 定義的維護來源，branch 命名只引用這套語彙，不重複定義
 - **description 採單句祈使句**：
   - description 使用小寫開頭的祈使句，不加句尾句點，並盡量控制在 50 字以內
