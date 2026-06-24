@@ -47,7 +47,6 @@ Generate these into the meta repo from `assets/meta-repo/`, substituting the int
 | `README.md` | `README.md.tmpl` | same, in Traditional Chinese |
 | `.gitignore` | `gitignore` | verbatim |
 | `LICENSE` | `LICENSE` | verbatim (MIT) |
-| `.vscode/settings.json` | `settings.json` | verbatim (empty `{}`) |
 | `.vscode/{{PREFIX}}-meta.code-workspace` | `code-workspace.tmpl` | member folder list |
 
 `CLAUDE.md.tmpl` carries **both** family-type blocks, marked `{{#同型}} … {{/同型}}` and `{{#混合}} … {{/混合}}`: keep the chosen one, delete the markers and the other block.
@@ -61,18 +60,18 @@ Placeholders (same set across templates):
 
 Notes:
 
-- **The `.vscode/` config is committed; other contents stay local** — `.gitignore` uses `.vscode/*` with `!` exceptions for `*.code-workspace` and `settings.json`, so those two are part of the committed scaffold while any other `.vscode/` file (an extension's local cache, etc.) stays untracked.
+- **The workspace is committed; other `.vscode/` contents stay local** — `.gitignore` uses `.vscode/*` + `!.vscode/*.code-workspace`, so the `{{PREFIX}}-meta.code-workspace` file is part of the committed scaffold while `settings.json` and any other `.vscode/` file (editor settings, an extension's cache) stay untracked.
 
 ## 3 · Git ceremony
 
 `git init`, write the whole scaffold, and make it **one commit** — no setup branch, no merge (like a framework scaffold's initial commit). Binding a remote is the generic end-gate every template passes through (the skill's Execution gate), applied after; the single commit then pushes cleanly, with nothing having bypassed a PR.
 
-- **One commit** — all scaffold files at once (`README.md`, `CLAUDE.md`, `.gitignore`, `LICENSE`, `.vscode/settings.json`, `.vscode/{{PREFIX}}-meta.code-workspace`), message `chore: scaffold {{PREFIX}}-meta coordination layer`.
-- **Commit style:** subject-only Conventional Commits, **no `Co-Authored-By` trailer** — the meta-repo convention, deliberately overriding the harness default (members, as content repos, *do* keep the trailer).
+- **One commit** — all scaffold files at once (`README.md`, `CLAUDE.md`, `.gitignore`, `LICENSE`, `.vscode/{{PREFIX}}-meta.code-workspace`), message `chore: scaffold {{PREFIX}}-meta coordination layer`.
+- **Commit style:** subject-only Conventional Commits — the harness default applies (including the `Co-Authored-By` trailer).
 
 ## Scope
 
 The Meta Repo template **creates the coordination layer only**. It does **not**:
 
 - rename or move sibling projects into the family — members are recorded as planned; renaming/adoption happens later;
-- write any memory cards. The meta-repo keeps **no per-member cards by design** — each member documents itself in its own repo, so don't add member cards to the store here; the generated `CLAUDE.md` points at the member repos (`../<prefix>-*`), not a memory store.
+- write any memory cards. The generated `CLAUDE.md` *points at* the operating conventions (reach siblings at `../<prefix>-*`) but the template does not execute them.
