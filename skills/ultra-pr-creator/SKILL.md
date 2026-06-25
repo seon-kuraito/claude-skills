@@ -67,13 +67,13 @@ Before drafting, read:
 2. `git diff <base>...HEAD --stat` — files changed and rough size
 3. Specific file contents for any commit whose subject is not self-explanatory
 
-Then collapse the commits into Summary bullets — usually one bullet per commit, but merge tightly related commits (e.g. `add X` + `fix lint for X`) into one bullet.
+Then map the commits into Summary bullets — **at least one bullet per commit**: the commit count is the floor, never fewer. Each bullet corresponds to a commit, or to one distinct change within it — a commit that bundled several changes expands into several bullets, so the bullet count is `≥` the number of commits. Write each bullet a notch more descriptively than its commit subject: clear enough that a reviewer grasps the change without opening the commit, but no more. This assumes a curated branch where every commit is one real change (this family's commits already are); squash a fixup-heavy WIP branch first (see *Merging*), then the floor follows the squashed commits.
 
 Default base branch: `main`. If the repo uses `master` / `develop` / a feature trunk, infer from `git remote show origin` or ask the user once.
 
 ## Conventions
 
-- **English only.** PR descriptions live alongside commits in tools (changelog generators, release-note writers, AI summarizers) that assume English.
+- **English only — the entire body.** Every section and every bullet is English, regardless of the language of the conversation, the branch, the commits, or the issue it closes. PR descriptions live alongside commits in tools (changelog generators, release-note writers, AI summarizers) that assume English; a single non-English bullet breaks them.
 - **Body in a file, not the terminal.** Author the body into a file for `--body-file` and never print the full body into the terminal — show only its path, as a clickable editor link (`vscode://file/<abs-path>`) the user can open. The user reviews and edits in the file (the same principle as ultra-skill-author: don't flood the terminal with full content). The file holds raw markdown with no outer code fence.
 - **Full-width spacer line.** Before each heading that has content above it, insert a three-line spacer: a blank line, a line containing a single `　` (U+3000), then a blank line. Renders as vertical breathing room on GitHub; a lone blank line collapses too tightly.
 - **Always three sections.** Do not omit Scope or Test plan even for tiny PRs — use `- N/A — <reason>` if truly nothing to say. The shape of the PR should be predictable.
@@ -88,6 +88,7 @@ Reject and rewrite. Each pattern, then why it fails:
 - Headers without the emoji decoration — the emojis are part of the template's visual rhythm; omitting them produces an off-template PR.
 - Non-English content — see Conventions.
 - Restating the PR title in Summary's first bullet — the title is already on the PR; don't waste a bullet.
+- Fewer Summary bullets than commits — collapsing commits below the commit count; the floor is one bullet per commit (see *Populating from the branch*).
 - Imperative-sentence PR titles (`chore: set up project scaffolding`) — the title is the branch name verbatim; see *PR title*.
 - Running a `gh` command (or the remote-prune) without first showing what will run and getting explicit confirmation — see *Execution gate*.
 - Squashing a branch with deliberately-organized commits — collapses the curated history into one; default to `--merge` (see *Merging*).
