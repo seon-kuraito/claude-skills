@@ -2,7 +2,7 @@
 
 The **Meta Repo** template (from `ultra-repo-creator`'s *Template dispatch*) scaffolds a **coordination layer** over several independent `<prefix>-*` sibling projects — the pattern behind `claude-meta` (over `claude-*`), `bootcamp-rocket-meta` (over the cohorts), and `personal-meta` (over the personal projects). The layer **points at** the siblings (reached via `../<prefix>-*` relative paths) and holds shared norms; it never holds their files.
 
-Its flow is the **same as the other templates** — build locally, then the same remote gate and the same hand-off to the initialize stage. Its scaffold already includes `.gitignore` / `CLAUDE.md`, so the initialize stage's file items are usually redundant (labels / branch protection still apply once a remote is bound).
+Its flow is the **same as the other templates** — build locally, then the same remote gate and the same hand-off to the initialize stage. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` is **not** scaffolded here — like every other project it comes from the initialize stage's `LICENSE` option (labels / branch protection also apply there once a remote is bound).
 
 Run three steps in order: **interview → scaffold → ceremony**.
 
@@ -46,7 +46,6 @@ Generate these into the meta repo from `assets/meta-repo/`, substituting the int
 | `CLAUDE.md` | `CLAUDE.md.tmpl` | prefix · family-type block · member table |
 | `README.md` | `README.md.tmpl` | same, in Traditional Chinese |
 | `.gitignore` | `gitignore` | verbatim |
-| `LICENSE` | `LICENSE` | verbatim (MIT) |
 | `.vscode/{{PREFIX}}-meta.code-workspace` | `code-workspace.tmpl` | member folder list |
 
 `CLAUDE.md.tmpl` carries **both** family-type blocks, marked `{{#同型}} … {{/同型}}` and `{{#混合}} … {{/混合}}`: keep the chosen one, delete the markers and the other block.
@@ -54,7 +53,6 @@ Generate these into the meta repo from `assets/meta-repo/`, substituting the int
 Placeholders (same set across templates):
 
 - `{{PREFIX}}` — lowercase family prefix (e.g. `personal`); `{{PREFIX_TITLE}}` — display form for the README heading (e.g. `Personal`).
-- `{{YEAR}}` — current year, in `LICENSE`.
 - `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member (path `../{{PREFIX}}-<token>`), then a final self-row for `{{PREFIX}}-meta` with path `.` — mirrors claude-meta. English in `CLAUDE.md`, Traditional Chinese in `README.md`; member names are `{{PREFIX}}-<token>`.
 - `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{PREFIX}}-<token>", "path": "../../{{PREFIX}}-<token>" },` line per member (workspace).
 
@@ -66,7 +64,7 @@ Notes:
 
 `git init`, write the whole scaffold, and make it **one commit** — no setup branch, no merge (like a framework scaffold's initial commit). Binding a remote is the generic end-gate every template passes through (the skill's Execution gate), applied after; the single commit then pushes cleanly, with nothing having bypassed a PR.
 
-- **One commit** — all scaffold files at once (`README.md`, `CLAUDE.md`, `.gitignore`, `LICENSE`, `.vscode/{{PREFIX}}-meta.code-workspace`), message `chore: scaffold {{PREFIX}}-meta coordination layer`.
+- **One commit** — all scaffold files at once (`README.md`, `CLAUDE.md`, `.gitignore`, `.vscode/{{PREFIX}}-meta.code-workspace`), message `chore: scaffold {{PREFIX}}-meta coordination layer`.
 - **Commit style:** subject-only Conventional Commits — the harness default applies (including the `Co-Authored-By` trailer).
 
 ## Scope

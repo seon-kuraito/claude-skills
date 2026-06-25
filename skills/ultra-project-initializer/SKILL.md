@@ -1,11 +1,11 @@
 ---
 name: ultra-project-initializer
-description: Initializes a project's working setup after its repo exists — adds a root .gitignore, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, and optional main branch protection. The initialize stage ultra-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is ultra-repo-creator.
+description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, and optional main branch protection. The initialize stage ultra-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is ultra-repo-creator.
 ---
 
 # Ultra Project Initializer
 
-Initialize a project's working setup once its repository exists — a root `.gitignore`, a blank `.claude/CLAUDE.md`, the Conventional Commits type labels on GitHub, and optional `main` branch protection. This is the **initialize** stage that pairs with [ultra-repo-creator](../ultra-repo-creator/SKILL.md)'s **create** stage.
+Initialize a project's working setup once its repository exists — a `LICENSE`, a blank `.claude/CLAUDE.md`, the Conventional Commits type labels on GitHub, and optional `main` branch protection. This is the **initialize** stage that pairs with [ultra-repo-creator](../ultra-repo-creator/SKILL.md)'s **create** stage.
 
 ## Stage & entry
 
@@ -13,7 +13,7 @@ An **insertable stage**, not a fixed step in a pipeline — run it whenever the 
 
 **Entry precondition — a repository must already exist:**
 
-- `.gitignore` and `.claude/CLAUDE.md` need a local repo (`git init` done).
+- the `LICENSE` and `.claude/CLAUDE.md` files need a local repo (`git init` done).
 - the type labels and branch protection need a GitHub remote — and on GitHub Free, branch protection additionally needs the repo to be **public** (rulesets return `403` on a private repo).
 
 If no repository exists yet, point the user to [ultra-repo-creator](../ultra-repo-creator/SKILL.md) (the create stage) and stop. ultra-repo-creator also offers to hand off here once it finishes — a convenience, not the only entry.
@@ -26,19 +26,28 @@ Load [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-
 
 Always present the choice as one `AskUserQuestion` call with `multiSelect: true` — never ask in prose, and never one feature at a time. A single question (e.g. "Which items to set up?") whose options are the four features below; the user picks any combination (or none):
 
-- **`.gitignore`** — a root `.gitignore` from `assets/gitignore-template` (macOS + editor/IDE + log artifacts).
+- **`LICENSE`** — a root `LICENSE` from a bundled template (`assets/licenses/`). If selected, a follow-up single-select picks the template — see *License template*.
 - **`.claude/CLAUDE.md`** — a blank `.claude/CLAUDE.md`.
 - **GitHub labels** — replace the repo's default labels with the Conventional Commits type labels in `assets/type-labels.json`.
 - **branch protection** — apply the standard ruleset to `main` (require a PR, block deletion + force-push) from `assets/main-protection-ruleset.json`. Needs a public GitHub remote; see *Applying the selection*.
 
 If nothing is selected, stop.
 
+## License template
+
+Only when `LICENSE` is selected. Present a **second** `AskUserQuestion` (single-select) over the bundled templates in `assets/licenses/` — **MIT** (the personal-fit default), **Apache-2.0**, **GPL-3.0** — plus the auto-provided *Other* for anything else (e.g. BSD-3-Clause), which you fetch verbatim from a canonical source (GitHub's `/licenses/<key>` API) rather than typing from memory.
+
+Write the chosen template to `./LICENSE` (extensionless), substituting `{{YEAR}}` → the current year (`date +%Y`). The copyright holder is already filled in (`Seon Kuraito`, a personal-fit constant). The per-license shape differs:
+
+- **MIT / Apache-2.0** carry a `Copyright {{YEAR}} Seon Kuraito` line — substitute `{{YEAR}}`.
+- **GPL-3.0** ships **verbatim**: the FSF requires the license document be unchanged, and the project's own year/author live in per-file header notices, not the `LICENSE` file — so there is no `{{YEAR}}` to substitute.
+
 ## Applying the selection
 
 The file options land on a dedicated branch; the labels and branch-protection options are GitHub-side effects with no commit.
 
-1. **File options** (`.gitignore`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to ultra-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through ultra-commit-creator):
-   - `.gitignore` → `chore: add gitignore for macOS and editor artifacts`
+1. **File options** (`LICENSE`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to ultra-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through ultra-commit-creator):
+   - `LICENSE` → `chore: add <license> LICENSE` (the chosen id, e.g. `chore: add MIT LICENSE`)
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
 2. **GitHub labels** — make the repo's labels *exactly* the type set, in two steps:
    - **Delete the defaults first.** A new GitHub repo ships nine default labels — `bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`. Remove each that is present with `gh label delete <name> --yes`. Touch only these defaults — leave any custom labels alone.

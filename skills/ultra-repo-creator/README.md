@@ -1,6 +1,6 @@
 # Ultra Repo Creator
 
-從零建立 repo 時，先選一種模板（blank／meta-repo／framework），最後再確認要不要綁定遠端 repo。
+從零建立 repo 時，先選一種模板（blank／meta-repo／framework），最後再確認是否綁定遠端 repo。
 
 　
 
@@ -29,7 +29,7 @@
   - 一律先選模板：blank／meta-repo／framework
   - blank＝本地空白 repo
   - meta-repo＝協調層（scaffold＋git ceremony）
-  - framework＝對話式建立
+  - framework＝透過對話建立
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
   - 結尾再確認是否綁 public 遠端並 push
@@ -37,7 +37,7 @@
   - 若已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
   - 三種模板建好後都會詢問是否進入初始化階段
-  - `.gitignore`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目，交給初始化 skill 處理
+  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給初始化 skill 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -66,7 +66,7 @@
 
 - **直接執行本地建立流程**：
   - 使用意圖明確就直接載入，一律先顯示模板選單
-  - 選定後，本地步驟（`git init`、commit、scaffold）直接執行、免確認
+  - 選定後，本地步驟（`git init`、commit、scaffold）直接執行，不再逐步確認
 - **兩階段模型與接續既有 repo**：
   - 專案設定分「建立」（本 skill）與「初始化」（另一個 skill）兩階段
   - 若已是 git repo，依目前狀態接續建立流程，只處理還沒完成的本地或遠端步驟
@@ -80,9 +80,9 @@
   - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
   - 這道確認同時決定要建立 public 遠端並 push，或先停在本機
   - 若選擇綁遠端，固定 public，不再詢問可見性（要 private 時自行手動建立）
-- **初始 commit 保持最小化**：
-  - 只放一份完全空白的 `README.md`，固定訊息為 `chore: initialize repository`
-  - `.gitignore` 不在此階段寫入，改由「初始化專案」階段選配
+- **初始 commit 維持精簡**：
+  - 放一份完全空白的 `README.md` 與一份標準 `.gitignore`
+  - `.gitignore` 視為基礎設定，在追蹤任何檔案前先放好（blank 與 meta-repo 內建；framework 通常自帶）
   - 既有檔案先留在工作區並維持 untracked，之後再依實際需求整理到後續 commit
 - **收錄 evals 測試案例**：
   - `evals/evals.json` 用來驗證關鍵行為與安全前提

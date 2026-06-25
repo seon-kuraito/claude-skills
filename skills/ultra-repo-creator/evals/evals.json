@@ -12,7 +12,7 @@
       "id": 2,
       "name": "minimal-initial-commit",
       "prompt": "This folder already has a few source files in it. Initialize a git repo here (blank template).",
-      "expected_output": "Initial commit must contain ONLY a blank README.md with the verbatim message `chore: initialize repository`. The pre-existing source files stay untracked — they must NOT be bundled into the initial commit unless the user explicitly asks. Should also flag the non-empty, non-repo directory before writing.",
+      "expected_output": "Initial commit must contain a blank README.md AND a standard `.gitignore` (verbatim from assets/blank/gitignore), with the verbatim message `chore: initialize repository`. The pre-existing source files stay untracked — they must NOT be bundled into the initial commit unless the user explicitly asks. Should also flag the non-empty, non-repo directory before writing.",
       "files": []
     }
   ]
