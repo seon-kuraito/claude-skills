@@ -4,19 +4,23 @@ Deep-dive on what belongs in each of the three sections. See `SKILL.md` for the 
 
 ## 📝 Summary
 
-What the PR does, in 2–5 bullets. Each bullet is one concrete change at the right level of abstraction.
+What the PR does — **at least one bullet per commit on the branch**. The commit count is the floor, not a target: a commit that bundled several distinct changes expands into several bullets, so the bullet count is `≥` the number of commits, never fewer. Each bullet is one concrete change at the right level of abstraction.
+
+Calibrate each bullet a notch more descriptively than its commit subject — clear enough that a reviewer grasps the change without opening the commit, but no more:
 
 - ✅ `Install best-practices skill packages for the repo's primary stack`
-- ❌ `Added some skills` — vague
+- ❌ `Added some skills` — vague; says less than the commit subject
 - ❌ `Created SKILL.md, rules/audio.md, rules/fonts.md, ...` — file-level, too granular
+- ❌ `Install the skill packages, which register each rule file under rules/ and wire them into the loader so that …` — a paragraph; that detail belongs in the diff, not the bullet
 
-Aim for "what changed, in one line." Drop ceremonial words like "this PR" or "we now" — the GitHub context already says "this PR".
+Drop ceremonial words like "this PR" or "we now" — the GitHub context already says "this PR".
 
-Sizing:
+Bullet count:
 
-- 1 bullet — fine for a single-fix or single-feature PR
-- 2–4 bullets — typical
-- 5+ bullets — likely too big a PR; consider splitting before writing the description
+- **Floor is the commit count** — every commit earns at least one bullet, so the Summary reads as the branch's commit list, expanded.
+- A multi-concern commit splits into one bullet per concern (above the floor).
+- Many commits → many bullets is expected: curated multi-commit branches are the norm here (the skill defaults to `--merge` and never squashes them — see `SKILL.md` *Merging*), so a long Summary is not in itself a reason to split the PR.
+- This assumes each commit is one real change. Squash a fixup-heavy WIP branch first (`SKILL.md` *Merging*); the floor then follows the squashed commits.
 
 ## 🎯 Scope
 

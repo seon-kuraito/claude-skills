@@ -4,7 +4,7 @@ Canonical PR body files. Each is the exact markdown the skill writes to the body
 
 ## CI / repo-policy PR
 
-Scenario: a branch that adds a GitHub Actions workflow, pins the Node version, and updates contributing docs.
+Scenario: a three-commit branch — add a GitHub Actions workflow, pin the Node version, update contributing docs. One bullet per commit (the floor, 1:1 here).
 
 ````
 ## 📝 Summary
@@ -53,7 +53,7 @@ Scenario: a one-commit branch that fixes an off-by-one error in a helper.
 
 ## Pure-config / pure-docs PR
 
-Scenario: a branch that only adjusts editor and tooling config — no runtime impact.
+Scenario: a one-commit branch (`chore: standardize editor and formatter config`) that only adjusts editor and tooling config — no runtime impact. The single commit bundled two distinct changes, so it expands into two bullets.
 
 ````
 ## 📝 Summary
@@ -75,11 +75,11 @@ Scenario: a branch that only adjusts editor and tooling config — no runtime im
 - [ ] Opening a source file in an EditorConfig-aware editor uses the new defaults
 ````
 
-Note the Test plan still has actionable items even though nothing executable changed — passive checks are better than omitting the section.
+Note two things: the single commit expanded into two bullets — one per distinct change — which is why the bullet count is `≥` the commit count, never fewer (see `sections.md`); and the Test plan still has actionable items even though nothing executable changed — passive checks are better than omitting the section.
 
 ## Broad-change PR using `N/A`
 
-Scenario: a sweeping rename that touches almost every file — no meaningful Scope to narrow.
+Scenario: a one-commit sweeping rename that touches almost every file — no meaningful Scope to narrow.
 
 ````
 ## 📝 Summary
