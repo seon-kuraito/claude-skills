@@ -19,7 +19,7 @@
       "id": 3,
       "name": "improve-type-user-visible-polish",
       "prompt": "我把表單送出後那個「成功」提示，從原本一出現就定住，改成淡入、停一下、再淡出，讓現有的提示順眼一點。沒有加新功能，也沒有修 bug。幫我寫 commit message。",
-      "expected_output": "Type should be `improve` — this refines the look-and-feel of an EXISTING user-facing element (the success toast), so it is user-visible polish. The discriminating trap: it adds a fade, which a model may mislabel as `feat`; the skill must still pick `improve` because it polishes existing behaviour rather than adding a new capability. Must also NOT pick `style` (not code formatting) or `fix` (nothing was broken). e.g. `improve: fade the success toast in and out`. Single English imperative sentence, triggers despite Chinese phrasing.",
+      "expected_output": "Type should be `improve` — this refines the look-and-feel of an EXISTING user-facing element (the success toast): user-visible polish, not a new feature even though it adds a fade (it polishes existing behaviour rather than adding a capability). Must NOT pick `feat`, `style` (not code formatting), or `fix` (nothing was broken). e.g. `improve: fade the success toast in and out`. Single English imperative sentence, triggers despite Chinese phrasing.",
       "files": []
     },
     {
