@@ -33,8 +33,8 @@ Local steps — `git init`, commits, scaffolding — run freely; they are local 
 
 1. **Guard first.** If the working directory already has files but is *not* a git repo, flag it before writing anything more — don't wait for the user to notice.
 2. `git init`.
-3. The **initial commit contains only a blank `README.md`** (an empty file), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator).
-4. Existing work stays **untracked** until the remote decision; don't bundle it into the initial commit unless the user explicitly asks. `.gitignore` is not written here — it's an opt-in in the initialize stage.
+3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
+4. Existing work stays **untracked** until the remote decision; don't bundle it into the initial commit unless the user explicitly asks.
 
 **Remote decision (*Execution gate*)** — ask whether to bind a public remote and push:
 
@@ -49,7 +49,7 @@ Local steps — `git init`, commits, scaffolding — run freely; they are local 
 
 ## meta-repo
 
-A coordination layer over `<prefix>-*` siblings — the pattern behind `claude-meta`, `bootcamp-rocket-meta`, and `personal-meta`. Built locally with its own scaffold + git ceremony, then through the **same remote decision and hand-off as the other templates** — the flow is fully uniform. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`, so the initialize stage's file items are usually redundant; labels / branch protection still apply once a remote is bound.
+A coordination layer over `<prefix>-*` siblings — the pattern behind `claude-meta`, `bootcamp-rocket-meta`, and `personal-meta`. Built locally with its own scaffold + git ceremony, then through the **same remote decision and hand-off as the other templates** — the flow is fully uniform. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound.
 
 **Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 
@@ -58,7 +58,7 @@ A coordination layer over `<prefix>-*` siblings — the pattern behind `claude-m
 Framework scaffolding (Next.js, Vite, …) is **not templated yet**. Build it conversationally:
 
 1. Ask which framework / starter the user wants.
-2. Run its own init locally, commit as you go.
+2. Run its own init locally, commit as you go. Framework scaffolds normally generate their own `.gitignore`; only if one didn't, offer the standard `assets/blank/gitignore`.
 3. **Remote decision (*Execution gate*)** — same as blank.
 4. **Hand off** to the initialize stage.
 
@@ -69,7 +69,7 @@ Applies to **all three templates**. Once the repo is built (local, or local + re
 - **Yes** → load the initialization skill (e.g. `ultra-project-initializer`) if it is available; if it is not present, say so and stop.
 - **No** → stop here and leave the next move to the user.
 
-The initialize stage holds the optional scaffolding — `.gitignore`, a blank `.claude/CLAUDE.md`, GitHub labels, and branch protection. (Labels and branch protection need a remote, so they're skipped on a local-only repo.) Never auto-enter it — it is always the user's choice.
+The initialize stage holds the optional scaffolding — a blank `.claude/CLAUDE.md`, a `LICENSE`, GitHub labels, and branch protection. `.gitignore` is no longer one of them: the create stage now lays a standard one (blank and meta-repo build it in; framework brings its own). Labels and branch protection need a remote, so they're skipped on a local-only repo. Never auto-enter it — it is always the user's choice.
 
 ## Related
 

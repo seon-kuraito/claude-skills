@@ -5,8 +5,9 @@ Run: python3 skills/ultra-project-initializer/evals/check-assets.py  (exit 0 = p
 
 Not an LLM eval — a static regression guard for the asset files the skill
 applies verbatim. Catches a silent edit that breaks the label set, a label
-color/description, or the branch-protection invariants (e.g. a non-zero review
-count, which deadlocks every PR in a solo repo).
+color/description, the branch-protection invariants (e.g. a non-zero review
+count, which deadlocks every PR in a solo repo), or a license template that
+lost its {{YEAR}} placeholder / copyright holder.
 """
 import json
 import re
@@ -48,10 +49,26 @@ check(pr.get("parameters", {}).get("required_approving_review_count") == 0,
       "pull_request required_approving_review_count must be 0 "
       "(a higher count deadlocks every PR in a solo repo)")
 
+# --- licenses/ --------------------------------------------------------------
+# MIT and Apache-2.0 carry a substitutable {{YEAR}} copyright line with the
+# fixed holder; GPL-3.0 ships verbatim (its project-level year lives in
+# per-file headers, so the LICENSE file has no {{YEAR}} to substitute).
+LICENSES = ASSETS / "licenses"
+for name in ("MIT", "Apache-2.0"):
+    text = (LICENSES / name).read_text()
+    check("{{YEAR}}" in text, name + ": must contain the {{YEAR}} placeholder")
+    check("Seon Kuraito" in text, name + ": must name the copyright holder Seon Kuraito")
+gpl = (LICENSES / "GPL-3.0").read_text()
+check("GNU GENERAL PUBLIC LICENSE" in gpl and "Version 3" in gpl,
+      "GPL-3.0 must be the verbatim GPL-3.0 text")
+check("{{YEAR}}" not in gpl,
+      "GPL-3.0 must ship verbatim — no {{YEAR}} substitution")
+
 # --- report -----------------------------------------------------------------
 if fails:
     print("FAIL:")
     for m in fails:
         print("  -", m)
     sys.exit(1)
-print(f"PASS: type-labels.json ({len(labels)} labels) + main-protection-ruleset.json")
+print(f"PASS: type-labels.json ({len(labels)} labels) + main-protection-ruleset.json "
+      "+ licenses/ (MIT, Apache-2.0, GPL-3.0)")
