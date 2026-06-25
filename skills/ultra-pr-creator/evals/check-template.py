@@ -11,7 +11,7 @@ the three emoji-prefixed H2s in order, the U+3000 (　) section spacer, open
 import sys
 from pathlib import Path
 
-tpl = (Path(__file__).resolve().parent.parent / "assets" / "pr-body-template.md").read_text()
+tpl = (Path(__file__).resolve().parent.parent / "assets" / "pr-body.md.tmpl").read_text()
 lines = tpl.split("\n")
 fails = []
 
@@ -44,4 +44,4 @@ if fails:
     for m in fails:
         print("  -", m)
     sys.exit(1)
-print("PASS: pr-body-template.md format conforms")
+print("PASS: pr-body.md.tmpl format conforms")

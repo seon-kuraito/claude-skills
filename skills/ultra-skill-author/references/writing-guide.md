@@ -163,6 +163,16 @@ Split content into a separate reference file when:
 
 Files the skill emits or templates from — HTML mockups, icon sets, fonts, sample documents. Distinct from scripts (executable) and references (docs).
 
+**Naming an emitted-template asset.** A source asset's filename never reaches the file it produces (the skill writes to a fixed destination name), so name it for clarity, not to match the output:
+
+- **Structural template** — multiple named placeholders, conditional blocks, or generated sections → `<destination-filename>.tmpl` (`CLAUDE.md.tmpl`, `NOTICE.tmpl`, `pr-body.md.tmpl`). The `.tmpl` says "don't copy raw — fill the placeholders."
+- **Plain text copied verbatim or with a single-token swap** (e.g. only `{{YEAR}}`) → its content type, `.txt` (`MIT.txt`, `gitignore.txt`, `license-mit.txt`). Keeps it legible as source text and avoids an extensionless `Apache-2.0` reading as a `.0` file.
+- **A typed file copied verbatim** keeps its real extension — a workflow stays `pages-static.yml`, not `.txt`.
+
+Assets the skill reads but does not emit (a JSON config applied via a CLI, an HTML viewer for tooling) aren't templates — they keep their natural extension and sit outside this rule.
+
+**Placeholder syntax.** One syntax everywhere: `{{UPPER_SNAKE}}` for substitutions, `{{#cond}} … {{/cond}}` for conditional blocks. One convention keeps templates greppable and dodges collisions — `[…]` reads as a Markdown link, `<…>` as HTML, while GitHub Actions' `${{ }}` stays distinct by its leading `$`.
+
 ## Writing patterns
 
 ### Imperative form

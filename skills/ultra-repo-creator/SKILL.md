@@ -33,7 +33,7 @@ Local steps — `git init`, commits, scaffolding — run freely; they are local 
 
 1. **Guard first.** If the working directory already has files but is *not* a git repo, flag it before writing anything more — don't wait for the user to notice.
 2. `git init`.
-3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
+3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore.txt` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
 4. Existing work stays **untracked** until the remote decision; don't bundle it into the initial commit unless the user explicitly asks.
 
 **Remote decision (*Execution gate*)** — ask whether to bind a public remote and push:
@@ -58,7 +58,7 @@ A coordination layer over `<prefix>-*` siblings — the pattern behind `claude-m
 Framework scaffolding (Next.js, Vite, …) is **not templated yet**. Build it conversationally:
 
 1. Ask which framework / starter the user wants.
-2. Run its own init locally, commit as you go. Framework scaffolds normally generate their own `.gitignore`; only if one didn't, offer the standard `assets/blank/gitignore`.
+2. Run its own init locally, commit as you go. Framework scaffolds normally generate their own `.gitignore`; only if one didn't, offer the standard `assets/blank/gitignore.txt`.
 3. **Remote decision (*Execution gate*)** — same as blank.
 4. **Hand off** to the initialize stage.
 

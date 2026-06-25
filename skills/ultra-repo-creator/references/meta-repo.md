@@ -45,7 +45,7 @@ Generate these into the meta repo from `assets/meta-repo/`, substituting the int
 |---|---|---|
 | `CLAUDE.md` | `CLAUDE.md.tmpl` | prefix · family-type block · member table |
 | `README.md` | `README.md.tmpl` | same, in Traditional Chinese |
-| `.gitignore` | `gitignore` | verbatim |
+| `.gitignore` | `gitignore.txt` | verbatim |
 | `.vscode/{{PREFIX}}-meta.code-workspace` | `code-workspace.tmpl` | member folder list |
 
 `CLAUDE.md.tmpl` carries **both** family-type blocks, marked `{{#同型}} … {{/同型}}` and `{{#混合}} … {{/混合}}`: keep the chosen one, delete the markers and the other block.

@@ -54,11 +54,11 @@ check(pr.get("parameters", {}).get("required_approving_review_count") == 0,
 # fixed holder; GPL-3.0 ships verbatim (its project-level year lives in
 # per-file headers, so the LICENSE file has no {{YEAR}} to substitute).
 LICENSES = ASSETS / "licenses"
-for name in ("MIT", "Apache-2.0"):
+for name in ("MIT.txt", "Apache-2.0.txt"):
     text = (LICENSES / name).read_text()
     check("{{YEAR}}" in text, name + ": must contain the {{YEAR}} placeholder")
     check("Seon Kuraito" in text, name + ": must name the copyright holder Seon Kuraito")
-gpl = (LICENSES / "GPL-3.0").read_text()
+gpl = (LICENSES / "GPL-3.0.txt").read_text()
 check("GNU GENERAL PUBLIC LICENSE" in gpl and "Version 3" in gpl,
       "GPL-3.0 must be the verbatim GPL-3.0 text")
 check("{{YEAR}}" not in gpl,

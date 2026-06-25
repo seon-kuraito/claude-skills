@@ -6,8 +6,8 @@ How a skill lands in the user's `claude-skills` repo: pick the right license fil
 
 Every skill carries its own license in its directory — an extensionless `LICENSE` (plus a `NOTICE` for derivatives). Emit these when the skill's files are written, based on the provenance gathered in Step 1:
 
-- **Original** — the user wrote it → emit an MIT `LICENSE` from `../assets/license-mit.txt`, replacing `[year]` with the current year (the copyright holder is already filled in). No `NOTICE` needed.
-- **Derived from a permissive upstream** (MIT / BSD / Apache) → clarify the upstream and its license *before drafting*. After building, emit the upstream's `LICENSE` verbatim (retaining its copyright) plus a `NOTICE` (start from `../assets/notice-template.txt`) stating the source, the original copyright, and your changes. For an Apache-2.0 upstream, the `NOTICE` is required by §4 — not optional.
+- **Original** — the user wrote it → emit an MIT `LICENSE` from `../assets/license-mit.txt`, replacing `{{YEAR}}` with the current year (the copyright holder is already filled in). No `NOTICE` needed.
+- **Derived from a permissive upstream** (MIT / BSD / Apache) → clarify the upstream and its license *before drafting*. After building, emit the upstream's `LICENSE` verbatim (retaining its copyright) plus a `NOTICE` (start from `../assets/NOTICE.tmpl`) stating the source, the original copyright, and your changes. For an Apache-2.0 upstream, the `NOTICE` is required by §4 — not optional.
 - **Unclear or copyleft upstream** (GPL and similar) → do not publish; surface this to the user and stop.
 
 ## Repository workflow
