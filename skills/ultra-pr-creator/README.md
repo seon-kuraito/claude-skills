@@ -69,7 +69,8 @@
   - branch 命名品質由 [`ultra-branch-creator`](../ultra-branch-creator) 負責把關，PR creator 不重複改寫
 - **根據 branch 變更整理 body**：
   - 依據目前 branch 相對於 base branch 的 `git log` 與 `git diff` 整理內容
-  - 概述收斂 commits 的主要變更，Scope 從 diff 判斷影響範圍，Test plan 則整理已驗證與應補測的重點
+  - Summary 以 commit 為單位展開，每個 commit 至少對應一個項列點
+  - Scope 從 diff 判斷影響範圍，Test plan 則整理已驗證與應補測的重點
 - **執行 gh 高影響指令前先確認**：
   - 執行 `create`、`edit`、`merge`、`close` 前，先攤開 title、body 與影響旗標，交由使用者確認
   - 不把建立 PR 與 merge 串成一步，避免在未確認的情況下改變遠端狀態
