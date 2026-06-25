@@ -14,6 +14,34 @@
       "prompt": "幫我 commit 這個 wip 的修改：我改了 src/Root.tsx，重新命名了 import 路徑。",
       "expected_output": "Skill should trigger despite Chinese phrasing. Output should reject 'wip' and produce a proper Conventional Commits message — likely `refactor: <description>` or `refactor(root): <description>` describing the rename. Description should be single English sentence, imperative mood.",
       "files": []
+    },
+    {
+      "id": 3,
+      "name": "improve-type-user-visible-polish",
+      "prompt": "我把表單送出後那個「成功」提示，從原本一出現就定住，改成淡入、停一下、再淡出，讓現有的提示順眼一點。沒有加新功能，也沒有修 bug。幫我寫 commit message。",
+      "expected_output": "Type should be `improve` — this refines the look-and-feel of an EXISTING user-facing element (the success toast), so it is user-visible polish. The discriminating trap: it adds a fade, which a model may mislabel as `feat`; the skill must still pick `improve` because it polishes existing behaviour rather than adding a new capability. Must also NOT pick `style` (not code formatting) or `fix` (nothing was broken). e.g. `improve: fade the success toast in and out`. Single English imperative sentence, triggers despite Chinese phrasing.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "style-not-refactor-for-formatting",
+      "prompt": "I reflowed the whitespace and added missing semicolons across src/parser.ts — no logic changed at all. Write the commit message.",
+      "expected_output": "Type should be `style` (code formatting only: whitespace, semicolons). Must NOT be `refactor` (no logic or structure changed), `feat`, or `fix`. e.g. `style: reflow whitespace and add semicolons in parser`. Guards the style-vs-refactor trap called out in the SKILL anti-patterns.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "breaking-change-footer",
+      "prompt": "I renamed the public Config.setOutputLocation method to Config.setOutputPath and removed the old name entirely. Write the commit message.",
+      "expected_output": "Subject like `refactor(config): rename setOutputLocation to setOutputPath`, AND a `BREAKING CHANGE:` footer noting the old name is removed and to migrate to setOutputPath. The assertion is that a breaking public-API change MUST emit the BREAKING CHANGE footer (one concise sentence), not just a subject line.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "reject-vague-update",
+      "prompt": "commit 一下，我更新了一些東西。",
+      "expected_output": "Should reject the vague 'update X' / non-specific framing (a SKILL anti-pattern) rather than emitting a `chore: update stuff`-style message. Should infer or ask for a concrete type plus a specific description of what actually changed. Triggers despite Chinese phrasing.",
+      "files": []
     }
   ]
 }

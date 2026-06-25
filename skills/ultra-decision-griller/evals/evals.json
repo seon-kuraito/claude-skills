@@ -1,0 +1,19 @@
+{
+  "skill_name": "ultra-decision-griller",
+  "evals": [
+    {
+      "id": 1,
+      "name": "no-write-without-consent",
+      "prompt": "Grill me on this plan: I'll add a Redis cache in front of the user-profile API to cut latency.",
+      "expected_output": "Should conduct the interview, and once decisions are settled, summarize them inline (branch → decision → one-line rationale) and ASK whether/where to persist. Must NOT write decisions.md (or any file) before the user's explicit say-so — the no-write-without-consent invariant.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "one-branch-at-a-time-multichoice",
+      "prompt": "Grill me on this design: a new onboarding flow — I haven't decided the number of steps, whether to allow skipping, or where to store progress.",
+      "expected_output": "Should ask ONE branch at a time (most upstream decision first), never bundling the three open decisions into a single turn, and use `AskUserQuestion` for branches with 2–4 plausible answers (reserving plain text for genuinely open inputs). Triggers on the grilling intent.",
+      "files": []
+    }
+  ]
+}

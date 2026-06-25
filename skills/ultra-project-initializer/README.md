@@ -79,6 +79,8 @@
   - branch、commit 的命名與撰寫委派給 [`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-commit-creator`](../ultra-commit-creator)
 - **高影響操作前先確認**：
   - `gh label delete`、`gh label create`、套用 ruleset 的 `gh api --method POST`、push 前先列出即將執行的內容並取得確認
+- **提供確定性檢查**：
+  - `evals/check-assets.py` 用來驗證 type-labels.json 與 ruleset（靜態執行，不需要 LLM）
 
 　
 

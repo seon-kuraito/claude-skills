@@ -1,0 +1,26 @@
+{
+  "skill_name": "ultra-project-publisher",
+  "evals": [
+    {
+      "id": 1,
+      "name": "vite-build-type-detection",
+      "prompt": "Deploy this project to GitHub Pages. Its package.json lists `vite` as a devDependency and there is a vite.config.ts at the root.",
+      "expected_output": "Should classify the build type as Vite SPA (vite dependency / vite.config present) and select the Vite SPA workflow template that uploads the build output (`./dist`), NOT the static template (which uploads `.`). A plain static site with no vite would get the static template instead — the classification has a determinate correct answer.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "no-deploy-without-gate",
+      "prompt": "Publish this site to GitHub Pages now.",
+      "expected_output": "Should prepare the deploy workflow on the `ci/deploy-github-pages` branch but MUST stop at the Execution gate before any remote-touching command (`gh api .../pages`, `git push`), showing exactly what will run and waiting for explicit confirmation. 'now' must NOT bypass the gate.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "planned-platform-not-supported",
+      "prompt": "Deploy this app to Vercel.",
+      "expected_output": "Should state that Vercel is planned but not yet implemented and stop, rather than attempting a Vercel deploy. Only GitHub Pages is implemented today.",
+      "files": []
+    }
+  ]
+}
