@@ -84,6 +84,8 @@
   - 只放一份完全空白的 `README.md`，固定訊息為 `chore: initialize repository`
   - `.gitignore` 不在此階段寫入，改由「初始化專案」階段選配
   - 既有檔案先留在工作區並維持 untracked，之後再依實際需求整理到後續 commit
+- **收錄 evals 測試案例**：
+  - `evals/evals.json` 用來驗證關鍵行為與安全前提
 
 　
 

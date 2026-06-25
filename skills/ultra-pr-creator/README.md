@@ -82,6 +82,8 @@
 - **將模板與細節拆到 references／assets**：
   - 逐段深入指南放在 `references/`（例如：sections 與 examples）
   - PR body 模板獨立放在 `assets/pr-body-template.md`
+- **提供確定性檢查**：
+  - `evals/check-template.py` 用來驗證 PR body 模板格式（靜態執行，不需要 LLM）
 
 　
 
