@@ -9,7 +9,7 @@ Authors a GitHub pull request body in a fixed three-section format, populated fr
 
 ## Quick start
 
-Always author the PR body into a temporary staging file (e.g. `/tmp/pr-<branch>.md`), passed to `gh pr create --body-file` — never print the full body into the terminal. The file follows the template bundled at `assets/pr-body-template.md`.
+Always author the PR body into a temporary staging file (e.g. `/tmp/pr-<branch>.md`), passed to `gh pr create --body-file` — never print the full body into the terminal. The file follows the template bundled at `assets/pr-body.md.tmpl`.
 
 Four things to notice:
 

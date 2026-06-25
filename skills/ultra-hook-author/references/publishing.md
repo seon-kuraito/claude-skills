@@ -6,8 +6,8 @@ How a hook lands in the user's `claude-hooks` repo: license by provenance, then 
 
 Every hook carries its own license in its directory — an extensionless `LICENSE` (plus a `NOTICE` for derivatives). Pick by the provenance gathered in Step 1:
 
-- **Original** — the user wrote it → emit an MIT `LICENSE` from `../assets/license-mit.txt`, replacing `[year]` with the current year (the copyright holder is filled in). No `NOTICE`.
-- **Derived from a permissive upstream** (MIT / BSD / Apache) → clarify the upstream and its license *before drafting*. After building, emit the upstream's `LICENSE` verbatim plus a `NOTICE` (from `../assets/notice-template.txt`) stating the source, original copyright, and your changes. Apache-2.0 requires the `NOTICE` by §4.
+- **Original** — the user wrote it → emit an MIT `LICENSE` from `../assets/license-mit.txt`, replacing `{{YEAR}}` with the current year (the copyright holder is filled in). No `NOTICE`.
+- **Derived from a permissive upstream** (MIT / BSD / Apache) → clarify the upstream and its license *before drafting*. After building, emit the upstream's `LICENSE` verbatim plus a `NOTICE` (from `../assets/NOTICE.tmpl`) stating the source, original copyright, and your changes. Apache-2.0 requires the `NOTICE` by §4.
 - **Unclear or copyleft upstream** (GPL and similar) → do not publish; surface this to the user and stop.
 
 ## Repository workflow
