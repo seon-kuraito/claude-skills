@@ -14,6 +14,34 @@
       "prompt": "Make a branch called `feature/new-intro` for me to start working on the intro scene.",
       "expected_output": "Skill should detect that `feature/` is not the canonical Conventional Commits prefix and correct it to `feat/`. Should produce something like `feat/new-intro` or a more descriptive variant like `feat/00-blank-new-intro`. Should NOT silently use `feature/...` as the user asked.",
       "files": []
+    },
+    {
+      "id": 3,
+      "name": "improve-type-branch",
+      "prompt": "Start a branch for nudging the title spacing on the 00-blank template so it looks more balanced — purely visual polish, not a new feature.",
+      "expected_output": "Branch in `<type>/<kebab-description>` format with type `improve` (user-visible polish, neither a feature nor a fix). e.g. `improve/00-blank-title-spacing`. Should lead with the `00-blank` scope. Must NOT use `feat`, `style`, or `refactor`.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "reject-bug-bugfix-hotfix-prefix",
+      "prompt": "Make a branch `bugfix/login-error` for fixing the broken login.",
+      "expected_output": "Should correct the non-canonical `bugfix/` prefix (the skill also rejects `bug/` and `hotfix/`) to `fix/` — e.g. `fix/login-error`. Must NOT pass through `bugfix/...`. (`hotfix` maps to `fix`, or `chore` if it is a tooling tweak.)",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "case-style-correction",
+      "prompt": "branch: addIntroAnimation",
+      "expected_output": "Should convert camelCase (and snake_case) to kebab-case and add a type prefix: `feat/add-intro-animation`. Must NOT emit `addIntroAnimation` or `feat/addIntroAnimation`.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "name": "chinese-trigger-non-english-description",
+      "prompt": "幫我開一條分支來做首頁的深色模式。",
+      "expected_output": "Should trigger despite Chinese phrasing and no explicit 'branch name' request, and produce an English kebab-case branch with a correct type — e.g. `feat/home-dark-mode`. Description must be English (never 非英文), kebab-case, 2-5 words.",
+      "files": []
     }
   ]
 }
