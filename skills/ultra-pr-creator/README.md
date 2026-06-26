@@ -71,6 +71,11 @@
   - 依據目前 branch 相對於 base branch 的 `git log` 與 `git diff` 整理內容
   - Summary 以 commit 為單位展開，每個 commit 至少對應一個項列點
   - Scope 從 diff 判斷影響範圍，Test plan 則整理已驗證與應補測的重點
+- **發 PR 前先跑過測試**：
+  - 進 gh gate 前，先跑本次有改到邏輯的 skill 所屬確定性檢查（`evals/check-*.py`），再把結果整理進 Test plan
+  - 機器能跑的項目要實際跑過且通過，才標成 `[x]`；只能人工確認的項目保留 `[ ]`
+  - 測試沒過就先中斷，不開 PR，修到通過後再繼續
+  - LLM eval，交給 [`ultra-skill-author`](../ultra-skill-author)（維持 opt-in）
 - **執行 gh 高影響指令前先確認**：
   - 執行 `create`、`edit`、`merge`、`close` 前，先攤開 title、body 與影響旗標，交由使用者確認
   - 不把建立 PR 與 merge 串成一步，避免在未確認的情況下改變遠端狀態
