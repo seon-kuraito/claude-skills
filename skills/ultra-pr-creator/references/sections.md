@@ -47,8 +47,8 @@ Anti-pattern: writing prose into Scope explaining the architecture. Scope is bou
 
 A markdown checklist of how a reviewer (or future-you) can verify the change. 2–4 items.
 
-- Use open checkboxes `[ ]` — never `[x]` in the template — so reviewers can tick them as they verify.
-- Each item is an action the reviewer can run, not an assertion about the code. `Open the app, confirm the empty state renders` is better than `Empty state renders correctly`.
+- Use open checkboxes `[ ]` in the template. Before the PR opens, the *Test precondition* runs the runnable items and ticks the ones it verifies `[x]`; items only the user can confirm stay `[ ]` for the reviewer (see `SKILL.md` *Test precondition*).
+- Each item is an action that can be run, not an assertion about the code. `Open the app, confirm the empty state renders` is better than `Empty state renders correctly`.
 - Order from cheap to expensive — type-check / lint first, manual UI verification last.
 
 For pure-config or pure-docs PRs that don't need active testing, list passive checks rather than omitting:
