@@ -23,9 +23,14 @@ Load on the intent — there is **no "should I use this" pre-gate**; just enter 
 3. **Remote decision** — once the project stands up locally, the *Execution gate* asks whether to bind a public remote and push, or stay local. Every template passes through it.
 4. **Hand off** to the initialize stage — for **all three templates**.
 
-## Execution gate
+## 🚧 Execution gate
 
-Local steps — `git init`, commits, scaffolding — run freely; they are local and reversible. The **only** gate is the outward-facing one: **before binding a remote or pushing** (`gh repo create`, `git push`, `git remote add`), stop, show exactly what will run, and wait for explicit confirmation. This gate **is** the remote decision — confirming it means "create the public remote and push," declining means "stay local-only." Never reach a remote without it.
+Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one, and it **is** the remote decision:
+
+- **Triggers on** — binding a remote or pushing: `gh repo create`, `git push`, `git remote add`.
+- **Stop & show** — surface exactly what will run before running it.
+- **Confirm** — wait for explicit confirmation; confirming means "create the public remote and push," declining means "stay local-only."
+- **Never bypass** — never reach a remote without passing this gate.
 
 ## blank
 

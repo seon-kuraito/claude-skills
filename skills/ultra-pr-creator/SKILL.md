@@ -46,9 +46,12 @@ gh pr create --base main --head <branch> \
 
 `<type>` is the branch prefix (`feat/add-x` → `feat`). Fill every placeholder in and show this exact command at the Execution gate before running it.
 
-## Execution gate
+## 🚧 Execution gate
 
-Before running **any** `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …) or the post-merge remote-branch prune (`git push origin --delete`), stop and show the user exactly what will be executed — the title, the body file as a clickable editor link (e.g. `[/tmp/pr-<branch>.md](vscode://file/tmp/pr-<branch>.md)`) rather than the body text — the user opens it in their editor to review — and any behavior-affecting flags (e.g. merge method, `--delete-branch`, `--assignee`, `--label`) — and wait for explicit confirmation. Never chain creation and merging into a single uninterrupted step.
+- **Triggers on** — any `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …) or the post-merge remote-branch prune (`git push origin --delete`).
+- **Stop & show** — surface the title, the body as a clickable editor link (e.g. `[/tmp/pr-<branch>.md](vscode://file/tmp/pr-<branch>.md)`, opened in the editor to review rather than pasted inline), and any behavior-affecting flags (merge method, `--delete-branch`, `--assignee`, `--label`). Present the block as a callout — above and below it, place a `---` rule, each padded by a full-width `　` spacer line on its inner side only (the side facing the block; the same `　` used between PR body sections), with blank lines between every line so `　` + `---` doesn't parse as a setext heading.
+- **Confirm** — wait for explicit confirmation; proceed only after.
+- **Never chain** — don't fold creation and merging into a single uninterrupted step.
 
 ## Merging
 
