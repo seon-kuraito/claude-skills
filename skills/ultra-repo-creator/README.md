@@ -37,7 +37,7 @@
   - 若已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
   - 三種模板建好後都會詢問是否進入初始化階段
-  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給初始化 skill 處理
+  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給 [`ultra-project-initializer`](../ultra-project-initializer) 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
