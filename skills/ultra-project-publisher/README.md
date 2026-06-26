@@ -59,6 +59,12 @@
 - **GitHub Pages 以官方 Actions workflow 部署**：
   - 支援靜態網站與 Vite SPA 兩種 build 類型，對應模板放在 `assets/`
   - GitHub Pages 的完整流程與版本依據記錄在 [`references/github-pages.md`](references/github-pages.md)
+- **可選擇部署來源分支**：
+  - 部署前會先讀取 repo 現有分支，選單只列出 `main`、已建立的 `develop`／`preparing` 以及自訂分支
+  - workflow 會改成由選定分支觸發；若選的是尚未存在的自訂分支，則從 `main` 建立並推上遠端
+  - 非 `main` 分支會自動加入 `github-pages` environment 的部署分支白名單，避免被「只允許預設分支」的規則擋下
+  - 只在分支不存在時補建，不設定保護，也不處理合併流程（分支管理不在這個 skill 的範圍內）
+  - 可以根據 [`ultra-project-initializer`](../ultra-project-initializer) 初始化建立的分支作為部署來源
 - **完成後提醒開 PR**：
   - workflow commit 完成後，會詢問是否要開 PR（交給 [`ultra-pr-creator`](../ultra-pr-creator) 處理）
 - **只負責部署設定，不改原始碼**：
