@@ -38,12 +38,16 @@ Interview the user:
 
 Then assess whether test cases are warranted — objective outputs (file transforms, code generation, fixed workflow steps) benefit from them; subjective outputs (writing style, design quality) usually don't. Details in `references/evals.md`.
 
-**Capability checkpoint** — use `AskUserQuestion` (multi-select) to let the user opt into:
+**Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
-- **evals** — run test cases via subagents, grade outputs against assertions, see benchmarks. See `references/evals.md`.
-- **description-tuning** — automated 60/40 train-test loop to improve trigger accuracy. See `references/description-tuning.md`.
-
-(blind-A/B is not in this menu — it surfaces only when modifying an existing skill, see *After the skill is complete* below.)
+```
+multiSelect · header: 「能力選用」
+question: 「要為這個 skill 開啟哪些能力？（可複選／全部不選）」
+options:
+  · 「evals 測試」 — 「以 subagent 執行測試案例，依照 assertion 評分，並查看 benchmark 結果。」
+  · 「description 調校」 — 「以自動化的 60/40 train-test 迴圈提升觸發準確度。」
+[Rule, not copy] blind-A/B is not in this menu — it surfaces only when modifying an existing skill (see *After the skill is complete* below). Detail: evals → `references/evals.md`; description-tuning → `references/description-tuning.md`.
+```
 
 ## Step 2: Draft the skill
 

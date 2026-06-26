@@ -15,13 +15,17 @@ An **insertable stage** — run it whenever a deploy is wanted, not only at the 
 
 ## Pick the platform
 
-Ask with one single-select `AskUserQuestion` (`multiSelect: false`) — **which platform?**
+Present every `AskUserQuestion` menu in this skill (and its references) exactly as written: everything in 「」 is the user-facing copy — reproduce it verbatim, in the given order, marking no option as recommended and adding no surrounding prose. Everything outside 「」 (field labels, the `[Rule, not copy]` line) is English direction, never shown.
 
-- **GitHub Pages** — implemented (below).
-- **Vercel** — planned, not yet implemented.
-- **Cloudflare Pages** — planned, not yet implemented.
-
-For a planned platform, say it is not yet supported and stop. Each platform has its own flow and its own branch, named `ci/deploy-<platform>` (e.g. `ci/deploy-github-pages`, `ci/deploy-vercel`).
+```
+single-select · header: 「部署平台」
+question: 「要部署到哪一個平台？」
+options:
+  · 「GitHub Pages」 — 「已實作，可部署為 GitHub Pages 網站。」
+  · 「Vercel」 — 「規劃中，尚未實作。」
+  · 「Cloudflare Pages」 — 「規劃中，尚未實作。」
+[Rule, not copy] for a planned platform, say it is not yet supported and stop. Each platform has its own flow and its own branch named `ci/deploy-<platform>` (e.g. `ci/deploy-github-pages`, `ci/deploy-vercel`).
+```
 
 ## GitHub Pages
 
@@ -29,11 +33,18 @@ Deploy via **GitHub Actions** (the modern Pages publishing source). First settle
 
 ## Choose the deploy branch
 
-**First read the repo's branches** — `git branch --list develop preparing` plus `git ls-remote --heads origin develop preparing` — and build the menu from what actually exists, not a fixed list. Then ask with one single-select `AskUserQuestion`:
+Present this menu verbatim — but **first read the repo's branches** (`git branch --list develop preparing` plus `git ls-remote --heads origin develop preparing`) and build the option set from what actually exists, not a fixed list:
 
-- **`main`** — always offered; deploy on push to `main` (the simple default, the original behavior).
-- **`develop`** / **`preparing`** — include each **only if it already exists** (created by ultra-project-initializer's deploy-branch option); typically just one is present. Personal-fit names (an integration / pre-release branch), not textbook git-flow / gitlab-flow — present them by what they are, not by a flow label.
-- **Custom** — any other branch: ask for the name; if it does not exist, create it from `main` and push it (proceed conversationally, the same shape as ultra-repo-creator's `framework` option).
+```
+single-select · header: 「選擇部署分支」
+question: 「要使用哪一條部署分支？」
+options:
+  · 「main」 — 「推送到 main 時即進行部署，維持最簡單的原本行為。」
+  · 「develop」 — 「整合分支（integration branch）。」
+  · 「preparing」 — 「測試環境分支（testing environment branch）。」
+  · 「custom」 — 「使用其他任一分支，若不存在則從 main 開出並推送。」
+[Rule, not copy] `main` is always offered. Include `develop` / `preparing` each only if it already exists (created by ultra-project-initializer's deploy-branch option) — typically just one is present, presented by what it is, not by a flow label. For `custom`, ask for the name and, if it does not exist, create it from `main` and push it (proceed conversationally, the same shape as ultra-repo-creator's `framework` option).
+```
 
 The chosen branch is the deploy target `T`, and everything keys off it uniformly — so `T = main` is exactly the original flow:
 

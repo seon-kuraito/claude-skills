@@ -24,24 +24,39 @@ Load [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-
 
 ## Feature selection
 
-Present the features as **one `AskUserQuestion` call with up to two `multiSelect` questions** — the `questions` array renders as tabs in a single interaction (never split into separate calls, never ask one feature at a time). Each question caps at 4 options, so the features split into two groups by whether they need the GitHub remote:
+Present every `AskUserQuestion` menu in this skill exactly as written: everything in 「」 is the user-facing copy — reproduce it verbatim, in the given order, marking no option as recommended and adding no surrounding prose. Everything outside 「」 (field labels, the `[Rule, not copy]` line) is English direction, never shown.
 
-**Q1 — local files** (always shown):
+Present the features as **one `AskUserQuestion` call with up to two `multiSelect` questions** — the `questions` array renders as tabs in a single interaction (never split into separate calls, never ask one feature at a time):
 
-- **`LICENSE`** — a root `LICENSE` from a bundled template (`assets/licenses/`). If selected, a follow-up single-select picks the template — see *License template*.
-- **`.claude/CLAUDE.md`** — a blank `.claude/CLAUDE.md`.
-
-**Q2 — GitHub / remote** — include **only when a remote exists** (check `git remote`, or the ultra-repo-creator hand-off state); on a local-only repo, omit this whole question, since every option here needs the remote:
-
-- **GitHub labels** — replace the repo's default labels with the Conventional Commits type labels in `assets/type-labels.json`.
-- **branch protection** — apply the standard ruleset to `main` (require a PR, block deletion + force-push) from `assets/main-protection-ruleset.json`. On GitHub Free also needs the repo to be **public**; see *Applying the selection*.
-- **deploy branch** — create a deploy branch (`develop` or `preparing`) off `main` for [ultra-project-publisher](../ultra-project-publisher/SKILL.md) to deploy from. If selected, a follow-up single-select picks which — see *Deploy branch*.
-
-If nothing is selected across both questions, stop.
+```
+multiSelect · two questions in one call (questions array → tabs)
+Q1 · header: 「本機檔案」
+  question: 「要建立哪些本機檔案？（可複選／全部不選）」
+  options:
+    · 「授權檔 LICENSE」 — 「在根目錄建立一份由內建模板產生的 LICENSE，選擇後會再詢問使用哪一個模板。」
+    · 「專案說明書 CLAUDE.md」 — 「建立一份空白的 .claude/CLAUDE.md。」
+Q2 · header: 「GitHub / 遠端」
+  question: 「要套用哪些 GitHub 設定？（可複選／全部不選）」
+  options:
+    · 「GitHub 標籤」 — 「將 repo 的預設標籤替換為 Conventional Commits 類型標籤。」
+    · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。」
+    · 「部署分支」 — 「從 main 建立部署分支供 publisher 使用，選擇後再指定 develop 或 preparing。」
+[Rule, not copy] include Q2 only when a remote exists (check `git remote` or the ultra-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Each question caps at 4 options. If nothing is selected across both questions, stop.
+```
 
 ## License template
 
-Only when `LICENSE` is selected. Present a **second** `AskUserQuestion` (single-select) over the bundled templates in `assets/licenses/` — **MIT** (the personal-fit default), **Apache-2.0**, **GPL-3.0** — plus the auto-provided *Other* for anything else (e.g. BSD-3-Clause), which you fetch verbatim from a canonical source (GitHub's `/licenses/<key>` API) rather than typing from memory.
+Only when `LICENSE` is selected. Present this menu verbatim:
+
+```
+single-select · header: 「授權條款」
+question: 「LICENSE 要使用哪一個模板？」
+options:
+  · 「MIT」 — 「寬鬆授權，幾乎不加限制。」
+  · 「Apache-2.0」 — 「寬鬆授權，並包含明確的專利授權條款。」
+  · 「GPL-3.0」 — 「Copyleft 授權，衍生作品須以相同條款開源。」
+[Rule, not copy] the auto-provided *Other* covers anything else (e.g. BSD-3-Clause) — fetch it verbatim from a canonical source (GitHub's `/licenses/<key>` API), never type it from memory.
+```
 
 Write the chosen template to `./LICENSE` (extensionless), substituting `{{YEAR}}` → the current year (`date +%Y`). The copyright holder is already filled in (`Seon Kuraito`, a personal-fit constant). The per-license shape differs:
 
@@ -50,7 +65,17 @@ Write the chosen template to `./LICENSE` (extensionless), substituting `{{YEAR}}
 
 ## Deploy branch
 
-Only when **deploy branch** is selected. Present a **second** single-select `AskUserQuestion` over the two names — **`develop`** (an integration branch) / **`preparing`** (a pre-release branch). A project runs one branching model, so pick exactly one (like the license template). They are personal-fit names, not textbook git-flow / gitlab-flow.
+Only when **deploy branch** is selected. Present this menu verbatim:
+
+```
+single-select · header: 「建立部署分支」
+question: 「要建立哪一條部署分支？」
+options:
+  · 「develop」 — 「整合分支（integration branch）。」
+  · 「preparing」 — 「測試環境分支（testing environment branch）。」
+```
+
+A project runs one branching model, so pick exactly one (like the license template). They are personal-fit names, not textbook git-flow / gitlab-flow.
 
 Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [ultra-project-publisher](../ultra-project-publisher/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
 
@@ -108,10 +133,19 @@ If only side-effect options were selected (GitHub labels, branch protection, and
 
 ## Hand-off to the publish stage
 
-Only when the **deploy branch** option was selected — that branch exists precisely to be deployed from. After the wrap-up, ask whether to continue into the publish stage with `AskUserQuestion` (*enter the publish stage now?*):
+Only when the **deploy branch** option was selected — that branch exists precisely to be deployed from. After the wrap-up, present this menu verbatim:
 
-- **Yes** → load [ultra-project-publisher](../ultra-project-publisher/SKILL.md) if available; if it is not present, say so and stop.
-- **No** → stop here and leave the next move to the user.
+```
+single-select · header: 「下一步」
+question: 「要現在進入 publish 階段嗎？」
+options:
+  · 「進入 publish 階段」 — 「載入 ultra-project-publisher，使用這條部署分支部署。」
+  · 「不進入」 — 「先停在這，後續交給我處理。」
+[Rule, not copy] if the publisher skill is unavailable, say so and stop instead of loading one.
+```
+
+- **進入 publish 階段** → load [ultra-project-publisher](../ultra-project-publisher/SKILL.md) if available; if it is not present, say so and stop.
+- **不進入** → stop here and leave the next move to the user.
 
 Never auto-enter it — always the user's choice (the same shape as ultra-repo-creator's hand-off into this stage).
 
