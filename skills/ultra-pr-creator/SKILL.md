@@ -71,6 +71,18 @@ Then map the commits into Summary bullets — **at least one bullet per commit**
 
 Default base branch: `main`. If the repo uses `master` / `develop` / a feature trunk, infer from `git remote show origin` or ask the user once.
 
+## Test precondition
+
+Before the Execution gate, the Test plan must be **verified, not just asserted** — run the change's relevant automated checks and only reach the gate once they pass.
+
+1. **Find what changed has logic.** From `git diff <base>...HEAD`, identify components with **logic** changes, not docs-only. In `claude-skills` that means a skill whose `SKILL.md` / scripts / `evals/` / references / assets changed — a README-only change is docs and needs no test. (In another repo, the equivalent is whatever automated checks cover the changed code.)
+2. **Fold their checks into the Test plan.** Add each such component's deterministic checks (e.g. `skills/<name>/evals/check-*.py`) as Test plan items, alongside the change-specific items you write anyway.
+3. **Run the runnable items.** Execute every Test plan item that runs without the user — the check scripts and any command-style items. Items only the user can confirm (e.g. "open the app, confirm X") are skipped and stay `[ ]`.
+4. **Block on failure.** If anything fails, **stop — do not open the PR.** Surface the failure; it must be resolved (fix the code or correct the test) before the precondition passes, then re-run. This is a gate, not a place to wave a red check through — and not a debugging loop the skill owns: fixing is ordinary work that happens because the gate blocks.
+5. **Tick what passed.** Mark verified items `[x]`; leave user-only items `[ ]`.
+
+**Scope — deterministic only.** Run the token-free `check-*.py` scripts and runnable Test plan items; do **not** auto-run an LLM eval loop — its token cost is why it stays opt-in under [ultra-skill-author](../ultra-skill-author/SKILL.md). A change with no relevant automated checks (e.g. a pure-docs PR) has nothing to run — go straight to the gate.
+
 ## Conventions
 
 - **English only — the entire body.** Every section and every bullet is English, regardless of the language of the conversation, the branch, the commits, or the issue it closes. PR descriptions live alongside commits in tools (changelog generators, release-note writers, AI summarizers) that assume English; a single non-English bullet breaks them.
@@ -89,6 +101,7 @@ Reject and rewrite. Each pattern, then why it fails:
 - Non-English content — see Conventions.
 - Restating the PR title in Summary's first bullet — the title is already on the PR; don't waste a bullet.
 - Fewer Summary bullets than commits — collapsing commits below the commit count; the floor is one bullet per commit (see *Populating from the branch*).
+- Opening a PR with runnable Test plan items left unrun or failing — the Test plan is verified before the PR, not just asserted; see *Test precondition*.
 - Imperative-sentence PR titles (`chore: set up project scaffolding`) — the title is the branch name verbatim; see *PR title*.
 - Running a `gh` command (or the remote-prune) without first showing what will run and getting explicit confirmation — see *Execution gate*.
 - Squashing a branch with deliberately-organized commits — collapses the curated history into one; default to `--merge` (see *Merging*).
