@@ -196,6 +196,21 @@ ALWAYS use this exact template:
 ## Recommendations
 ```
 
+### Execution gate
+
+Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title bullet block, `## 🚧 Execution gate`, one sentence per bullet:
+
+```markdown
+## 🚧 Execution gate
+
+- **Triggers on** — <which outward-facing commands>: `cmd`, `cmd`.
+- **Stop & show** — surface exactly what will run before running it.
+- **Confirm** — wait for explicit confirmation; proceed only after.
+- **Never chain** — don't fold the steps into one uninterrupted run.
+```
+
+The four bullets are the spine. When a gate carries extra meaning, fold it into the relevant bullet rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on **Confirm**; what to show (title, body-as-link, flags) rides on **Stop & show**. Don't flatten that nuance away for the sake of uniformity.
+
 ### Examples pattern
 
 Concrete Input/Output pairs beat abstract descriptions:

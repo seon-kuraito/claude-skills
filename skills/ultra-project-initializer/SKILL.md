@@ -115,9 +115,12 @@ Only when the **deploy branch** option was selected — that branch exists preci
 
 Never auto-enter it — always the user's choice (the same shape as ultra-repo-creator's hand-off into this stage).
 
-## Execution gate
+## 🚧 Execution gate
 
-Before any command that writes to the remote or the repo's settings — `gh label delete`, `gh label create`, the ruleset `gh api --method POST`, `git push` — stop, show exactly what will run, and wait for explicit confirmation. Never chain the whole selection into one uninterrupted run.
+- **Triggers on** — any command that writes to the remote or the repo's settings: `gh label delete`, `gh label create`, the ruleset `gh api --method POST`, `git push`.
+- **Stop & show** — surface exactly what will run before running it.
+- **Confirm** — wait for explicit confirmation; proceed only after.
+- **Never chain** — don't fold the whole selection into one uninterrupted run.
 
 ## Related
 
