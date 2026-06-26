@@ -1,6 +1,6 @@
 # Meta Repo template
 
-The **Meta Repo** template (from `ultra-repo-creator`'s *Template dispatch*) scaffolds a **coordination layer** over several independent `<prefix>-*` sibling projects — the pattern behind `claude-meta` (over `claude-*`), `bootcamp-rocket-meta` (over the cohorts), and `personal-meta` (over the personal projects). The layer **points at** the siblings (reached via `../<prefix>-*` relative paths) and holds shared norms; it never holds their files.
+The **Meta Repo** template (from `ultra-repo-creator`'s *Pick a template* menu) scaffolds a **coordination layer** over several independent `<prefix>-*` sibling projects — the pattern behind `claude-meta` (over `claude-*`), `bootcamp-rocket-meta` (over the cohorts), and `personal-meta` (over the personal projects). The layer **points at** the siblings (reached via `../<prefix>-*` relative paths) and holds shared norms; it never holds their files.
 
 Its flow is the **same as the other templates** — build locally, then the same remote gate and the same hand-off to the initialize stage. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` is **not** scaffolded here — like every other project it comes from the initialize stage's `LICENSE` option (labels / branch protection also apply there once a remote is bound).
 

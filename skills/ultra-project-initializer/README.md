@@ -29,7 +29,7 @@
 
 - **補齊專案初始化設定**：
   - 可依需要建立 `LICENSE`、空白 `.claude/CLAUDE.md`，或用 Conventional Commits type 標籤取代 GitHub 預設標籤
-  - 可以替 `main` 套用分支保護，或建立發布時使用的部署分支（`develop`／`preparing`）
+  - 可以替 `main` 套用分支保護，或建立部署分支（`develop`／`preparing`）
 - **可隨時插入的階段**：
   - 相對於 [`ultra-repo-creator`](../ultra-repo-creator) 的「建立」階段，這個 skill 負責「初始化」階段；通常在 repo 建好後先執行，也可在任意時間點插入
 - **project 層級**：
@@ -104,7 +104,7 @@
   - 要求透過 PR merge，並禁止刪除與 force push；協作 repo 可依需要調高 review count
   - GitHub 免費方案的 ruleset 只對 public repo 生效
 - **部署分支**：
-  - 可以選擇 `develop`（整合線）與 `preparing`（預備上線線），分支會從 `main` 開出並推上遠端
+  - 可以選擇 `develop`（整合線）與 `preparing`（測試環境線），分支會從 `main` 開出並推上遠端
   - 依照個人使用習慣整理出的分支命名，不完全等同於標準的 git-flow／gitlab-flow
   - 只在分支不存在時補建，不設定保護，也不處理合併流程（分支管理不在這個 skill 的範圍內）
   - 可以交給 [`ultra-project-publisher`](../ultra-project-publisher) 作為部署來源分支

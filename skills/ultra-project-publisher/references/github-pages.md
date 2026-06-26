@@ -4,7 +4,18 @@ Deploy a project to **GitHub Pages** via **GitHub Actions** (the modern publishi
 
 ## Build type
 
-Pick with a single-select `AskUserQuestion`; detect a hint from `package.json` first — a `vite` dependency or a `vite.config.*` → Vite, otherwise static:
+Present this menu verbatim — the 「」 strings are the user-facing copy, shown exactly; everything outside 「」 is English direction:
+
+```
+single-select · header: 「建置方式」
+question: 「要用哪一種方式建置並部署？」
+options:
+  · 「Static（免建置）」 — 「直接發布靜態檔案，不經過建置步驟。」
+  · 「Vite SPA」 — 「以 npm ci 與 npm run build 建置後再發布。」
+[Rule, not copy] detect a hint from `package.json` first — a `vite` dependency or a `vite.config.*` → Vite, otherwise Static.
+```
+
+Each build type maps to a bundled template:
 
 | build type | template | structure | upload | `cancel-in-progress` | source |
 | --- | --- | --- | --- | --- | --- |

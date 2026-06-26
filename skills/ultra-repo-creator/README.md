@@ -1,6 +1,6 @@
 # Ultra Repo Creator
 
-從零建立 repo 時，先選一種模板（blank／meta-repo／framework），最後再確認是否綁定遠端 repo。
+從零建立 repo 時，先選一種模板（blank／framework／meta-repo），最後再確認是否綁定遠端 repo。
 
 　
 
@@ -26,10 +26,10 @@
 ## 這個 skill 做什麼（WHAT）
 
 - **依模板建立對應的 repo**：
-  - 一律先選模板：blank／meta-repo／framework
+  - 一律先選模板：blank／framework／meta-repo
   - blank＝本地空白 repo
-  - meta-repo＝協調層（scaffold＋git ceremony）
   - framework＝透過對話建立
+  - meta-repo＝協調層（scaffold＋git ceremony）
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
   - 結尾再確認是否綁 public 遠端並 push

@@ -196,6 +196,39 @@ ALWAYS use this exact template:
 ## Recommendations
 ```
 
+### AskUserQuestion menus
+
+A skill that collects choices through `AskUserQuestion` writes each menu as a **fixed verbatim block** — the *Defining output formats* discipline applied to an interactive menu. Spell the menu out in full so the agent copies it rather than composing one fresh each run: identical copy every time, no wasted deliberation, a CLI-scaffold feel.
+
+```
+single-select · header: 「<≤12-char label>」          # or: multiSelect (questions render as tabs)
+question: 「<verbatim question text>」
+options:
+  · 「<label>」 — 「<the guidance the user needs to choose, baked in>」
+  · …
+[Rule, not copy] <deterministic filter on which options appear — English, never shown>
+```
+
+Each question takes **2–4 options**; a `header` is **≤12 characters**. A `multiSelect` can bundle up to two questions, rendered as tabs — give each its own header:
+
+```
+multiSelect · two questions, rendered as tabs
+Q1 · header: 「<≤12-char label>」
+  question: 「<verbatim question text>」
+  options:
+    · 「<label>」 — 「<baked-in guidance>」
+Q2 · header: 「<≤12-char label>」
+  question: 「…」
+  options:
+    · …
+```
+
+- **Verbatim & ordered** — question, header, labels, and order are copied exactly, never rephrased or reordered. The only line allowed to vary is a `[Rule, not copy]` entry that filters the option *set* by a deterministic condition (an existing branch, a bound remote, a detected `vite` dependency).
+- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — the one deliberate exception to English-only authoring. The language split makes the two impossible to confuse.
+- **Fully neutral** — no option is marked recommended and no surrounding prose nudges one; present the options as equals. If the skill asserts a default elsewhere, neutralize it so prose and menu agree.
+- **Descriptions baked in** — the guidance for choosing lives in each option's description, not in conversational prose before the menu.
+- **Silent collection** — emit no prose before, between, or after the menu calls of an input phase; call the tool and act on the answer. Narration resumes only once every selection for that phase is in. Stage-handoff gates ("enter the next stage?") follow the same no-prose-wrapping rule.
+
 ### Execution gate
 
 Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title bullet block, `## 🚧 Execution gate`, one sentence per bullet:

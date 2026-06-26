@@ -40,9 +40,16 @@ Identify the task type first — new hook or modifying an existing one. Then int
 
 Apply `references/writing-guide.md` (event selection, the five hook types, input parsing, output, security) and `references/schemas.md` (the JSON I/O contract) while drafting.
 
-**Capability checkpoint** — use `AskUserQuestion` to let the user opt into:
+**Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
-- **testing** — feed fixture event JSON to the hook and assert on its exit code / stdout JSON / side effects. See `references/testing.md`. Most valuable for deterministic `command` hooks with real branching; `prompt` / `agent` hooks are non-deterministic and reviewed by hand. For a trivial one-line side-effect hook (a single `osascript` notification), skip fixtures — one manual run is enough — rather than posing the checkpoint as if testing were always warranted.
+```
+single-select · header: 「能力選用」
+question: 「要為這個 hook 開啟 testing 嗎？」
+options:
+  · 「開啟 testing」 — 「使用 fixture 事件 JSON 執行 hook，檢查 exit code、stdout JSON 與副作用。」
+  · 「不開啟」 — 「不建立 fixture 測試。」
+[Rule, not copy] testing is most valuable for deterministic `command` hooks with real branching; `prompt` / `agent` hooks are non-deterministic and reviewed by hand. For a trivial one-line side-effect hook (a single `osascript` notification), skip this checkpoint entirely — one manual run is enough — rather than posing it as if testing were always warranted. Detail: `references/testing.md`.
+```
 
 ## Step 2: Draft the hook
 
