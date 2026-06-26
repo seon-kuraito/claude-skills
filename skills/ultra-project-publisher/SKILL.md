@@ -25,11 +25,31 @@ For a planned platform, say it is not yet supported and stop. Each platform has 
 
 ## GitHub Pages
 
-Deploy via **GitHub Actions** (the modern Pages publishing source). Follow `references/github-pages.md` for the full flow — choosing the build type (static / Vite SPA), the bundled workflow templates and their action versions, enabling Pages, the Vite caveat, and the fixed commit `ci: add github pages deploy workflow` on `ci/deploy-github-pages`.
+Deploy via **GitHub Actions** (the modern Pages publishing source). First settle the **deploy branch** (see *Choose the deploy branch*), then follow `references/github-pages.md` for the full flow — choosing the build type (static / Vite SPA), the bundled workflow templates and their action versions, enabling Pages, allowing a non-`main` deploy branch in the `github-pages` environment, the Vite caveat, and the fixed commit `ci: add github pages deploy workflow` on `ci/deploy-github-pages`.
+
+## Choose the deploy branch
+
+**First read the repo's branches** — `git branch --list develop preparing` plus `git ls-remote --heads origin develop preparing` — and build the menu from what actually exists, not a fixed list. Then ask with one single-select `AskUserQuestion`:
+
+- **`main`** — always offered; deploy on push to `main` (the simple default, the original behavior).
+- **`develop`** / **`preparing`** — include each **only if it already exists** (created by ultra-project-initializer's deploy-branch option); typically just one is present. Personal-fit names (an integration / pre-release branch), not textbook git-flow / gitlab-flow — present them by what they are, not by a flow label.
+- **Custom** — any other branch: ask for the name; if it does not exist, create it from `main` and push it (proceed conversationally, the same shape as ultra-repo-creator's `framework` option).
+
+The chosen branch is the deploy target `T`, and everything keys off it uniformly — so `T = main` is exactly the original flow:
+
+- The workflow triggers `on: push` to `T` — substitute `{{DEPLOY_BRANCH}}` → `T` when writing the template (see `references/github-pages.md`).
+- `ci/deploy-github-pages` is cut **from `T`** (not from `main`), so its PR diff is only the workflow file.
+- The setup PR merges **into `T`**; that merge is the first push to `T`, and it triggers the first deploy.
+
+**Ensure `T` is on `origin`.** A menu-listed `develop` / `preparing` already exists; only a custom name might not — create it from `main` and push it before cutting `ci/deploy-github-pages`. `T = main` needs nothing. (Creating a deploy branch from `main` is the single shared rule, kept identical in [ultra-project-initializer](../ultra-project-initializer/SKILL.md).)
+
+**Allow `T` in the `github-pages` environment** (when `T` ≠ `main`). Enabling Pages auto-creates a `github-pages` environment that defaults to deploying only the default branch — a non-`main` `T` is otherwise blocked with `Branch "<T>" is not allowed to deploy to github-pages`. The flow in `references/github-pages.md` adds `T` to that environment's deployment branch policy.
+
+**Scope — branch only, no management.** This skill creates `T` only when you name a new branch via Custom; it sets no protection, no merge policy, no lifecycle. `T` is left unprotected, so a direct push deploys; `main` protection (if any) is ultra-project-initializer's concern and stays untouched.
 
 ## Wrap up — open a PR
 
-The workflow commit lands on `ci/deploy-github-pages`, which needs a PR to reach `main` (the first deploy runs once merged). After the commit, ask whether to open a PR now:
+The workflow commit lands on `ci/deploy-github-pages`, which needs a PR to reach the deploy branch `T` (the first deploy runs once merged). After the commit, ask whether to open a PR now:
 
 - **Yes** → hand to [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
 - **No** → leave the branch in place for the user.

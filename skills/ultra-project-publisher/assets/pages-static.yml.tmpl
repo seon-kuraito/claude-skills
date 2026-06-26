@@ -4,9 +4,9 @@
 name: Deploy static content to Pages
 
 on:
-  # Run on pushes to the default branch
+  # Run on pushes to the deploy branch
   push:
-    branches: ['main']
+    branches: ['{{DEPLOY_BRANCH}}']
   # Allow manual runs from the Actions tab
   workflow_dispatch:
 
