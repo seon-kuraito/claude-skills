@@ -1,6 +1,6 @@
 ---
 name: ultra-project-initializer
-description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, and optional main branch protection. The initialize stage ultra-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is ultra-repo-creator.
+description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, optional main branch protection, and an optional deploy branch (develop / preparing) for ultra-project-publisher. The initialize stage ultra-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is ultra-repo-creator.
 ---
 
 # Ultra Project Initializer
@@ -24,14 +24,20 @@ Load [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-
 
 ## Feature selection
 
-Always present the choice as one `AskUserQuestion` call with `multiSelect: true` — never ask in prose, and never one feature at a time. A single question (e.g. "Which items to set up?") whose options are the four features below; the user picks any combination (or none):
+Present the features as **one `AskUserQuestion` call with up to two `multiSelect` questions** — the `questions` array renders as tabs in a single interaction (never split into separate calls, never ask one feature at a time). Each question caps at 4 options, so the features split into two groups by whether they need the GitHub remote:
+
+**Q1 — local files** (always shown):
 
 - **`LICENSE`** — a root `LICENSE` from a bundled template (`assets/licenses/`). If selected, a follow-up single-select picks the template — see *License template*.
 - **`.claude/CLAUDE.md`** — a blank `.claude/CLAUDE.md`.
-- **GitHub labels** — replace the repo's default labels with the Conventional Commits type labels in `assets/type-labels.json`.
-- **branch protection** — apply the standard ruleset to `main` (require a PR, block deletion + force-push) from `assets/main-protection-ruleset.json`. Needs a public GitHub remote; see *Applying the selection*.
 
-If nothing is selected, stop.
+**Q2 — GitHub / remote** — include **only when a remote exists** (check `git remote`, or the ultra-repo-creator hand-off state); on a local-only repo, omit this whole question, since every option here needs the remote:
+
+- **GitHub labels** — replace the repo's default labels with the Conventional Commits type labels in `assets/type-labels.json`.
+- **branch protection** — apply the standard ruleset to `main` (require a PR, block deletion + force-push) from `assets/main-protection-ruleset.json`. On GitHub Free also needs the repo to be **public**; see *Applying the selection*.
+- **deploy branch** — create a deploy branch (`develop` or `preparing`) off `main` for [ultra-project-publisher](../ultra-project-publisher/SKILL.md) to deploy from. If selected, a follow-up single-select picks which — see *Deploy branch*.
+
+If nothing is selected across both questions, stop.
 
 ## License template
 
@@ -42,9 +48,13 @@ Write the chosen template to `./LICENSE` (extensionless), substituting `{{YEAR}}
 - **MIT / Apache-2.0** carry a `Copyright {{YEAR}} Seon Kuraito` line — substitute `{{YEAR}}`.
 - **GPL-3.0** ships **verbatim**: the FSF requires the license document be unchanged, and the project's own year/author live in per-file header notices, not the `LICENSE` file — so there is no `{{YEAR}}` to substitute.
 
-## Applying the selection
+## Deploy branch
 
-The file options land on a dedicated branch; the labels and branch-protection options are GitHub-side effects with no commit.
+Only when **deploy branch** is selected. Present a **second** single-select `AskUserQuestion` over the two names — **`develop`** (an integration branch) / **`preparing`** (a pre-release branch). A project runs one branching model, so pick exactly one (like the license template). They are personal-fit names, not textbook git-flow / gitlab-flow.
+
+Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [ultra-project-publisher](../ultra-project-publisher/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
+
+The file options land on a dedicated branch; the labels, branch-protection, and deploy-branch options are GitHub-side effects with no commit (the deploy branch forks from `main`, so it carries no new commit of its own).
 
 1. **File options** (`LICENSE`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to ultra-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through ultra-commit-creator):
    - `LICENSE` → `chore: add <license> LICENSE` (the chosen id, e.g. `chore: add MIT LICENSE`)
@@ -80,6 +90,12 @@ The file options land on a dedicated branch; the labels and branch-protection op
      - **Solo repo → `required_approving_review_count` must be 0.** You cannot approve your own PR; any higher count deadlocks every PR. The bundled config uses 0 — raise it only for a collaborative repo.
      - **No admin bypass by default.** Rulesets ship with an empty bypass list, so the owner is also forced through PRs on `main` — that is the intent.
      - **`~DEFAULT_BRANCH`** tracks whichever branch is default, so renaming the default branch never breaks the rule.
+4. **Deploy branch** — create the chosen branch (`develop` / `preparing`) from `main` and push it to `origin` (see *Deploy branch*). A GitHub side-effect: needs a remote to push to, makes no commit. If the repo is local-only, explain and skip this item.
+
+   ```sh
+   git branch <name> main      # fork from main
+   git push -u origin <name>   # publish so the publisher can deploy from it
+   ```
 
 ## Wrap up — open a PR
 
@@ -88,7 +104,16 @@ The file commits land on `chore/initial-project-setup`, which always needs a PR 
 - **Yes** → hand to [ultra-pr-creator](../ultra-pr-creator/SKILL.md).
 - **No** → leave the branch in place for the user.
 
-If only side-effect options were selected (GitHub labels and/or branch protection), there is no branch or commit — skip this step.
+If only side-effect options were selected (GitHub labels, branch protection, and/or deploy branch), there is no branch or commit — skip this step.
+
+## Hand-off to the publish stage
+
+Only when the **deploy branch** option was selected — that branch exists precisely to be deployed from. After the wrap-up, ask whether to continue into the publish stage with `AskUserQuestion` (*enter the publish stage now?*):
+
+- **Yes** → load [ultra-project-publisher](../ultra-project-publisher/SKILL.md) if available; if it is not present, say so and stop.
+- **No** → stop here and leave the next move to the user.
+
+Never auto-enter it — always the user's choice (the same shape as ultra-repo-creator's hand-off into this stage).
 
 ## Execution gate
 
