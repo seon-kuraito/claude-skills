@@ -15,7 +15,7 @@ Four things to notice:
 
 1. Each H2 is prefixed with an emoji: 📝 Summary, 🎯 Scope, ✅ Test plan.
 2. A single full-width space `　` (U+3000) on its own line separates each section — renders as visual breathing room on GitHub, unlike an empty line which collapses.
-3. The file holds the raw markdown body — no outer code fence (a fence was only ever for terminal display, which this skill no longer does). The user reviews the PR by opening the file, not by reading it in the terminal.
+3. The file holds the raw markdown body — no outer code fence. The user reviews the PR by opening the file, not by reading it in the terminal.
 4. The body ends with the attribution footer `🤖 Generated with [Claude Code](https://claude.com/claude-code)`, set off from the Test plan by a single blank line (not a `　` spacer).
 
 For per-section guidance (what belongs in each, ✅/❌ bullets, `N/A` handling) see `references/sections.md`. For full canonical PR examples see `references/examples.md`.
@@ -101,12 +101,9 @@ Reject and rewrite. Each pattern, then why it fails:
 - Multi-paragraph prose body — defeats the bullet format; reviewers scan, they don't read.
 - Missing Test plan — leaves the reviewer with no entry point for verification. Even `[ ] Type-check passes` is better than nothing.
 - Headers without the emoji decoration — the emojis are part of the template's visual rhythm; omitting them produces an off-template PR.
-- Non-English content — see Conventions.
 - Restating the PR title in Summary's first bullet — the title is already on the PR; don't waste a bullet.
 - Fewer Summary bullets than commits — collapsing commits below the commit count; the floor is one bullet per commit (see *Populating from the branch*).
-- Opening a PR with runnable Test plan items left unrun or failing — the Test plan is verified before the PR, not just asserted; see *Test precondition*.
 - Imperative-sentence PR titles (`chore: set up project scaffolding`) — the title is the branch name verbatim; see *PR title*.
-- Running a `gh` command (or the remote-prune) without first showing what will run and getting explicit confirmation — see *Execution gate*.
 - Squashing a branch with deliberately-organized commits — collapses the curated history into one; default to `--merge` (see *Merging*).
 - `This PR …` / `We now …` lead-ins — start each bullet with the verb.
 - Printing the full PR body into the terminal — write it to a file and show only the path; a full dump floods the terminal and buries the decisions (see Conventions).
