@@ -104,14 +104,6 @@ ci: add github action for typecheck
 chore: bump remotion to 4.0.500
 ```
 
-Breaking example:
-
-```
-refactor(config): rename Config.setOutputLocation to Config.setOutputPath
-
-BREAKING CHANGE: setOutputLocation removed; use setOutputPath instead.
-```
-
 ## Related
 
 For matching branch names that use the same type vocabulary, see [ultra-branch-creator](../ultra-branch-creator/SKILL.md).
