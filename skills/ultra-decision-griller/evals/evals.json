@@ -5,7 +5,7 @@
       "id": 1,
       "name": "no-write-without-consent",
       "prompt": "Grill me on this plan: I'll add a Redis cache in front of the user-profile API to cut latency.",
-      "expected_output": "Should conduct the interview, and once decisions are settled, summarize them inline (branch → decision → one-line rationale) and ASK whether/where to persist. Must NOT write decisions.md (or any file) before the user's explicit say-so — the no-write-without-consent invariant.",
+      "expected_output": "Should conduct the interview, and once decisions are settled, summarize them inline (branch → decision → one-line rationale) and ASK whether/where to persist. Must NOT write DECISIONS.md (or any file) before the user's explicit say-so — the no-write-without-consent invariant.",
       "files": []
     },
     {

@@ -28,4 +28,4 @@ Leading with your recommendation anchors me to it. Letting me commit first surfa
 Stop when every branch you can think of has a settled answer, *and* I haven't surfaced new branches in the last 1–2 turns. At that point:
 
 1. Summarize the resolved decisions inline as a bulleted list — branch → decision → one-line rationale.
-2. Ask whether to persist the summary, and where. Propose a target based on context — append to a doc we've been working in, or write a new file (`decisions.md` is a fine default). Don't write anything without my say-so.
+2. Ask whether to persist the summary, and where. Propose a target based on context — append to a doc we've been working in, or write a new file (`DECISIONS.md` is a fine default). Don't write anything without my say-so.
