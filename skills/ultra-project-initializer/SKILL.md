@@ -115,6 +115,8 @@ Never auto-enter it — always the user's choice (the same shape as ultra-repo-c
 
 ## 🚧 Execution gate
 
+**Render framed.** Wrap this gate in a `---` rule above and below, each padded by a full-width `　` spacer on its inner side (facing the gate) — with a blank line between every line, so `　` + `---` never parses as a setext heading.
+
 - **Triggers on** — any command that writes to the remote or the repo's settings: `gh label delete`, `gh label create`, the ruleset `gh api --method POST`, `git push`.
 - **Stop & show** — surface exactly what will run before running it.
 - **Confirm** — wait for explicit confirmation; proceed only after.

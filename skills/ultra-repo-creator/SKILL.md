@@ -33,6 +33,8 @@ Per-template detail lives in the sections below ([meta-repo](references/meta-rep
 
 ## 🚧 Execution gate
 
+**Render framed.** Wrap this gate in a `---` rule above and below, each padded by a full-width `　` spacer on its inner side (facing the gate) — with a blank line between every line, so `　` + `---` never parses as a setext heading.
+
 Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one, and it **is** the remote decision:
 
 - **Triggers on** — binding a remote or pushing: `gh repo create`, `git push`, `git remote add`.
