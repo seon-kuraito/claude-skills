@@ -1,6 +1,6 @@
-# Ultra Project Publisher
+# Ultra Project Deployer
 
-協助把專案發布到託管平台。目前支援 GitHub Pages，包含一般靜態網站與 Vite SPA；Vercel、Cloudflare 等平台仍在規劃中。
+協助把專案部署到託管平台。目前支援 GitHub Pages，包含一般靜態網站與 Vite SPA；Vercel、Cloudflare 等平台仍在規劃中。
 
 ## 聲明
 
@@ -24,12 +24,12 @@
 ## 這個 skill 做什麼（WHAT）
 
 - **依平台部署專案**：
-  - 開始時會先確認目標平台，再進入對應的發布流程
+  - 開始時會先確認目標平台，再進入對應的部署流程
   - 目前支援 GitHub Pages，Vercel、Cloudflare 等平台仍在規劃中
-- **使用 GitHub Actions 發布 GitHub Pages**：
+- **使用 GitHub Actions 部署 GitHub Pages**：
   - 依官方建議建立 workflow，支援「靜態網站」與「Vite SPA」兩種 build 類型
-- **作為可隨時插入的發布階段**：
-  - 對應 [`ultra-project-initializer`](../ultra-project-initializer) 之後的發布流程，但不限定只能在初始化後使用
+- **作為可隨時插入的部署階段**：
+  - 對應 [`ultra-project-initializer`](../ultra-project-initializer) 之後的部署流程，但不限定只能在初始化後使用
   - 只要專案需要部署，隨時都可以執行
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
@@ -45,7 +45,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-project-publisher
+  scripts/link-skill.sh ultra-project-deployer
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入

@@ -1,6 +1,6 @@
 ---
 name: ultra-project-initializer
-description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, optional main branch protection, and an optional deploy branch (develop / preparing) for ultra-project-publisher. The initialize stage ultra-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is ultra-repo-creator.
+description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, optional main branch protection, and an optional deploy branch (develop / preparing) for ultra-project-deployer. The initialize stage ultra-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is ultra-repo-creator.
 ---
 
 # Ultra Project Initializer
@@ -40,7 +40,7 @@ Q2 · header: 「GitHub / 遠端」
   options:
     · 「GitHub 標籤」 — 「將 repo 的預設標籤替換為 Conventional Commits 類型標籤。」
     · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。」
-    · 「部署分支」 — 「從 main 建立部署分支供 publisher 使用，選擇後再指定 develop 或 preparing。」
+    · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 preparing。」
 [Rule, not copy] include Q2 only when a remote exists (check `git remote` or the ultra-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Each question caps at 4 options. If nothing is selected across both questions, stop.
 ```
 
@@ -77,7 +77,7 @@ options:
 
 A project runs one branching model, so pick exactly one (like the license template). They are personal-fit names, not textbook git-flow / gitlab-flow.
 
-Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [ultra-project-publisher](../ultra-project-publisher/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
+Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [ultra-project-deployer](../ultra-project-deployer/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
 
 ## Applying the selection
 
@@ -95,20 +95,20 @@ The file commits land on `chore/initial-project-setup`, which always needs a PR 
 
 If only side-effect options were selected (GitHub labels, branch protection, and/or deploy branch), there is no branch or commit — skip this step.
 
-## Hand-off to the publish stage
+## Hand-off to the deploy stage
 
 Only when the **deploy branch** option was selected — that branch exists precisely to be deployed from. After the wrap-up, present this menu verbatim:
 
 ```
 single-select · header: 「下一步」
-question: 「要現在進入 publish 階段嗎？」
+question: 「要現在進入部署階段嗎？」
 options:
-  · 「進入 publish 階段」 — 「載入 ultra-project-publisher，使用這條部署分支部署。」
+  · 「進入部署階段」 — 「載入 ultra-project-deployer，使用這條部署分支部署。」
   · 「不進入」 — 「先停在這，後續交給我處理。」
-[Rule, not copy] if the publisher skill is unavailable, say so and stop instead of loading one.
+[Rule, not copy] if the deployer skill is unavailable, say so and stop instead of loading one.
 ```
 
-- **進入 publish 階段** → load [ultra-project-publisher](../ultra-project-publisher/SKILL.md) if available; if it is not present, say so and stop.
+- **進入部署階段** → load [ultra-project-deployer](../ultra-project-deployer/SKILL.md) if available; if it is not present, say so and stop.
 - **不進入** → stop here and leave the next move to the user.
 
 Never auto-enter it — always the user's choice (the same shape as ultra-repo-creator's hand-off into this stage).
@@ -126,4 +126,4 @@ Never auto-enter it — always the user's choice (the same shape as ultra-repo-c
 
 - [ultra-repo-creator](../ultra-repo-creator/SKILL.md) — the **create** stage (git init / remote) this stage follows.
 - [ultra-branch-creator](../ultra-branch-creator/SKILL.md) / [ultra-commit-creator](../ultra-commit-creator/SKILL.md) — the branch and commits this stage lands.
-- `ultra-project-publisher` (planned) — a future **publish** stage; like this one, an insertable, project-level stage.
+- `ultra-project-deployer` — the **deploy** stage; like this one, an insertable, project-level stage.

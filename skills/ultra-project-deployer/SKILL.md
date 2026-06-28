@@ -1,11 +1,11 @@
 ---
-name: ultra-project-publisher
-description: Deploys a project to a hosting platform — currently GitHub Pages (static or Vite SPA), with Vercel / Cloudflare planned. Asks which platform, then sets up that platform's deployment (a GitHub Actions workflow for Pages) on a per-platform branch. An insertable, project-level stage; the publish counterpart to ultra-project-initializer. Use when deploying, publishing, or putting a site / app online.
+name: ultra-project-deployer
+description: Deploys a project to a hosting platform — currently GitHub Pages (static or Vite SPA), with Vercel / Cloudflare planned. Asks which platform, then sets up that platform's deployment (a GitHub Actions workflow for Pages) on a per-platform branch. An insertable, project-level stage; the deploy counterpart to ultra-project-initializer. Use when deploying, publishing, or putting a site / app online.
 ---
 
-# Ultra Project Publisher
+# Ultra Project Deployer
 
-Deploy a project to a hosting platform. This is the **publish** stage — an insertable, project-level stage, the counterpart to [ultra-project-initializer](../ultra-project-initializer/SKILL.md). Scope today: **GitHub Pages**; Vercel and Cloudflare are planned.
+Deploy a project to a hosting platform. This is the **deploy** stage — an insertable, project-level stage, the counterpart to [ultra-project-initializer](../ultra-project-initializer/SKILL.md). Scope today: **GitHub Pages**; Vercel and Cloudflare are planned.
 
 ## Stage & entry
 
@@ -80,6 +80,6 @@ The workflow commit lands on `ci/deploy-github-pages`, which needs a PR to reach
 
 ## Related
 
-- [ultra-project-initializer](../ultra-project-initializer/SKILL.md) — the **initialize** stage; this is its publish counterpart, the same insertable, project-level shape.
+- [ultra-project-initializer](../ultra-project-initializer/SKILL.md) — the **initialize** stage; this is its deploy counterpart, the same insertable, project-level shape.
 - [ultra-repo-creator](../ultra-repo-creator/SKILL.md) — the **create** stage, needed before a remote exists.
 - [ultra-branch-creator](../ultra-branch-creator/SKILL.md) / [ultra-commit-creator](../ultra-commit-creator/SKILL.md) / [ultra-pr-creator](../ultra-pr-creator/SKILL.md) — branch, commit, and PR hand-offs.

@@ -34,9 +34,9 @@
   - 相對於 [`ultra-repo-creator`](../ultra-repo-creator) 的「建立」階段，這個 skill 負責「初始化」階段；通常在 repo 建好後先執行，也可在任意時間點插入
 - **project 層級**：
   - 一個 repo 可能包含多個 project（monorepo），必要時先確認要對哪個 project 操作
-- **建立部署分支後可接續發布**：
+- **建立部署分支後可接續部署**：
   - 若選擇建立部署分支，完成後會詢問是否進入部署階段
-  - 遠端分支的部署設定交給 [`ultra-project-publisher`](../ultra-project-publisher) 處理
+  - 遠端分支的部署設定交給 [`ultra-project-deployer`](../ultra-project-deployer) 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -65,7 +65,7 @@
 
 - **可隨時插入的獨立階段**：
   - 不綁定在流程開頭或結尾，任意時間點都能執行；通常在 repo 剛建好後最先做
-  - 與未來的「發布」階段（`ultra-project-publisher`）同樣是可插入的 project 層級階段
+  - 與「部署」階段（`ultra-project-deployer`）同樣是可插入的 project 層級階段
 - **執行前只要求已有 repo**：
   - `LICENSE`／`.claude/CLAUDE.md` 只需要已完成 `git init`；標籤與分支保護需要已有 GitHub 遠端，且分支保護在 GitHub 免費方案還要求 repo 為 public
   - 如果 repo 還沒建立，則先指向 [`ultra-repo-creator`](../ultra-repo-creator)
@@ -107,7 +107,7 @@
   - 可以選擇 `develop`（整合線）與 `preparing`（測試環境線），分支會從 `main` 開出並推上遠端
   - 依照個人使用習慣整理出的分支命名，不完全等同於標準的 git-flow／gitlab-flow
   - 只在分支不存在時補建，不設定保護，也不處理合併流程（分支管理不在這個 skill 的範圍內）
-  - 可以交給 [`ultra-project-publisher`](../ultra-project-publisher) 作為部署來源分支
+  - 可以交給 [`ultra-project-deployer`](../ultra-project-deployer) 作為部署來源分支
 - **空白檔**：
   - `.claude/CLAUDE.md` 建為空白檔
 - **委派的 skills**：
