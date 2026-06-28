@@ -28,7 +28,7 @@
 - **依模板建立對應的 repo**：
   - 一律先選模板：blank／framework／meta-repo
   - blank＝本地空白 repo
-  - framework＝透過對話建立
+  - framework＝已整理好的框架模板，或依對話逐步建立
   - meta-repo＝協調層（scaffold＋git ceremony）
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
@@ -71,7 +71,7 @@
   - 專案設定分「建立」（本 skill）與「初始化」（另一個 skill）兩階段
   - 若已是 git repo，依目前狀態接續建立流程，只處理還沒完成的本地或遠端步驟
 - **模板只影響本地建立內容**：
-  - blank 建空白 repo；framework 依對話建立 starter；meta-repo 則建立覆蓋 sibling projects 的協調層
+  - 模板只決定一開始要產生哪些本地檔案與 commit 節奏，不影響後面的遠端與初始化流程
   - 本地完成後，三種模板都走同一個遠端確認與初始化交接流程
 - **只負責 repo 建立與編排**：
   - 本 skill 專注於建立 repo 與綁定遠端
