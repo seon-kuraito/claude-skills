@@ -20,7 +20,7 @@ single-select · header: 「範本」
 question: 「要用哪一種範本建立這個 repo？」
 options:
   · 「空白專案 Blank」 — 「建立一般專案使用的純 git repo，包含 git init、空白 README 與標準 .gitignore。」
-  · 「框架專案 Framework」 — 「建立 Next.js / Vite 等框架專案，尚未模板化時會依需求逐步建立。」
+  · 「框架專案 Framework」 — 「建立 Next.js / Vite 等框架專案，可選擇已整理好的模板，或依需求逐步建立。」
   · 「專案協調層 Meta-Repo」 — 「建立位於多個 <prefix>-* sibling-repo 之上的協調層。」
 [Rule, not copy] if .git already exists (resuming a half-built repo), skip the menu and keep the repo as it stands.
 ```
@@ -64,9 +64,29 @@ Local steps — `git init`, commits, scaffolding — run freely; they're local a
 
 ## framework
 
-Framework scaffolding (Next.js, Vite, …) is **not templated yet**. Build it conversationally:
+After 「框架專案 Framework」, pick **which template** — present this second menu verbatim:
 
-1. Ask which framework / starter the user wants.
+```
+single-select · header: 「框架模板」
+question: 「要用哪一種框架模板？」
+options:
+  · 「Vite + React」 — 「以 Vite 建立 React（React Compiler、TypeScript）專案。」
+  · 「其他（對話式）」 — 「Next.js 或其他框架／模板，尚未整理成固定流程，依需求逐步建立。」
+[Rule, not copy] only 「Vite + React」 is templated today; every other framework takes the conversational path. As each one gets templated, add it here as another concrete option.
+```
+
+**Vite + React — local (no confirmation):**
+
+1. **Scaffold.** From the parent directory: `npm create "vite@~9.1" <name> -- --template react-compiler-ts` — Vite's React Compiler + TypeScript starter (minor pinned, patch floats). It creates `<name>/` with its own `.gitignore`.
+2. **Initial commit.** `cd <name>`, `git init`, then commit the whole scaffold as one commit — fixed message `chore: scaffold vite react app` (verbatim — not via ultra-commit-creator). `npm create vite` does not init git, so this `git init` is load-bearing.
+3. **Remote decision (*Execution gate*)** — same as blank.
+4. **Hand off** to the initialize stage.
+
+Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **not** set here; they belong to the deploy stage ([ultra-project-deployer](../ultra-project-deployer/SKILL.md)'s Vite caveat).
+
+**Conversational — local (no confirmation):**
+
+1. Ask which framework / template the user wants.
 2. Run its own init locally, commit as you go. Framework scaffolds normally generate their own `.gitignore`; only if one didn't, offer the standard `assets/blank/gitignore.txt`.
 3. **Remote decision (*Execution gate*)** — same as blank.
 4. **Hand off** to the initialize stage.
