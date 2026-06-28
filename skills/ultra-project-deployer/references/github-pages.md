@@ -10,8 +10,8 @@ Present this menu verbatim — the 「」 strings are the user-facing copy, show
 single-select · header: 「建置方式」
 question: 「要用哪一種方式建置並部署？」
 options:
-  · 「Static（免建置）」 — 「直接發布靜態檔案，不經過建置步驟。」
-  · 「Vite SPA」 — 「以 npm ci 與 npm run build 建置後再發布。」
+  · 「Static（免建置）」 — 「直接部署靜態檔案，不經過建置步驟。」
+  · 「Vite SPA」 — 「以 npm ci 與 npm run build 建置後再部署。」
 [Rule, not copy] detect a hint from `package.json` first — a `vite` dependency or a `vite.config.*` → Vite, otherwise Static.
 ```
 

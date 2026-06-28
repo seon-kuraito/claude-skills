@@ -42,5 +42,5 @@ The file options land on a dedicated branch; the labels, branch-protection, and 
 
    ```sh
    git branch <name> main      # fork from main
-   git push -u origin <name>   # publish so the publisher can deploy from it
+   git push -u origin <name>   # push so the deployer can deploy from it
    ```
