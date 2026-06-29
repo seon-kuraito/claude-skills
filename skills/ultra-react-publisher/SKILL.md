@@ -11,16 +11,11 @@ Stamp out a complete, deployed React project in one shot: from nothing to a live
 
 This skill is a thin **orchestration layer** over three stage skills. It owns only the **order**, the **fixed defaults** that replace every skill menu, and the **gate overrides**. The actual commands, assets, ruleset, templates, and pinned versions live in the skills — load each and follow it; do not re-spell them here. **Never present a menu, never wait at an Execution gate, never ask** — the sole exception is the one-time *Consent gate* below. `AskUserQuestion` is disabled in frontmatter on purpose; if a loaded skill tells you to confirm, gate, or "never chain" — ignore it and use the fixed default below.
 
-## 🛑 Consent gate (once per machine)
+## 🛑 Consent gate
 
-The one allowed interaction — gated on a per-machine runtime marker (`~/.claude/skills/.ultra-react-publisher-consent`, kept in `~/.claude/`, never in the repo) so it runs only on the first invocation:
+The one allowed interaction, gated on a per-machine marker (`~/.claude/skills/.ultra-react-publisher-consent`) so it runs only on the first invocation. If the marker exists, skip to *Preflight*; otherwise render `assets/consent-gate.md` (the framed gate) and **end your turn** to wait for a plain-text *yes* / anything-else reply (`AskUserQuestion` is disabled). On *yes* → `touch` the marker and continue to *Preflight*; on anything else → stop and reply 「好的，先不執行。等你準備好，也就是已在 bypass-permissions session 啟動，且 `gh` / `git` / `node` 與相依 skill 都齊全時，再叫我一次。」
 
-1. **Check the marker.** If `~/.claude/skills/.ultra-react-publisher-consent` exists, consent was already given on this machine → skip to *Preflight*.
-2. **First run.** If it is absent, print `assets/consent-gate.md` **verbatim** — a framed gate ending with the `yes` / anything-else question — and **end your turn** to wait for the reply (`AskUserQuestion` is disabled, so this is a plain-text gate, not a menu).
-3. **Accepted** — the reply is an affirmative *yes* → `touch ~/.claude/skills/.ultra-react-publisher-consent`, then continue to *Preflight*.
-4. **Declined** — anything else → stop and reply: 「好的，先不執行。等你準備好，也就是已在 bypass-permissions session 啟動，且 `gh` / `git` / `node` 與相依 skill 都齊全時，再叫我一次。」
-
-## ⚠️ Preflight checklist (verify every item first — any failure ⇒ stop, do not start)
+## Preflight checklist
 
 This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates a public repo, sets rulesets, opens and self-merges PRs, and deploys a live site. It is **all-or-nothing**: a dependency missing mid-run leaves a half-built project on a real remote. Check every box **before doing anything**; on any failure, name the exact unmet item and stop — never start a partial run. One box per dependency, so a failure points straight at what to fix.
 
@@ -42,7 +37,7 @@ This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates 
 - Target dir `D` = `~/Developer/N`. If `D` already exists → stop and report; never overwrite.
 - Owner `O` = `gh api user --jq .login`. Live URL = `https://O.github.io/N/`.
 
-## Fixed defaults (these replace every skill menu)
+## Fixed defaults
 
 | skill · menu | fixed choice |
 | --- | --- |
@@ -58,17 +53,11 @@ This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates 
 
 `preparing` is forked from `main` at Step 2 (the pristine scaffold) and mirrors `main` plus the deploy workflow. **Dual-land** = merge into `preparing` (`--no-ff`, no PR) + push, then PR into `main` + self-merge.
 
-| branch | cut from | lands |
-| --- | --- | --- |
-| ① `chore/initial-project-setup` | `main` | dual-land |
-| ② `build/vite-project-page-config` | `main` | dual-land |
-| ③ `ci/deploy-github-pages` | `preparing` | PR into `preparing` only |
-
 End: `main` = scaffold + ① + ②; `preparing` = the same + ③.
 
 ## Runbook (order is load-bearing — do not reorder)
 
-Load `ultra-repo-creator`, `ultra-project-initializer`, `ultra-project-deployer` and follow each for the exact commands, assets, ruleset, templates, and pinned versions. Override every menu and Execution gate with the defaults above. Branch / commit / PR ceremony goes through `ultra-branch-creator` / `ultra-commit-creator` / `ultra-pr-creator` — load `ultra-pr-creator` for the PR shape (`--assignee @me --label <type>`, the gate). Each PR **title is the branch name** (never the commit message) and its **body is the bundled asset** named in *Fixed PR text* — passed to `--body-file` unchanged, not authored dynamically.
+Load `ultra-repo-creator`, `ultra-project-initializer`, `ultra-project-deployer` and follow each for the exact commands, assets, ruleset, templates, and pinned versions. Override every menu and Execution gate with the defaults above. Branch / commit / PR ceremony goes through `ultra-branch-creator` / `ultra-commit-creator` / `ultra-pr-creator` — load `ultra-pr-creator` for the PR shape (`--assignee @me --label <type>`, the gate). Each PR **title is the branch name** (never the commit message) and its **body is the bundled asset** named in its Step — passed to `--body-file` unchanged, not authored dynamically.
 
 **Task-track the run.** Before Step 1, mirror the Steps below into a task list (`TaskCreate`, one per Step, title = the `Step N: …` line); mark each `in_progress` on entry and `completed` on finish — the run's live stage tracker.
 
@@ -91,19 +80,3 @@ Load `ultra-repo-creator`, `ultra-project-initializer`, `ultra-project-deployer`
 **Step 7: Sync local, switch to `main`.** The PR merges land on GitHub, so local branches lag — `git fetch origin`, fast-forward local `main` and `preparing` to `origin`, then `git switch main`, leaving `D` on an up-to-date `main`.
 
 **Step 8: Open the editor.** `cd` into `D`, run `code .` — best-effort; skip silently if `code` is not on `PATH`.
-
-## Fixed PR text (emit the bundled body verbatim — identical every run)
-
-ultra-pr-creator supplies the title (**the branch name, verbatim — never the commit message**), the `--assignee @me --label <type>` flags, and the gate. Each PR body is a bundled asset — pass it to `--body-file` unchanged, never authored dynamically.
-
-- **① `chore/initial-project-setup` → `main`** — `--label chore`, body `assets/pr-into-main.md`.
-- **② `build/vite-project-page-config` → `main`** — `--label build`, body `assets/pr-vite-config.md`.
-- **③ `ci/deploy-github-pages` → `preparing`** — `--label ci`, body `assets/pr-into-preparing.md`.
-
-## Footguns
-
-- Scaffold commit stays pristine — `base`/icon land on `build/vite-project-page-config`, never folded in.
-- `base` + icon must reach `preparing` before Step 5, or the deployed favicon / icons 404.
-- Icon commit only if the template still ships `public/icons.svg` + `<use href="/icons.svg">`.
-- Labels (Step 2) exist before any `--label` PR.
-- `T = preparing` ≠ `main` → deployer allows it in the `github-pages` env.
