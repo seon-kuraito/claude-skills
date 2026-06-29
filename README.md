@@ -19,6 +19,7 @@
 | [`ultra-pr-creator`](skills/ultra-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
 | [`ultra-project-deployer`](skills/ultra-project-deployer) | 把專案部署到代管平台（例如：GitHub Pages） | 原創 |
 | [`ultra-project-initializer`](skills/ultra-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
+| [`ultra-react-publisher`](skills/ultra-react-publisher) | 全自動從零建立並部署一個 GitHub Pages 上的 React 專案 | 原創 |
 | [`ultra-repo-creator`](skills/ultra-repo-creator) | 依模板建立本地端與 GitHub repo | 原創 |
 | [`ultra-skill-author`](skills/ultra-skill-author) | 建立、改寫與評估 skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
 
