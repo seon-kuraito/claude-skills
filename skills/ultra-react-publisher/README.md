@@ -82,6 +82,7 @@
   - 框架使用 Vite + React（React Compiler、TypeScript）
   - 遠端 repo 建成 public，部署 branch 固定為 `preparing`
   - 部署目標是 GitHub Pages（Vite SPA）
+  - 自動把 `vite.config.ts` 的 `base` 設為 `/<專案名>/`，讓 GitHub Pages 子路徑下的資源（favicon、`/vite.svg` 等）能正確載入
   - 最後反覆檢查 live URL，直到回傳 HTTP 200，並以 `code .` 開啟 VS Code
 - **相依的 skill（required）**：
   - [`ultra-repo-creator`](../ultra-repo-creator)
