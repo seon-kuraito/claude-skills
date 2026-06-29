@@ -231,28 +231,22 @@ Q2 · header: 「<≤12-char label>」
 
 ### Execution gate
 
-Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title bullet block, `## 🚧 Execution gate`, one sentence per bullet, **rendered as a framed callout** — a `---` rule above and below the block, each padded by a full-width `　` (U+3000) spacer on its inner side (facing the block), with a blank line between every line so `　` + `---` never parses as a setext heading:
+Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title bullet block, `## 🚧 Execution gate`, one sentence per bullet, **rendered as a framed callout** — a `---` rule above and below the block, each with a full-width `　` (U+3000) spacer line tight against it on the inner side (no blank-line padding, for a denser frame):
 
 ```markdown
-
 ---
-
 　
-
 ## 🚧 Execution gate
 
 - **Triggers on** — <which outward-facing commands>: `cmd`, `cmd`.
 - **Stop & show** — surface exactly what will run before running it.
 - **Confirm** — wait for explicit confirmation; proceed only after.
 - **Never chain** — don't fold the steps into one uninterrupted run.
-
 　
-
 ---
-
 ```
 
-The four bullets are the spine; the `---`/`　` frame is part of the standard rendering, not optional decoration — reproduce both, every time. This guide isn't loaded at skill runtime, so each gate-emitting skill restates the frame inline in its own `## 🚧 Execution gate` section (a one-line **Render framed** directive). When a gate carries extra meaning, fold it into the relevant bullet rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on **Confirm**; what to show (title, body-as-link, flags) rides on **Stop & show**. Don't flatten that nuance away for the sake of uniformity.
+The four bullets are the spine; the `---`/`　` frame is part of the standard rendering, not optional decoration — reproduce both, every time. This guide isn't loaded at skill runtime, so each gate-emitting skill keeps the framed gate above in its own `assets/execution-gate.md`, and in SKILL.md keeps a short `## 🚧 Execution gate` pointer that names what triggers it and says to render that asset before proceeding. Extracting the frame to a file keeps the format syncable across skills; the bespoke `Triggers on` line stays per-skill. When a gate carries extra meaning, fold it into the relevant bullet rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on **Confirm**; what to show (title, body-as-link, flags) rides on **Stop & show**. Don't flatten that nuance away for the sake of uniformity.
 
 ### Examples pattern
 
