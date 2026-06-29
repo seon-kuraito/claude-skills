@@ -43,7 +43,9 @@ The PR prompt and the Execution gate are handled by the general flow in `SKILL.m
 
 ## Vite project-page caveat
 
-A project site served at `https://<user>.github.io/<repo>/` needs Vite's `base` set to `/<repo>/` in `vite.config.*`, and client-side routing needs a `404.html` fallback. Surface this to the user — do not silently edit their `vite.config`.
+A project site served at `https://<user>.github.io/<repo>/` is hosted under the `/<repo>/` subpath, so Vite's `base` **must** be `/<repo>/` in `vite.config.*`. With the default `base: '/'`, every root-absolute asset — the favicon, `public/` files such as `/vite.svg`, and the bundled JS/CSS — resolves against the domain root instead of the subpath and 404s (the page may still render from relative chunks while icons and public assets silently break). Client-side routing additionally needs a `404.html` fallback.
+
+Surface this and let the user set `base` — do not silently edit their `vite.config`. An autonomous orchestrator that owns the whole project (not just the deploy) instead sets `base` itself, before the build.
 
 ## Version choices
 
