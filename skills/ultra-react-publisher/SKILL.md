@@ -34,7 +34,7 @@ This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates 
 - [ ] **`ultra-branch-creator`** — branch names.
 - [ ] **`ultra-commit-creator`** — commit messages.
 - [ ] **`ultra-pr-creator`** — PR title / body / flags / gate.
-- [ ] **Target is free** — `D = ~/Developer/N` does not exist and the repo name `N` is not already taken; never overwrite or force.
+- [ ] **Name is free — local and remote** — neither `D = ~/Developer/N` (local) nor the GitHub repo `<owner>/N` exists (`gh repo view <owner>/N` returns not-found; `<owner>` = `gh api user --jq .login`). If either is present → stop and report; never overwrite or force.
 
 ## Input
 
