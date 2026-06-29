@@ -34,9 +34,9 @@
   - 只負責順序、取代選單的固定預設、gate 覆寫與 git 分支路由
   - 實際指令、assets、模板與版本仍交給相依的 skill
 - **固定的 git flow**：
-  - `main` 受保護，所有變更都經 PR 進入
-  - `preparing` 是不受保護的測試／部署 branch
-  - 初始化檔案先 merge 進 `preparing`，再發 PR 給 `main`
+  - `main` 受到保護，所有變更都必須透過 PR 進入；`preparing` 則是不受保護的測試／部署 branch，內容維持與 `main` 同步
+  - 非部署變更（初始化檔案、Vite 設定）一律先 merge 進 `preparing`，確認沒問題再發 PR 進 `main`
+  - 部署 workflow 只保留在 `preparing`
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -82,7 +82,7 @@
   - 框架使用 Vite + React（React Compiler、TypeScript）
   - 遠端 repo 建成 public，部署 branch 固定為 `preparing`
   - 部署目標是 GitHub Pages（Vite SPA）
-  - 自動把 `vite.config.ts` 的 `base` 設為 `/<專案名>/`，讓 GitHub Pages 子路徑下的資源（favicon、`/vite.svg` 等）能正確載入
+  - 自動把 `vite.config.ts` 的 `base` 設為 `/<專案名>/`，讓 GitHub Pages 子路徑下的資源能正確載入
   - 最後反覆檢查 live URL，直到回傳 HTTP 200，並以 `code .` 開啟 VS Code
 - **相依的 skill（required）**：
   - [`ultra-repo-creator`](../ultra-repo-creator)
