@@ -56,7 +56,7 @@ This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates 
 
 ## Git flow
 
-`preparing` is forked from `main` at step 3 (the pristine scaffold) and mirrors `main` plus the deploy workflow. **Dual-land** = merge into `preparing` (`--no-ff`, no PR) + push, then PR into `main` + self-merge.
+`preparing` is forked from `main` at Step 2 (the pristine scaffold) and mirrors `main` plus the deploy workflow. **Dual-land** = merge into `preparing` (`--no-ff`, no PR) + push, then PR into `main` + self-merge.
 
 | branch | cut from | lands |
 | --- | --- | --- |
@@ -70,17 +70,27 @@ End: `main` = scaffold + ① + ②; `preparing` = the same + ③.
 
 Load `ultra-repo-creator`, `ultra-project-initializer`, `ultra-project-deployer` and follow each for the exact commands, assets, ruleset, templates, and pinned versions. Override every menu and Execution gate with the defaults above. Branch / commit / PR ceremony goes through `ultra-branch-creator` / `ultra-commit-creator` / `ultra-pr-creator` — load `ultra-pr-creator` for the PR shape (`--assignee @me --label <type>`, the gate). Each PR **title is the branch name** (never the commit message) and its **body is the bundled asset** named in *Fixed PR text* — passed to `--body-file` unchanged, not authored dynamically.
 
-1. **Scaffold (repo-creator · Vite + React).** From `~/Developer` (`D`'s parent, *not* the launch dir — repo-creator scaffolds in the CWD), run repo-creator's Vite + React template → `~/Developer/N/`. **Leave its initial commit pristine** (exact create-vite output); `base` + icon go in step 5.
-2. **Bind remote → main, then protect.** repo-creator's remote decision (public, push) puts the pristine scaffold on `main`; then apply initializer's **main-protection**. From here, everything reaches `main` through a PR.
-3. **Fork `preparing` + labels.** Fork `preparing` from `main` now (= pristine scaffold) and create the 11 type labels — both before any PR.
-4. **① `chore/initial-project-setup`.** initializer's `LICENSE` + blank `.claude/CLAUDE.md` on the branch (cut from `main`); **dual-land**, PR into `main` `--label chore`, body `assets/pr-into-main.md`.
-5. **② `build/vite-project-page-config`** (cut from `main`) — two commits in `D`, then build-verify and **dual-land** (PR into `main` `--label build`, body `assets/pr-vite-config.md`):
-   - `build: set vite base for github pages` — set `base: '/N/'` in `vite.config.ts`.
-   - `fix: reference icons sprite via base url` — **only if** the demo still has `public/icons.svg` + `<use href="/icons.svg#…">`: add `icon(id)` returning `import.meta.env.BASE_URL + 'icons.svg#' + id`, route every `<use href>` through it. Skip if absent.
-   - Build-verify: `npm install && npm run build` in `D`; on failure stop, do not land.
-6. **③ Publish (deployer · GitHub Pages, Vite SPA, `T = preparing`).** deployer owns Pages, the `github-pages` env allow-list for `preparing`, the workflow, and the deploy PR. `ci/deploy-github-pages` is cut from `preparing`, PR into `preparing` only (`--label ci`, body `assets/pr-into-preparing.md`). Merging triggers the first deploy.
-7. **Confirm live.** Poll `https://O.github.io/N/` until HTTP 200 (`curl -sf -o /dev/null -w '%{http_code}' <url>`), ~5 min. Report the URL; on failure surface `gh run list` / `gh run view`.
-8. **Open the editor.** `cd` into `D`, run `code .` — best-effort; skip silently if `code` is not on `PATH`.
+**Task-track the run.** Before Step 1, mirror the Steps below into a task list (`TaskCreate`, one per Step, title = the `Step N: …` line); mark each `in_progress` on entry and `completed` on finish — the run's live stage tracker.
+
+**Step 1: Scaffold (repo-creator · Vite + React).** From `~/Developer` (`D`'s parent, *not* the launch dir — repo-creator scaffolds in the CWD), run repo-creator's Vite + React template → `~/Developer/N/`. **Leave its initial commit pristine** (exact create-vite output); `base` + icon go in Step 4.
+
+**Step 2: Remote + main protection + `preparing` + labels.** repo-creator's remote decision (public, push) puts the pristine scaffold on `main`; then, before any PR, run initializer's GitHub setup — apply **main-protection**, fork `preparing` from `main` (= pristine scaffold), and create the 11 type labels. From here, everything reaches `main` through a PR.
+
+**Step 3: ① Land `chore/initial-project-setup`.** initializer's `LICENSE` + blank `.claude/CLAUDE.md` on the branch (cut from `main`); **dual-land**, PR into `main` `--label chore`, body `assets/pr-into-main.md`.
+
+**Step 4: ② Land `build/vite-project-page-config`** (cut from `main`) — two commits in `D`, then build-verify and **dual-land** (PR into `main` `--label build`, body `assets/pr-vite-config.md`):
+
+- `build: set vite base for github pages` — set `base: '/N/'` in `vite.config.ts`.
+- `fix: reference icons sprite via base url` — **only if** the demo still has `public/icons.svg` + `<use href="/icons.svg#…">`: add `icon(id)` returning `import.meta.env.BASE_URL + 'icons.svg#' + id`, route every `<use href>` through it. Skip if absent.
+- Build-verify: `npm install && npm run build` in `D`; on failure stop, do not land.
+
+**Step 5: ③ Publish (deployer · GitHub Pages, Vite SPA, `T = preparing`).** deployer owns Pages, the `github-pages` env allow-list for `preparing`, the workflow, and the deploy PR. `ci/deploy-github-pages` is cut from `preparing`, PR into `preparing` only (`--label ci`, body `assets/pr-into-preparing.md`). Merging triggers the first deploy.
+
+**Step 6: Confirm live.** Poll `https://O.github.io/N/` until HTTP 200 (`curl -sf -o /dev/null -w '%{http_code}' <url>`), ~5 min. Report the URL; on failure surface `gh run list` / `gh run view`.
+
+**Step 7: Sync local, switch to `main`.** The PR merges land on GitHub, so local branches lag — `git fetch origin`, fast-forward local `main` and `preparing` to `origin`, then `git switch main`, leaving `D` on an up-to-date `main`.
+
+**Step 8: Open the editor.** `cd` into `D`, run `code .` — best-effort; skip silently if `code` is not on `PATH`.
 
 ## Fixed PR text (emit the bundled body verbatim — identical every run)
 
@@ -93,7 +103,7 @@ ultra-pr-creator supplies the title (**the branch name, verbatim — never the c
 ## Footguns
 
 - Scaffold commit stays pristine — `base`/icon land on `build/vite-project-page-config`, never folded in.
-- `base` + icon must reach `preparing` before step 6, or the deployed favicon / icons 404.
+- `base` + icon must reach `preparing` before Step 5, or the deployed favicon / icons 404.
 - Icon commit only if the template still ships `public/icons.svg` + `<use href="/icons.svg">`.
-- Labels (step 3) exist before any `--label` PR.
+- Labels (Step 2) exist before any `--label` PR.
 - `T = preparing` ≠ `main` → deployer allows it in the `github-pages` env.
