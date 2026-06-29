@@ -16,6 +16,6 @@
 - [x] `vite.config.ts` sets `base` to `/<repo>/`
 - [x] `npm run build` produces `dist/` with subpath-prefixed asset paths
 - [x] Every `<use href>` to the icons sprite resolves through `import.meta.env.BASE_URL`
-- [ ] After deploy, the favicon and the demo sprite icons render at the live URL
+- [x] After deploy, the favicon and the demo sprite icons render at the live URL
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
