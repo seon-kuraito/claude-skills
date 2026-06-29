@@ -78,9 +78,10 @@ options:
 **Vite + React — local (no confirmation):**
 
 1. **Scaffold.** From the parent directory: `npm create "vite@~9.1" <name> -- --template react-compiler-ts` — Vite's React Compiler + TypeScript starter (minor pinned, patch floats). It creates `<name>/` with its own `.gitignore`.
-2. **Initial commit.** `cd <name>`, `git init`, then commit the whole scaffold as one commit — fixed message `chore: scaffold vite react app` (verbatim — not via ultra-commit-creator). `npm create vite` does not init git, so this `git init` is load-bearing.
-3. **Remote decision (*Execution gate*)** — same as blank.
-4. **Hand off** to the initialize stage.
+2. **Install.** `cd <name>`, then `npm install` — `npm create vite` produces no lockfile, so this generates `package-lock.json` (`node_modules` is already gitignored). Commit the lockfile so a later `npm ci` (the standard CI / deploy install) has one to work from.
+3. **Initial commit.** `git init`, then commit the whole scaffold — **including `package-lock.json`** — as one commit, fixed message `chore: scaffold vite react app` (verbatim — not via ultra-commit-creator). `npm create vite` does not init git, so this `git init` is load-bearing.
+4. **Remote decision (*Execution gate*)** — same as blank.
+5. **Hand off** to the initialize stage.
 
 Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **not** set here; they belong to the deploy stage ([ultra-project-deployer](../ultra-project-deployer/SKILL.md)'s Vite caveat).
 
