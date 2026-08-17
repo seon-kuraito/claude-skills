@@ -28,12 +28,12 @@ options:
 Per-template detail lives in the sections below ([meta-repo](references/meta-repo.md) carries its own reference). From there:
 
 1. **Build it locally** — run the template's local steps (below) without confirmation.
-2. **Remote decision** — once the project stands up locally, the *Execution gate* asks whether to bind a public remote and push, or stay local. Every template passes through it.
+2. **Remote decision** — once the project stands up locally, the *Execution gate* asks where the repo should live: a personal account, an organization, or local-only. Every template passes through it.
 3. **Hand off** to the initialize stage — for **all three templates**.
 
 ## 🚧 Execution gate
 
-Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before binding a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` (the framed gate) and wait for confirmation.
+Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before binding a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` (the framed gate), then present the *Remote decision* menu below and act on the answer. That single answer both picks the owner and confirms, so the gate stays one question.
 
 ## blank
 
@@ -44,16 +44,28 @@ Local steps — `git init`, commits, scaffolding — run freely; they're local a
 3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore.txt` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
 4. Existing work stays **untracked** until the remote decision; don't bundle it into the initial commit unless the user explicitly asks.
 
-**Remote decision (*Execution gate*)** — ask whether to bind a public remote and push:
+**Remote decision (*Execution gate*)** — render the framed gate, then present this menu verbatim:
 
-- **Yes** → ensure the branch is `main` (`git branch -M main`), then:
+```
+single-select · header: 「遠端」
+question: 「要把這個 repo 建在哪裡？」
+options:
+  · 「個人帳號」 — 「建在目前 gh 登入的帳號底下，public，並 push。」
+  · 「Organization」 — 「建在某個 GitHub Organization 底下，public，並 push。」
+  · 「不綁遠端」 — 「先停在本機，不建立遠端，也不 push。」
+[Rule, not copy] include 「Organization」 only when `gh api user/orgs --jq 'length'` returns ≥1 — don't offer a path the account cannot take.
+```
+
+- **個人帳號** / **Organization** → resolve the owner, ensure the branch is `main` (`git branch -M main`), then:
 
   ```sh
-  gh repo create <name> --public --source . --remote origin --push
+  gh repo create <owner>/<name> --public --source . --remote origin --push
   ```
 
+  `<owner>` is the authenticated account for 個人帳號, or the org login for Organization — read the logins from `gh api user/orgs --jq '.[].login'` and ask which one only when it returns more than one. Always write the owner explicitly: a bare `<name>` creates under the personal account without saying so, which silently sends an org's repo to the wrong home.
+
   Always **public** — no visibility question (a deliberate personal-fit default; create a private repo by hand if ever needed). If `gh` is unavailable, fall back to `git remote add origin <url>` → `git branch -M main` → `git push -u origin main`.
-- **No** → stay local-only; stop here (still offer the *Hand-off*).
+- **不綁遠端** → stay local-only; stop here (still offer the *Hand-off*).
 
 ## framework
 

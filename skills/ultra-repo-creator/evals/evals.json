@@ -14,6 +14,13 @@
       "prompt": "This folder already has a few source files in it. Initialize a git repo here (blank template).",
       "expected_output": "Initial commit must contain a blank README.md AND a standard `.gitignore` (verbatim from assets/blank/gitignore.txt), with the verbatim message `chore: initialize repository`. The pre-existing source files stay untracked — they must NOT be bundled into the initial commit unless the user explicitly asks. Should also flag the non-empty, non-repo directory before writing.",
       "files": []
+    },
+    {
+      "id": 3,
+      "name": "org-owner-named-explicitly",
+      "prompt": "Bind a remote for this repo and push it, but it belongs to my organization, not my personal account.",
+      "expected_output": "At the Execution gate the Remote decision menu must appear with the 「Organization」 option, and the command that runs MUST name the owner: `gh repo create <org>/<name> --public --source . --remote origin --push`. A bare `gh repo create <name>` is wrong — it creates under the personal account. The org login comes from `gh api user/orgs`; asking the user which org is correct only when more than one is returned.",
+      "files": []
     }
   ]
 }
