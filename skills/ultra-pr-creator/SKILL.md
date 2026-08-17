@@ -28,7 +28,7 @@ The PR title is the branch name, verbatim — e.g. branch `chore/initial-project
 
 On `gh pr create`, default to two flags:
 
-- **`--assignee @me`** — self-assign every PR (resolves to the repo owner, `seon-kuraito`), so open PRs are easy to track.
+- **`--assignee @me`** — self-assign every PR, so open PRs are easy to track. `@me` resolves to the authenticated `gh` account rather than the repo owner, so it works unchanged on an organization's repo.
 - **`--label <type>`** — tag the PR with its type, taken verbatim from the branch prefix (`feat/add-x` → `feat`). The repo carries one label per Conventional Commits type — the same vocabulary as [ultra-branch-creator](../ultra-branch-creator/SKILL.md) and [ultra-commit-creator](../ultra-commit-creator/SKILL.md): `feat` `fix` `improve` `perf` `refactor` `style` `test` `docs` `build` `ci` `chore` (lowercase, matching the branch / commit type).
 
 Both are behavior-affecting — include them in the Execution gate preview. `--label` only adds an already-existing label; the eleven type labels are set up in this repo, so for a *different* repo that lacks them, drop `--label` rather than letting the command error.
