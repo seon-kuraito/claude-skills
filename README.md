@@ -2,6 +2,8 @@
 
 個人維護的 Claude Code [Skills](https://docs.claude.com/en/docs/claude-code/skills)。這個 repo 保存實際檔案並負責版控，再透過 symlink 掛進 Claude Code 的執行環境。
 
+在 claude-* 家族的分工裡，skill 負責「專業能力」：把做事的方式與偏好載入當前 session，引導 AI 按特定流程工作。獨立視角與隔離歸 `claude-agents`，強制性規則歸 `claude-hooks`。
+
 　
 
 ## Skills 一覽
