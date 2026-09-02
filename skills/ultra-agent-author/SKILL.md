@@ -85,6 +85,8 @@ Body — a work contract, not a résumé: materialize `assets/agent-body.md.tmpl
 
 Present the key decisions as bullets — name, classification, the five contract fields, tools/model — not the full file. After structural OK, write the files.
 
+For a deeper pass, spawn `agents/agent-reviewer.md` to adversarially check boundary fit, contract self-sufficiency, and the hard-constraint trim.
+
 **Confirm point** — if the user opted into validation, ask whether to run it now, by category:
 
 - **Thinking** — discrimination: planted-flaw / known-outcome fixtures kept in the agent's own `fixtures/`, asserted as "the output catches flaw X"; divergence: sibling lenses must differ substantively (a comparative pass, kin of ultra-skill-author's blind comparison); actionability ("it stung a little" is a valid pass signal).
