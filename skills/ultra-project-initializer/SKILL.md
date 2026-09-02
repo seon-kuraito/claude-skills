@@ -39,7 +39,7 @@ Q2 · header: 「GitHub / 遠端」
   question: 「要套用哪些 GitHub 設定？（可複選／全部不選）」
   options:
     · 「GitHub 標籤」 — 「將 repo 的預設標籤替換為 Conventional Commits 類型標籤。」
-    · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。」
+    · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。（GitHub 免費方案只對 public repo 生效）」
     · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 preparing。」
 [Rule, not copy] include Q2 only when a remote exists (check `git remote` or the ultra-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Each question caps at 4 options. If nothing is selected across both questions, stop.
 ```
