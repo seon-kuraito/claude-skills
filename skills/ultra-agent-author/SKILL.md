@@ -59,6 +59,8 @@ Then interview the user; each answer fills one contract field:
 6. **Evaluation framework** — when there is no pass/fail: which dimensions, anchored in the domain's real, citable frameworks — written as questions, never as invented personas.
 7. **Provenance** — original or derived → licensing, same as [ultra-skill-author](../ultra-skill-author/SKILL.md) Step 1.
 
+Ask these with the verbatim templates in `references/interview.md`. Cold start runs them as written, one at a time; when prior context already answers a field, present the inferred answer for confirmation instead of re-asking — fine-tune the template, never skip the sign-off.
+
 **Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
 ```
