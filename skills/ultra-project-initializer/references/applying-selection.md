@@ -38,6 +38,7 @@ The file options land on a dedicated branch; the labels, branch-protection, and 
      - **Solo repo → `required_approving_review_count` must be 0.** You cannot approve your own PR; any higher count deadlocks every PR. The bundled config uses 0 — raise it only for a collaborative repo.
      - **No admin bypass by default.** Rulesets ship with an empty bypass list, so the owner is also forced through PRs on `main` — that is the intent.
      - **`~DEFAULT_BRANCH`** tracks whichever branch is default, so renaming the default branch never breaks the rule.
+     - **Going private later drops the protection.** On GitHub Free the ruleset holds only while the repo is public — flipping it to private silently stops enforcing it (and it does not come back on its own). Say so when the user plans to make the repo private.
 4. **Deploy branch** — create the chosen branch (`develop` / `preparing`) from `main` and push it to `origin` (see *Deploy branch* in SKILL.md). A GitHub side-effect: needs a remote to push to, makes no commit. If the repo is local-only, explain and skip this item.
 
    ```sh

@@ -93,16 +93,17 @@
 ### 預設與相依
 
 - **`LICENSE` 模板**：
-  - 內建 MIT、Apache-2.0、GPL-3.0 三種（[`assets/licenses/`](assets/licenses)），清單外的授權（例如：BSD-3-Clause）則視需要從標準來源取得
+  - 內建 MIT、Apache-2.0、GPL-3.0、Proprietary 四種（[`assets/licenses/`](assets/licenses)），清單外的授權（例如：BSD-3-Clause）則視需要從標準來源取得
   - 年份以 `{{YEAR}}` placeholder 表示，套用時替換成當年；著作權人固定為 `Seon Kuraito`
   - GPL-3.0 依 FSF 要求逐字保留，年份／作者寫在各檔案標頭而非 `LICENSE`，因此不做替換
+  - Proprietary 保留所有權利，不授予任何開源權利，適用於不對外開源的專案
 - **type 標籤**：
   - 取自 Conventional Commits 的 11 種分類（[`assets/type-labels.json`](assets/type-labels.json)，含名稱、顏色與描述）
   - 建立前先刪除 GitHub 的 9 個預設標籤（`bug`、`documentation`、`duplicate`、`enhancement`、`good first issue`、`help wanted`、`invalid`、`question`、`wontfix`），自訂標籤保留
 - **分支保護 ruleset**：
   - [`assets/main-protection-ruleset.json`](assets/main-protection-ruleset.json)（鎖定 `~DEFAULT_BRANCH`、review count 0、無 admin bypass）
   - 要求透過 PR merge，並禁止刪除與 force push；協作 repo 可依需要調高 review count
-  - GitHub 免費方案的 ruleset 只對 public repo 生效
+  - GitHub 免費方案的 ruleset 只對 public repo 生效，repo 之後轉為 private 會讓保護失效
 - **部署分支**：
   - 可以選擇 `develop`（整合線）與 `preparing`（測試環境線），分支會從 `main` 開出並推上遠端
   - 依照個人使用習慣整理出的分支命名，不完全等同於標準的 git-flow／gitlab-flow

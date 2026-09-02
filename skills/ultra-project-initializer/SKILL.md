@@ -39,7 +39,7 @@ Q2 · header: 「GitHub / 遠端」
   question: 「要套用哪些 GitHub 設定？（可複選／全部不選）」
   options:
     · 「GitHub 標籤」 — 「將 repo 的預設標籤替換為 Conventional Commits 類型標籤。」
-    · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。」
+    · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。（GitHub 免費方案只對 public repo 生效）」
     · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 preparing。」
 [Rule, not copy] include Q2 only when a remote exists (check `git remote` or the ultra-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Each question caps at 4 options. If nothing is selected across both questions, stop.
 ```
@@ -55,12 +55,13 @@ options:
   · 「MIT」 — 「寬鬆授權，幾乎不加限制。」
   · 「Apache-2.0」 — 「寬鬆授權，並包含明確的專利授權條款。」
   · 「GPL-3.0」 — 「Copyleft 授權，衍生作品須以相同條款開源。」
-[Rule, not copy] the auto-provided *Other* covers anything else (e.g. BSD-3-Clause) — fetch it verbatim from a canonical source (GitHub's `/licenses/<key>` API), never type it from memory.
+  · 「Proprietary」 — 「保留所有權利，不授予任何開源權利，適合不對外開源的專案。」
+[Rule, not copy] the auto-provided *Other* covers anything else. For a **named** license (e.g. BSD-3-Clause), fetch it verbatim from a canonical source (GitHub's `/licenses/<key>` API), never type it from memory. A **bespoke** notice has no canonical source — write it directly, starting from the bundled `Proprietary` template rather than from scratch.
 ```
 
 Write the chosen template to `./LICENSE` (extensionless), substituting `{{YEAR}}` → the current year (`date +%Y`). The copyright holder is already filled in (`Seon Kuraito`, a personal-fit constant). The per-license shape differs:
 
-- **MIT / Apache-2.0** carry a `Copyright {{YEAR}} Seon Kuraito` line — substitute `{{YEAR}}`.
+- **MIT / Apache-2.0 / Proprietary** carry a `Copyright {{YEAR}} Seon Kuraito` line — substitute `{{YEAR}}`.
 - **GPL-3.0** ships **verbatim**: the FSF requires the license document be unchanged, and the project's own year/author live in per-file header notices, not the `LICENSE` file — so there is no `{{YEAR}}` to substitute.
 
 ## Deploy branch
