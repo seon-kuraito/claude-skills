@@ -47,7 +47,7 @@ Interview the user:
 
 Then assess whether test cases are warranted — objective outputs (file transforms, code generation, fixed workflow steps) benefit from them; subjective outputs (writing style, design quality) usually don't. Details in `references/evals.md`.
 
-**Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
+**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
 ```
 multiSelect · header: 「能力選用」

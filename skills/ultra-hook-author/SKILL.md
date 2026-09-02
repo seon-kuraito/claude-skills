@@ -49,7 +49,7 @@ Identify the task type first — new hook or modifying an existing one. Then int
 
 Apply `references/writing-guide.md` (event selection, the five hook types, input parsing, output, security) and `references/schemas.md` (the JSON I/O contract) while drafting.
 
-**Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
+**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
 ```
 single-select · header: 「能力選用」

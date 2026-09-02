@@ -61,7 +61,7 @@ Then interview the user; each answer fills one contract field:
 
 Ask these with the verbatim templates in `references/interview.md`. Cold start runs them as written, one at a time; when prior context already answers a field, present the inferred answer for confirmation instead of re-asking — fine-tune the template, never skip the sign-off.
 
-**Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
+**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
 ```
 single-select · header: 「能力選用」
