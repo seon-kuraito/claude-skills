@@ -50,14 +50,18 @@ check(pr.get("parameters", {}).get("required_approving_review_count") == 0,
       "(a higher count deadlocks every PR in a solo repo)")
 
 # --- licenses/ --------------------------------------------------------------
-# MIT and Apache-2.0 carry a substitutable {{YEAR}} copyright line with the
-# fixed holder; GPL-3.0 ships verbatim (its project-level year lives in
+# MIT, Apache-2.0 and Proprietary carry a substitutable {{YEAR}} copyright line
+# with the fixed holder; GPL-3.0 ships verbatim (its project-level year lives in
 # per-file headers, so the LICENSE file has no {{YEAR}} to substitute).
 LICENSES = ASSETS / "licenses"
-for name in ("MIT.txt", "Apache-2.0.txt"):
+for name in ("MIT.txt", "Apache-2.0.txt", "Proprietary.txt"):
     text = (LICENSES / name).read_text()
     check("{{YEAR}}" in text, name + ": must contain the {{YEAR}} placeholder")
     check("Seon Kuraito" in text, name + ": must name the copyright holder Seon Kuraito")
+prop = (LICENSES / "Proprietary.txt").read_text()
+check("All rights reserved" in prop and "No permission is granted" in prop,
+      "Proprietary.txt: must reserve all rights and grant no permission "
+      "(an all-rights-reserved notice is the whole point of this template)")
 gpl = (LICENSES / "GPL-3.0.txt").read_text()
 check("GNU GENERAL PUBLIC LICENSE" in gpl and "Version 3" in gpl,
       "GPL-3.0 must be the verbatim GPL-3.0 text")
@@ -71,4 +75,4 @@ if fails:
         print("  -", m)
     sys.exit(1)
 print(f"PASS: type-labels.json ({len(labels)} labels) + main-protection-ruleset.json "
-      "+ licenses/ (MIT, Apache-2.0, GPL-3.0)")
+      "+ licenses/ (MIT, Apache-2.0, GPL-3.0, Proprietary)")
