@@ -7,13 +7,22 @@ description: Authors, refines, and reviews Claude Code hooks — the shell comma
 
 Handle any work on a Claude Code hook — choosing the event, writing the script, registering it in settings, testing it, licensing it, and publishing it to the hooks repo. The default flow is a lightweight three-step interview → draft → review; deterministic fixture testing is available behind a capability checkpoint when the user opts in.
 
+## Jurisdiction — every hook the user works on
+
+Third-party hooks are out of scope — leave them alone. Hooks the user authors split two ways:
+
+- **Global (the default)** — born in the `claude-hooks` repo (`hooks/<name>/` holding `hook.sh`, `README.md`, `LICENSE`, tests) and symlinked whole into `~/.claude/hooks/<name>` by `scripts/link-hook.sh`. Nothing scans that directory — it exists as a stable path for `settings.json` to reference, which is why linking the whole directory costs nothing (the family linking principle: link what the runtime needs, nothing more).
+- **Project-specific (the exception)** — a genuinely single-project hook lives in that project's version control (the script wherever the project keeps it, registered in the project's `.claude/settings.json`). No symlink; no per-hook `LICENSE` — the project's license covers it.
+
+Only the repo half of *Registration & publishing* below is conditional: it applies to repo-bound hooks.
+
 ## What a hook is (and is not)
 
 A hook is **a command registered in `settings.json` that fires deterministically when a lifecycle event occurs** — not a package the model chooses to load. This is the load-bearing distinction from a skill (see [ultra-skill-author](../ultra-skill-author/SKILL.md)): a skill is selected by the model from its `description`; a hook always runs when its event fires and its matcher matches. So there is no "trigger description" to tune — correctness lives in the event choice, the matcher / `if` filter, and the script's input / output contract.
 
 ## Naming convention
 
-All hooks in this user's `claude-hooks` repo follow the pattern **`ultra-<single-token>-<verber>`** — the same convention as skills. Example: `ultra-task-notifier`.
+All hooks this user authors — global or project-specific — follow the pattern **`ultra-<single-token>-<verber>`**, the same convention as skills; the `ultra-` prefix is the user's signature and travels with every hook they write. Example: `ultra-task-notifier`.
 
 Rules:
 
@@ -21,7 +30,7 @@ Rules:
 - Single-token domain — collapse multi-word concepts into one token (`claudemd`, not `claude-md`)
 - Verb-er suffix matching the hook's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `ultra-skill-author` and `ultra-hook-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
 
-Each hook lives one directory per hook under `hooks/<name>/`, holding a `hook.sh` entry point plus its own `README.md` and license files.
+In the `claude-hooks` repo, each hook lives one directory per hook under `hooks/<name>/`, holding a `hook.sh` entry point plus its own `README.md` and license files.
 
 When **creating a new hook**: propose a name in this format during Step 1 and confirm with the user before drafting.
 

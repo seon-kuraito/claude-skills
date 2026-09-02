@@ -7,9 +7,18 @@ description: Authors, refines, and evaluates Claude agent skills (the `.claude/s
 
 Handle any work on a Claude skill — creating, refining, restructuring, naming, licensing, and evaluating. The default flow is a lightweight three-step interview / draft / review; heavier machinery — eval loops, blind A/B, description-tuning — is available behind a capability checkpoint when the user opts in.
 
+## Jurisdiction — every skill the user works on
+
+Third-party skills installed directly into `~/.claude/skills/` are out of scope — leave them alone. Skills the user authors split two ways:
+
+- **Global (the default)** — born in the `claude-skills` repo (`skills/<name>/` holding `SKILL.md`, `README.md`, `LICENSE`, and any bundled resources) and symlinked whole into `~/.claude/skills/` by `scripts/link-skill.sh`.
+- **Project-specific (the exception)** — a genuinely single-project skill lives in that project's version control at `.claude/skills/<name>/`, same package shape with its `README.md` beside `SKILL.md`. No symlink — Claude Code scans the project directory directly; no per-skill `LICENSE` — the project's license covers it.
+
+The family linking principle — link what the runtime needs, nothing more — is why the directory links whole: a skill's runtime need *is* the whole package (`SKILL.md` plus the resources it loads on demand). Only *Publishing & licensing* below is conditional: it applies to repo-bound skills.
+
 ## Naming convention
 
-All skills in this user's `~/.claude/skills/` follow the pattern **`ultra-<single-token>-<verber>`**. Example: `ultra-decision-griller`.
+All skills this user authors — global or project-specific — follow the pattern **`ultra-<single-token>-<verber>`**; the `ultra-` prefix is the user's signature and travels with every skill they write. Example: `ultra-decision-griller`.
 
 Rules:
 

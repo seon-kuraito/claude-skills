@@ -14,7 +14,7 @@ Third-party agents installed directly into `~/.claude/agents/` are out of scope 
 - **Global (the default)** — born in the `claude-agents` repo (`agents/<name>/` holding the definition, `README.md`, `LICENSE`) and per-file symlinked into `~/.claude/agents/` by `scripts/link-agent.sh`, so companion files never enter the scanned directory.
 - **Project-specific (the exception)** — a genuinely single-project agent lives in that project's version control at `.claude/agents/<name>/<name>.md` with its `README.md` beside it (discovery is recursive, and a `.md` without a `name` frontmatter field is treated as documentation by design). No symlink — the file already sits where Claude Code scans; no per-agent `LICENSE` — the project's license covers it.
 
-Only *Publishing* below is conditional: it applies to repo-bound agents.
+Both layers follow the family linking principle — link what the runtime needs, nothing more: an agent's runtime need is the definition alone, because the scanned directory must hold only contracts. Only *Publishing* below is conditional: it applies to repo-bound agents.
 
 ## Positioning & taxonomy
 
