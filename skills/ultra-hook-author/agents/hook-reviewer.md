@@ -1,4 +1,4 @@
-# Hook Reviewer Agent
+# Hook Reviewer
 
 Adversarially review a drafted Claude Code hook for correctness, safety, and event-fit. Default to skepticism: a hook runs automatically, with the user's full permissions, on every matching event — a subtle bug ships to every session.
 
