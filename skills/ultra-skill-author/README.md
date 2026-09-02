@@ -94,10 +94,13 @@
 - **適用範圍包含所有自建 skill**：
   - 全域 skill 統一放在 `claude-skills` repo，再將整包目錄逐一 symlink 到 `~/.claude/skills/`；只服務單一專案的 skill 則作為例外，直接放進該專案版控
   - 直接透過第三方安裝的 skill 不納入這套流程
+- **保留對抗式審查**：
+  - 以 `agents/skill-reviewer.md` 審查草擬中的 skill
+  - 審查重點包含 description 觸發正確性、結構與行數紀律、bundled resources 擺放，以及文件與授權合規
 
 　
 
-> 附註：`scripts/`、`agents/`、`eval-viewer/` 與 `assets/eval_review.html` 大致沿用 `skill-creator` 原樣（`assets/license-mit.txt` 為原創）；改動主要集中在工作流程與 `SKILL.md` 的取捨。
+> 附註：`scripts/`、`agents/`、`eval-viewer/` 與 `assets/eval_review.html` 大致沿用 `skill-creator` 原樣（`assets/license-mit.txt` 與 `agents/skill-reviewer.md` 為原創）；改動主要集中在工作流程與 `SKILL.md` 的取捨。
 
 　
 
