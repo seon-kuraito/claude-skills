@@ -66,6 +66,8 @@ Apply the writing rules in `references/writing-guide.md` — SKILL.md structure,
 
 Present key decisions in bullet form — frontmatter `name` / `description`, body section structure, scope guards, non-obvious choices. Do NOT paste full SKILL.md / reference content unless the user explicitly asks; full-content paste floods the terminal and obscures the structural decisions worth confirming. After structural OK via bullets, write files; the user can read full content in their editor and request edits there. Iterate on feedback.
 
+For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigger correctness, structural discipline, and companion-file compliance.
+
 **Confirm point** — if the user opted into evals at the capability checkpoint, ask whether to proceed into the eval loop now. If yes, follow `references/evals.md`.
 
 ## Publishing & licensing
