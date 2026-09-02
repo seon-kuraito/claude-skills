@@ -14,7 +14,7 @@ Third-party agents installed directly into `~/.claude/agents/` are out of scope 
 - **Global (the default)** — born in the `claude-agents` repo (`agents/<name>/` holding the definition, `README.md`, `LICENSE`) and per-file symlinked into `~/.claude/agents/` by `scripts/link-agent.sh`, so companion files never enter the scanned directory.
 - **Project-specific (the exception)** — a genuinely single-project agent lives in that project's version control at `.claude/agents/<name>/<name>.md` with its `README.md` beside it (discovery is recursive, and a `.md` without a `name` frontmatter field is treated as documentation by design). No symlink — the file already sits where Claude Code scans; no per-agent `LICENSE` — the project's license covers it.
 
-Only *Publishing* below is conditional: it applies to repo-bound agents.
+Both layers follow the family linking principle — link what the runtime needs, nothing more: an agent's runtime need is the definition alone, because the scanned directory must hold only contracts. (Skill-bundled agents — `skills/*/agents/*.md`, frontmatter-less and spawned ad hoc through the Agent tool, never symlinked or scanned — are their skill's bundled resources, outside this jurisdiction.) Only *Publishing* below is conditional: it applies to repo-bound agents.
 
 ## Positioning & taxonomy
 
@@ -61,7 +61,7 @@ Then interview the user; each answer fills one contract field:
 
 Ask these with the verbatim templates in `references/interview.md`. Cold start runs them as written, one at a time; when prior context already answers a field, present the inferred answer for confirmation instead of re-asking — fine-tune the template, never skip the sign-off.
 
-**Capability checkpoint** — present this menu verbatim. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
+**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
 ```
 single-select · header: 「能力選用」

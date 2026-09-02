@@ -91,6 +91,9 @@
   - 每個 skill 都附一份固定格式的 `README.md`，規範見 [`references/readme-guide.md`](references/readme-guide.md)
   - 同步產出 `LICENSE` 與 `NOTICE`
   - 語言、標題 spacer、列點與標點樣式需維持一致
+- **適用範圍包含所有自建 skill**：
+  - 全域 skill 統一放在 `claude-skills` repo，再將整包目錄逐一 symlink 到 `~/.claude/skills/`；只服務單一專案的 skill 則作為例外，直接放進該專案版控
+  - 直接透過第三方安裝的 skill 不納入這套流程
 
 　
 

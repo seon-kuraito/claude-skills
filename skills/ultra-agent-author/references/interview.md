@@ -1,6 +1,6 @@
 # Interview
 
-Run the Step 1 interview with the fixed copy below — the 「」 strings are the user-facing copy, shown exactly; everything outside 「」 is English direction, never shown. Menus follow the AskUserQuestion discipline in [ultra-skill-author's writing guide](../../ultra-skill-author/references/writing-guide.md); questions marked *(open)* have no enumerable option set — ask them as plain prose questions, copy verbatim.
+Run the Step 1 interview with the fixed copy below — the 「」 strings are the user-facing copy, shown exactly; everything outside 「」 is English direction, never shown. **Present every menu block through the AskUserQuestion tool** — `single-select` maps to one question, `header` / `question` / `options` map to the tool's fields verbatim (discipline: [ultra-skill-author's writing guide](../../ultra-skill-author/references/writing-guide.md)). Questions marked *(open)* have no enumerable option set — ask them as plain prose questions, copy verbatim, not through the tool.
 
 Two starting modes:
 
