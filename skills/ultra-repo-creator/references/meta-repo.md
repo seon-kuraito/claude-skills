@@ -21,7 +21,7 @@ A family is a set of repos coordinated by one meta repo. Resolve its name in ord
 
 ### Owner
 
-Ask which account or organization owns the family. Read the candidates from `gh api user/orgs --jq '.[].login'` and `gh api user --jq .login`, then offer them as the options.
+Ask which account or organization owns the family — always ask here, never fall back to the default. The menu is the 「擁有者」 block in `SKILL.md`'s *Resolving the owner*; present it verbatim from there.
 
 This answer decides the member names through *Family naming* in `SKILL.md`:
 
@@ -32,10 +32,16 @@ Resolving the owner here rather than at the push gate is load-bearing: the names
 
 ### Family type
 
-Ask which kind it is — this switches the generated `CLAUDE.md` / `README.md` framing:
+This switches the framing of the generated `CLAUDE.md` / `README.md`. Present this menu verbatim:
 
-- **同型家族 (typed family)** — every member is the same *kind* of thing. Framing: a clean 1:1 family table, uniform members.
-- **混合家族 (mixed family)** — members are different things, united only by owner / theme. Framing: heterogeneous, "don't assume symmetry," an app cluster.
+```
+single-select · header: 「家族類型」
+question: 「這個家族是哪一種？」
+options:
+  · 「同型家族 Typed」 — 「每個成員都是同一種東西，對應同一種角色；產出的成員表是整齊的 1:1 對應。」
+  · 「混合家族 Mixed」 — 「成員類型不同，靠擁有者或主題放在同一層協調；產出的說明不假設成員對稱。」
+[Rule, not copy] the answer decides which block survives in the templates — keep the chosen one, delete the markers and the other block.
+```
 
 ### Members
 

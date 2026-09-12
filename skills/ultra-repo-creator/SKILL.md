@@ -40,6 +40,16 @@ Every repo lands at `~/Developer/<owner>/<repo>` — the local path mirrors `git
 - **A local-only repo still lands under the default owner.** A repo without a remote is the common case that later gets one, and it almost always gets the default account. Parking it elsewhere buys a second move for nothing.
 - **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, move it under the resolved owner before the first commit.
 
+**Resolving the owner.** When the user names one, use it and ask nothing. When they call for an organization without naming which one, or when the meta-repo interview reaches its owner question, present this menu verbatim:
+
+```
+single-select · header: 「擁有者」
+question: 「這個 repo 要放在哪一個 owner 底下？」
+options:
+  · 「<login>」 — 「建在 <login> 底下，本機路徑是 ~/Developer/<login>/<name>。」
+[Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Drop the personal account from the options when the user ruled it out. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. Never infer an owner from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
+```
+
 **Family naming.** A family is a set of repos coordinated by one meta repo. Whether a member carries the family name depends on whether the owner already carries it:
 
 | Condition | Members | Meta repo |
