@@ -247,7 +247,7 @@ def main():
     parser.add_argument("--skill-path", required=True, help="Path to skill directory")
     parser.add_argument("--description", default=None, help="Override starting description")
     parser.add_argument("--num-workers", type=int, default=10, help="Number of parallel workers")
-    parser.add_argument("--timeout", type=int, default=30, help="Timeout per query in seconds")
+    parser.add_argument("--timeout", type=int, default=60, help="Timeout per query in seconds")
     parser.add_argument("--max-iterations", type=int, default=5, help="Max improvement iterations")
     parser.add_argument("--runs-per-query", type=int, default=3, help="Number of runs per query")
     parser.add_argument("--trigger-threshold", type=float, default=0.5, help="Trigger rate threshold")
@@ -256,6 +256,7 @@ def main():
     parser.add_argument("--verbose", action="store_true", help="Print progress to stderr")
     parser.add_argument("--report", default="auto", help="Generate HTML report at this path (default: 'auto' for temp file, 'none' to disable)")
     parser.add_argument("--results-dir", default=None, help="Save all outputs (results.json, report.html, log.txt) to a timestamped subdirectory here")
+    parser.add_argument("--allow-installed-skill", action="store_true", help="Run even when the skill is already installed in ~/.claude/skills (results will be meaningless — see the guard message)")
     args = parser.parse_args()
 
     eval_set = json.loads(Path(args.eval_set).read_text())
@@ -266,6 +267,27 @@ def main():
         sys.exit(1)
 
     name, _, _ = parse_skill_md(skill_path)
+
+    installed = Path.home() / ".claude" / "skills" / name
+    if installed.exists() and not args.allow_installed_skill:
+        print(
+            f"Error: {name} is already installed at {installed}.\n"
+            "\n"
+            "Trigger measurement cannot work in that state. The loop installs a\n"
+            "probe skill carrying the candidate description, but the installed\n"
+            "skill offers the agent the same capability under its own name. The\n"
+            "agent picks the installed one, the probe name never appears, and every\n"
+            "query scores 0.0 — including the ones that obviously should trigger.\n"
+            "The run still prints a score, and that score is an artifact: it counts\n"
+            "only the should-not-trigger queries.\n"
+            "\n"
+            "Options:\n"
+            f"  - tune the description before linking the skill into ~/.claude/skills\n"
+            f"  - unlink {installed} for the duration of the run, then relink it\n"
+            "  - pass --allow-installed-skill to run anyway and read nothing into the score",
+            file=sys.stderr,
+        )
+        sys.exit(2)
 
     # Set up live report path
     if args.report != "none":

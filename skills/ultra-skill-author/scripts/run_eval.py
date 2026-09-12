@@ -9,6 +9,7 @@ import argparse
 import json
 import os
 import select
+import shutil
 import subprocess
 import sys
 import time
@@ -42,30 +43,39 @@ def run_single_query(
 ) -> bool:
     """Run a single query and return whether the skill was triggered.
 
-    Creates a command file in .claude/commands/ so it appears in Claude's
-    available_skills list, then runs `claude -p` with the raw query.
+    Installs a probe skill at .claude/skills/<name>/SKILL.md so it appears in
+    Claude's available_skills list, then runs `claude -p` with the raw query.
+    A slash command in .claude/commands/ does NOT work here: the agent cannot
+    invoke one, so the Skill tool below would never fire and every query would
+    score as "not triggered".
     Uses --include-partial-messages to detect triggering early from
     stream events (content_block_start) rather than waiting for the
     full assistant message, which only arrives after tool execution.
     """
     unique_id = uuid.uuid4().hex[:8]
     clean_name = f"{skill_name}-skill-{unique_id}"
-    project_commands_dir = Path(project_root) / ".claude" / "commands"
-    command_file = project_commands_dir / f"{clean_name}.md"
+    # Each call gets its own root. Workers run in parallel, and a shared
+    # .claude/skills would show the agent several near-identical probes at
+    # once — it picks one of the others, the name never matches, and the
+    # query scores as a miss.
+    probe_root = Path(project_root) / ".skill-eval" / unique_id
+    probe_dir = probe_root / ".claude" / "skills" / clean_name
+    probe_file = probe_dir / "SKILL.md"
 
     try:
-        project_commands_dir.mkdir(parents=True, exist_ok=True)
+        probe_dir.mkdir(parents=True, exist_ok=True)
         # Use YAML block scalar to avoid breaking on quotes in description
         indented_desc = "\n  ".join(skill_description.split("\n"))
-        command_content = (
+        probe_content = (
             f"---\n"
+            f"name: {clean_name}\n"
             f"description: |\n"
             f"  {indented_desc}\n"
             f"---\n\n"
             f"# {skill_name}\n\n"
             f"This skill handles: {skill_description}\n"
         )
-        command_file.write_text(command_content)
+        probe_file.write_text(probe_content)
 
         cmd = [
             "claude",
@@ -86,7 +96,7 @@ def run_single_query(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
-            cwd=project_root,
+            cwd=str(probe_root),
             env=env,
         )
 
@@ -138,7 +148,11 @@ def run_single_query(
                                     pending_tool_name = tool_name
                                     accumulated_json = ""
                                 else:
-                                    return False
+                                    # An agent often opens with TodoWrite or Bash
+                                    # and reaches for the skill after. Keep
+                                    # scanning instead of scoring this as a miss.
+                                    pending_tool_name = None
+                                    accumulated_json = ""
 
                         elif se_type == "content_block_delta" and pending_tool_name:
                             delta = se.get("delta", {})
@@ -147,13 +161,22 @@ def run_single_query(
                                 if clean_name in accumulated_json:
                                     return True
 
-                        elif se_type in ("content_block_stop", "message_stop"):
-                            if pending_tool_name:
-                                return clean_name in accumulated_json
-                            if se_type == "message_stop":
-                                return False
+                        elif se_type == "content_block_stop":
+                            if pending_tool_name and clean_name in accumulated_json:
+                                return True
+                            pending_tool_name = None
+                            accumulated_json = ""
 
-                    # Fallback: full assistant message
+                        elif se_type == "message_stop":
+                            if pending_tool_name and clean_name in accumulated_json:
+                                return True
+                            return False
+
+                    # Fallback: full assistant message. The CLI emits one of
+                    # these per content block, and the agent's first block is
+                    # usually thinking — so a miss here means nothing yet.
+                    # Report a hit, never a miss: returning False here ends the
+                    # scan before the Skill block is ever streamed.
                     elif event.get("type") == "assistant":
                         message = event.get("message", {})
                         for content_item in message.get("content", []):
@@ -162,10 +185,9 @@ def run_single_query(
                             tool_name = content_item.get("name", "")
                             tool_input = content_item.get("input", {})
                             if tool_name == "Skill" and clean_name in tool_input.get("skill", ""):
-                                triggered = True
-                            elif tool_name == "Read" and clean_name in tool_input.get("file_path", ""):
-                                triggered = True
-                            return triggered
+                                return True
+                            if tool_name == "Read" and clean_name in tool_input.get("file_path", ""):
+                                return True
 
                     elif event.get("type") == "result":
                         return triggered
@@ -177,8 +199,7 @@ def run_single_query(
 
         return triggered
     finally:
-        if command_file.exists():
-            command_file.unlink()
+        shutil.rmtree(probe_root, ignore_errors=True)
 
 
 def run_eval(
