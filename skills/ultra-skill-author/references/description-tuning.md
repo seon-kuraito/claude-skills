@@ -62,7 +62,7 @@ Use the HTML template in `assets/eval_review.html`:
 4. The user can edit queries, toggle `should_trigger`, add or remove entries, then click *Export Eval Set*.
 5. The file downloads to `~/Downloads/eval_set.json`. Check Downloads for the most recent (`eval_set (1).json`, etc., if there are multiples).
 
-Save the approved eval set to the workspace.
+Save the approved eval set to the workspace. When a set turns out to be a good one — it separates the skill cleanly from its neighbours — copy it into the skill as `evals/trigger-eval.json`, so the next description change re-runs it instead of writing twenty fresh queries. Its other job is to record where the skill's boundary sits: the should-not-trigger half names the tasks that belong to sibling skills, which otherwise lives only in prose. A kept set has to be re-run whenever the description changes or a sibling joins the family — a stale one is worse than none.
 
 ## 3. Run the optimization loop
 
