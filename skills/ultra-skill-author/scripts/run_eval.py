@@ -54,7 +54,12 @@ def run_single_query(
     """
     unique_id = uuid.uuid4().hex[:8]
     clean_name = f"{skill_name}-skill-{unique_id}"
-    probe_dir = Path(project_root) / ".claude" / "skills" / clean_name
+    # Each call gets its own root. Workers run in parallel, and a shared
+    # .claude/skills would show the agent several near-identical probes at
+    # once — it picks one of the others, the name never matches, and the
+    # query scores as a miss.
+    probe_root = Path(project_root) / ".skill-eval" / unique_id
+    probe_dir = probe_root / ".claude" / "skills" / clean_name
     probe_file = probe_dir / "SKILL.md"
 
     try:
@@ -91,7 +96,7 @@ def run_single_query(
             cmd,
             stdout=subprocess.PIPE,
             stderr=subprocess.DEVNULL,
-            cwd=project_root,
+            cwd=str(probe_root),
             env=env,
         )
 
@@ -194,7 +199,7 @@ def run_single_query(
 
         return triggered
     finally:
-        shutil.rmtree(probe_dir, ignore_errors=True)
+        shutil.rmtree(probe_root, ignore_errors=True)
 
 
 def run_eval(
