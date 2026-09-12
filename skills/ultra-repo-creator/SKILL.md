@@ -21,19 +21,58 @@ question: 「要用哪一種範本建立這個 repo？」
 options:
   · 「空白專案 Blank」 — 「建立一般專案使用的純 git repo，包含 git init、空白 README 與標準 .gitignore。」
   · 「框架專案 Framework」 — 「建立 Next.js / Vite 等框架專案，可選擇已整理好的模板，或依需求逐步建立。」
-  · 「專案協調層 Meta-Repo」 — 「建立位於多個 <prefix>-* sibling-repo 之上的協調層。」
+  · 「專案協調層 Meta-Repo」 — 「建立用來協調多個 sibling repo 的 meta repo。」
 [Rule, not copy] if .git already exists (resuming a half-built repo), skip the menu and keep the repo as it stands.
 ```
 
 Per-template detail lives in the sections below ([meta-repo](references/meta-repo.md) carries its own reference). From there:
 
 1. **Build it locally** — run the template's local steps (below) without confirmation.
-2. **Remote decision** — once the project stands up locally, the *Execution gate* asks where the repo should live: a personal account, an organization, or local-only. Every template passes through it.
+2. **Push decision** — once the project stands up locally, the *Execution gate* asks whether to push it. The owner is resolved before this point — see *Where the repo lives*. Every template passes through it.
 3. **Hand off** to the initialize stage — for **all three templates**.
+
+## Where the repo lives
+
+Every repo lands at `~/Developer/<owner>/<repo>` — the local path mirrors `github.com/<owner>/<repo>` exactly, so the tree reads the same way the remote does. The root holds owner directories and nothing else.
+
+- **`<owner>`** — the account or organization that owns the repo. Default to the authenticated account (`gh api user --jq .login`). Use an organization only when the user names one, or when the meta-repo interview resolves one.
+- **`<repo>`** — the repo name, and also the directory name. The two never diverge, so `git clone` drops the directory where it belongs with no rename.
+- **A local-only repo still lands under the default owner.** A repo without a remote is the common case that later gets one, and it almost always gets the default account. Parking it elsewhere buys a second move for nothing.
+- **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, it has to move under the resolved owner before the first commit — but say so first, and say where it is going. The user asked for a repo, not for their directory layout to change, and the move pulls the ground out from under the shell they are standing in. Report the new path once it is done, so they can follow it.
+
+**Resolving the owner.** When the user names one, use it and ask nothing. When they call for an organization without naming which one, or when the meta-repo interview reaches its owner question, present this menu verbatim:
+
+```
+single-select · header: 「擁有者」
+question: 「這個 repo 要放在哪一個 owner 底下？」
+options:
+  · 「<login>」 — 「建在 <login> 底下，本機路徑是 ~/Developer/<login>/<name>。」
+[Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Drop the personal account from the options when the user ruled it out. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. Never infer an owner from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
+```
+
+**Family naming.** A family is a set of repos coordinated by one meta repo. Whether a member carries the family name depends on whether the owner already carries it:
+
+| Condition | Members | Meta repo |
+|---|---|---|
+| `<owner>` == `<family>` | `<token>` | `meta` |
+| `<owner>` != `<family>` | `<family>-<token>` | `<family>-meta` |
+
+In the first case the owner directory *is* the family container, so repeating the name inside every member buys nothing. In the second, one owner holds several families — the family name has to live in the repo name, or two families both claim `meta`.
 
 ## 🚧 Execution gate
 
-Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before binding a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` (the framed gate), then present the *Remote decision* menu below and act on the answer. That single answer both picks the owner and confirms, so the gate stays one question.
+Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before creating a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` (the framed gate), then present this menu verbatim and act on the answer.
+
+The owner is already resolved by this point — by the default rule above for blank / framework, or by the meta-repo interview. So the gate asks one thing: push or not.
+
+```
+single-select · header: 「遠端」
+question: 「要把這個 repo 推上 <owner> 嗎？」
+options:
+  · 「建立遠端並 push」 — 「在 <owner> 底下建立 public repo，並 push。」
+  · 「先不綁遠端」 — 「停在本機，不建立遠端，也不 push。」
+[Rule, not copy] substitute the resolved owner into both strings — the user confirms the destination by reading it, rather than picking it a second time.
+```
 
 ## blank
 
@@ -42,30 +81,20 @@ Local steps — `git init`, commits, scaffolding — run freely; they're local a
 1. **Guard first.** If the working directory already has files but is *not* a git repo, flag it before writing anything more — don't wait for the user to notice.
 2. `git init`.
 3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore.txt` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via ultra-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
-4. Existing work stays **untracked** until the remote decision; don't bundle it into the initial commit unless the user explicitly asks.
+4. Existing work stays **untracked** until the push decision; don't bundle it into the initial commit unless the user explicitly asks.
 
-**Remote decision (*Execution gate*)** — render the framed gate, then present this menu verbatim:
+**Push decision (*Execution gate*)** — run the gate above, then:
 
-```
-single-select · header: 「遠端」
-question: 「要把這個 repo 建在哪裡？」
-options:
-  · 「個人帳號」 — 「建在目前 gh 登入的帳號底下，public，並 push。」
-  · 「Organization」 — 「建在某個 GitHub Organization 底下，public，並 push。」
-  · 「不綁遠端」 — 「先停在本機，不建立遠端，也不 push。」
-[Rule, not copy] include 「Organization」 only when `gh api user/orgs --jq 'length'` returns ≥1 — don't offer a path the account cannot take.
-```
-
-- **個人帳號** / **Organization** → resolve the owner, ensure the branch is `main` (`git branch -M main`), then:
+- **建立遠端並 push** → ensure the branch is `main` (`git branch -M main`), then:
 
   ```sh
   gh repo create <owner>/<name> --public --source . --remote origin --push
   ```
 
-  `<owner>` is the authenticated account for 個人帳號, or the org login for Organization — read the logins from `gh api user/orgs --jq '.[].login'` and ask which one only when it returns more than one. Always write the owner explicitly: a bare `<name>` creates under the personal account without saying so, which silently sends an org's repo to the wrong home.
+  Always write the owner explicitly: a bare `<name>` creates under the personal account without saying so, which silently sends an org's repo to the wrong home.
 
   Always **public** — no visibility question (a deliberate personal-fit default; create a private repo by hand if ever needed). If `gh` is unavailable, fall back to `git remote add origin <url>` → `git branch -M main` → `git push -u origin main`.
-- **不綁遠端** → stay local-only; stop here (still offer the *Hand-off*).
+- **先不綁遠端** → stay local-only; stop here (still offer the *Hand-off*).
 
 ## framework
 
@@ -85,7 +114,7 @@ options:
 1. **Scaffold.** From the parent directory: `npm create "vite@~9.1" <name> -- --template react-compiler-ts --eslint` — Vite's React Compiler + TypeScript starter (minor pinned, patch floats). `--eslint` selects ESLint over create-vite's default linter (Oxlint); it is **required, not optional** — a non-interactive (no-TTY) run silently takes the default, so the linter prompt never appears to be answered. It creates `<name>/` with its own `.gitignore`.
 2. **Install.** `cd <name>`, then `npm install` — `npm create vite` produces no lockfile, so this generates `package-lock.json` (`node_modules` is already gitignored). Commit the lockfile so a later `npm ci` (the standard CI / deploy install) has one to work from.
 3. **Initial commit.** `git init`, then commit the whole scaffold — **including `package-lock.json`** — as one commit, fixed message `chore: scaffold vite react app` (verbatim — not via ultra-commit-creator). `npm create vite` does not init git, so this `git init` is load-bearing.
-4. **Remote decision (*Execution gate*)** — same as blank.
+4. **Push decision (*Execution gate*)** — same as blank.
 5. **Hand off** to the initialize stage.
 
 Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **not** set here; they belong to the deploy stage ([ultra-project-deployer](../ultra-project-deployer/SKILL.md)'s Vite caveat).
@@ -94,12 +123,12 @@ Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **n
 
 1. Ask which framework / template the user wants.
 2. Run its own init locally, commit as you go. Framework scaffolds normally generate their own `.gitignore`; only if one didn't, offer the standard `assets/blank/gitignore.txt`.
-3. **Remote decision (*Execution gate*)** — same as blank.
+3. **Push decision (*Execution gate*)** — same as blank.
 4. **Hand off** to the initialize stage.
 
 ## meta-repo
 
-A coordination layer over `<prefix>-*` siblings — the pattern behind `claude-meta`, `bootcamp-rocket-meta`, and `personal-meta`. Built locally with its own scaffold + git ceremony, then through the **same remote decision and hand-off as the other templates** — the flow is fully uniform. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound.
+A coordination layer over sibling repos that share one owner directory. Built locally with its own scaffold + git ceremony, then through the **same push decision and hand-off as the other templates** — the flow is fully uniform. Its second-round interview resolves the owner, which fixes the member names through the *Family naming* table above. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound.
 
 **Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 

@@ -1,0 +1,82 @@
+[
+  {
+    "query": "just finished scaffolding a little cli tool in ~/code/scratch, nothing is under version control yet. can you get it into git and up on github for me",
+    "should_trigger": true
+  },
+  {
+    "query": "我想開一個新專案，前端用 vite + react，順便幫我把 repo 建好",
+    "should_trigger": true
+  },
+  {
+    "query": "i have four repos that always change together and i keep forgetting to update the others. is there a way to put something on top of them",
+    "should_trigger": true
+  },
+  {
+    "query": "turn this folder into a repo please, its got about 200 files of notes in it",
+    "should_trigger": true
+  },
+  {
+    "query": "need to spin up a quick throwaway repo to test something, don't bother pushing it anywhere",
+    "should_trigger": true
+  },
+  {
+    "query": "my team wants this under the company org instead of my personal account — can you set that up and push it",
+    "should_trigger": true
+  },
+  {
+    "query": "ok so i've been working in this directory for like two weeks with no git at all. help",
+    "should_trigger": true
+  },
+  {
+    "query": "start a new next.js project called invoice-tracker and put it on github",
+    "should_trigger": true
+  },
+  {
+    "query": "我這幾個 sibling 專案想弄一個協調層，有點像 monorepo 但又不想真的變成 monorepo",
+    "should_trigger": true
+  },
+  {
+    "query": "can you bind a remote to this? i already did git init and made a couple commits but theres no origin yet",
+    "should_trigger": true
+  },
+  {
+    "query": "this repo already exists on github. i need to add an MIT license and set up the conventional commit labels",
+    "should_trigger": false
+  },
+  {
+    "query": "what should i name the branch for this refactor work",
+    "should_trigger": false
+  },
+  {
+    "query": "write me a commit message for the changes i just staged",
+    "should_trigger": false
+  },
+  {
+    "query": "open a PR for this branch and write a decent description for it",
+    "should_trigger": false
+  },
+  {
+    "query": "deploy this vite app to github pages",
+    "should_trigger": false
+  },
+  {
+    "query": "clone the upstream repo and check out the v2 branch for me",
+    "should_trigger": false
+  },
+  {
+    "query": "i committed a file i shouldn't have, two commits back. how do i scrub it from history",
+    "should_trigger": false
+  },
+  {
+    "query": "protect the main branch on this repo so nobody can force push to it",
+    "should_trigger": false
+  },
+  {
+    "query": "我的 git status 顯示一堆檔案被改到，可是我什麼都沒動，這是為什麼",
+    "should_trigger": false
+  },
+  {
+    "query": "add a python gitignore to this existing project, it keeps tracking __pycache__",
+    "should_trigger": false
+  }
+]
