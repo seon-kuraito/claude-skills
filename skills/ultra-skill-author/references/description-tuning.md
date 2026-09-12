@@ -66,6 +66,21 @@ Save the approved eval set to the workspace.
 
 ## 3. Run the optimization loop
 
+### Prerequisite — the skill must not be installed yet
+
+The loop measures triggering by installing a **probe skill** that carries the candidate description, then watching whether the agent reaches for it. An installed copy of the same skill breaks that measurement: it offers the agent the same capability under its own name, so the agent picks it and the probe name never appears. Every query then scores 0.0 — including ones that obviously should trigger — while the run still prints a score assembled from the should-not-trigger half of the set alone. That score looks ordinary and means nothing.
+
+A project-level copy does not help: a skill in `~/.claude/skills` wins over one in the project's `.claude/skills`, so the probe cannot shadow it.
+
+`run_loop.py` refuses to start in that state and names the installed path. Resolve it one of three ways:
+
+- tune the description **before** linking the skill into `~/.claude/skills`;
+- unlink it for the duration of the run, then relink it with the repo's `scripts/link-skill.sh`;
+- pass `--allow-installed-skill` to run anyway for some other reason, and read nothing into the score.
+
+This bites hardest on a repo-bound skill, which gets linked into the runtime as soon as it exists. For those, tuning belongs in the window between authoring and linking, or with the link temporarily removed.
+
+
 Tell the user: *"This will take some time — I'll run the optimization loop in the background and check on it periodically."*
 
 Background:
