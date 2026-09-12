@@ -70,13 +70,17 @@ For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigg
 
 **Confirm point** — if the user opted into evals at the capability checkpoint, ask whether to proceed into the eval loop now. If yes, follow `references/evals.md`.
 
+## Step 4: Tune the description (opt-in)
+
+**Confirm point** — if the user opted into description-tuning at the capability checkpoint, ask whether to run the optimization loop now. If yes, follow `references/description-tuning.md`.
+
+Run it **here**, before publishing, for two reasons. The loop measures triggering by installing a probe skill, and an installed copy of the skill under test defeats that measurement — `references/publishing.md` step 5 links the skill into `~/.claude/skills/`, so once publishing has run the loop refuses to start. Tuning at this point also puts the improved description into the publishing commit instead of needing a follow-up one. An existing skill is already linked, so tuning it means unlinking for the duration of the run — see the prerequisite in `references/description-tuning.md`.
+
 ## Publishing & licensing
 
 When a skill is destined for the user's `claude-skills` repo, follow `references/publishing.md` end to end: pick the license files by provenance (MIT for original; upstream `LICENSE` + `NOTICE` for derived; copyleft / unclear → don't publish), then run the git workflow — branch → create/edit → sync catalog → link → verify → gated commit, delegating to ultra-branch-creator / ultra-commit-creator. Read it before creating or modifying a repo skill.
 
 ## After the skill is complete
-
-**Confirm point** — if the user opted into description-tuning, ask whether to run the optimization loop now. If yes, follow `references/description-tuning.md`.
 
 **Modifying existing skill only** — proactively offer blind A/B comparison between old and new versions. If the user accepts, follow `references/blind-comparison.md`.
 
