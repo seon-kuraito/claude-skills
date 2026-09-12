@@ -1,6 +1,6 @@
-# CLAUDE.md — {{PREFIX}}-meta
+# CLAUDE.md — {{MEMBER_PREFIX}}meta
 
-The **coordination layer** for the `{{PREFIX}}-*` family: a meta repo that sits above several independent sibling projects. It exists so that an agent working here gets the *whole* picture across them at once, governed by shared norms — instead of editing one blind to the others.
+The **coordination layer** for the `{{FAMILY}}` family: a meta repo that sits above several independent sibling projects. It exists so that an agent working here gets the *whole* picture across them at once, governed by shared norms — instead of editing one blind to the others.
 
 It holds coordination docs, not project content. Each member is its own repo with its own lifecycle; this layer never holds their files.
 
@@ -15,7 +15,7 @@ Every member is the **same kind of thing** — they map 1:1 onto one shared role
 This is a **mixed family**: the members are different kinds of thing, united by owner / theme rather than a shared structural type. Don't assume symmetry between them — each documents itself in its own `README.md` / `.claude/CLAUDE.md`; read that before working there (the table below is a pointer, not a catalog, and it rots).
 {{/混合}}
 
-Members, all siblings under `~/Developer/` — reach them at `../{{PREFIX}}-*`:
+Members, all siblings under `~/Developer/{{OWNER}}/` — reach them at `../<member>`:
 
 {{MEMBER_TABLE}}
 
@@ -23,19 +23,21 @@ Members, all siblings under `~/Developer/` — reach them at `../{{PREFIX}}-*`:
 
 - **Coordinate without a monorepo.** The members are coupled (they change together, share norms) but must stay independent repos — each linkable and ownable on its own. A monorepo would bind them architecturally; a meta layer coordinates them without that cost.
 - **Give the AI the full picture.** Working one member blind to the others drifts. Running coordination from here — with this file and the siblings in view — is the anti-drift mechanism, by context and norms rather than check scripts.
-- **A reusable pattern.** The same "meta layer over N independent repos" shape is shared with `claude-meta`, `bootcamp-rocket-meta`, and other clusters.
+- **A reusable pattern.** The same "meta layer over N independent repos" shape carries to any other cluster of coupled repos.
 
 ## How the family is wired
 
-- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos live at `~/Developer/{{PREFIX}}-*` (the single source of truth); they are **not** mirrored in-tree here — reach them at the relative paths `../{{PREFIX}}-*`. A committed `{{PREFIX}}-meta.code-workspace` (under `.vscode/`) lists every member as a VS Code root for human review.
-- **Naming.** Members are `{{PREFIX}}-<token>`; this layer is `{{PREFIX}}-meta`. A new member needs no wiring here — reach it at `../{{PREFIX}}-<token>` like the rest.
+- **Pointer, not container.** This layer points at the member repos; it never holds their files. The real repos sit beside it under `~/Developer/{{OWNER}}/` (the single source of truth); they are **not** mirrored in-tree here — reach them at the relative path `../<member>`.
+- **The local path mirrors the remote.** `~/Developer/{{OWNER}}/<repo>` maps to `github.com/{{OWNER}}/<repo>`, so a directory name is also a repo name.
+- **Naming.** Members are `{{MEMBER_PREFIX}}<token>`; this layer is `{{MEMBER_PREFIX}}meta`. A new member needs no wiring here — reach it at `../{{MEMBER_PREFIX}}<token>` like the rest.
+- **The workspace.** `{{FAMILY}}.code-workspace` sits one level up in `~/Developer/{{OWNER}}/` and lists every member as a VS Code root. It is **not** version-controlled — no repo owns that directory. Adding a member means editing it alongside the tables in this file and `README.md`.
 - **Git ceremony.** Follows the shared `*-meta` ceremony — subject-only Conventional Commits. The members keep their own git lifecycles; confirm per repo.
 - **Provenance.** Per-member `LICENSE`. Each member owns its own git / remote / visibility setup; this layer does not track that state.
 
 ## Working across the family
 
 - **The coupling rule.** A convention worth keeping in one member is often worth carrying to the others. When you touch shared structure in one, check whether the siblings want the same move.
-- **Run coordination from here.** This file loads only in `{{PREFIX}}-meta` sessions, so cross-member work should be driven from this layer — reach the siblings at `../{{PREFIX}}-*` (the workspace lists them too). Scope `Grep`/`Glob` to those sibling paths explicitly; a bare `.` search stays inside this repo and won't reach them. Commits still land in each real repo (`~/Developer/{{PREFIX}}-*`), never here.
+- **Run coordination from here.** This file loads only in `{{MEMBER_PREFIX}}meta` sessions, so cross-member work should be driven from this layer — reach the siblings at `../<member>` (the workspace lists them too). Scope `Grep`/`Glob` to those sibling paths explicitly; a bare `.` search stays inside this repo and won't reach them. Commits still land in each real repo, never here.
 
 ## North star & judgment frame
 
