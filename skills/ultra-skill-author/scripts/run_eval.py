@@ -167,7 +167,11 @@ def run_single_query(
                                 return True
                             return False
 
-                    # Fallback: full assistant message
+                    # Fallback: full assistant message. The CLI emits one of
+                    # these per content block, and the agent's first block is
+                    # usually thinking — so a miss here means nothing yet.
+                    # Report a hit, never a miss: returning False here ends the
+                    # scan before the Skill block is ever streamed.
                     elif event.get("type") == "assistant":
                         message = event.get("message", {})
                         for content_item in message.get("content", []):
@@ -176,10 +180,9 @@ def run_single_query(
                             tool_name = content_item.get("name", "")
                             tool_input = content_item.get("input", {})
                             if tool_name == "Skill" and clean_name in tool_input.get("skill", ""):
-                                triggered = True
-                            elif tool_name == "Read" and clean_name in tool_input.get("file_path", ""):
-                                triggered = True
-                        return triggered
+                                return True
+                            if tool_name == "Read" and clean_name in tool_input.get("file_path", ""):
+                                return True
 
                     elif event.get("type") == "result":
                         return triggered
