@@ -19,7 +19,21 @@
       "id": 3,
       "name": "org-owner-named-explicitly",
       "prompt": "Bind a remote for this repo and push it, but it belongs to my organization, not my personal account.",
-      "expected_output": "At the Execution gate the Remote decision menu must appear with the 「Organization」 option, and the command that runs MUST name the owner: `gh repo create <org>/<name> --public --source . --remote origin --push`. A bare `gh repo create <name>` is wrong — it creates under the personal account. The org login comes from `gh api user/orgs`; asking the user which org is correct only when more than one is returned.",
+      "expected_output": "The owner resolves to the org BEFORE the scaffold, so the project lands at `~/Developer/<org>/<name>` — the local path mirrors `github.com/<org>/<name>`. The Execution gate asks one thing only: whether to push (two options). A three-option menu that asks WHERE to build is the old behaviour and is wrong. The command must name the owner: `gh repo create <org>/<name> --public --source . --remote origin --push`; a bare `gh repo create <name>` is wrong because it creates under the personal account.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "name": "meta-repo-owner-equals-family",
+      "prompt": "I want a meta repo to coordinate the repos I keep under one GitHub org. The org has the same name as the project family.",
+      "expected_output": "The second-round interview must ask for the owner, not take it from a default. Because owner == family, members are named `<token>` with NO family prefix and the coordination layer is `meta` — naming it `<family>-meta` here is wrong. The workspace is written to `~/Developer/<org>/<family>.code-workspace`, one level ABOVE the meta repo, and is NOT part of the scaffold commit; that commit covers README.md, CLAUDE.md and .gitignore only. Placing the workspace under the meta repo's `.vscode/` is the old behaviour and is wrong.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "name": "meta-repo-owner-differs-from-family",
+      "prompt": "Scaffold a coordination layer over my three sibling projects. They live under my personal account, not an org.",
+      "expected_output": "The owner is the personal account and differs from the family name, so members KEEP the prefix (`<family>-<token>`) and the layer is `<family>-meta`. Dropping the prefix here is wrong — one account holds several families and they would all collide on `meta`. The workspace still sits in the owner directory as `<family>.code-workspace` and stays out of version control, because no repo owns that directory.",
       "files": []
     }
   ]
