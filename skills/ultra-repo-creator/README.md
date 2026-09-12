@@ -1,6 +1,6 @@
 # Ultra Repo Creator
 
-從零建立 repo 時，先選一種模板（blank／framework／meta-repo），最後再確認這個 repo 要建在哪裡。
+從零建立 repo 時，先選一種模板（blank／framework／meta-repo），最後再確認要不要推上遠端。
 
 　
 
@@ -30,9 +30,13 @@
   - blank＝本地空白 repo
   - framework＝已整理好的框架模板，或依對話逐步建立
   - meta-repo＝協調層（scaffold＋git ceremony）
+- **本機路徑對應 GitHub 路徑**：
+  - repo 一律建在 `~/Developer/<owner>/<repo>`，對應 `github.com/<owner>/<repo>`
+  - `<owner>` 預設為目前 `gh` 登入的帳號；使用者指定 Organization，或建立 meta-repo 時，再依脈絡調整
+  - 家族成員是否保留家族名前綴，依 `<owner>` 與家族名的關係決定，規則見 [`SKILL.md`](SKILL.md)
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
-  - 結尾再確認建在個人帳號、Organization，或先停在本機
+  - 結尾再確認要不要推上遠端
 - **可接續既有 repo**：
   - 若已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
@@ -72,14 +76,13 @@
   - 若已是 git repo，依目前狀態接續建立流程，只處理還沒完成的本地或遠端步驟
 - **模板只影響本地建立內容**：
   - 模板只決定一開始要產生哪些本地檔案與 commit 節奏，不影響後面的遠端與初始化流程
-  - 本地完成後，三種模板都走同一個遠端確認與初始化交接流程
+  - 本地完成後，三種模板都走同一個 push 確認與初始化交接流程
 - **只負責 repo 建立與編排**：
   - 本 skill 專注於建立 repo 與綁定遠端
   - branch 保護交由 [`ultra-project-initializer`](../ultra-project-initializer) 在「初始化專案」階段選配
 - **高影響操作前先確認**：
   - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
-  - 這道確認同時決定 repo 建在哪裡：個人帳號、Organization，或先停在本機
-  - 帳號沒有加入任何 Organization 時，不顯示 Organization 這個選項
+  - 擁有者會在進入這道確認前決定；這裡只確認是否推上遠端
   - 若選擇綁遠端，固定 public，不再詢問可見性（要 private 時自行手動建立）
 - **初始 commit 維持精簡**：
   - 放一份完全空白的 `README.md` 與一份標準 `.gitignore`
@@ -100,8 +103,9 @@
 - **可見性**：
   - 若綁遠端則固定 public、不提供 private 選項
 - **擁有者**：
-  - 由遠端確認步驟決定，指令一律寫成 `gh repo create <owner>/<name>`
-  - Organization 名稱取自 `gh api user/orgs`，超過一個時才追問是哪一個
+  - 預設為目前 `gh` 登入的帳號；使用者指定 Organization，或 meta-repo 訪談需要時才改用
+  - 指令一律寫成 `gh repo create <owner>/<name>`
+  - Organization 名稱取自 `gh api user/orgs`
 - **接續的初始化 skill**：
   - 三種模板建好後都可接續交給「初始化專案」skill（例如：[`ultra-project-initializer`](../ultra-project-initializer)）
   - 該 skill 尚未建立或不存在時，確認後略過即可
