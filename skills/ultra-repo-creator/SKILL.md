@@ -38,7 +38,7 @@ Every repo lands at `~/Developer/<owner>/<repo>` — the local path mirrors `git
 - **`<owner>`** — the account or organization that owns the repo. Default to the authenticated account (`gh api user --jq .login`). Use an organization only when the user names one, or when the meta-repo interview resolves one.
 - **`<repo>`** — the repo name, and also the directory name. The two never diverge, so `git clone` drops the directory where it belongs with no rename.
 - **A local-only repo still lands under the default owner.** A repo without a remote is the common case that later gets one, and it almost always gets the default account. Parking it elsewhere buys a second move for nothing.
-- **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, move it under the resolved owner before the first commit.
+- **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, it has to move under the resolved owner before the first commit — but say so first, and say where it is going. The user asked for a repo, not for their directory layout to change, and the move pulls the ground out from under the shell they are standing in. Report the new path once it is done, so they can follow it.
 
 **Resolving the owner.** When the user names one, use it and ask nothing. When they call for an organization without naming which one, or when the meta-repo interview reaches its owner question, present this menu verbatim:
 
