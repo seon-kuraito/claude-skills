@@ -14,6 +14,8 @@ After the skill draft exists, write 2–3 realistic test prompts — the kind of
 
 Save them to `evals/evals.json` inside the skill directory. **Don't write assertions yet** — just the prompts. Assertions get drafted in the next step while the test runs are in progress (free time).
 
+**Keep the prompt neutral.** Write what a real user would say, not a description of the trap. A prompt that names the pitfall ("I'm inside an existing repo — create a *new* one") lets any agent reason its way around it, so the old and new versions pass alike and the eval measures nothing. Put the setup a run needs — the cwd, existing files, accounts — into the run context and `expected_output`, never into the prompt.
+
 ### Schema
 
 See `references/schemas.md` § *evals.json* for the full structure.
@@ -75,7 +77,18 @@ Execute this task:
 **Baseline subagent** depends on the task type:
 
 - **New skill** — same prompt, no skill path. Save to `without_skill/outputs/`. The baseline is "what would Claude do without this skill at all."
-- **Modifying an existing skill** — snapshot the previous version *before editing* (`cp -r <skill-path> <workspace>/skill-snapshot/`), then point the baseline subagent at the snapshot. Save to `old_skill/outputs/`.
+- **Modifying an existing skill** — snapshot the previous version *before editing* (`cp -r <skill-path> <workspace>/skill-snapshot/`), then point the baseline subagent at the snapshot. Save to `old_skill/outputs/`. If the edits already happened, rebuild the snapshot from git instead: `git -C <repo> archive <base-branch> skills/<name> | tar -x -C <workspace>/skill-snapshot --strip-components=1`.
+
+**Check that an eval discriminates before fanning out.** When an eval is new, run that one eval first. If both configurations pass it, it cannot tell the versions apart — usually the prompt gives the answer away — so fix it before spending runs on the rest.
+
+### Skills that ask the user
+
+A subagent has no user to answer an `AskUserQuestion` menu, and a skill that touches real directories or remotes must not touch them during a test run. Give every run of such a skill the same harness:
+
+- **Sandbox the environment.** Build a throwaway tree per run — one for with-skill, one for the baseline — and state the substitutions as binding in the prompt: which real path the sandbox stands for, what the cwd is, which read-only commands are allowed, and that nothing outward (push, remote creation) may run. Record the sandbox's state before the run so a script can diff it afterwards.
+- **Record menus instead of asking.** The subagent writes every menu or question verbatim into its transcript, answers it from the task prompt when the prompt answers it, otherwise from the eval's answer sheet, and notes which source it used.
+- **Stop at the first unanswered question.** No guessing — where the run stops is itself evidence.
+- **Write an answer sheet per eval.** List what the user would reply to each question the skill might ask, and tell the subagent to use an entry only when the skill actually asks it. Leave the sheet out when the point of the eval is where the skill stops.
 
 ### eval_metadata.json (per eval)
 
@@ -115,6 +128,7 @@ Good assertions are:
 - **Objectively verifiable** — pass/fail can be decided without subjective judgment.
 - **Descriptively named** — they should read clearly in the benchmark viewer so a glance tells you what each one is checking.
 - **Programmatic where possible** — assertions that can be checked by a script (file exists, JSON has key X, output contains Y) should be checked by script, not eyeballed. Scripts are faster, more reliable, and reusable across iterations.
+- **Reachable** — an assertion about a step the run never reaches (it stopped at an earlier question) cannot fail, so it tests nothing. Extend the answer sheet so the run gets there, or drop the assertion.
 
 Subjective skills (writing style, design quality) are evaluated qualitatively in the human review step — don't force assertions onto judgment calls.
 

@@ -18,9 +18,10 @@ It's complementary to assertion-based evals — assertions check *did the output
 
 The basic idea: give two outputs to an independent agent **without telling it which is which**, let it judge quality, then analyze why the winner won.
 
-1. **Run both versions on the same eval prompts** (the same eval set used in `references/evals.md`).
-2. **Spawn the comparator subagent** — see `agents/comparator.md` for its full contract. It receives two outputs labeled only "A" and "B" (no skill identity, no version info), evaluates them on a content/structure rubric, and returns a winner with reasoning. Schema: `references/schemas.md` § *comparison.json*.
-3. **Aggregate verdicts across the eval set.** A single win could be noise; consistent wins across multiple prompts indicate systematic improvement.
+1. **Run both versions on the same eval prompts** (the same eval set used in `references/evals.md`). Existing with-skill / baseline outputs can be reused — there is no need to re-run the executors.
+2. **Blind the outputs.** Copy each pair into neutral `A/` and `B/` directories, assigning the sides at random per eval and keeping the mapping outside anything the comparator reads. Before copying, strip whatever names a side from the transcripts: run-directory names such as `with_skill` / `old_skill`, snapshot paths, and the skill's own path. Grep the copies for those strings before handing them over.
+3. **Spawn the comparator subagent** — see `agents/comparator.md` for its full contract. It receives two outputs labeled only "A" and "B" (no skill identity, no version info), evaluates them on a content/structure rubric, and returns a winner with reasoning. **Pass no expectations**: assertions are written against the new spec, so they tell the comparator which side is new. Schema: `references/schemas.md` § *comparison.json*.
+4. **Aggregate verdicts across the eval set.** A single win could be noise; consistent wins across multiple prompts indicate systematic improvement.
 
 ## Analysis — explain *why* the winner won
 
@@ -33,6 +34,8 @@ After the comparator picks winners, spawn the analyzer subagent (`agents/analyze
 - **Transcript insights** — execution patterns observable in the transcripts (e.g., *winner read skill → followed 5 steps → used validation script*; *loser read skill → unclear → tried 3 different approaches*).
 
 Schema: `references/schemas.md` § *analysis.json*.
+
+Brief the analyzer on two things the outputs cannot show: anything added to the skill after the runs (so it does not score a later rule as ignored), and which behaviors are deliberate exclusions (so it does not suggest restoring them).
 
 ## Cross-iteration tracking
 
