@@ -11,7 +11,12 @@ Original work:
 This derivative modifies the original. Notable changes:
   - Default flow reduced to a 3-step interview / draft / review; the eval,
     description-tuning, and blind-comparison machinery is gated behind an
-    opt-in capability checkpoint rather than run by default.
+    opt-in capability checkpoint for new skills rather than run by default,
+    and offered after the change when modifying an existing skill.
+  - Eval guidance extended for skills that ask the user (sandboxed runs,
+    verbatim menu recording, per-eval answer sheets), with neutral prompts,
+    reachable assertions, a git-based baseline snapshot, and blinded
+    comparator inputs that carry no side-identifying paths or assertions.
   - Added an "ultra-<single-token>-<verber>" skill naming convention.
   - Review step presents structural decisions as bullets instead of pasting
     the full SKILL.md into the conversation.
