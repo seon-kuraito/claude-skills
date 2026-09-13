@@ -1,6 +1,6 @@
 ---
 name: ultra-skill-author
-description: Authors, refines, and evaluates Claude agent skills (the `.claude/skills/<name>/SKILL.md` packages that extend agent capabilities). Use for ANY task touching a skill — creating, editing, refining, restructuring, naming, evaluating, licensing, or reasoning about one — matched on intent rather than exact wording or language. Reach for it whenever a request pairs an action with a skill, even briefly; prefer consulting it over handling skill work ad hoc.
+description: Authors, refines, and evaluates Claude agent skills (the `.claude/skills/*/SKILL.md` packages that extend agent capabilities). Use for ANY task touching a skill — creating, editing, refining, restructuring, naming, evaluating, licensing, or reasoning about one — matched on intent rather than exact wording or language. Reach for it whenever a request pairs an action with a skill, even briefly; prefer consulting it over handling skill work ad hoc.
 ---
 
 # Ultra Skill Author
