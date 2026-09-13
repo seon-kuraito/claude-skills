@@ -8,25 +8,44 @@ Run four steps in order: **interview → scaffold → workspace → ceremony**.
 
 ## 1 · Second-round interview
 
-Gather four things. For each, propose a guess but always let the user confirm or override.
+Gather four things. Never guess the family name or the owner — take each from the request, or ask. Judge from the whole `~/Developer` tree, never from the cwd: the answer must not change with the project the session happened to start in.
 
 ### Family name
 
-A family is a set of repos coordinated by one meta repo. Resolve its name in order:
+A family is a set of repos coordinated by one meta repo. Take its name from the request. When the request names none, ask — present this menu verbatim:
 
-1. **cwd is `<X>/meta` or `<X>-meta`** → family = `X`; the meta repo is created in the cwd.
-2. **else cwd is an owner directory** already holding ≥2 repos → propose that directory's name.
-3. **else scan `~/Developer`** for ungrouped repos sharing a leading `<stem>-`; if ≥2 cluster, propose that `<stem>`.
-4. **else ask** the user for the family name directly.
+```
+single-select · header: 「家族名稱」
+question: 「這個家族要叫什麼名稱？」
+options:
+  · 「放在 <user> 底下」 — 「owner 先定為 <user>，再輸入家族名稱。」
+  · 「自行輸入」 — 「先輸入家族名稱，owner 下一步再決定。」
+[Rule, not copy] <user> is the local username (`$USER`). When the request already names or describes the owner (see *Owner*), skip the menu and ask for the name in plain text — the first option would contradict that owner. Either way the name is what the user types — never propose one from the cwd, directory names, or repo prefixes.
+```
+
+**Refuse a duplicate family.** Before going further, look through `~/Developer` for a meta repo this family already has — `<family>-meta` under any owner directory, or `meta` inside `~/Developer/<family>/`. If one exists, stop and say where it is: a new meta repo is the root of a new family, never a second layer over an existing one.
 
 ### Owner
 
-Ask which account or organization owns the family — always ask here, never fall back to the default. The menu is the 「擁有者」 block in `SKILL.md`'s *Resolving the owner*; present it verbatim from there.
+Unless the request names or describes the owner, it is one of exactly two directories. Other owner directories are never candidates — a new meta repo roots a new family, so it never sits under another family's owner.
 
-This answer decides the member names through *Family naming* in `SKILL.md`:
+A described owner (for example "my personal account") resolves to the owner directory that already holds this family's repos — `<family>-<token>` repos under it, or `~/Developer/<family>/` itself. When no directory or several directories hold them, ask for the owner in plain text. Resolve it from `~/Developer` alone; do not call `gh` to interpret the description.
 
-- **an organization named the same as the family** → members drop the family name (`<token>`), the layer is `meta`;
-- **any other owner** → members keep it (`<family>-<token>`), the layer is `<family>-meta`.
+- **`<family>`** — the family's own directory. Members drop the family name (`<token>`), and the layer is `meta`.
+- **`<user>`** — the default directory named after the local username (`$USER`), shared by several families. Members keep the family name (`<family>-<token>`), and the layer is `<family>-meta`.
+
+Present this menu verbatim:
+
+```
+single-select · header: 「擁有者」
+question: 「這個家族要放在哪一個 owner 底下？」
+options:
+  · 「<family>」 — 「建在 <family> 底下，本機路徑是 ~/Developer/<family>/meta。」
+  · 「<user>」 — 「建在 <user> 底下，本機路徑是 ~/Developer/<user>/<family>-meta。」
+[Rule, not copy] both paths follow *Family naming* in `SKILL.md`.
+```
+
+The interview works with local directories only. A family's own GitHub organization is created by hand and may carry a different name from its directory — the skill never looks it up or creates it; the push gate asks for it.
 
 Resolving the owner here rather than at the push gate is load-bearing: the names go into the scaffold and the first commit, and both happen before the gate.
 
@@ -70,8 +89,8 @@ Placeholders (same set across templates):
 - `{{FAMILY}}` — lowercase family name; `{{FAMILY_TITLE}}` — display form for the README heading.
 - `{{OWNER}}` — the account or organization resolved in the interview.
 - `{{MEMBER_PREFIX}}` — the derived naming switch: **empty** when `{{OWNER}}` equals `{{FAMILY}}`, otherwise `{{FAMILY}}-`. Every member name in the templates is written `{{MEMBER_PREFIX}}<token>`, so one substitution covers both cases.
-- `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member (path `../{{MEMBER_PREFIX}}<token>`), then a final self-row for the layer with path `.`. English in `CLAUDE.md`, Traditional Chinese in `README.md`.
-- `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" },` line per member (workspace).
+- `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member sorted by repo name (path `../{{MEMBER_PREFIX}}<token>`), then a final self-row for the layer with path `.`. English in `CLAUDE.md`, Traditional Chinese in `README.md`.
+- `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" },` line per member, in the same order as `{{MEMBER_TABLE}}` (workspace).
 
 ## 3 · Workspace
 

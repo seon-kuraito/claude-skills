@@ -22,7 +22,7 @@ options:
   · 「空白專案 Blank」 — 「建立一般專案使用的純 git repo，包含 git init、空白 README 與標準 .gitignore。」
   · 「框架專案 Framework」 — 「建立 Next.js / Vite 等框架專案，可選擇已整理好的模板，或依需求逐步建立。」
   · 「專案協調層 Meta-Repo」 — 「建立用來協調多個 sibling repo 的 meta repo。」
-[Rule, not copy] if .git already exists (resuming a half-built repo), skip the menu and keep the repo as it stands.
+[Rule, not copy] if the repo the user means already exists under ~/Developer with a .git (resuming a half-built repo), skip the menu and keep the repo as it stands. Judge by that repo's path, never by the cwd — the cwd is wherever the session happened to start.
 ```
 
 Per-template detail lives in the sections below ([meta-repo](references/meta-repo.md) carries its own reference). From there:
@@ -33,14 +33,14 @@ Per-template detail lives in the sections below ([meta-repo](references/meta-rep
 
 ## Where the repo lives
 
-Every repo lands at `~/Developer/<owner>/<repo>` — the local path mirrors `github.com/<owner>/<repo>` exactly, so the tree reads the same way the remote does. The root holds owner directories and nothing else.
+Every repo lands at `~/Developer/<owner>/<repo>` — the local path mirrors `github.com/<owner>/<repo>`, so the tree reads the same way the remote does. The root holds owner directories and nothing else. Exceptions — an owner directory whose GitHub account carries a different name — are the user's to settle when creating.
 
-- **`<owner>`** — the account or organization that owns the repo. Default to the authenticated account (`gh api user --jq .login`). Use an organization only when the user names one, or when the meta-repo interview resolves one.
+- **`<owner>`** — the account or organization that owns the repo. Default to the one named after the local username (`$USER`), so every template lands in `~/Developer/$USER/` unless told otherwise. Use another owner only when the user names one, or when the meta-repo interview resolves one.
 - **`<repo>`** — the repo name, and also the directory name. The two never diverge, so `git clone` drops the directory where it belongs with no rename.
-- **A local-only repo still lands under the default owner.** A repo without a remote is the common case that later gets one, and it almost always gets the default account. Parking it elsewhere buys a second move for nothing.
+- **A local-only repo still lands under the default owner.** A repo without a remote is the common case that later gets one, and it almost always gets the default owner. Parking it elsewhere buys a second move for nothing.
 - **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, it has to move under the resolved owner before the first commit — but say so first, and say where it is going. The user asked for a repo, not for their directory layout to change, and the move pulls the ground out from under the shell they are standing in. Report the new path once it is done, so they can follow it.
 
-**Resolving the owner.** When the user names one, use it and ask nothing. When they call for an organization without naming which one, or when the meta-repo interview reaches its owner question, present this menu verbatim:
+**Resolving the owner.** When the user names one, use it and ask nothing. When they call for an organization without naming which one, present this menu verbatim. A meta repo does not use this menu — its interview resolves the owner from its own two candidates (see [meta-repo](references/meta-repo.md)).
 
 ```
 single-select · header: 「擁有者」
@@ -71,7 +71,7 @@ question: 「要把這個 repo 推上 <owner> 嗎？」
 options:
   · 「建立遠端並 push」 — 「在 <owner> 底下建立 public repo，並 push。」
   · 「先不綁遠端」 — 「停在本機，不建立遠端，也不 push。」
-[Rule, not copy] substitute the resolved owner into both strings — the user confirms the destination by reading it, rather than picking it a second time.
+[Rule, not copy] substitute the resolved owner into both strings — the user confirms the destination by reading it, rather than picking it a second time. When the repo sits in a family's own directory (`~/Developer/<family>/`), its GitHub organization is created by hand and may carry another name: unless the request already named that organization, ask for it in plain text before the gate. Substitute it instead of the directory name.
 ```
 
 ## blank
