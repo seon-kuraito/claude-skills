@@ -35,6 +35,20 @@
       "prompt": "Scaffold a coordination layer over my three sibling projects. They live under my personal account, not an org.",
       "expected_output": "The owner is the personal account and differs from the family name, so members KEEP the prefix (`<family>-<token>`) and the layer is `<family>-meta`. Dropping the prefix here is wrong — one account holds several families and they would all collide on `meta`. The workspace still sits in the owner directory as `<family>.code-workspace` and stays out of version control, because no repo owns that directory.",
       "files": []
+    },
+    {
+      "id": 6,
+      "name": "meta-repo-family-not-from-cwd",
+      "prompt": "Create a meta repo.",
+      "expected_output": "Run with the cwd set to an existing `<x>-meta` repo that already has a .git, beside sibling repos sharing the `<x>-` prefix; the prompt deliberately gives no hint that the cwd is unrelated. The cwd is irrelevant. The template menu must still appear — an existing .git in the cwd is NOT a half-built repo to resume. The family name must be asked for explicitly, because the request names none; guessing `<x>` from the cwd, or proposing a name from directory names or repo prefixes, is wrong. Nothing may be scaffolded inside the cwd.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "name": "meta-repo-owner-candidates",
+      "prompt": "Create a meta repo for a new family called `<family>`.",
+      "expected_output": "Run from a cwd unrelated to the family, with the user belonging to at least one unrelated organization that already has its own owner directory; the prompt deliberately says nothing about the owner. The family name is taken from the request without asking. Owner candidates are exactly two local directories: the family's own `~/Developer/<family>/` (layer `meta`, members without prefix) and the default `~/Developer/$USER/` (layer `<family>-meta`, members keep the prefix). No other owner directory or organization may appear. The interview must not look up or create a GitHub organization for the family — that organization is made by hand and may carry a different name.",
+      "files": []
     }
   ]
 }
