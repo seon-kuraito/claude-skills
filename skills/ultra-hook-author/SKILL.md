@@ -1,6 +1,6 @@
 ---
 name: ultra-hook-author
-description: Authors, refines, and reviews Claude Code hooks — the shell commands registered in settings.json that fire on lifecycle events (PreToolUse, PostToolUse, Stop, Notification, SessionStart, and the rest). Use for ANY task touching a hook: picking an event, writing or debugging a hook script, registering one in settings, choosing exit-code vs JSON output, matchers or the `if` filter, or publishing one to the hooks repo — matched on intent, not exact wording or language. Reach for it the moment hooks come up, even briefly, rather than hand-writing a hook ad hoc. Distinct from ultra-skill-author: skills are LLM-triggered packages, hooks are deterministic event scripts.
+description: "Authors, refines, and reviews Claude Code hooks — the shell commands registered in settings.json that fire on lifecycle events (PreToolUse, PostToolUse, Stop, Notification, SessionStart, and the rest). Use for ANY task touching a hook: picking an event, writing or debugging a hook script, registering one in settings, choosing exit-code vs JSON output, matchers or the `if` filter, or publishing one to the hooks repo — matched on intent, not exact wording or language. Reach for it the moment hooks come up, even briefly, rather than hand-writing a hook ad hoc. Distinct from ultra-skill-author: skills are LLM-triggered packages, hooks are deterministic event scripts."
 ---
 
 # Ultra Hook Author
