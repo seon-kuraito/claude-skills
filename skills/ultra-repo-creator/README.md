@@ -31,14 +31,19 @@
   - framework＝已整理好的框架模板，或依對話逐步建立
   - meta-repo＝協調層（scaffold＋git ceremony）
 - **本機路徑對應 GitHub 路徑**：
-  - repo 一律建在 `~/Developer/<owner>/<repo>`，對應 `github.com/<owner>/<repo>`
-  - `<owner>` 預設為目前 `gh` 登入的帳號；使用者指定 Organization，或建立 meta-repo 時，再依脈絡調整
+  - repo 一律建在 `~/Developer/<owner>/<repo>`，對應 `github.com/<owner>/<repo>`；名稱需要例外處理時，在建立時確認
+  - `<owner>` 預設取與本機使用者名稱同名的目錄；使用者指定 Organization 時，改用該 Organization
   - 家族成員是否保留家族名前綴，依 `<owner>` 與家族名的關係決定，規則見 [`SKILL.md`](SKILL.md)
+- **meta-repo 的家族名稱與擁有者需明確取得**：
+  - 家族名稱與擁有者都以使用者請求為準；請求未提供時直接詢問
+  - 判斷範圍為整個 `~/Developer`，不以目前所在專案為準
+  - 擁有者候選限於家族自己的目錄，以及與本機使用者名稱同名的目錄
+  - 若同一家族已存在 meta repo，停止建立流程
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
   - 結尾再確認要不要推上遠端
 - **可接續既有 repo**：
-  - 若已有 `.git`，跳過模板選擇，直接補完缺的步驟
+  - 若目標 repo 已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
   - 三種模板建好後都會詢問是否進入初始化階段
   - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給 [`ultra-project-initializer`](../ultra-project-initializer) 處理
@@ -103,7 +108,9 @@
 - **可見性**：
   - 若綁遠端則固定 public、不提供 private 選項
 - **擁有者**：
-  - 預設為目前 `gh` 登入的帳號；使用者指定 Organization，或 meta-repo 訪談需要時才改用
+  - 預設取與本機使用者名稱同名的目錄；使用者指定 Organization 時，改用該 Organization
+  - meta-repo 的擁有者候選限於家族自己的目錄，以及與本機使用者名稱同名的目錄
+  - 家族自己的目錄可對應到名稱不同的 GitHub Organization；該 Organization 需先手動建立，push 前再確認是否使用
   - 指令一律寫成 `gh repo create <owner>/<name>`
   - Organization 名稱取自 `gh api user/orgs`
 - **接續的初始化 skill**：
