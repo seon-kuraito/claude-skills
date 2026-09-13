@@ -47,7 +47,7 @@ Interview the user:
 
 Then assess whether test cases are warranted — objective outputs (file transforms, code generation, fixed workflow steps) benefit from them; subjective outputs (writing style, design quality) usually don't. Details in `references/evals.md`.
 
-**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
+**Capability checkpoint (new skills only)** — a modification skips this menu: its scope is already set by the request, and asking up front which machinery to enable only interrupts it. Offer evals and blind A/B after the change instead (see *After the skill is complete*), and description tuning only when the change touches the `description`. For a new skill, present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
 
 ```
 multiSelect · header: 「能力選用」
@@ -82,7 +82,7 @@ When a skill is destined for the user's `claude-skills` repo, follow `references
 
 ## After the skill is complete
 
-**Modifying existing skill only** — proactively offer blind A/B comparison between old and new versions. If the user accepts, follow `references/blind-comparison.md`.
+**Modifying existing skill only** — proactively offer to run the skill's evals against a snapshot of the previous version, then blind A/B comparison between old and new versions. If the user accepts, follow `references/evals.md`, then `references/blind-comparison.md`.
 
 ## References
 
