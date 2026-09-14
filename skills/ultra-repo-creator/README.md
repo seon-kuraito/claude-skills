@@ -29,16 +29,21 @@
   - 一律先選模板：blank／framework／meta-repo
   - blank＝本地空白 repo
   - framework＝已整理好的框架模板，或依對話逐步建立
-  - meta-repo＝協調層（scaffold＋git ceremony）
-- **本機路徑對應 GitHub 路徑**：
-  - repo 一律建在 `~/Developer/<owner>/<repo>`，對應 `github.com/<owner>/<repo>`；名稱需要例外處理時，在建立時確認
-  - `<owner>` 預設取與本機使用者名稱同名的目錄；使用者指定 Organization 時，改用該 Organization
-  - 家族成員是否保留家族名前綴，依 `<owner>` 與家族名的關係決定，規則見 [`SKILL.md`](SKILL.md)
-- **meta-repo 的家族名稱與擁有者需明確取得**：
-  - 家族名稱與擁有者都以使用者請求為準；請求未提供時直接詢問
+  - meta-repo＝新家族的協調層（scaffold＋git ceremony）與成員專案
+- **本機目錄與 GitHub 帳號分開處理**：
+  - repo 一律建在 `~/Developer/<owner>/<repo>`；`<owner>` 是本機目錄，預設為本機使用者名稱
+  - GitHub 帳號在 push 前決定，預設使用 `gh` 目前登入的帳號，不從目錄名稱推導
+  - 家族成員是否保留家族名前綴，依 `<owner>` 目錄與家族名的關係決定，規則見 [`SKILL.md`](SKILL.md)
+- **meta-repo 的家族名稱與擁有者需明確確認**：
+  - 家族名稱與擁有者都以使用者請求為準；請求未提供時，先詢問家族名稱，再詢問要放在哪裡
   - 判斷範圍為整個 `~/Developer`，不以目前所在專案為準
   - 擁有者候選限於家族自己的目錄，以及與本機使用者名稱同名的目錄
   - 若同一家族已存在 meta repo，停止建立流程
+- **meta-repo 建立新的家族**：
+  - 提供固定格式的清單供使用者複製修改，只需填寫成員名稱，順序依清單排列
+  - 清單上的成員比照 blank 建立成新專案，帶標準 `.gitignore` 與空白 `README.md`
+  - push 確認時，meta repo 與所有成員一起建立遠端；初始化只交接 meta repo
+  - 既有專案併入家族屬於搬遷，不在本 skill 範圍
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
   - 結尾再確認要不要推上遠端
@@ -74,21 +79,21 @@
 ### 設計取向
 
 - **直接執行本地建立流程**：
-  - 使用意圖明確就直接載入，一律先顯示模板選單
+  - 使用意圖明確時直接載入，一律先顯示模板選單
   - 選定後，本地步驟（`git init`、commit、scaffold）直接執行，不再逐步確認
 - **兩階段模型與接續既有 repo**：
   - 專案設定分「建立」（本 skill）與「初始化」（另一個 skill）兩階段
-  - 若已是 git repo，依目前狀態接續建立流程，只處理還沒完成的本地或遠端步驟
+  - 若目標已是 git repo，依目前狀態接續建立流程，只處理尚未完成的本地或遠端步驟
 - **模板只影響本地建立內容**：
   - 模板只決定一開始要產生哪些本地檔案與 commit 節奏，不影響後面的遠端與初始化流程
-  - 本地完成後，三種模板都走同一個 push 確認與初始化交接流程
+  - 本地完成後，三種模板都進入 push 確認與初始化交接流程；meta-repo 的 push 確認涵蓋所有成員，初始化只交接 meta repo
 - **只負責 repo 建立與編排**：
-  - 本 skill 專注於建立 repo 與綁定遠端
+  - 本 skill 只處理 repo 建立與遠端綁定
   - branch 保護交由 [`ultra-project-initializer`](../ultra-project-initializer) 在「初始化專案」階段選配
-- **高影響操作前先確認**：
+- **遠端操作前先確認**：
   - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
-  - 擁有者會在進入這道確認前決定；這裡只確認是否推上遠端
-  - 若選擇綁遠端，固定 public，不再詢問可見性（要 private 時自行手動建立）
+  - 確認時顯示完整的 `<account>/<name>`，選項包含直接 push、改選帳號、暫不綁遠端
+  - 若選擇綁遠端，一律建立 public repo；private repo 需手動建立
 - **初始 commit 維持精簡**：
   - 放一份完全空白的 `README.md` 與一份標準 `.gitignore`
   - `.gitignore` 視為基礎設定，在追蹤任何檔案前先放好（blank 與 meta-repo 內建；framework 通常自帶）
@@ -107,12 +112,13 @@
   - 一律使用 `main`（`git branch -M main`）
 - **可見性**：
   - 若綁遠端則固定 public、不提供 private 選項
-- **擁有者**：
-  - 預設取與本機使用者名稱同名的目錄；使用者指定 Organization 時，改用該 Organization
+- **擁有者目錄**：
+  - 預設為與本機使用者名稱同名的目錄；請求只指定 Organization 時，另外詢問要放在哪個目錄
   - meta-repo 的擁有者候選限於家族自己的目錄，以及與本機使用者名稱同名的目錄
-  - 家族自己的目錄可對應到名稱不同的 GitHub Organization；該 Organization 需先手動建立，push 前再確認是否使用
-  - 指令一律寫成 `gh repo create <owner>/<name>`
-  - Organization 名稱取自 `gh api user/orgs`
+- **GitHub 帳號**：
+  - 預設使用 `gh api user` 的登入帳號；Organization 名稱取自 `gh api user/orgs`
+  - 家族自己的目錄可對應到名稱不同的 Organization；該 Organization 需先手動建立，push 前再詢問名稱
+  - 指令一律寫成 `gh repo create <account>/<name>`
 - **接續的初始化 skill**：
   - 三種模板建好後都可接續交給「初始化專案」skill（例如：[`ultra-project-initializer`](../ultra-project-initializer)）
   - 該 skill 尚未建立或不存在時，確認後略過即可
