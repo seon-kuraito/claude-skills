@@ -31,8 +31,8 @@ Present this menu verbatim:
 single-select · header: 「擁有者」
 question: 「Meta-Repo 要放在哪裡？」
 options:
-  · 「<family>」 — 「放在 ~/Developer/<family>/，成員不加家族前綴，協調層叫 meta；對應的 GitHub Organization 需另外手動建立。」
-  · 「<user>」 — 「放在 ~/Developer/<user>/，成員加上家族前綴，協調層叫 <family>-meta。」
+  · 「<family>」 — 「放在 ~/Developer/<family>/，成員不使用家族前綴，協調層名稱為 meta；對應的 GitHub Organization 需事先手動建立。」
+  · 「<user>」 — 「放在 ~/Developer/<user>/，成員使用家族前綴，協調層名稱為 <family>-meta。」
 [Rule, not copy] substitute the family name for <family> and the local username (`$USER`) for <user>. Both paths follow *Family naming* in `SKILL.md`. Skip the menu when the request names or describes the owner.
 ```
 
@@ -50,8 +50,8 @@ This switches the framing of the generated `CLAUDE.md` / `README.md`. Present th
 single-select · header: 「家族類型」
 question: 「這個家族是哪一種？」
 options:
-  · 「同型家族 Typed」 — 「每個成員都是同一種東西，對應同一種角色；產出的成員表是整齊的 1:1 對應。」
-  · 「混合家族 Mixed」 — 「成員類型不同，靠擁有者或主題放在同一層協調；產出的說明不假設成員對稱。」
+  · 「同型家族 Typed」 — 「每個成員類型相同，對應同一種角色；產出的成員表採 1:1 對應。」
+  · 「混合家族 Mixed」 — 「成員類型不同，因擁有者或主題而放在同一層協調；產出的說明不預設成員對稱。」
 [Rule, not copy] the answer decides which block survives in the templates — keep the chosen one, delete the markers and the other block.
 ```
 
@@ -121,8 +121,8 @@ Every commit lands directly on each repo's `main` before the gate, so nothing by
 single-select · header: 「遠端」
 question: 「要把這 <count> 個 repo 推上 GitHub 的 <account> 嗎？」
 options:
-  · 「建立遠端並 push」 — 「在 GitHub 的 <account> 底下建立 <repos>，全部設為 public 並 push。」
-  · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後回到此確認步驟。」
+  · 「建立遠端並 push」 — 「在 GitHub 的 <account> 建立 <repos>，全部設為 public 並 push。」
+  · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後再次確認。」
   · 「先不綁遠端」 — 「全部停在本機，不建立遠端，也不 push。」
 [Rule, not copy] <count> counts the layer and every member; <repos> lists their names joined with 「、」, the layer first, then the members in list order. On 「換一個帳號」, present the account menu from `SKILL.md`; the chosen account applies to every repo.
 ```

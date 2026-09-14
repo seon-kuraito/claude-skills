@@ -69,7 +69,7 @@ single-select · header: 「遠端」
 question: 「要把這個 repo 推上 GitHub 的 <account>/<name> 嗎？」
 options:
   · 「建立遠端並 push」 — 「在 GitHub 建立 public repo <account>/<name>，並 push。」
-  · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後回到此確認步驟。」
+  · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後再次確認。」
   · 「先不綁遠端」 — 「停在本機，不建立遠端，也不 push。」
 [Rule, not copy] substitute the resolved account and the repo name into every string — the user confirms the destination by reading it.
 ```
@@ -78,7 +78,7 @@ On 「換一個帳號」, present this menu verbatim, then show the gate again w
 
 ```
 single-select · header: 「帳號」
-question: 「遠端要建立在哪一個 GitHub 帳號底下？」
+question: 「遠端要建立在哪一個 GitHub 帳號或 organization？」
 options:
   · 「<login>」 — 「建立 <login>/<name>。」
 [Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. An organization missing from the list (a family's organization not created yet) is typed in as free text. Never infer an account from the owner directory's name or from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
@@ -153,7 +153,7 @@ single-select · header: 「下一步」
 question: 「要現在進入 initialize 階段嗎？」
 options:
   · 「進入 initialize 階段」 — 「接著建立選配的 LICENSE / 空白 CLAUDE.md / GitHub labels / main 分支保護。」
-  · 「不進入」 — 「先停在這，後續交給我處理。」
+  · 「不進入」 — 「停在目前狀態，後續由使用者處理。」
 [Rule, not copy] if no initialize skill is available, say so and stop instead of loading one.
 ```
 
