@@ -1,6 +1,6 @@
 ---
 name: ultra-project-cleaner
-description: Diagnoses and clears what Claude Code and VS Code remember about local project paths on macOS — session and memory folders, ~/.claude.json project and GitHub-repo entries, prompt history, VS Code workspace storage, window-restore registrations, and the GitHub extension's cache. Use when a project was deleted, archived, or moved and its leftovers should go, when the user asks whether anything can be cleaned up, or when stale projects keep appearing in Claude Code or VS Code — regardless of exact wording or language. Not for deleting a project's own files, build output, or dependencies.
+description: Diagnoses and clears what Claude Code and VS Code remember about local project paths on macOS — session and memory folders, ~/.claude.json project and GitHub-repo entries, prompt history, VS Code workspace storage, window-restore registrations, and the GitHub extension's cache. Use when a project was deleted, archived, or already moved away and its leftovers at the old path should go, when the user asks whether anything can be cleaned up, or when stale projects keep appearing in Claude Code or VS Code — regardless of exact wording or language. Not for moving or renaming a project or keeping its sessions working at a new path, nor for deleting a project's own files, build output, or dependencies.
 ---
 
 # Ultra Project Cleaner
