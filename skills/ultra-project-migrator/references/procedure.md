@@ -70,7 +70,7 @@ The last lines of `apply-output.log` name the phase, the phases already in effec
 | backup or later | Claude Code state partly moved; `apply.sh` refuses to run again because `backup/` exists | run `restore.sh`, then plan again for a new manifest |
 | verify | every change made, a check failed | read the `FAIL` lines first; `restore.sh` undoes the run when the cause is not obvious |
 
-`restore.sh` refuses while a Claude Code session is open, when copying never started, when the run already finished (`migration finished` in the log), and when it already restored. It does not bring back VS Code state the cleaner cleared: that state is editor-only (window restore, workspace storage, a cache), VS Code rebuilds it, and its backup stays in `cleaner/backup/`. Delete the old manifest folder once the restored result is checked.
+`restore.sh` refuses while a Claude Code session is open, when copying never started, when the run already finished (`migration finished` in the log), and when it already restored. It does not bring back VS Code state the cleaner cleared: that state is editor-only (window restore, workspace storage, extension caches), VS Code rebuilds it, and its backup stays in `cleaner/backup/`. Delete the old manifest folder once the restored result is checked.
 
 ## finalize.sh
 

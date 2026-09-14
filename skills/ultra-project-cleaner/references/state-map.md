@@ -36,9 +36,28 @@ Under `~/Library/Application Support/Code/User/`:
 | Workspace storage | `workspaceStorage/<id>/`, whose `workspace.json` holds a `folder`, `workspace`, or `configuration` URI | the `file://` URI, percent-decoded | delete the folder | yes — the running app holds the entries listed for window restore |
 | Window restore | `globalStorage/storage.json` → `backupWorkspaces.workspaces[].configURIPath`, `backupWorkspaces.folders[].folderUri` | the URI | remove the entry | yes — VS Code rewrites the file on quit |
 | Profile association | `globalStorage/storage.json` → `profileAssociations.workspaces["<uri>"]` | the URI key | remove the key | yes |
-| GitHub extension cache | `globalStorage/state.vscdb` (SQLite, table `ItemTable`, key `vscode.github`, a TEXT JSON value) → `branchProtection:<uri>` keys | the URI inside the key | remove the key, write the value back as TEXT, then check `pragma integrity_check` | yes — the app keeps the database open |
+| GitHub extension cache | `globalStorage/state.vscdb`, row `vscode.github` → `branchProtection:<uri>` keys | the URI inside the key | remove the key | yes — see *Writing `state.vscdb`* |
+| Git repository cache | `globalStorage/state.vscdb`, row `vscode.git` → `git.repositoryCache`: `[remote, [[folder, {workspacePath, repositoryPath, …}]]]` | `workspacePath` or `repositoryPath` — either one makes the entry a candidate | remove the entry; drop the remote when that empties it | yes |
+| ESLint notice flag | `globalStorage/state.vscdb`, row `dbaeumer.vscode-eslint` → `noESLintMessageShown.workspaces["<uri>"]` | the URI key | remove the key; keep `global` | yes |
+| GitLens visibility cache | `globalStorage/state.vscdb`, row `eamodio.gitlens` → `gitlens:repoVisibility`: `[[path, {visibility, …}]]` | the first element | remove every element for the path | yes |
+| Python extension state | `globalStorage/state.vscdb`, row `ms-python.python` → top-level `PYTHON_WAS_DISCOVERY_TRIGGERED_<path>` keys; `PYTHON_GLOBAL_STORAGE_KEYS[].key` with that prefix, `WORKSPACE_FOLDER_INTERPRETER_PATH_`, or `WORKSPACE_INTERPRETER_PATH_`; the `remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key` and `remoteWorkspaceKeysForWhichTheCopyIsDone_Key` arrays | the path after the prefix, or the array value | remove every key, registry row, and array value for the path together | yes |
+| Terminal directory history | `globalStorage/state.vscdb`, row `terminal.history.entries.dirs` → `entries`: `[{key: <path>, value: {remoteAuthority?}}]` | the key of an entry without a `remoteAuthority` | remove the entry; the rest keep their order | yes |
 
-Leave alone: `backupWorkspaces.emptyWindows` and `~/Library/Application Support/Code/Backups/` (unsaved untitled editors live there), and every other `storage.json` field. Open Recent entries are removed by hand from File › Open Recent.
+Leave alone: `backupWorkspaces.emptyWindows` and `~/Library/Application Support/Code/Backups/` (unsaved untitled editors live there), and every other `storage.json` field. In `state.vscdb`, leave every other row and every other field of the rows above — including `terminal.history.entries.commands`, the terminal's command history, and directory entries with a `remoteAuthority`, whose paths live on another machine. Open Recent entries are removed by hand from File › Open Recent.
+
+### Writing `state.vscdb`
+
+`state.vscdb` is SQLite: table `ItemTable`, one row per key, each value a TEXT JSON object. A running VS Code keeps these rows in memory and writes a whole row back on its next update, so an edit made while it runs is lost — `apply.sh` refuses while any process holds the file. It backs the database up once before the first write, writes every changed row in one transaction as TEXT, and then checks `pragma integrity_check`.
+
+### Why these records are safe to clear
+
+Each record only saves work for a path VS Code may meet again, and none of these fields is registered for Settings Sync, so a removal does not come back from another machine:
+
+- **Git** — the cache offers an existing local clone when a repository is cloned again; it skips entries whose `workspacePath` is gone, but an entry whose repository is gone while its workspace remains still passes that check. The cache keeps at most 30 remotes, and stale entries count toward that limit.
+- **ESLint** — the flag keeps the "ESLint library not found" notice to once per workspace; without it, a new project at the same path sees the notice once.
+- **GitLens** — the cache holds a repository's public or private visibility; its 30-day expiry runs only when the path is read again, so an entry for a deleted path stays forever.
+- **Python** — the key keeps environment discovery to once per folder, and the registry lists keys for *Python: Clear Cache and Reload Window*; removing both together keeps them consistent, and a path that returns is discovered once more.
+- **Terminal** — the list feeds *Terminal: Go to Recent Directory* and keeps up to `terminal.integrated.shellIntegration.history` entries (100 by default); *Terminal: Clear Previous Session History* clears only the command history, so a deleted path stays in the list until that limit pushes it out.
 
 ### Paths that mislead
 

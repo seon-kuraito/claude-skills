@@ -190,12 +190,68 @@ if [ "$only" != claude ]; then
   fi
 
   if [ -f "$STATE_DB" ]; then
-    gh="$(sqlite3 -readonly "$STATE_DB" "select value from ItemTable where key = 'vscode.github'" 2>/dev/null || true)"
+    gh="$(state_row vscode.github)"
     if [ -n "$gh" ]; then
       while IFS= read -r k; do
         p="$(uri_to_path "${k#branchProtection:}")"; [ -n "$p" ] || continue
         consider vscode-github-cache "$p" "$(jq -nc --arg k "$k" '{key: $k}')"
       done < <(jq -r 'keys[] | select(startswith("branchProtection:file://"))' <<< "$gh")
+    fi
+
+    # One entry names two paths; it is a candidate when either one is.
+    gitc="$(state_row vscode.git)"
+    if [ -n "$gitc" ]; then
+      while IFS=$'\t' read -r remote folder wp rp; do
+        echo vscode-git-repo-cache >> "$scanned"
+        extra="$(jq -nc --arg r "$remote" --arg f "$folder" --arg w "$wp" --arg p "$rp" \
+          '{remote: $r, folder: $f, workspace_path: $w, repository_path: $p}')"
+        rr="$(reason_for "$rp")"; rw="$(reason_for "$wp")"
+        case "$rr:$rw" in
+          missing:*|targeted:*) emit vscode-git-repo-cache "$rp" "$rr" "$extra" ;;
+          *:missing|*:targeted) emit vscode-git-repo-cache "$wp" "$rw" "$extra" ;;
+          volume:*) note skipped-volume "$rp" '{"record": "vscode-git-repo-cache"}' ;;
+          *:volume) note skipped-volume "$wp" '{"record": "vscode-git-repo-cache"}' ;;
+        esac
+      done < <(jq -r '(.["git.repositoryCache"] // [])[] | .[0] as $r | (.[1] // [])[]
+        | [$r, .[0], .[1].workspacePath, .[1].repositoryPath]
+        | select(all(.[]; type == "string" and length > 0)) | @tsv' <<< "$gitc")
+    fi
+
+    es="$(state_row dbaeumer.vscode-eslint)"
+    if [ -n "$es" ]; then
+      while IFS= read -r uri; do
+        p="$(uri_to_path "$uri")"; [ -n "$p" ] || continue
+        consider vscode-eslint-flag "$p" "$(jq -nc --arg u "$uri" '{uri: $u}')"
+      done < <(jq -r '.noESLintMessageShown.workspaces // {} | keys[]' <<< "$es")
+    fi
+
+    gl="$(state_row eamodio.gitlens)"
+    if [ -n "$gl" ]; then
+      while IFS= read -r p; do
+        consider vscode-gitlens-visibility "$p" '{}'
+      done < <(jq -r '(.["gitlens:repoVisibility"] // [])[] | .[0] | select(type == "string" and length > 0)' <<< "$gl" | sort -u)
+    fi
+
+    # One item per path, covering every key, registry row, and copy marker that names it.
+    py="$(state_row ms-python.python)"
+    if [ -n "$py" ]; then
+      while IFS=$'\t' read -r count p; do
+        consider vscode-python-state "$p" "{\"entries\": $count}"
+      done < <(jq -r "$PY_PATH_JQ"'
+          (keys[] | pypath),
+          ((.PYTHON_GLOBAL_STORAGE_KEYS // [])[] | .key? | pypath),
+          ((.remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key // [])[], (.remoteWorkspaceKeysForWhichTheCopyIsDone_Key // [])[]
+            | select(type == "string" and startswith("/")))' <<< "$py" \
+        | sort | uniq -c | perl -pe 's/^\s*(\d+) /$1\t/')
+    fi
+
+    # An entry with a remoteAuthority names a path on another machine; only local entries count.
+    td="$(state_row terminal.history.entries.dirs)"
+    if [ -n "$td" ]; then
+      while IFS= read -r p; do
+        consider vscode-terminal-dir-history "$p" '{}'
+      done < <(jq -r '(.entries // [])[] | select((.value.remoteAuthority? // "") == "") | .key
+        | select(type == "string" and startswith("/"))' <<< "$td" | sort -u)
     fi
   fi
 fi
@@ -220,6 +276,7 @@ jq -r '
     (.[] | "  " + .id + "  " + .kind
       + (if .key then "  " + .key else "" end)
       + (if .repo then "  " + .repo else "" end)
+      + (if .remote then "  " + .remote else "" end)
       + (if .entries then "  entries: \(.entries)" else "" end)
       + (if .sessions != null then "  sessions: \(.sessions), memory cards: \(.memory), \(.size)" else "" end)
       + (if .selectable then "" else "  NOT SELECTABLE" end)
