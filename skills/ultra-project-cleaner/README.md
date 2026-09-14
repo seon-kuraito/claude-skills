@@ -17,9 +17,9 @@
 ## 為什麼做這個 skill（WHY）
 
 - **專案刪除後，狀態仍留在工具裡**：
-  - Claude Code 與 VS Code 以專案路徑為 key 保存工作階段、記憶卡、信任設定、編輯器狀態與快取，專案刪除、封存或搬走後不會自動清除
+  - Claude Code 與 VS Code 用專案路徑作為 key 保存工作階段、記憶卡、信任設定、編輯器狀態與快取，專案刪除、封存或搬走後不會自動清除
 - **殘留分散在多個位置**：
-  - 分布在 `~/.claude/`、`~/.claude.json`、VS Code 的 `workspaceStorage`、`storage.json` 與 SQLite 資料庫，逐一手動清理容易遺漏
+  - 這些紀錄分散在 `~/.claude/`、`~/.claude.json`、VS Code 的 `workspaceStorage`、`storage.json` 與 SQLite 資料庫，手動清理容易遺漏
 - **部分狀態無法在執行中修改**：
   - Claude Code 與 VS Code 執行時會改寫自己的狀態檔，直接修改可能被覆蓋，資料庫也可能損毀
 
@@ -28,14 +28,14 @@
 ## 這個 skill 做什麼（WHAT）
 
 - **提供兩種模式**：
-  - 指定專案：清除指定路徑底下的所有紀錄，不論路徑是否仍存在
+  - 指定專案：清除指定路徑相關紀錄，不論路徑是否仍存在
   - 診斷（Diagnose）：未指定專案時，找出路徑已不存在的紀錄，由使用者挑選要清除的項目
 - **涵蓋 Claude Code 與 VS Code 的狀態**：
   - Claude Code：工作階段資料夾（含記憶卡）、`~/.claude.json` 的 `projects` 與 `githubRepoPaths`、`history.jsonl`
   - VS Code：`workspaceStorage`、`storage.json` 的視窗還原與 profile 登記、GitHub extension 快取
 - **先預覽，再交給腳本執行**：
   - 在工作階段內唯讀預覽，產生清單檔（Manifest）
-  - 確認後由使用者關閉 VS Code 與 Claude Code，在終端機執行腳本，再回到工作階段驗證結果
+  - 確認後由使用者關閉 VS Code 與 Claude Code，在終端機執行腳本，完成後再回到工作階段驗證結果
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -56,23 +56,23 @@
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
-  - 不覆寫同名的實體目錄，藉此保護直接安裝在 `~/.claude/skills/` 的第三方 skill
+  - 不覆寫同名的實體目錄，避免覆蓋直接安裝在 `~/.claude/skills/` 的第三方 skill
 
 　
 
 ### 設計取向
 
-- **清單檔即是執行範圍**：
+- **以清單檔限定執行範圍**：
   - 腳本只執行清單檔中已選取的項目，執行前逐項重新確認，狀態已改變的項目一律跳過
-- **以不誤傷為優先**：
+- **避免誤刪**：
   - 診斷模式只提供路徑已不存在的項目；孤兒紀錄與 `/Volumes/` 底下的路徑只列為資訊
   - 執行中的 Claude Code 工作階段所在專案不可選取
   - 工作階段資料夾的路徑以登記紀錄或相符的工作階段 `cwd` 為準，不從資料夾名稱反推
-- **一律先備份**：
+- **先建立備份**：
   - 刪除或修改前，先備份到清單檔旁的 `backup/`，使用者確認結果後再刪除
 - **`~/.claude.json` 只修改路徑相關欄位**：
   - 僅修改 `projects` 與 `githubRepoPaths`，其餘欄位由 Claude Code 自行管理
-- **可供其他 skill 呼叫**：
+- **可被其他 skill 沿用**：
   - `ultra-project-migrator` 搬遷專案時，沿用同一份清單檔格式清除舊路徑的 VS Code 狀態，使用者只需關閉一次 VS Code
 
 　
