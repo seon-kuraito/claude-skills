@@ -27,7 +27,7 @@ options:
 
 ### Owner
 
-Unless the request names or describes the owner, it is one of exactly two directories. Other owner directories are never candidates — a new meta repo roots a new family, so it never sits under another family's owner.
+The owner here is a directory under `~/Developer`, never a GitHub account. Unless the request names or describes it, it is one of exactly two directories. Other owner directories are never candidates — a new meta repo roots a new family, so it never sits under another family's owner directory.
 
 A described owner (for example "my personal account") resolves to the owner directory that already holds this family's repos — `<family>-<token>` repos under it, or `~/Developer/<family>/` itself. When no directory or several directories hold them, ask for the owner in plain text. Resolve it from `~/Developer` alone; do not call `gh` to interpret the description.
 
@@ -45,9 +45,9 @@ options:
 [Rule, not copy] both paths follow *Family naming* in `SKILL.md`.
 ```
 
-The interview works with local directories only. A family's own GitHub organization is created by hand and may carry a different name from its directory — the skill never looks it up or creates it; the push gate asks for it.
+The interview works with local directories only. The GitHub account is settled at the push gate (see *Resolving the GitHub account* in `SKILL.md`): a family's own organization is created by hand, may carry a different name from its directory, and is asked for there — the skill never looks it up, creates it, or builds it from the directory name.
 
-Resolving the owner here rather than at the push gate is load-bearing: the names go into the scaffold and the first commit, and both happen before the gate.
+Resolving the owner directory here rather than at the push gate is load-bearing: the names go into the scaffold and the first commit, and both happen before the gate.
 
 ### Family type
 
@@ -87,7 +87,7 @@ Generate these into the meta repo from `assets/meta-repo/`, substituting the int
 Placeholders (same set across templates):
 
 - `{{FAMILY}}` — lowercase family name; `{{FAMILY_TITLE}}` — display form for the README heading.
-- `{{OWNER}}` — the account or organization resolved in the interview.
+- `{{OWNER}}` — the owner directory name resolved in the interview: a local folder under `~/Developer`, not a GitHub account. The templates never state which account the members push to; each member's own `origin` records that.
 - `{{MEMBER_PREFIX}}` — the derived naming switch: **empty** when `{{OWNER}}` equals `{{FAMILY}}`, otherwise `{{FAMILY}}-`. Every member name in the templates is written `{{MEMBER_PREFIX}}<token>`, so one substitution covers both cases.
 - `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member sorted by repo name (path `../{{MEMBER_PREFIX}}<token>`), then a final self-row for the layer with path `.`. English in `CLAUDE.md`, Traditional Chinese in `README.md`.
 - `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" },` line per member, in the same order as `{{MEMBER_TABLE}}` (workspace).

@@ -28,29 +28,21 @@ options:
 Per-template detail lives in the sections below ([meta-repo](references/meta-repo.md) carries its own reference). From there:
 
 1. **Build it locally** — run the template's local steps (below) without confirmation.
-2. **Push decision** — once the project stands up locally, the *Execution gate* asks whether to push it. The owner is resolved before this point — see *Where the repo lives*. Every template passes through it.
+2. **Push decision** — once the project stands up locally, the *Execution gate* asks whether to push it, and to which GitHub account. The owner directory is resolved before building (see *Where the repo lives*); the account is resolved at the gate. Every template passes through it.
 3. **Hand off** to the initialize stage — for **all three templates**.
 
 ## Where the repo lives
 
-Every repo lands at `~/Developer/<owner>/<repo>` — the local path mirrors `github.com/<owner>/<repo>`, so the tree reads the same way the remote does. The root holds owner directories and nothing else. Exceptions — an owner directory whose GitHub account carries a different name — are the user's to settle when creating.
+Every repo lands at `~/Developer/<owner>/<repo>`. The root holds owner directories and nothing else. An owner directory is a local grouping only: it says nothing about the GitHub account the repo is pushed to, and the two often carry different names. The account is a separate decision at the *Execution gate*.
 
-- **`<owner>`** — the account or organization that owns the repo. Default to the one named after the local username (`$USER`), so every template lands in `~/Developer/$USER/` unless told otherwise. Use another owner only when the user names one, or when the meta-repo interview resolves one.
+- **`<owner>`** — the owner directory the repo sits in. Default to the one named after the local username (`$USER`), so every template lands in `~/Developer/$USER/` unless told otherwise. Use another only when the user names one, or when the meta-repo interview resolves one.
 - **`<repo>`** — the repo name, and also the directory name. The two never diverge, so `git clone` drops the directory where it belongs with no rename.
-- **A local-only repo still lands under the default owner.** A repo without a remote is the common case that later gets one, and it almost always gets the default owner. Parking it elsewhere buys a second move for nothing.
+- **A local-only repo still lands under the default owner directory.** A repo without a remote is the common case that later gets one, and it almost always belongs beside the user's other repos. Parking it elsewhere buys a second move for nothing.
 - **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, it has to move under the resolved owner before the first commit — but say so first, and say where it is going. The user asked for a repo, not for their directory layout to change, and the move pulls the ground out from under the shell they are standing in. Report the new path once it is done, so they can follow it.
 
-**Resolving the owner.** When the user names one, use it and ask nothing. When they call for an organization without naming which one, present this menu verbatim. A meta repo does not use this menu — its interview resolves the owner from its own two candidates (see [meta-repo](references/meta-repo.md)).
+**Resolving the owner directory.** When the user names one, use it and ask nothing. When the request names or calls for a GitHub organization instead, the directory is still a local choice: ask in plain text which owner directory the repo goes in, listing the directories already under `~/Developer`. Never build the directory from the organization's name. A meta repo resolves its directory in its own interview (see [meta-repo](references/meta-repo.md)).
 
-```
-single-select · header: 「擁有者」
-question: 「這個 repo 要放在哪一個 owner 底下？」
-options:
-  · 「<login>」 — 「建在 <login> 底下，本機路徑是 ~/Developer/<login>/<name>。」
-[Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Drop the personal account from the options when the user ruled it out. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. Never infer an owner from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
-```
-
-**Family naming.** A family is a set of repos coordinated by one meta repo. Whether a member carries the family name depends on whether the owner already carries it:
+**Family naming.** A family is a set of repos coordinated by one meta repo. Whether a member carries the family name depends on whether the owner directory already carries it:
 
 | Condition | Members | Meta repo |
 |---|---|---|
@@ -63,15 +55,33 @@ In the first case the owner directory *is* the family container, so repeating th
 
 Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before creating a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` (the framed gate), then present this menu verbatim and act on the answer.
 
-The owner is already resolved by this point — by the default rule above for blank / framework, or by the meta-repo interview. So the gate asks one thing: push or not.
+**Resolving the GitHub account.** Settle it right before the gate, in this order, and never build it from the owner directory's name:
+
+1. The request names the account or organization → use it.
+2. The request calls for an organization without naming which one → present the account menu below, leaving out the personal account.
+3. The repo sits in a family's own directory (`~/Developer/<family>/`) → ask for its organization in plain text. That organization is created by hand and may not exist yet.
+4. Otherwise → the authenticated account from `gh api user --jq .login`.
+
+The gate shows the full destination, so a wrong default is corrected there instead of discovered after the push.
 
 ```
 single-select · header: 「遠端」
-question: 「要把這個 repo 推上 <owner> 嗎？」
+question: 「要把這個 repo 推上 GitHub 的 <account>/<name> 嗎？」
 options:
-  · 「建立遠端並 push」 — 「在 <owner> 底下建立 public repo，並 push。」
+  · 「建立遠端並 push」 — 「在 GitHub 建立 public repo <account>/<name>，並 push。」
+  · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後回到此確認步驟。」
   · 「先不綁遠端」 — 「停在本機，不建立遠端，也不 push。」
-[Rule, not copy] substitute the resolved owner into both strings — the user confirms the destination by reading it, rather than picking it a second time. When the repo sits in a family's own directory (`~/Developer/<family>/`), its GitHub organization is created by hand and may carry another name: unless the request already named that organization, ask for it in plain text before the gate. Substitute it instead of the directory name.
+[Rule, not copy] substitute the resolved account and the repo name into every string — the user confirms the destination by reading it.
+```
+
+On 「換一個帳號」, present this menu verbatim, then show the gate again with the chosen account:
+
+```
+single-select · header: 「帳號」
+question: 「遠端要建立在哪一個 GitHub 帳號底下？」
+options:
+  · 「<login>」 — 「建立 <login>/<name>。」
+[Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. An organization missing from the list (a family's organization not created yet) is typed in as free text. Never infer an account from the owner directory's name or from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
 ```
 
 ## blank
@@ -88,10 +98,10 @@ options:
 - **建立遠端並 push** → ensure the branch is `main` (`git branch -M main`), then:
 
   ```sh
-  gh repo create <owner>/<name> --public --source . --remote origin --push
+  gh repo create <account>/<name> --public --source . --remote origin --push
   ```
 
-  Always write the owner explicitly: a bare `<name>` creates under the personal account without saying so, which silently sends an org's repo to the wrong home.
+  Always write the account explicitly: a bare `<name>` creates under the personal account without saying so, which silently sends an org's repo to the wrong home.
 
   Always **public** — no visibility question (a deliberate personal-fit default; create a private repo by hand if ever needed). If `gh` is unavailable, fall back to `git remote add origin <url>` → `git branch -M main` → `git push -u origin main`.
 - **先不綁遠端** → stay local-only; stop here (still offer the *Hand-off*).
@@ -128,7 +138,7 @@ Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **n
 
 ## meta-repo
 
-A coordination layer over sibling repos that share one owner directory. Built locally with its own scaffold + git ceremony, then through the **same push decision and hand-off as the other templates** — the flow is fully uniform. Its second-round interview resolves the owner, which fixes the member names through the *Family naming* table above. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound.
+A coordination layer over sibling repos that share one owner directory. Built locally with its own scaffold + git ceremony, then through the **same push decision and hand-off as the other templates** — the flow is fully uniform. Its second-round interview resolves the owner directory, which fixes the member names through the *Family naming* table above; the GitHub account waits for the gate like every other template. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound.
 
 **Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 
