@@ -12,7 +12,9 @@ Every hook carries its own license in its directory — an extensionless `LICENS
 
 ## Repository workflow
 
-Any change destined for `claude-hooks` (at `~/Developer/claude-hooks`) — creating or modifying a hook — goes through the sequence below. (This path and the sibling skills are personal defaults — see this skill's `README.md` to swap them.) If the repo isn't present — a different machine, or a non-Claude-Code host — work locally and skip the publishing steps.
+Any change destined for `claude-hooks` — creating or modifying a hook — goes through the sequence below. (The sibling skills are personal defaults — see this skill's `README.md` to swap them.)
+
+**Locate the repo from this skill's own install, never from the working directory.** A session can start anywhere, so the cwd says nothing about where the repo lives. This skill sits in `~/.claude/skills/` as a symlink to `<skills-repo>/skills/ultra-hook-author/`, and the base directory Claude Code reports is that symlink — resolve it with `realpath` and go up two levels to reach `<skills-repo>`. `claude-hooks` is its sibling: `<skills-repo>/../claude-hooks`. If that directory isn't a git checkout — the skill was copied rather than linked, a different machine, or a non-Claude-Code host — work locally and skip the publishing steps.
 
 1. **Check git state** — the repo is clean and on its default branch. Flag anything uncommitted rather than building on top of it.
 2. **Open a branch** — hand off to [ultra-branch-creator](../../ultra-branch-creator/SKILL.md). The type follows the change: `feat/add-<hook-name>` for a new hook; `fix` / `refactor` / `docs` for editing one.

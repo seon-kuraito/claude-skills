@@ -33,6 +33,7 @@ You receive a hook (its script plus its intended registration) and decide whethe
 
 ### 5. Security
 - Every variable quoted? Absolute paths / `${CLAUDE_PROJECT_DIR}`?
+- Bundled files located through `${BASH_SOURCE[0]}` (resolved with `pwd -P` when reaching the repo) — not through the input `cwd` or a hard-coded repo path?
 - Any untrusted field (`tool_input.*`, `prompt`) reaching a shell via `eval` or unquoted interpolation?
 - Does it assume `jq` / external tools exist without failing cleanly?
 

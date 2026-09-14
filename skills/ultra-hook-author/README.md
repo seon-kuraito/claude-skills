@@ -72,7 +72,7 @@
   - hook 必須登記在 `settings.json` 才會生效，因此發佈流程需增加「在 `settings.hooks.json` 宣告 → 套用到 `settings.json`」這一步
 - **保留對抗式審查**：
   - 以 `agents/hook-reviewer.md` 審查草擬中的 hook
-  - 審查重點包含事件選擇是否契合、I／O 契約是否明確、阻擋語義是否正確，以及是否存在安全性風險
+  - 審查重點包含事件選擇是否契合、I／O 契約是否明確、阻擋語義是否正確、檔案是否從腳本位置定位，以及是否存在安全性風險
 - **統一文件與發佈規格**：
   - 每個 hook 都附一份固定格式的 `README.md`，規範見 [`references/readme-guide.md`](references/readme-guide.md)
   - 同步產出 `LICENSE` 與 `NOTICE`
@@ -90,9 +90,10 @@
 ### 預設與相依
 
 - **目標 repo**：
-  - 發佈流程預設在 `~/Developer/claude-hooks` 操作
-  - 如需指向其他 hooks repo，改這個路徑即可
-  - repo 不存在時，會退回「只在本機建立、跳過 git 流程」
+  - 發佈流程從本 skill 的 symlink 反推位置：以 `realpath` 解析安裝路徑，往上兩層取得 `claude-skills`，再以其同層的 `claude-hooks` 為目標
+  - 不以工作目錄（Working Directory）為準，工作階段從哪個目錄啟動都不影響
+  - 如需指向其他 hooks repo，將它放在 skills repo 的同層即可
+  - 解析結果不是 git repo 時（例如：以複製而非 symlink 安裝），會退回「只在本機建立、跳過 git 流程」
 - **委派的 skills**：
   - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

@@ -248,6 +248,23 @@ Skills that run outward-facing or irreversible actions — anything touching a r
 
 The four bullets are the spine; the `---`/`　` frame is part of the standard rendering, not optional decoration — reproduce both, every time. This guide isn't loaded at skill runtime, so each gate-emitting skill keeps the framed gate above in its own `assets/execution-gate.md`, and in SKILL.md keeps a short `## 🚧 Execution gate` pointer that names what triggers it and says to render that asset before proceeding. Extracting the frame to a file keeps the format syncable across skills; the bespoke `Triggers on` line stays per-skill. When a gate carries extra meaning, fold it into the relevant bullet rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on **Confirm**; what to show (title, body-as-link, flags) rides on **Stop & show**. Don't flatten that nuance away for the sake of uniformity.
 
+### Locating paths on disk
+
+A skill that needs a real location on the user's machine derives it at runtime instead of writing an absolute path into the skill. Decide by what the path points at:
+
+- **The skill's own repo, or a sibling repo in its family** — resolve it from the install. A global skill sits in `~/.claude/skills/` as a symlink to `<repo>/skills/<name>/`, and the base directory Claude Code reports is that symlink: resolve it with `realpath`, go up two levels to reach `<repo>`, and reach a sibling at `<repo>/../<sibling>`. The sibling step assumes the family's repos share one parent directory; say so wherever the skill relies on it.
+- **What the user is working on right now** — the working directory. That is all the cwd says; a session can start anywhere, so never read the skill's repo from it.
+- **Where something new gets created** — a user convention, not a location to discover. Write it as a placeholder (`~/Developer/<owner>/<repo>`), never with a real account or project name.
+
+**When the lookup fails** — the resolved directory is not a git checkout because the skill was copied rather than linked, it runs on another machine or a non-Claude-Code host, or a sibling lives somewhere else — fall back by what the skill does with the repo:
+
+- **Publishes to it** (edits, commits) → work locally and skip the publishing steps.
+- **Only reads it** → use a path the user gave; otherwise stop and ask for one. Never guess a location.
+
+**Inside a bundled script**, count from the script, not from the skill directory. A script at `<repo>/skills/<name>/scripts/` resolves its own directory with `cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P` and goes up **three** levels to reach `<repo>` — copying "two levels" from the skill directory lands inside `skills/`. Accept an explicit path argument first, so the skill can pass along a path the user gave.
+
+Why: an absolute path breaks the day the repo moves, and a real one leaks the maintainer's layout into a public skill. The link scripts already work this way — they find their repo through `BASH_SOURCE` — so a skill that resolves its own location stays true to however it was installed.
+
 ### Examples pattern
 
 Concrete Input/Output pairs beat abstract descriptions:
@@ -293,6 +310,7 @@ After drafting, verify:
 - [ ] Description scope agrees with the human-facing summaries — the body's opening line and the README Summary are not narrower than what the description triggers on.
 - [ ] `SKILL.md` body is under the line ceiling (under 100 ideal, under 500 acceptable).
 - [ ] No time-sensitive information (dates, "currently", "as of last quarter").
+- [ ] No hard-coded machine path — the skill's own repo and its siblings are resolved from the install with `realpath` (three levels up from a bundled script), the cwd is read only for the user's current work, creation locations are placeholders, and a failed lookup falls back by what the skill does with the repo: skip publishing, or use the user's path or ask.
 - [ ] Terminology is consistent throughout — same concept, same name everywhere.
 - [ ] Concrete examples are included for non-trivial instructions.
 - [ ] Reference depth is one level: `SKILL.md → references/<file>.md`, not `SKILL.md → ref → ref → ref`.

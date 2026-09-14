@@ -108,6 +108,7 @@ Settle the gate at interview time (Step 1) — an ungated `Stop` notifier alerts
 - **Fast.** Hooks sit on the critical path. Keep the work minimal, or mark it `async`.
 - **Verify a dependency precisely, then degrade.** A directory existing isn't the tool working — test the actual executable (`[ -x "$app/Contents/MacOS/Bin" ]`, `command -v tool`). A half-built or broken dependency should fall through to a fallback (or a quiet `exit 0`), not be assumed good and silently swallow the action.
 - **Quiet stdout unless it's the contract.** On most events, stray stdout is noise and can break JSON parsing. Send diagnostics to stderr.
+- **Locate files from the script, not the session.** A hook that reads its own bundled files finds them through `${BASH_SOURCE[0]}`: `"$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"` is the installed directory under `~/.claude/hooks/<name>/`, and `pwd -P` (or `realpath`) resolves the symlink when the script must reach the repo behind it. The input's `cwd` is the session's project, never the hook's own location, and a hard-coded repo path breaks the day the repo moves.
 - **Script in English; localize what the user reads.** The hook script, its comments, and structure stay English (the repo convention). A string the *user* sees — a notification body, a blocked-action reason — may be in the user's language if they prefer: it is display output, not config.
 
 ## Security
@@ -134,6 +135,7 @@ After drafting, verify:
 - [ ] For a side-effect hook, it `exit 0`s and emits no stray stdout.
 - [ ] The matcher / `if` actually narrows to the intended calls, and the event supports the matcher used.
 - [ ] Every variable is quoted; scripts use absolute paths; no untrusted input reaches a shell unguarded.
+- [ ] Bundled files are found through `${BASH_SOURCE[0]}` (with `pwd -P` to reach the repo), never through the input `cwd` or a hard-coded repo path.
 - [ ] The script is idempotent and fast (or marked `async`).
 - [ ] A blocking hook can't infinite-loop — a `Stop` hook that blocks checks `stop_hook_active` and exits 0 when it is `true`.
 - [ ] If the action should only happen sometimes (the right OS, you've stepped away, a specific branch), the hook gates on that condition and `exit 0`s to skip — the event itself fires on every occurrence.

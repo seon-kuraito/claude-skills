@@ -12,7 +12,9 @@ Every skill carries its own license in its directory — an extensionless `LICEN
 
 ## Repository workflow
 
-Any change destined for the user's skills repo `claude-skills` (at `~/Developer/claude-skills`) — **creating a new skill or modifying an existing one** — goes through the sequence below. (This path and the sibling skills used below are personal defaults — see this skill's `README.md` for swapping them.) If that repo is not present — a different machine, or a Claude.ai / Cowork environment — work locally and skip the publishing steps.
+Any change destined for the user's skills repo `claude-skills` — **creating a new skill or modifying an existing one** — goes through the sequence below. (The sibling skills used below are personal defaults — see this skill's `README.md` for swapping them.)
+
+**Locate the repo from this skill's own install, never from the working directory.** A session can start anywhere, so the cwd says nothing about where the repo lives. This skill sits in `~/.claude/skills/` as a symlink to `<repo>/skills/ultra-skill-author/`, and the base directory Claude Code reports is that symlink — resolve it with `realpath`, then go up two levels to reach `<repo>`. If that directory is not a git checkout — the skill was copied rather than linked, a different machine, or a Claude.ai / Cowork environment — work locally and skip the publishing steps.
 
 1. **Check git state** — confirm the repo is clean and on its default branch. Flag anything uncommitted rather than building on top of it.
 2. **Open a branch** — hand off to [ultra-branch-creator](../../ultra-branch-creator/SKILL.md). The type follows the change: `feat/add-<skill-name>` for a new skill; `fix` / `refactor` / `docs` / etc. for editing an existing one.
