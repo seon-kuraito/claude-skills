@@ -26,6 +26,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 ## Safety rules
 
+- **Change state only through the scripts** — never delete a session folder or edit `~/.claude.json`, `history.jsonl`, or VS Code's files from inside the session, however small the change looks: both apps rewrite those files while they run, and only `apply.sh` backs up, re-checks, and refuses while they are open.
 - **Back up before deleting** — `apply.sh` copies every file, folder, and database it changes into `backup/` beside the manifest first. Keep it until the user has checked the result.
 - **Act on the manifest only** — `apply.sh` re-checks each selected item and skips any whose state changed since planning; it never widens the selection.
 - **Protect live work** — records of a project a Claude Code session runs in cannot be selected, and `apply.sh` refuses to start while any session or VS Code is still open.
