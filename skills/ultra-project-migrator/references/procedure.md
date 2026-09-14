@@ -74,7 +74,9 @@ The last lines of `apply-output.log` name the phase, the phases already in effec
 
 ## finalize.sh
 
-`finalize.sh [--dry-run] <manifest>` needs `migration finished` in `apply-output.log` and the `copy-started` marker. For each move it checks that the new copy exists and is not empty, that nothing in the old folder is newer than `copy-started` (`.DS_Store` aside), and that no Claude Code session or process works inside it. Any problem stops it before deleting anything. Otherwise it deletes the old folders, then the manifest folder with every backup. `--dry-run` runs the same checks and deletes nothing.
+`finalize.sh [--dry-run] <manifest>` needs `migration finished` in `apply-output.log` and the `copy-started` marker. For each move it checks that the new copy exists and is not empty, that every file in the old folder newer than `copy-started` has the same content in the new copy, and that no Claude Code session or process works inside it. Any problem stops it before deleting anything. Otherwise it deletes the old folders, then the manifest folder with every backup. `--dry-run` runs the same checks and deletes nothing.
+
+The content check skips `.DS_Store`, `.git/index`, and `.git/FETCH_HEAD`: git rewrites the last two even on read-only commands, such as the background status and fetch an editor runs when the old folder is opened by mistake. Any other difference, including new git objects from a real commit or fetch, stops finalize; delete by hand only after checking what changed.
 
 ## Store notes
 

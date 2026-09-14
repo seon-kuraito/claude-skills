@@ -2,7 +2,7 @@
 #
 # finalize.sh — after the user has resumed at the new paths and confirmed the
 # result, delete the old project folders and the manifest folder (manifest,
-# logs, and backups). Refuses when an old folder changed after the copy, when
+# logs, and backups). Refuses when an old folder holds a change the new copy lacks, when
 # something still works inside it, or when a new copy is missing.
 #
 # Usage: finalize.sh [--dry-run] <manifest.json>
@@ -37,8 +37,21 @@ while IFS=$'\t' read -r o n; do
   case "$o" in "/"|"$HOME"|"$HOME/Developer"|"$CLAUDE_DIR"|"$CLAUDE_DIR"/*) problem "refusing to delete $o"; continue ;; esac
   if [ ! -e "$o" ]; then echo "  already gone: $o" | tilde; continue; fi
   if [ ! -d "$n" ] || [ -z "$(ls -A "$n")" ]; then problem "new copy is missing or empty: $n"; continue; fi
-  changed="$(find "$o" -newer "$dir/copy-started" ! -name .DS_Store -print 2>/dev/null | head -5 || true)"
-  if [ -n "$changed" ]; then problem "$o changed after the copy, e.g. $(printf '%s' "$changed" | head -1)"; continue; fi
+  # A file touched after the copy only matters when the new copy lacks its
+  # content. git rewrites .git/index and .git/FETCH_HEAD even on read-only
+  # commands (an editor's background status or fetch), so those do not count.
+  changed=""
+  while IFS= read -r -d '' f; do
+    rel="${f#"$o"/}"
+    case "$rel" in .git/index|.git/FETCH_HEAD) continue ;; esac
+    if [ -L "$f" ]; then
+      [ "$(readlink "$f")" = "$(readlink "$n/$rel" 2>/dev/null || true)" ] && continue
+    elif [ -f "$n/$rel" ] && cmp -s "$f" "$n/$rel"; then
+      continue
+    fi
+    changed="$rel"; break
+  done < <(find "$o" -newer "$dir/copy-started" ! -type d ! -name .DS_Store -print0 2>/dev/null)
+  if [ -n "$changed" ]; then problem "$o changed after the copy and differs from the new copy, e.g. $changed"; continue; fi
   busy=""
   while IFS= read -r c; do
     if [ -n "$c" ] && under "$c" "$o"; then busy="$c"; fi
