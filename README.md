@@ -20,6 +20,7 @@
 | [`ultra-hook-author`](skills/ultra-hook-author) | 建立、改寫與驗證 Claude Code hook | 原創 |
 | [`ultra-notion-composer`](skills/ultra-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
 | [`ultra-pr-creator`](skills/ultra-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
+| [`ultra-project-cleaner`](skills/ultra-project-cleaner) | 診斷並清除專案在 Claude Code 與 VS Code 留下的狀態 | 原創 |
 | [`ultra-project-deployer`](skills/ultra-project-deployer) | 把專案部署到代管平台（例如：GitHub Pages） | 原創 |
 | [`ultra-project-initializer`](skills/ultra-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
 | [`ultra-react-publisher`](skills/ultra-react-publisher) | 全自動從零建立並部署一個 GitHub Pages 上的 React 專案 | 原創 |
