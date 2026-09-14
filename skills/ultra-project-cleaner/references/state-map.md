@@ -41,21 +41,23 @@ Under `~/Library/Application Support/Code/User/`:
 | ESLint notice flag | `globalStorage/state.vscdb`, row `dbaeumer.vscode-eslint` → `noESLintMessageShown.workspaces["<uri>"]` | the URI key | remove the key; keep `global` | yes |
 | GitLens visibility cache | `globalStorage/state.vscdb`, row `eamodio.gitlens` → `gitlens:repoVisibility`: `[[path, {visibility, …}]]` | the first element | remove every element for the path | yes |
 | Python extension state | `globalStorage/state.vscdb`, row `ms-python.python` → top-level `PYTHON_WAS_DISCOVERY_TRIGGERED_<path>` keys; `PYTHON_GLOBAL_STORAGE_KEYS[].key` with that prefix, `WORKSPACE_FOLDER_INTERPRETER_PATH_`, or `WORKSPACE_INTERPRETER_PATH_`; the `remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key` and `remoteWorkspaceKeysForWhichTheCopyIsDone_Key` arrays | the path after the prefix, or the array value | remove every key, registry row, and array value for the path together | yes |
+| Terminal directory history | `globalStorage/state.vscdb`, row `terminal.history.entries.dirs` → `entries`: `[{key: <path>, value: {remoteAuthority?}}]` | the key of an entry without a `remoteAuthority` | remove the entry; the rest keep their order | yes |
 
-Leave alone: `backupWorkspaces.emptyWindows` and `~/Library/Application Support/Code/Backups/` (unsaved untitled editors live there), and every other `storage.json` field. In `state.vscdb`, leave every other row and every other field of the rows above — including `terminal.history.entries.dirs`, the terminal's recent-directory list, which is a history the user browses rather than a project's state. Open Recent entries are removed by hand from File › Open Recent.
+Leave alone: `backupWorkspaces.emptyWindows` and `~/Library/Application Support/Code/Backups/` (unsaved untitled editors live there), and every other `storage.json` field. In `state.vscdb`, leave every other row and every other field of the rows above — including `terminal.history.entries.commands`, the terminal's command history, and directory entries with a `remoteAuthority`, whose paths live on another machine. Open Recent entries are removed by hand from File › Open Recent.
 
 ### Writing `state.vscdb`
 
-`state.vscdb` is SQLite: table `ItemTable`, one row per key, each value a TEXT JSON object. A running VS Code keeps every extension's row in memory and writes the whole row back on its next update, so an edit made while it runs is lost — `apply.sh` refuses while any process holds the file. It backs the database up once before the first write, writes every changed row in one transaction as TEXT, and then checks `pragma integrity_check`.
+`state.vscdb` is SQLite: table `ItemTable`, one row per key, each value a TEXT JSON object. A running VS Code keeps these rows in memory and writes a whole row back on its next update, so an edit made while it runs is lost — `apply.sh` refuses while any process holds the file. It backs the database up once before the first write, writes every changed row in one transaction as TEXT, and then checks `pragma integrity_check`.
 
-### Why the extension caches are safe to clear
+### Why these records are safe to clear
 
-Each record only saves work for a path the extension may meet again, and none of these fields is registered for Settings Sync, so a removal does not come back from another machine:
+Each record only saves work for a path VS Code may meet again, and none of these fields is registered for Settings Sync, so a removal does not come back from another machine:
 
 - **Git** — the cache offers an existing local clone when a repository is cloned again; it skips entries whose `workspacePath` is gone, but an entry whose repository is gone while its workspace remains still passes that check. The cache keeps at most 30 remotes, and stale entries count toward that limit.
 - **ESLint** — the flag keeps the "ESLint library not found" notice to once per workspace; without it, a new project at the same path sees the notice once.
 - **GitLens** — the cache holds a repository's public or private visibility; its 30-day expiry runs only when the path is read again, so an entry for a deleted path stays forever.
 - **Python** — the key keeps environment discovery to once per folder, and the registry lists keys for *Python: Clear Cache and Reload Window*; removing both together keeps them consistent, and a path that returns is discovered once more.
+- **Terminal** — the list feeds *Terminal: Go to Recent Directory* and keeps up to `terminal.integrated.shellIntegration.history` entries (100 by default); *Terminal: Clear Previous Session History* clears only the command history, so a deleted path stays in the list until that limit pushes it out.
 
 ### Paths that mislead
 

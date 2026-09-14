@@ -244,6 +244,15 @@ if [ "$only" != claude ]; then
             | select(type == "string" and startswith("/")))' <<< "$py" \
         | sort | uniq -c | perl -pe 's/^\s*(\d+) /$1\t/')
     fi
+
+    # An entry with a remoteAuthority names a path on another machine; only local entries count.
+    td="$(state_row terminal.history.entries.dirs)"
+    if [ -n "$td" ]; then
+      while IFS= read -r p; do
+        consider vscode-terminal-dir-history "$p" '{}'
+      done < <(jq -r '(.entries // [])[] | select((.value.remoteAuthority? // "") == "") | .key
+        | select(type == "string" and startswith("/"))' <<< "$td" | sort -u)
+    fi
   fi
 fi
 

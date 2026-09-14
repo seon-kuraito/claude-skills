@@ -43,6 +43,7 @@ For a record of a project a Claude Code session runs in, `reason` gains ` (live 
 | `vscode-eslint-flag` | `uri` | `noESLintMessageShown.workspaces` still has the URI |
 | `vscode-gitlens-visibility` | `path` | `gitlens:repoVisibility` still lists the path |
 | `vscode-python-state` | `path`, `entries` | a key, registry row, or copy marker still names the path |
+| `vscode-terminal-dir-history` | `path` | an entry without a `remoteAuthority` still has the path as its key |
 
 A `vscode-git-repo-cache` item's `path` is whichever of its two paths made it a candidate — the repository path first. `entries` on a `vscode-python-state` item counts the keys, registry rows, and copy markers that name the path.
 

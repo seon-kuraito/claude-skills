@@ -170,7 +170,7 @@ fi
 # before the first write, then write every changed row in one transaction.
 if [ -f "$STATE_DB" ]; then
   gh="$(state_row vscode.github)"; gitc="$(state_row vscode.git)"; es="$(state_row dbaeumer.vscode-eslint)"
-  gl="$(state_row eamodio.gitlens)"; py="$(state_row ms-python.python)"
+  gl="$(state_row eamodio.gitlens)"; py="$(state_row ms-python.python)"; td="$(state_row terminal.history.entries.dirs)"
 
   del_gh="[]"
   while IFS=$'\t' read -r id path reason key; do
@@ -218,6 +218,14 @@ if [ -f "$STATE_DB" ]; then
     log "$id" applied "removed Python extension state"
   done < <(rows vscode-python-state '[.id, .path, .reason]')
 
+  del_td="[]"
+  while IFS=$'\t' read -r id path reason; do
+    if [ -z "$td" ] || ! jq -e --arg p "$path" 'any((.entries // [])[]; .key == $p and (.value.remoteAuthority? // "") == "")' <<< "$td" >/dev/null; then log "$id" skipped "terminal directory entry already gone"; continue; fi
+    if ! still_missing "${reason%% *}" "$path"; then log "$id" skipped "path exists again"; continue; fi
+    del_td="$(jq -c --arg p "$path" '. + [$p]' <<< "$del_td")"
+    log "$id" applied "removed terminal directory history entry"
+  done < <(rows vscode-terminal-dir-history '[.id, .path, .reason]')
+
   work="$(mktemp -d)"; sql=""
   stage() { # stage <row key> <new value>
     printf '%s' "$2" > "$work/$1"
@@ -236,6 +244,8 @@ if [ -f "$STATE_DB" ]; then
     | (if .PYTHON_GLOBAL_STORAGE_KEYS then .PYTHON_GLOBAL_STORAGE_KEYS |= map(select(.key? | gone | not)) else . end)
     | (if .remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key then .remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key |= map(select(. as $v | any($d[]; . == $v) | not)) else . end)
     | (if .remoteWorkspaceKeysForWhichTheCopyIsDone_Key then .remoteWorkspaceKeysForWhichTheCopyIsDone_Key |= map(select(. as $v | any($d[]; . == $v) | not)) else . end)' <<< "$py")"
+  # Remote entries keep their place even when they share a removed path.
+  [ "$del_td" = "[]" ] || stage terminal.history.entries.dirs "$(jq -c --argjson d "$del_td" '.entries |= map(select(((.value.remoteAuthority? // "") == "" and (.key as $k | any($d[]; . == $k))) | not))' <<< "$td")"
 
   if [ -n "$sql" ]; then
     sqlite3 "$STATE_DB" ".backup '$B/state.vscdb'"
