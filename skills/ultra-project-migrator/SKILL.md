@@ -32,6 +32,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 ## Safety rules
 
+- **Change state only through the scripts** — never move session folders or edit `~/.claude.json`, `history.jsonl`, symlinks, or VS Code's files from inside the session, however small the change looks: both apps rewrite those files while they run, and only `apply.sh` backs up, re-checks, and verifies.
 - **Copy, delete last** — the old folder is the fallback until the user confirms; `finalize.sh` refuses while a process works inside an old folder, or when a file there changed after the copy started and the new copy lacks that content (git's refreshed `.git/index` and `.git/FETCH_HEAD` aside).
 - **Back up before changing** — `apply.sh` copies the session folders, `~/.claude.json`, and `history.jsonl` into `backup/` beside the manifest before it touches them.
 - **Act on the manifest only** — `apply.sh` re-checks the plan before copying (sessions and VS Code closed, targets still empty, session folders unchanged) and rewrites only paths at or under the old paths.
