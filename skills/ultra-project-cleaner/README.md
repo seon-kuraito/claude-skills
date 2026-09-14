@@ -32,7 +32,7 @@
   - 診斷（Diagnose）：未指定專案時，找出路徑已不存在的紀錄，由使用者挑選要清除的項目
 - **涵蓋 Claude Code 與 VS Code 的狀態**：
   - Claude Code：工作階段資料夾（含記憶卡）、`~/.claude.json` 的 `projects` 與 `githubRepoPaths`、`history.jsonl`
-  - VS Code：`workspaceStorage`、`storage.json` 的視窗還原與 profile 登記、`state.vscdb` 內的 extension 快取（GitHub、Git、ESLint、GitLens、Python）
+  - VS Code：`workspaceStorage`、`storage.json` 的視窗還原與 profile 登記、`state.vscdb` 內的終端機目錄歷史與 extension 快取（GitHub、Git、ESLint、GitLens、Python）
 - **先預覽，再交給腳本執行**：
   - 在工作階段內唯讀預覽，產生清單檔（Manifest）
   - 確認後由使用者關閉 VS Code 與 Claude Code，在終端機執行腳本，完成後再回到工作階段驗證結果
@@ -73,7 +73,8 @@
 - **`~/.claude.json` 只修改路徑相關欄位**：
   - 僅修改 `projects` 與 `githubRepoPaths`，其餘欄位由 Claude Code 自行管理
 - **`state.vscdb` 只修改路徑相關欄位**：
-  - 僅修改 5 個 extension 資料列中與專案路徑相關的欄位，其餘資料列與欄位（例如：終端機的目錄歷史）不動
+  - 僅修改 5 個 extension 資料列與終端機目錄歷史中與專案路徑相關的欄位，其餘資料列與欄位（例如：終端機的指令歷史）不動
+  - 終端機目錄歷史中屬於遠端機器的路徑不列入判斷
   - 寫入前只備份一次資料庫，所有資料列在同一個交易（Transaction）中寫回
 - **可被其他 skill 沿用**：
   - `ultra-project-migrator` 搬遷專案時，沿用同一份清單檔格式清除舊路徑的 VS Code 狀態，使用者只需關閉一次 VS Code
