@@ -13,6 +13,8 @@ Where Claude Code and VS Code keep per-project state on macOS, how each record i
 
 None of these needs VS Code closed, but no Claude Code session may be running while they change.
 
+Not every session writes all four. A session started with `claude` in a terminal (transcript `entrypoint` `cli`) writes its session folder, the project entry once the trust dialog is accepted, a `githubRepoPaths` value when the repo has a GitHub remote, and a history line per typed prompt. A session started from the VS Code extension (`entrypoint` `claude-vscode`) writes only its session folder. A project used only through VS Code therefore shows no project entry, repo path, or history line, and that is not a missed record. This behavior can change between Claude Code versions, so plan from what is on disk rather than from this note.
+
 Leave alone: `~/.claude/sessions/*.json` and `~/.claude/ide/*.lock` (runtime files that disappear with their process), `file-history/` and `session-env/` (keyed by session id, not path), `backups/` (Claude Code rotates its own copies of `~/.claude.json`), and every other `~/.claude.json` field (caches, flags, account data).
 
 ### Mapping a session folder to its path
