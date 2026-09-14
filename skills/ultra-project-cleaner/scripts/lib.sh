@@ -65,6 +65,18 @@ uri_to_path() {
   esac
 }
 
+# The TEXT JSON value of one state.vscdb row; empty when the row or the database is absent.
+state_row() {
+  [ -f "$STATE_DB" ] || return 0
+  sqlite3 -readonly "$STATE_DB" "select value from ItemTable where key = '$1'" 2>/dev/null || true
+}
+
+# jq function for the ms-python.python row: the project path a per-path key
+# names (PYTHON_WAS_DISCOVERY_TRIGGERED_/a/b -> /a/b); nothing for other keys.
+# The prefix is stripped before comparing, so /a/b never matches /a/b-old.
+# shellcheck disable=SC2016
+PY_PATH_JQ='def pypath: select(type == "string") | capture("^(?:PYTHON_WAS_DISCOVERY_TRIGGERED_|WORKSPACE_FOLDER_INTERPRETER_PATH_|WORKSPACE_INTERPRETER_PATH_)(?<p>/.*)$") | .p;'
+
 # True when $1 is $2 or lies under it.
 under() {
   [ "$1" = "$2" ] && return 0

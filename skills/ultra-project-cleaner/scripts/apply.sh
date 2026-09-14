@@ -165,24 +165,84 @@ if [ -f "$STORAGE_JSON" ]; then
   fi
 fi
 
-# ---------------------------------------------------------------- VS Code: GitHub extension cache
+# ---------------------------------------------------------------- VS Code: state.vscdb
+# Every row changes in one pass: re-check each item, back the database up once
+# before the first write, then write every changed row in one transaction.
 if [ -f "$STATE_DB" ]; then
-  del_keys="[]"
-  gh="$(sqlite3 "$STATE_DB" "select value from ItemTable where key = 'vscode.github'" 2>/dev/null || true)"
+  gh="$(state_row vscode.github)"; gitc="$(state_row vscode.git)"; es="$(state_row dbaeumer.vscode-eslint)"
+  gl="$(state_row eamodio.gitlens)"; py="$(state_row ms-python.python)"
+
+  del_gh="[]"
   while IFS=$'\t' read -r id path reason key; do
     if [ -z "$gh" ] || ! jq -e --arg k "$key" 'has($k)' <<< "$gh" >/dev/null; then log "$id" skipped "cache entry already gone"; continue; fi
     if ! still_missing "${reason%% *}" "$path"; then log "$id" skipped "path exists again"; continue; fi
-    del_keys="$(jq -c --arg k "$key" '. + [$k]' <<< "$del_keys")"
+    del_gh="$(jq -c --arg k "$key" '. + [$k]' <<< "$del_gh")"
     log "$id" applied "removed GitHub extension cache entry"
   done < <(rows vscode-github-cache '[.id, .path, .reason, .key]')
-  if [ "$del_keys" != "[]" ]; then
+
+  del_git="[]"
+  while IFS=$'\t' read -r id path reason remote folder wp rp; do
+    if [ -z "$gitc" ] || ! jq -e --arg r "$remote" --arg f "$folder" --arg w "$wp" --arg p "$rp" \
+        'any((.["git.repositoryCache"] // [])[]; .[0] == $r and any((.[1] // [])[]; .[0] == $f and .[1].workspacePath == $w and .[1].repositoryPath == $p))' \
+        <<< "$gitc" >/dev/null; then log "$id" skipped "repository cache entry already gone"; continue; fi
+    if ! still_missing "${reason%% *}" "$path"; then log "$id" skipped "path exists again"; continue; fi
+    del_git="$(jq -c --arg r "$remote" --arg f "$folder" '. + [{remote: $r, folder: $f}]' <<< "$del_git")"
+    log "$id" applied "removed Git repository cache entry for $remote"
+  done < <(rows vscode-git-repo-cache '[.id, .path, .reason, .remote, .folder, .workspace_path, .repository_path]')
+
+  del_es="[]"
+  while IFS=$'\t' read -r id path reason uri; do
+    if [ -z "$es" ] || ! jq -e --arg u "$uri" '.noESLintMessageShown.workspaces // {} | has($u)' <<< "$es" >/dev/null; then log "$id" skipped "ESLint flag already gone"; continue; fi
+    if ! still_missing "${reason%% *}" "$path"; then log "$id" skipped "path exists again"; continue; fi
+    del_es="$(jq -c --arg u "$uri" '. + [$u]' <<< "$del_es")"
+    log "$id" applied "removed ESLint notice flag"
+  done < <(rows vscode-eslint-flag '[.id, .path, .reason, .uri]')
+
+  del_gl="[]"
+  while IFS=$'\t' read -r id path reason; do
+    if [ -z "$gl" ] || ! jq -e --arg p "$path" 'any((.["gitlens:repoVisibility"] // [])[]; .[0] == $p)' <<< "$gl" >/dev/null; then log "$id" skipped "GitLens cache entry already gone"; continue; fi
+    if ! still_missing "${reason%% *}" "$path"; then log "$id" skipped "path exists again"; continue; fi
+    del_gl="$(jq -c --arg p "$path" '. + [$p]' <<< "$del_gl")"
+    log "$id" applied "removed GitLens visibility cache entry"
+  done < <(rows vscode-gitlens-visibility '[.id, .path, .reason]')
+
+  del_py="[]"
+  while IFS=$'\t' read -r id path reason; do
+    if [ -z "$py" ] || ! jq -e --arg p "$path" "$PY_PATH_JQ"'
+        any(keys[]; ([pypath] | .[0]) == $p)
+        or any((.PYTHON_GLOBAL_STORAGE_KEYS // [])[]; ([.key? | pypath] | .[0]) == $p)
+        or any((.remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key // [])[], (.remoteWorkspaceKeysForWhichTheCopyIsDone_Key // [])[]; . == $p)' \
+        <<< "$py" >/dev/null; then log "$id" skipped "Python extension state already gone"; continue; fi
+    if ! still_missing "${reason%% *}" "$path"; then log "$id" skipped "path exists again"; continue; fi
+    del_py="$(jq -c --arg p "$path" '. + [$p]' <<< "$del_py")"
+    log "$id" applied "removed Python extension state"
+  done < <(rows vscode-python-state '[.id, .path, .reason]')
+
+  work="$(mktemp -d)"; sql=""
+  stage() { # stage <row key> <new value>
+    printf '%s' "$2" > "$work/$1"
+    sql+="update ItemTable set value = cast(readfile('$work/$1') as text) where key = '$1';"
+  }
+  [ "$del_gh" = "[]" ] || stage vscode.github "$(jq -c --argjson d "$del_gh" 'with_entries(select(.key as $k | any($d[]; . == $k) | not))' <<< "$gh")"
+  [ "$del_git" = "[]" ] || stage vscode.git "$(jq -c --argjson d "$del_git" '
+    .["git.repositoryCache"] |= (
+      map(.[0] as $r | .[1] |= map(select(.[0] as $f | any($d[]; .remote == $r and .folder == $f) | not)))
+      | map(select((.[1] | length) > 0 or (.[0] as $r | any($d[]; .remote == $r) | not))))' <<< "$gitc")"
+  [ "$del_es" = "[]" ] || stage dbaeumer.vscode-eslint "$(jq -c --argjson d "$del_es" '.noESLintMessageShown.workspaces |= with_entries(select(.key as $k | any($d[]; . == $k) | not))' <<< "$es")"
+  [ "$del_gl" = "[]" ] || stage eamodio.gitlens "$(jq -c --argjson d "$del_gl" '.["gitlens:repoVisibility"] |= map(select(.[0] as $p | any($d[]; . == $p) | not))' <<< "$gl")"
+  [ "$del_py" = "[]" ] || stage ms-python.python "$(jq -c --argjson d "$del_py" "$PY_PATH_JQ"'
+    def gone: ([pypath] | .[0]) as $p | $p != null and any($d[]; . == $p);
+    with_entries(select(.key | gone | not))
+    | (if .PYTHON_GLOBAL_STORAGE_KEYS then .PYTHON_GLOBAL_STORAGE_KEYS |= map(select(.key? | gone | not)) else . end)
+    | (if .remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key then .remoteWorkspaceFolderKeysForWhichTheCopyIsDone_Key |= map(select(. as $v | any($d[]; . == $v) | not)) else . end)
+    | (if .remoteWorkspaceKeysForWhichTheCopyIsDone_Key then .remoteWorkspaceKeysForWhichTheCopyIsDone_Key |= map(select(. as $v | any($d[]; . == $v) | not)) else . end)' <<< "$py")"
+
+  if [ -n "$sql" ]; then
     sqlite3 "$STATE_DB" ".backup '$B/state.vscdb'"
-    new="$(mktemp)"
-    jq -c -j --argjson dk "$del_keys" 'with_entries(select(.key as $k | any($dk[]; . == $k) | not))' <<< "$gh" > "$new"
-    sqlite3 "$STATE_DB" "update ItemTable set value = cast(readfile('$new') as text) where key = 'vscode.github'"
+    sqlite3 "$STATE_DB" "begin; $sql commit;"
     [ "$(sqlite3 "$STATE_DB" 'pragma integrity_check')" = ok ] || die "state database integrity check failed; restore $B/state.vscdb"
-    rm -f "$new"
   fi
+  rm -rf "$work"
 fi
 
 # ---------------------------------------------------------------- done
