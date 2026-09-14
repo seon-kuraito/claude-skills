@@ -81,7 +81,8 @@
 ### 預設與相依
 
 - **家族路徑**：
-  - 預設 agent 定義存放於 `~/Developer/claude-agents`
+  - agent 定義存放於 `claude-agents` repo，位置從本 skill 的 symlink 反推：以 `realpath` 解析安裝路徑，往上兩層取得 `claude-skills`，其同層即為 `claude-agents`
+  - 不以工作目錄（Working Directory）為準，工作階段從哪個目錄啟動都不影響
   - 發佈流程沿用 [`ultra-skill-author`](../ultra-skill-author) 的規範，目標 repo 則改為 `claude-agents`
 - **委派的 skills**：
   - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)

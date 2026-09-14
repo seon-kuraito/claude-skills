@@ -102,7 +102,7 @@
   - 直接透過第三方安裝的 skill 不納入這套流程
 - **保留對抗式審查**：
   - 以 `agents/skill-reviewer.md` 審查草擬中的 skill
-  - 審查重點包含 description 觸發正確性、結構與行數紀律、bundled resources 擺放，以及文件與授權合規
+  - 審查重點包含 description 觸發正確性、結構與行數紀律、bundled resources 擺放、機器路徑是否在執行時推導，以及文件與授權合規
 
 　
 
@@ -113,9 +113,10 @@
 ### 預設與相依
 
 - **目標 repo**：
-  - 發佈流程預設在 `~/Developer/claude-skills` 操作
-  - 如需指向其他 skills repo，改這個路徑即可
-  - repo 不存在時，會退回「只在本機建立、跳過 git 流程」
+  - 發佈流程從本 skill 的 symlink 反推 `claude-skills` 的位置：以 `realpath` 解析安裝路徑，往上兩層即為 repo 根目錄
+  - 不以工作目錄（Working Directory）為準，工作階段從哪個目錄啟動都不影響
+  - 如需指向其他 skills repo，從該 repo 執行 `scripts/link-skill.sh` 重新連結即可
+  - 解析結果不是 git repo 時（例如：以複製而非 symlink 安裝），會退回「只在本機建立、跳過 git 流程」
 - **委派的 skills**：
   - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可
