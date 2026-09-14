@@ -84,6 +84,8 @@ options:
 [Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. An organization missing from the list (a family's organization not created yet) is typed in as free text. Never infer an account from the owner directory's name or from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
 ```
 
+A meta repo pushes the layer and its new members through one gate, with its own menu — see [meta-repo](references/meta-repo.md).
+
 ## blank
 
 **Local (no confirmation):**
@@ -138,13 +140,13 @@ Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **n
 
 ## meta-repo
 
-A coordination layer over sibling repos that share one owner directory. Built locally with its own scaffold + git ceremony, then through the **same push decision and hand-off as the other templates** — the flow is fully uniform. Its second-round interview resolves the owner directory, which fixes the member names through the *Family naming* table above; the GitHub account waits for the gate like every other template. Its scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound.
+A new family: a coordination layer plus the member repos listed for it, all created new, side by side in one owner directory. Built locally — the layer with its own scaffold, each member the way *blank* builds a repo — then through one push gate that covers the layer and every member, and a hand-off for the layer only. Its second-round interview resolves the owner directory, which fixes the member names through the *Family naming* table above; the GitHub account waits for the gate like every other template. The layer's scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound. Bringing existing projects into a family is a migration, not part of this skill.
 
 **Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 
 ## Hand-off to the initialize stage
 
-Applies to **all three templates**. Once the repo is built (local, or local + remote), present this menu verbatim:
+Applies to **all three templates** — for a meta repo, to the layer only. Once the repo is built (local, or local + remote), present this menu verbatim:
 
 ```
 single-select · header: 「下一步」
