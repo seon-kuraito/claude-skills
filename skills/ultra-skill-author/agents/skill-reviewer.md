@@ -35,6 +35,7 @@ You receive a drafted skill (its `SKILL.md` plus companion files and bundled res
 - Imperative form; *why* explained rather than bare `ALWAYS`/`NEVER` directives?
 - Interactive menus written as fixed verbatim blocks presented through the AskUserQuestion tool, 「」 copy separated from English direction?
 - No time-sensitive information; terminology consistent; concrete examples where instructions are non-trivial?
+- Machine locations derived at runtime rather than hard-coded — the skill's own repo and siblings resolved from its install via `realpath`, the cwd used only for the user's current work, creation locations written as placeholders with no real account or project name?
 
 ### 6. Companion files
 - `README.md` present and per the readme guide, its stated scope no narrower than the description?
