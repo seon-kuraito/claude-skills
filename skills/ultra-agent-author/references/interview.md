@@ -1,6 +1,6 @@
 # Interview
 
-Run the Step 1 interview with the fixed copy below — the 「」 strings are the user-facing copy, shown exactly; everything outside 「」 is English direction, never shown. **Present every menu block through the AskUserQuestion tool** — `single-select` maps to one question, `header` / `question` / `options` map to the tool's fields verbatim (discipline: [ultra-skill-author's writing guide](../../ultra-skill-author/references/writing-guide.md)). Questions marked *(open)* have no enumerable option set — ask them as plain prose questions, copy verbatim, not through the tool.
+Run the Step 1 interview with the fixed copy in `menus.md` — the sections *Classification* through *Provenance*, one per question below; present each as written there (the menu contract is at the top of that file). Questions marked *(open)* are `plain text` blocks — asked as prose, copy verbatim, not through the tool.
 
 Two starting modes:
 
@@ -11,14 +11,7 @@ Each answer fills contract fields and template placeholders in `../assets/agent-
 
 ## Q1 — Classification
 
-```
-single-select · header: 「分類」
-question: 「把工作交給獨立 context window，主要是為了換到什麼？」
-options:
-  · 「獨立判斷」 — 「避免判斷被主對話錨定；歸類為思考型（evaluator）。」
-  · 「分擔工作」 — 「避免工作佔用主對話空間；歸類為執行型（worker）。」
-[Rule, not copy] research-style agents are execution. If neither buyer can be named, return to the isolation gate — the agent may not deserve to exist.
-```
+Ask the **Classification** menu.
 
 The answer derives the defaults (trim to the contract in Step 2, never widen silently):
 
@@ -29,10 +22,7 @@ The answer derives the defaults (trim to the contract in Step 2, never widen sil
 
 ## Q2 — Scope / boundary *(open)*
 
-```
-question: 「這個 agent 可以處理什麼？哪些事絕對不碰？」
-[Thinking only, ask as follow-up] 「它只從哪個單一視角判斷？這個視角要刻意窄到什麼程度？」
-```
+Ask the **Scope** question — for a thinking agent, its follow-up line as well.
 
 | answer part | fills |
 | --- | --- |
@@ -42,29 +32,13 @@ question: 「這個 agent 可以處理什麼？哪些事絕對不碰？」
 
 ## Q3 — Inputs *(open)*
 
-```
-question: 「委派時，主對話必須把哪些材料一起交給它？（沒有打包的內容，它都看不到）」
-```
+Ask the **Inputs** question.
 
 Fills `{{INPUTS}}`. If the user lists something the agent "can just go read", probe once: the definition runs in a fresh window — anything not in the delegation prompt or reachable by its own tools does not exist for it.
 
 ## Q4 — Deliverable
 
-Thinking:
-
-```
-single-select · header: 「交付形狀」
-question: 「輸出要採用預設三段式，還是改用自訂形狀？」
-options:
-  · 「預設三段式」 — 「採用固定三段：明確結論、主要風險、什麼證據會改變判斷。」
-  · 「自訂形狀」 — 「改用自訂格式：自行描述固定輸出；仍需通過五欄 litmus test。」
-```
-
-Execution *(open)*:
-
-```
-question: 「它固定要交付什麼輸出？」
-```
+Thinking: ask the **Deliverable (thinking)** menu. Execution *(open)*: ask the **Deliverable (execution)** question.
 
 | classification | fills |
 | --- | --- |
@@ -76,30 +50,19 @@ question: 「它固定要交付什麼輸出？」
 
 ## Q5 — Verification *(open)*
 
-```
-question: 「哪些證據能讓你確認它已經做完，而且做對？」
-```
+Ask the **Verification** question.
 
 Fills `{{VERIFICATION_EVIDENCE}}`. The template already fixes the first bullet (cite the delegated material; no unsupported assertions) — this answer adds the task-specific evidence on top, it does not replace that bullet.
 
 ## Q6 — Evaluation framework *(only when the deliverable has no pass/fail; open)*
 
-```
-question: 「評估維度要錨定在該領域哪個既有、可查證的框架上？」
-[Rule, not copy] dimensions are written as questions anchored in that framework — never as invented personas. If the user can't name one, research candidates and present them; don't invent a framework wholesale.
-```
+Ask the **Framework** question.
 
 Fills `{{DIMENSIONS_AS_QUESTIONS}}` and `{{CITABLE_FRAMEWORK}}`; skip entirely when Q5's evidence is already pass/fail (then drop the `{{#no_pass_fail}}` block).
 
 ## Q7 — Provenance
 
-```
-single-select · header: 「出處」
-question: 「這個 agent 是全新原創，還是從既有作品衍生？」
-options:
-  · 「原創」 — 「未沿用他人內容；採 MIT 授權。」
-  · 「衍生」 — 「以既有 agent 或範本為基礎；先確認上游授權，copyleft 或來源不明者不能發佈。」
-```
+Ask the **Provenance** menu.
 
 License files follow [ultra-skill-author's publishing reference](../../ultra-skill-author/references/publishing.md) — MIT for original, upstream `LICENSE` + `NOTICE` for derived, copyleft / unclear → not publishable. Project-specific agents (the jurisdiction exception) carry no per-agent license regardless.
 
@@ -117,4 +80,4 @@ License files follow [ultra-skill-author's publishing reference](../../ultra-ski
 | `{{VERIFICATION_EVIDENCE}}` | Q5 |
 | `{{DIMENSIONS_AS_QUESTIONS}}` / `{{CITABLE_FRAMEWORK}}` | Q6（無 pass/fail 時） |
 
-The capability checkpoint menu that follows the interview stays in `SKILL.md`; isolation-rationale wording gathered along the way lands in the agent's `README.md`, not in the definition.
+The capability checkpoint that follows the interview is the **Capabilities** section of `menus.md`, presented from `SKILL.md`; isolation-rationale wording gathered along the way lands in the agent's `README.md`, not in the definition.
