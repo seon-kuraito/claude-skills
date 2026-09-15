@@ -38,7 +38,7 @@ Q1 · header: 「本機檔案」
 Q2 · header: 「GitHub / 遠端」
   question: 「要套用哪些 GitHub 設定？（可複選／全部不選）」
   options:
-    · 「GitHub 標籤」 — 「將 repo 的預設標籤替換為 Conventional Commits 類型標籤。」
+    · 「GitHub 標籤」 — 「新增 Conventional Commits 類型標籤；repo 已有標籤時，會先詢問處理方式。」
     · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。（GitHub 免費方案只對 public repo 生效）」
     · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 preparing。」
 [Rule, not copy] include Q2 only when a remote exists (check `git remote` or the ultra-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Each question caps at 4 options. If nothing is selected across both questions, stop.
@@ -79,6 +79,20 @@ options:
 A project runs one branching model, so pick exactly one (like the license template). They are personal-fit names, not textbook git-flow / gitlab-flow.
 
 Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [ultra-project-deployer](../ultra-project-deployer/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
+
+## Existing labels
+
+Only when **GitHub labels** is selected. List the repo's labels first (read-only — see `references/applying-selection.md`). With none, create the type labels without asking. With any — a GitHub default or a label that was already there, never told apart — present this menu verbatim:
+
+```
+single-select · header: 「現有標籤」
+question: 「這個 repo 已有 <count> 個標籤：<labels>。請選擇處理方式。」
+options:
+  · 「刪除現有標籤並新增」 — 「刪除上面列出的所有標籤，再新增 Conventional Commits 類型標籤。」
+  · 「保留現有標籤並新增」 — 「保留上面列出的標籤，再新增 Conventional Commits 類型標籤；已存在的同名標籤維持原樣，不會覆寫。」
+  · 「沿用現有標籤」 — 「不刪除也不新增任何標籤，沿用 repo 目前的標籤。」
+[Rule, not copy] substitute <count> and <labels> — every existing label name, joined with 「、」 — from the listing. Never guess which labels are GitHub defaults: the menu shows what is there and the user decides.
+```
 
 ## Applying the selection
 

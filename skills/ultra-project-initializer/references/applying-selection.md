@@ -7,9 +7,12 @@ The file options land on a dedicated branch; the labels, branch-protection, and 
 1. **File options** (`LICENSE`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to ultra-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through ultra-commit-creator):
    - `LICENSE` → `chore: add <license> LICENSE` (the chosen id, e.g. `chore: add MIT LICENSE`)
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
-2. **GitHub labels** — make the repo's labels *exactly* the type set, in two steps:
-   - **Delete the defaults first.** A new GitHub repo ships nine default labels — `bug`, `documentation`, `duplicate`, `enhancement`, `good first issue`, `help wanted`, `invalid`, `question`, `wontfix`. Remove each that is present with `gh label delete <name> --yes`. Touch only these defaults — leave any custom labels alone.
-   - **Then create the types.** For each entry in `../assets/type-labels.json`, run `gh label create <name> --color <color> --description <description>` (each entry carries `name`, `color`, and `description`); pass `--force` to overwrite a same-named label. This makes no commit.
+2. **GitHub labels** — settle the labels the repo already has, then create the type set:
+   - **List the existing labels first** (read-only): `gh label list --limit 1000 --json name --jq '.[].name'`. With none, go straight to creating the types. With any — a GitHub default or a label that was already there; the skill never tries to tell the two apart — present the *Existing labels* menu in SKILL.md and act on the answer:
+     - 「刪除現有標籤並新增」 → remove every listed label with `gh label delete <name> --yes`, then create the types.
+     - 「保留現有標籤並新增」 → leave every listed label in place, then create the types; a type whose name is already taken is skipped, so that label keeps its own color and description.
+     - 「沿用現有標籤」 → change nothing; this item ends here.
+   - **Then create the types.** For each entry in `../assets/type-labels.json`, run `gh label create <name> --color <color> --description <description>` (each entry carries `name`, `color`, and `description`). Skip an entry whose name still exists on the repo — only possible under 「保留現有標籤並新增」 — and never pass `--force`, so an existing label is never overwritten. This makes no commit.
 3. **Branch protection** — apply the standard ruleset to the default branch so `main` requires a PR to merge and blocks deletion + force-push. A GitHub side-effect, no commit.
    - **Precondition (GitHub Free):** rulesets apply only to a **public** repo — a private repo returns `403 Upgrade to Pro`. If the repo has no remote or is private (and not on Pro / Team / Enterprise), explain that and **skip this item** rather than erroring.
    - **Pre-flight (read-only):**
