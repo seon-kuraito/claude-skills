@@ -11,7 +11,7 @@ This skill covers only creating the repo. The follow-up once it exists — organ
 
 ## How it runs
 
-Load on the intent — there is **no "should I use this" pre-gate**; just enter the skill and start with the template menu. From there everything is local and reversible until the very end, so it runs without confirmation. The **only** confirmation is the single *Execution gate* before anything touches a remote. Present every `AskUserQuestion` menu exactly as written below: everything in 「」 is the user-facing copy — reproduce it verbatim, in the given order, marking no option as recommended and adding no surrounding prose. Everything outside 「」 (the field labels, the `[Rule, not copy]` line) is English direction and is never shown. Call the tool and act on the answer.
+Load on the intent — there is **no "should I use this" pre-gate**; just enter the skill and start with the template menu. From there everything is local and reversible until the very end, so it runs without confirmation. The **only** confirmation is the single *Execution gate* before anything touches a remote. Present every `AskUserQuestion` menu exactly as written below: everything in 「」 is the user-facing copy — reproduce it verbatim, in the given order, marking no option as recommended and adding no surrounding prose. Everything outside 「」 (the field labels, the `[Rule, not copy]` line) is English direction and is never shown. Call the tool and act on the answer. A **plain-text question** follows the same rule: ask its 「」 copy word for word, fill in only the placeholders its `[Rule, not copy]` line names, and add nothing else — no examples, no suggested answers.
 
 **Pick a template** — present this menu verbatim, even when one template seems obvious; the user makes the call:
 
@@ -40,7 +40,15 @@ Every repo lands at `~/Developer/<owner>/<repo>`. The root holds owner directori
 - **A local-only repo still lands under the default owner directory.** A repo without a remote is the common case that later gets one, and it almost always belongs beside the user's other repos. Parking it elsewhere buys a second move for nothing.
 - **Placing the directory.** When the working directory already sits under an owner directory, build there. When it sits at the root, it has to move under the resolved owner before the first commit — but say so first, and say where it is going. The user asked for a repo, not for their directory layout to change, and the move pulls the ground out from under the shell they are standing in. Report the new path once it is done, so they can follow it.
 
-**Resolving the owner directory.** When the user names one, use it and ask nothing. When the request names or calls for a GitHub organization instead, the directory is still a local choice: ask in plain text which owner directory the repo goes in, listing the directories already under `~/Developer`. Never build the directory from the organization's name. A meta repo resolves its directory in its own interview (see [meta-repo](references/meta-repo.md)).
+**Resolving the owner directory.** When the user names one, use it and ask nothing. When the request names or calls for a GitHub organization instead, the directory is still a local choice: ask this plain-text question verbatim. Never build the directory from the organization's name.
+
+```
+plain text
+question: 「請指定這個 repo 在 ~/Developer 底下的擁有者目錄。目前有：<dirs>。」
+[Rule, not copy] substitute <dirs> with the directory names directly under ~/Developer, joined with 「、」. Suggest none of them over the others.
+```
+
+A meta repo resolves its directory in its own interview (see [meta-repo](references/meta-repo.md)).
 
 **Family naming.** A family is a set of repos coordinated by one meta repo. Whether a member carries the family name depends on whether the owner directory already carries it:
 
@@ -59,8 +67,14 @@ Local steps — `git init`, commits, scaffolding — run freely; they're local a
 
 1. The request names the account or organization → use it.
 2. The request calls for an organization without naming which one → present the account menu below, leaving out the personal account.
-3. The repo sits in a family's own directory (`~/Developer/<family>/`) → ask for its organization in plain text. That organization is created by hand and may not exist yet.
+3. The repo sits in a family's own directory (`~/Developer/<family>/`) → ask for its organization with the plain-text question below. That organization is created by hand and may not exist yet.
 4. Otherwise → the authenticated account from `gh api user --jq .login`.
+
+```
+plain text
+question: 「請指定 <family> 家族 repo 的 GitHub organization；該 organization 需事先手動建立。」
+[Rule, not copy] substitute the family name for <family>. Never offer an organization name built from the directory name.
+```
 
 The gate shows the full destination, so a wrong default is corrected there instead of discovered after the push.
 
@@ -78,10 +92,18 @@ On 「換一個帳號」, present this menu verbatim, then show the gate again w
 
 ```
 single-select · header: 「帳號」
-question: 「遠端要建立在哪一個 GitHub 帳號或 organization？」
+question: 「請選擇遠端要建立的 GitHub 帳號或 organization。」
 options:
   · 「<login>」 — 「建立 <login>/<name>。」
-[Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Past four candidates a menu cannot hold them: list the logins as plain text and ask which one. An organization missing from the list (a family's organization not created yet) is typed in as free text. Never infer an account from the owner directory's name or from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
+[Rule, not copy] one option per login — the authenticated account from `gh api user --jq .login`, then each organization from `gh api user/orgs --jq '.[].login'`. Past four candidates a menu cannot hold them: ask the plain-text question below instead. An organization missing from the list (a family's organization not created yet) is typed in as free text. Never infer an account from the owner directory's name or from the shape of a login — asking costs one question, guessing sends the repo to the wrong account.
+```
+
+When the account menu would need more than four options, ask this plain-text question verbatim instead:
+
+```
+plain text
+question: 「請指定遠端要建立的 GitHub 帳號或 organization。可選：<logins>。也可以輸入清單以外的 organization 名稱。」
+[Rule, not copy] substitute <logins> with the same logins the menu would list, in the same order, joined with 「、」.
 ```
 
 A meta repo pushes the layer and its new members through one gate, with its own menu — see [meta-repo](references/meta-repo.md).

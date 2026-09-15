@@ -14,7 +14,13 @@ A family is a set of repos coordinated by one meta repo. Choosing this template 
 
 ### Family name
 
-Take the name from the request. When the request names none, ask for it in plain text — never propose one from the cwd, directory names, or repo prefixes.
+Take the name from the request. When the request names none, ask this plain-text question verbatim:
+
+```
+plain text
+question: 「請輸入這個家族的名稱，使用小寫英文。」
+[Rule, not copy] no placeholders. Add no example and never propose a name — not from the cwd, directory names, or repo prefixes.
+```
 
 **Refuse a duplicate family.** Once the name is known, look through `~/Developer` for a meta repo this family already has — `<family>-meta` under any owner directory, or `meta` inside `~/Developer/<family>/`. If one exists, stop and say where it is: a new meta repo is the root of a new family, never a second layer over an existing one.
 
@@ -33,10 +39,10 @@ question: 「Meta-Repo 要放在哪裡？」
 options:
   · 「<family>」 — 「放在 ~/Developer/<family>/，成員不使用家族前綴，協調層名稱為 meta；對應的 GitHub Organization 需事先手動建立。」
   · 「<user>」 — 「放在 ~/Developer/<user>/，成員使用家族前綴，協調層名稱為 <family>-meta。」
-[Rule, not copy] substitute the family name for <family> and the local username (`$USER`) for <user>. Both paths follow *Family naming* in `SKILL.md`. Skip the menu when the request names or describes the owner.
+[Rule, not copy] substitute the family name for <family> and the local username (`$USER`) for <user>. Both paths follow *Family naming* in `SKILL.md`. Skip the menu when the request names the owner, or describes one that resolves as below.
 ```
 
-A described owner resolves by what it describes: the personal account ("my personal account") → `<user>`; the family's own organization → `<family>`. When the description fits neither, ask for the owner in plain text. Resolve it from the description and `~/Developer` alone; do not call `gh` to interpret it.
+A described owner resolves by what it describes: the personal account ("my personal account") → `<user>`; the family's own organization → `<family>`. When the description fits neither, present the owner menu above after all. Resolve it from the description and `~/Developer` alone; do not call `gh` to interpret it.
 
 The interview works with local directories only. The GitHub account is settled at the push gate (see *Resolving the GitHub account* in `SKILL.md`): a family's own organization is created by hand, may carry a different name from its directory, and is asked for there — the skill never looks it up, creates it, or builds it from the directory name.
 
