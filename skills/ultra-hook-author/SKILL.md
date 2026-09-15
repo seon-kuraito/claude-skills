@@ -49,16 +49,7 @@ Identify the task type first — new hook or modifying an existing one. Then int
 
 Apply `references/writing-guide.md` (event selection, the five hook types, input parsing, output, security) and `references/schemas.md` (the JSON I/O contract) while drafting.
 
-**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
-
-```
-single-select · header: 「能力選用」
-question: 「要為這個 hook 開啟 testing 嗎？」
-options:
-  · 「開啟 testing」 — 「使用 fixture 事件 JSON 執行 hook，檢查 exit code、stdout JSON 與副作用。」
-  · 「不開啟」 — 「不建立 fixture 測試。」
-[Rule, not copy] testing is most valuable for deterministic `command` hooks with real branching; `prompt` / `agent` hooks are non-deterministic and reviewed by hand. For a trivial one-line side-effect hook (a single `osascript` notification), skip this checkpoint entirely — one manual run is enough — rather than posing it as if testing were always warranted. Detail: `references/testing.md`.
-```
+**Capability checkpoint** — present the **Capabilities** menu — every menu this skill asks lives in `references/menus.md`; present each as written there. Its rule line says when to skip the checkpoint entirely. Detail: `references/testing.md`.
 
 ## Step 2: Draft the hook
 
@@ -79,6 +70,7 @@ A hook only takes effect once it is **registered in `settings.json`** — the st
 ## References
 
 - `references/writing-guide.md` — choosing the event, the five hook types, input parsing, output (exit codes vs JSON), matchers / `if`, async / timeout, security, review checklist
+- `references/menus.md` — the capability checkpoint menu, with the menu contract at its top
 - `references/schemas.md` — the hook JSON I/O contract: events, input fields, settings config, output / `hookSpecificOutput`, matchers, environment variables
 - `references/testing.md` — deterministic fixture testing: payloads in, assert exit code / stdout / side effects (opt-in)
 - `references/registration.md` — settings scopes & precedence, the repo's link-hook + declare-and-compare, matcher correctness, OS notes, `/hooks` + debugging
