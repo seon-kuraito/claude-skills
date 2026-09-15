@@ -55,7 +55,7 @@ After 「框架專案 Framework」, pick **which template** — present the **Fr
 
 ## meta-repo
 
-A new family: a coordination layer plus the member repos listed for it, all created new, side by side in one owner directory. Built locally — the layer with its own scaffold, each member the way *blank* builds a repo — then through one push gate that covers the layer and every member, and a hand-off for the layer only. Its second-round interview resolves the owner directory, which fixes the member names through the *Family naming* table in that reference; the GitHub account waits for the gate like every other template. The layer's scaffold already includes `.gitignore` and a root `CLAUDE.md`; the `LICENSE` comes from the initialize stage's `LICENSE` option like every other project, and labels / branch protection apply there once a remote is bound. Bringing existing projects into a family is a migration, not part of this skill.
+A new family: a coordination layer plus the member repos listed for it, all created new, side by side in one owner directory. Its second-round interview resolves the owner directory, which fixes the member names; one push gate then covers the layer and every member.
 
 **Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 
@@ -66,7 +66,7 @@ Applies to **all three templates** — for a meta repo, to the layer only. Once 
 - **進入 initialize 階段** → load the initialization skill (e.g. `ultra-project-initializer`) if it is available; if it is not present, say so and stop.
 - **不進入** → stop here and leave the next move to the user.
 
-The initialize stage holds the optional scaffolding — a blank `.claude/CLAUDE.md`, a `LICENSE`, GitHub labels, and branch protection. `.gitignore` is no longer one of them: the create stage now lays a standard one (blank and meta-repo build it in; framework brings its own). Labels and branch protection need a remote, so they're skipped on a local-only repo. Never auto-enter it — it is always the user's choice.
+The initialize stage holds the optional scaffolding — a blank `.claude/CLAUDE.md`, a `LICENSE`, GitHub labels, and branch protection. `.gitignore` is the create stage's job (blank and meta-repo build it in; framework brings its own). Labels and branch protection need a remote, so they're skipped on a local-only repo. Never auto-enter it — it is always the user's choice.
 
 ## Related
 
