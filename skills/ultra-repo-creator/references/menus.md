@@ -100,7 +100,7 @@ question: 「Meta-Repo 要放在哪裡？」
 options:
   · 「<family>」 — 「放在 ~/Developer/<family>/，成員不使用家族前綴，協調層名稱為 meta；對應的 GitHub Organization 需事先手動建立。」
   · 「<user>」 — 「放在 ~/Developer/<user>/，成員使用家族前綴，協調層名稱為 <family>-meta。」
-[Rule, not copy] substitute the family name for <family> and the local username (`$USER`) for <user>. Both paths follow *Family naming* in `SKILL.md`. Skip the menu when the request names the owner, or describes one that resolves as `meta-repo.md` describes.
+[Rule, not copy] substitute the family name for <family> and the local username (`$USER`) for <user>. Both paths follow *Family naming* in `meta-repo.md`. Skip the menu when the request names the owner, or describes one that resolves as `meta-repo.md` describes.
 ```
 
 ## Family type

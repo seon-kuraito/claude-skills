@@ -25,11 +25,20 @@ The owner here is a directory under `~/Developer`, never a GitHub account. Unles
 - **`<family>`** — the family's own directory. Members drop the family name (`<token>`), and the layer is `meta`.
 - **`<user>`** — the default directory named after the local username (`$USER`), shared by several families. Members keep the family name (`<family>-<token>`), and the layer is `<family>-meta`.
 
+**Family naming** — whether a member carries the family name depends on whether the owner directory already carries it:
+
+| Condition | Members | Meta repo |
+|---|---|---|
+| `<owner>` == `<family>` | `<token>` | `meta` |
+| `<owner>` != `<family>` | `<family>-<token>` | `<family>-meta` |
+
+In the first case the owner directory *is* the family container, so repeating the name inside every member buys nothing. In the second, one owner holds several families — the family name has to live in the repo name, or two families both claim `meta`.
+
 Present the **Owner** menu.
 
 A described owner resolves by what it describes: the personal account ("my personal account") → `<user>`; the family's own organization → `<family>`. When the description fits neither, present the **Owner** menu after all. Resolve it from the description and `~/Developer` alone; do not call `gh` to interpret it.
 
-The interview works with local directories only. The GitHub account is settled at the push gate (see *Resolving the GitHub account* in `SKILL.md`): a family's own organization is created by hand, may carry a different name from its directory, and is asked for there — the skill never looks it up, creates it, or builds it from the directory name.
+The interview works with local directories only. The GitHub account is settled at the push gate (see *Resolving the GitHub account* in `remote.md`): a family's own organization is created by hand, may carry a different name from its directory, and is asked for there — the skill never looks it up, creates it, or builds it from the directory name.
 
 Resolving the owner directory here rather than at the push gate is load-bearing: the names go into the layer's scaffold, the member repos, and their first commits, and all of that happens before the gate.
 
@@ -97,7 +106,7 @@ Name this consequence to the user rather than leaving them to find it: the membe
 
 ## 5 · Push gate
 
-Every commit lands directly on each repo's `main` before the gate, so nothing bypasses a PR. Resolve the GitHub account once, as *Resolving the GitHub account* in `SKILL.md` describes; it applies to the layer and every member.
+Every commit lands directly on each repo's `main` before the gate, so nothing bypasses a PR. Resolve the GitHub account once, as *Resolving the GitHub account* in `remote.md` describes; it applies to the layer and every member.
 
 Unlike blank and framework, which are always public, a family's visibility is a choice. Settle it before the gate with the **Visibility** menu — one answer applies to the layer and every member.
 
