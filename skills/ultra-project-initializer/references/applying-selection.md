@@ -8,7 +8,7 @@ The file options land on a dedicated branch; the labels, branch-protection, and 
    - `LICENSE` → `chore: add <license> LICENSE` (the chosen id, e.g. `chore: add MIT LICENSE`)
    - `.claude/CLAUDE.md` → `chore: add CLAUDE.md`
 2. **GitHub labels** — settle the labels the repo already has, then create the type set:
-   - **List the existing labels first** (read-only): `gh label list --limit 1000 --json name --jq '.[].name'`. With none, go straight to creating the types. With any — a GitHub default or a label that was already there; the skill never tries to tell the two apart — present the *Existing labels* menu in SKILL.md and act on the answer:
+   - **List the existing labels first** (read-only): `gh label list --limit 1000 --json name --jq '.[].name'`. With none, go straight to creating the types. With any — a GitHub default or a label that was already there; the skill never tries to tell the two apart — present the **Existing labels** menu (`menus.md`) and act on the answer:
      - 「刪除現有標籤並新增」 → remove every listed label with `gh label delete <name> --yes`, then create the types.
      - 「保留現有標籤並新增」 → leave every listed label in place, then create the types; a type whose name is already taken is skipped, so that label keeps its own color and description.
      - 「沿用現有標籤」 → change nothing; this item ends here.

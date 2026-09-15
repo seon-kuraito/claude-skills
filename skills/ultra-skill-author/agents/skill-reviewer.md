@@ -33,7 +33,7 @@ You receive a drafted skill (its `SKILL.md` plus companion files and bundled res
 
 ### 5. Writing quality
 - Imperative form; *why* explained rather than bare `ALWAYS`/`NEVER` directives?
-- Interactive menus written as fixed verbatim blocks presented through the AskUserQuestion tool, 「」 copy separated from English direction?
+- Interactive menus and plain-text questions written as fixed verbatim blocks, all collected in `references/menus.md` under English H2 titles with the contract at its top, pointed at by section title from the body and never inlined there, 「」 copy separated from English direction?
 - No time-sensitive information; terminology consistent; concrete examples where instructions are non-trivial?
 - Machine locations derived at runtime rather than hard-coded — the skill's own repo and siblings resolved from its install via `realpath` (three levels up from a bundled script), the cwd used only for the user's current work, creation locations written as placeholders with no real account or project name? When the lookup fails, does the fallback match what the skill does — skip publishing for a skill that writes, use the user's path or ask for a skill that only reads — rather than guessing?
 

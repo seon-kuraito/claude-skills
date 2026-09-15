@@ -14,13 +14,7 @@ A family is a set of repos coordinated by one meta repo. Choosing this template 
 
 ### Family name
 
-Take the name from the request. When the request names none, ask this plain-text question verbatim:
-
-```
-plain text
-question: 「請輸入這個家族的名稱，使用小寫英文。」
-[Rule, not copy] no placeholders. Add no example and never propose a name — not from the cwd, directory names, or repo prefixes.
-```
+Take the name from the request. When the request names none, ask the **Family name** question (`menus.md`, beside this file — every menu and question below is presented as written there).
 
 **Refuse a duplicate family.** Once the name is known, look through `~/Developer` for a meta repo this family already has — `<family>-meta` under any owner directory, or `meta` inside `~/Developer/<family>/`. If one exists, stop and say where it is: a new meta repo is the root of a new family, never a second layer over an existing one.
 
@@ -31,35 +25,26 @@ The owner here is a directory under `~/Developer`, never a GitHub account. Unles
 - **`<family>`** — the family's own directory. Members drop the family name (`<token>`), and the layer is `meta`.
 - **`<user>`** — the default directory named after the local username (`$USER`), shared by several families. Members keep the family name (`<family>-<token>`), and the layer is `<family>-meta`.
 
-Present this menu verbatim:
+**Family naming** — whether a member carries the family name depends on whether the owner directory already carries it:
 
-```
-single-select · header: 「擁有者」
-question: 「Meta-Repo 要放在哪裡？」
-options:
-  · 「<family>」 — 「放在 ~/Developer/<family>/，成員不使用家族前綴，協調層名稱為 meta；對應的 GitHub Organization 需事先手動建立。」
-  · 「<user>」 — 「放在 ~/Developer/<user>/，成員使用家族前綴，協調層名稱為 <family>-meta。」
-[Rule, not copy] substitute the family name for <family> and the local username (`$USER`) for <user>. Both paths follow *Family naming* in `SKILL.md`. Skip the menu when the request names the owner, or describes one that resolves as below.
-```
+| Condition | Members | Meta repo |
+|---|---|---|
+| `<owner>` == `<family>` | `<token>` | `meta` |
+| `<owner>` != `<family>` | `<family>-<token>` | `<family>-meta` |
 
-A described owner resolves by what it describes: the personal account ("my personal account") → `<user>`; the family's own organization → `<family>`. When the description fits neither, present the owner menu above after all. Resolve it from the description and `~/Developer` alone; do not call `gh` to interpret it.
+In the first case the owner directory *is* the family container, so repeating the name inside every member buys nothing. In the second, one owner holds several families — the family name has to live in the repo name, or two families both claim `meta`.
 
-The interview works with local directories only. The GitHub account is settled at the push gate (see *Resolving the GitHub account* in `SKILL.md`): a family's own organization is created by hand, may carry a different name from its directory, and is asked for there — the skill never looks it up, creates it, or builds it from the directory name.
+Present the **Owner** menu.
+
+A described owner resolves by what it describes: the personal account ("my personal account") → `<user>`; the family's own organization → `<family>`. When the description fits neither, present the **Owner** menu after all. Resolve it from the description and `~/Developer` alone; do not call `gh` to interpret it.
+
+The interview works with local directories only. The GitHub account is settled at the push gate (see *Resolving the GitHub account* in `remote.md`): a family's own organization is created by hand, may carry a different name from its directory, and is asked for there — the skill never looks it up, creates it, or builds it from the directory name.
 
 Resolving the owner directory here rather than at the push gate is load-bearing: the names go into the layer's scaffold, the member repos, and their first commits, and all of that happens before the gate.
 
 ### Family type
 
-This switches the framing of the generated `CLAUDE.md` / `README.md`. Present this menu verbatim:
-
-```
-single-select · header: 「家族類型」
-question: 「這個家族是哪一種？」
-options:
-  · 「同型家族 Typed」 — 「每個成員類型相同，對應同一種角色；產出的成員表採 1:1 對應。」
-  · 「混合家族 Mixed」 — 「成員類型不同，因擁有者或主題而放在同一層協調；產出的說明不預設成員對稱。」
-[Rule, not copy] the answer decides which block survives in the templates — keep the chosen one, delete the markers and the other block.
-```
+This switches the framing of the generated `CLAUDE.md` / `README.md`. Present the **Family type** menu.
 
 ### Members
 
@@ -121,30 +106,11 @@ Name this consequence to the user rather than leaving them to find it: the membe
 
 ## 5 · Push gate
 
-Every commit lands directly on each repo's `main` before the gate, so nothing bypasses a PR. Resolve the GitHub account once, as *Resolving the GitHub account* in `SKILL.md` describes; it applies to the layer and every member.
+Every commit lands directly on each repo's `main` before the gate, so nothing bypasses a PR. Resolve the GitHub account once, as *Resolving the GitHub account* in `remote.md` describes; it applies to the layer and every member.
 
-Unlike blank and framework, which are always public, a family's visibility is a choice. Settle it before the gate with this menu verbatim — one answer applies to the layer and every member:
+Unlike blank and framework, which are always public, a family's visibility is a choice. Settle it before the gate with the **Visibility** menu — one answer applies to the layer and every member.
 
-```
-single-select · header: 「可見性」
-question: 「請選擇這 <count> 個 repo 的可見性。」
-options:
-  · 「Public」 — 「所有人皆可檢視，初始化階段可以套用分支保護。」
-  · 「Private」 — 「僅授權使用者可檢視，初始化階段的分支保護不會生效（GitHub 免費方案的 private repo 無法套用 ruleset）。」
-[Rule, not copy] <count> counts the layer and every member, as in the gate menu below. The answer becomes <visibility> (public / private) in the gate menu and in the create command.
-```
-
-Then render `assets/execution-gate.md` with each `<account>/<name>` and its command, and present this menu verbatim in place of the single-repo one:
-
-```
-single-select · header: 「遠端」
-question: 「是否要將這 <count> 個 repo 推送到 GitHub 的 <account>？」
-options:
-  · 「建立遠端並 push」 — 「在 GitHub 的 <account> 建立 <repos>，全部設為 <visibility> 並 push。」
-  · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後再次確認。」
-  · 「先不綁遠端」 — 「保留於本機，不建立遠端，也不 push。」
-[Rule, not copy] <count> counts the layer and every member; <repos> lists their names joined with 「、」, the layer first, then the members in list order; <visibility> is the answer from the visibility menu. On 「換一個帳號」, present the account menu from `SKILL.md`; the chosen account applies to every repo, and the visibility stays as answered.
-```
+Then render `assets/execution-gate.md` with each `<account>/<name>` and its command, and present the **Family remote** menu in place of the single-repo **Remote** menu.
 
 - **建立遠端並 push** → for each repo in that order: `git -C <path> branch -M main`, then `gh repo create <account>/<name> --<visibility> --source <path> --remote origin --push`. Stop at the first failure and report which repos now have a remote and which stayed local.
 - **先不綁遠端** → every repo stays local-only.

@@ -59,18 +59,9 @@ Then interview the user; each answer fills one contract field:
 6. **Evaluation framework** — when there is no pass/fail: which dimensions, anchored in the domain's real, citable frameworks — written as questions, never as invented personas.
 7. **Provenance** — original or derived → licensing, same as [ultra-skill-author](../ultra-skill-author/SKILL.md) Step 1.
 
-Ask these with the verbatim templates in `references/interview.md`. Cold start runs them as written, one at a time; when prior context already answers a field, present the inferred answer for confirmation instead of re-asking — fine-tune the template, never skip the sign-off.
+Ask these with the fixed copy in `references/menus.md` — every menu and plain-text question this skill asks lives there; present each as written — in the order and modes `references/interview.md` sets, which maps each answer to its contract field. Cold start runs them as written, one at a time; when prior context already answers a field, present the inferred answer for confirmation instead of re-asking — fine-tune the copy, never skip the sign-off.
 
-**Capability checkpoint** — present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
-
-```
-single-select · header: 「能力選用」
-question: 「要為這個 agent 開啟驗證嗎？」
-options:
-  · 「開啟驗證」 — 「思考型執行鑑別力／分歧／可行動測試，執行型執行客觀檢查；沿用 skills 的 eval 套件。」
-  · 「不開啟」 — 「不建立驗證，僅於審閱步驟做結構確認。」
-[Rule, not copy] validation pays off when the agent's judgment will feed real decisions or its output is mechanically checkable; for a trivial delegation shim, skip this checkpoint entirely rather than posing it as if validation were always warranted. Detail: Step 3.
-```
+**Capability checkpoint** — present the **Capabilities** menu (`references/menus.md`). Its rule line says when to skip the checkpoint entirely. Detail: Step 3.
 
 ## Step 2: Draft the agent
 
