@@ -42,7 +42,7 @@
 - **meta-repo 建立新的家族**：
   - 提供固定格式的清單供使用者複製修改，只需填寫成員名稱，順序依清單排列
   - 清單上的成員比照 blank 建立成新專案，帶標準 `.gitignore` 與空白 `README.md`
-  - push 確認時，meta repo 與所有成員一起建立遠端；初始化只交接 meta repo
+  - push 確認前先詢問可見性（public/private）；確認後 meta repo 與所有成員一起建立遠端；初始化只交接 meta repo
   - 既有專案併入家族屬於搬遷，不在本 skill 範圍
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
@@ -93,7 +93,7 @@
 - **遠端操作前先確認**：
   - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
   - 確認時顯示完整的 `<account>/<name>`，選項包含直接 push、改選帳號、暫不綁遠端
-  - 若選擇綁遠端，一律建立 public repo；private repo 需手動建立
+  - 若選擇綁遠端，blank 與 framework 一律建立 public repo；meta-repo 在確認前先詢問可見性（public/private）
 - **初始 commit 維持精簡**：
   - 放一份完全空白的 `README.md` 與一份標準 `.gitignore`
   - `.gitignore` 視為基礎設定，在追蹤任何檔案前先放好（blank 與 meta-repo 內建；framework 通常自帶）
@@ -111,7 +111,9 @@
 - **預設 branch**：
   - 一律使用 `main`（`git branch -M main`）
 - **可見性**：
-  - 若綁遠端則固定 public、不提供 private 選項
+  - blank 與 framework 綁遠端時固定 public，不提供 private 選項
+  - meta-repo 在 push 確認前詢問可見性（public/private），該設定套用到協調層與所有成員
+  - GitHub 免費方案的 private repo 無法套用 ruleset，初始化階段的分支保護不會生效
 - **擁有者目錄**：
   - 預設為與本機使用者名稱同名的目錄；請求只指定 Organization 時，另外詢問要放在哪個目錄
   - meta-repo 的擁有者候選限於家族自己的目錄，以及與本機使用者名稱同名的目錄
