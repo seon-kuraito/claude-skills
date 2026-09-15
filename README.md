@@ -35,8 +35,8 @@
 Claude Code 會掃描 `~/.claude/skills/` 來探索可用的 skill。本 repo 不直接版控執行目錄，因為裡面可能有第三方安裝的 skill，也緊鄰私人 session 資料。這裡只保存自己維護的檔案，並逐一連結過去：
 
 ```
-~/Developer/claude-skills/skills/<name>/   ← 實際檔案（本 repo）
-~/.claude/skills/<name>                    ← symlink，逐一建立
+~/Developer/<owner>/claude-skills/skills/<name>/   ← 實際檔案（本 repo）
+~/.claude/skills/<name>                            ← symlink，逐一建立
 ```
 
 skill 會逐一連結到執行環境：不論從哪個路徑編輯，改到的都是同一份檔案，且變更會立即生效，git 也看得到。直接安裝在 `~/.claude/skills/` 的第三方 skill 不會進入本 repo。
