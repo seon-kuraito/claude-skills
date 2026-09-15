@@ -4,16 +4,7 @@ Deploy a project to **GitHub Pages** via **GitHub Actions** (the modern publishi
 
 ## Build type
 
-Present this menu verbatim — the 「」 strings are the user-facing copy, shown exactly; everything outside 「」 is English direction:
-
-```
-single-select · header: 「建置方式」
-question: 「要用哪一種方式建置並部署？」
-options:
-  · 「Static（免建置）」 — 「直接部署靜態檔案，不經過建置步驟。」
-  · 「Vite SPA」 — 「以 npm ci 與 npm run build 建置後再部署。」
-[Rule, not copy] detect a hint from `package.json` first — a `vite` dependency or a `vite.config.*` → Vite, otherwise Static.
-```
+Present the **Build type** menu (`menus.md`, beside this file — present it as written there).
 
 Each build type maps to a bundled template:
 
