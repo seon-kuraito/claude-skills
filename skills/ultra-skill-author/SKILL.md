@@ -47,16 +47,7 @@ Interview the user:
 
 Then assess whether test cases are warranted — objective outputs (file transforms, code generation, fixed workflow steps) benefit from them; subjective outputs (writing style, design quality) usually don't. Details in `references/evals.md`.
 
-**Capability checkpoint (new skills only)** — a modification skips this menu: its scope is already set by the request, and asking up front which machinery to enable only interrupts it. Offer evals and blind A/B after the change instead (see *After the skill is complete*), and description tuning only when the change touches the `description`. For a new skill, present this menu verbatim through the AskUserQuestion tool. Everything in 「」 is the user-facing copy, reproduced exactly with no option marked recommended and no surrounding prose; everything outside 「」 is English direction, never shown:
-
-```
-multiSelect · header: 「能力選用」
-question: 「要為這個 skill 開啟哪些能力？（可複選／全部不選）」
-options:
-  · 「evals 測試」 — 「以 subagent 執行測試案例，依照 assertion 評分，並查看 benchmark 結果。」
-  · 「description 調校」 — 「以自動化的 60/40 train-test 迴圈提升觸發準確度。」
-[Rule, not copy] blind-A/B is not in this menu — it surfaces only when modifying an existing skill (see *After the skill is complete* below). Detail: evals → `references/evals.md`; description-tuning → `references/description-tuning.md`.
-```
+**Capability checkpoint (new skills only)** — a modification skips this menu: its scope is already set by the request, and asking up front which machinery to enable only interrupts it. Offer evals and blind A/B after the change instead (see *After the skill is complete*), and description tuning only when the change touches the `description`. For a new skill, present the **Capabilities** menu — every menu this skill asks lives in `references/menus.md`; present each as written there. Detail: evals → `references/evals.md`; description-tuning → `references/description-tuning.md`.
 
 ## Step 2: Draft the skill
 
@@ -87,6 +78,7 @@ When a skill is destined for the user's `claude-skills` repo, follow `references
 ## References
 
 - `references/writing-guide.md` — SKILL.md writing / Description format / Bundled resources / Review checklist / Interview depth / Communication style
+- `references/menus.md` — the capability checkpoint menu, with the menu contract at its top
 - `references/readme-guide.md` — per-skill README: sections / objective tone / heading spacers / two-level bullets
 - `references/publishing.md` — provenance → license files + the repo git workflow (branch → create/edit → sync catalog → link → verify → gated commit)
 - `references/evals.md` — Test cases / Workspace / Grading / Aggregation / Iteration (opt-in)
