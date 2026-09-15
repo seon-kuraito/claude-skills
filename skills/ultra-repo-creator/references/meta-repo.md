@@ -121,19 +121,32 @@ Name this consequence to the user rather than leaving them to find it: the membe
 
 ## 5 · Push gate
 
-Every commit lands directly on each repo's `main` before the gate, so nothing bypasses a PR. Resolve the GitHub account once, as *Resolving the GitHub account* in `SKILL.md` describes; it applies to the layer and every member. Render `assets/execution-gate.md` with each `<account>/<name>` and its command, then present this menu verbatim in place of the single-repo one:
+Every commit lands directly on each repo's `main` before the gate, so nothing bypasses a PR. Resolve the GitHub account once, as *Resolving the GitHub account* in `SKILL.md` describes; it applies to the layer and every member.
+
+Unlike blank and framework, which are always public, a family's visibility is a choice. Settle it before the gate with this menu verbatim — one answer applies to the layer and every member:
+
+```
+single-select · header: 「可見性」
+question: 「請選擇這 <count> 個 repo 的可見性。」
+options:
+  · 「Public」 — 「所有人皆可檢視，初始化階段可以套用分支保護。」
+  · 「Private」 — 「僅授權使用者可檢視，初始化階段的分支保護不會生效（GitHub 免費方案的 private repo 無法套用 ruleset）。」
+[Rule, not copy] <count> counts the layer and every member, as in the gate menu below. The answer becomes <visibility> (public / private) in the gate menu and in the create command.
+```
+
+Then render `assets/execution-gate.md` with each `<account>/<name>` and its command, and present this menu verbatim in place of the single-repo one:
 
 ```
 single-select · header: 「遠端」
-question: 「要把這 <count> 個 repo 推上 GitHub 的 <account> 嗎？」
+question: 「是否要將這 <count> 個 repo 推送到 GitHub 的 <account>？」
 options:
-  · 「建立遠端並 push」 — 「在 GitHub 的 <account> 建立 <repos>，全部設為 public 並 push。」
+  · 「建立遠端並 push」 — 「在 GitHub 的 <account> 建立 <repos>，全部設為 <visibility> 並 push。」
   · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後再次確認。」
-  · 「先不綁遠端」 — 「全部停在本機，不建立遠端，也不 push。」
-[Rule, not copy] <count> counts the layer and every member; <repos> lists their names joined with 「、」, the layer first, then the members in list order. On 「換一個帳號」, present the account menu from `SKILL.md`; the chosen account applies to every repo.
+  · 「先不綁遠端」 — 「保留於本機，不建立遠端，也不 push。」
+[Rule, not copy] <count> counts the layer and every member; <repos> lists their names joined with 「、」, the layer first, then the members in list order; <visibility> is the answer from the visibility menu. On 「換一個帳號」, present the account menu from `SKILL.md`; the chosen account applies to every repo, and the visibility stays as answered.
 ```
 
-- **建立遠端並 push** → for each repo in that order: `git -C <path> branch -M main`, then `gh repo create <account>/<name> --public --source <path> --remote origin --push`. Stop at the first failure and report which repos now have a remote and which stayed local.
+- **建立遠端並 push** → for each repo in that order: `git -C <path> branch -M main`, then `gh repo create <account>/<name> --<visibility> --source <path> --remote origin --push`. Stop at the first failure and report which repos now have a remote and which stayed local.
 - **先不綁遠端** → every repo stays local-only.
 
 Then hand off the layer only: present the *Hand-off* menu once, for the meta repo. A member enters the initialize stage later, on its own.
