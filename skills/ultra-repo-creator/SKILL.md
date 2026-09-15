@@ -105,7 +105,7 @@ A meta repo pushes the layer and its new members through one gate, with its own 
 
   Always write the account explicitly: a bare `<name>` creates under the personal account without saying so, which silently sends an org's repo to the wrong home.
 
-  Always **public** — no visibility question (a deliberate personal-fit default; create a private repo by hand if ever needed). If `gh` is unavailable, fall back to `git remote add origin <url>` → `git branch -M main` → `git push -u origin main`.
+  Always **public** for blank and framework — no visibility question (a deliberate personal-fit default; create a private repo by hand if ever needed). The meta-repo template is the exception: it asks for the visibility before its gate (see [meta-repo](references/meta-repo.md)). If `gh` is unavailable, fall back to `git remote add origin <url>` → `git branch -M main` → `git push -u origin main`.
 - **先不綁遠端** → stay local-only; stop here (still offer the *Hand-off*).
 
 ## framework
