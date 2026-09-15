@@ -12,6 +12,7 @@ skill-name/
 └── Bundled resources (optional)
     ├── scripts/    — executable code for deterministic / repetitive tasks
     ├── references/ — docs loaded into context as needed
+    │   └── menus.md — every AskUserQuestion menu and plain-text question the skill asks
     └── assets/     — files used in output (templates, icons, fonts)
 ```
 
@@ -158,6 +159,7 @@ Split content into a separate reference file when:
 - `SKILL.md` body is approaching the line ceiling.
 - The content has **distinct domains** the agent only needs one of at a time (finance vs. sales schemas; AWS vs. GCP).
 - The content is **advanced or rarely needed** — gate it behind a pointer rather than burdening every invocation.
+- The content is a **menu or plain-text question** the skill asks the user — every one of them lives in `references/menus.md`, however often it runs (see *AskUserQuestion menus*).
 
 ### Assets (`assets/`)
 
@@ -223,8 +225,28 @@ Q2 · header: 「<≤12-char label>」
     · …
 ```
 
+An input with no enumerable option set — a name, a path, a free-form list — is a **plain-text question**: fixed the same way, but asked in prose rather than through the tool.
+
+```
+plain text
+question: 「<verbatim question text, with <placeholders> where a value is filled in>」
+[Rule, not copy] <what each placeholder is substituted with — English, never shown>
+```
+
+**Where they live — `references/menus.md`.** Every menu and plain-text question a skill asks sits in that one file, one per section, each under an English H2 that names it (`## Template`, `## Remote`, `## Account`). `SKILL.md` and the other references hold no menu blocks: they point at a menu by its section title — *present the **Remote** menu* — naming the file on the first mention in each file. This covers every menu, the entry menu a run always reaches as much as a branch-only one. Why one file: the 「」 strings are the skill's UI copy, the one place a second language lives in an English-authored skill, and one file makes every string findable and editable in one pass — the same reason a frontend keeps its strings in a locale file rather than inline in components. Why a section title rather than a number: inserting a menu never renumbers the pointers to the others, and *the Remote menu* says what it is at the call site. Why an English title: it is direction, like every other line outside 「」.
+
+`menus.md` opens with the menu contract, once, so the rule sits with the content it governs — copy this opening verbatim:
+
+```markdown
+# Menus
+
+Every menu and plain-text question this skill asks, one per section. Present each block exactly as written: everything in 「」 is the user-facing copy — reproduce it verbatim, in the given order, marking no option as recommended and adding no surrounding prose. Everything outside 「」 (the field labels, the `[Rule, not copy]` line) is English direction, never shown. A `single-select` / `multiSelect` block goes through the AskUserQuestion tool; a `plain text` block is asked in prose, word for word — fill in only the placeholders its `[Rule, not copy]` line names, and add nothing else, no examples and no suggested answers. Call the tool (or ask the question) and act on the answer; narration resumes only once every selection for the phase is in.
+```
+
+`SKILL.md` keeps one sentence where its flow begins — *Every menu and plain-text question this skill asks lives in `references/menus.md`; present each as written there* — and points at each menu where the flow reaches it. What happens on each answer, the branch the flow takes, stays in the body beside that pointer: the menu file holds copy, not flow.
+
 - **Verbatim & ordered** — question, header, labels, and order are copied exactly, never rephrased or reordered. The only line allowed to vary is a `[Rule, not copy]` entry that filters the option *set* by a deterministic condition (an existing branch, a bound remote, a detected `vite` dependency).
-- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — the one deliberate exception to English-only authoring. The language split makes the two impossible to confuse.
+- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the section titles, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — the one deliberate exception to English-only authoring. The language split makes the two impossible to confuse.
 - **Fully neutral** — no option is marked recommended and no surrounding prose nudges one; present the options as equals. If the skill asserts a default elsewhere, neutralize it so prose and menu agree.
 - **Descriptions baked in** — the guidance for choosing lives in each option's description, not in conversational prose before the menu.
 - **Silent collection** — emit no prose before, between, or after the menu calls of an input phase; call the tool and act on the answer. Narration resumes only once every selection for that phase is in. Stage-handoff gates ("enter the next stage?") follow the same no-prose-wrapping rule.
@@ -315,3 +337,4 @@ After drafting, verify:
 - [ ] Concrete examples are included for non-trivial instructions.
 - [ ] Reference depth is one level: `SKILL.md → references/<file>.md`, not `SKILL.md → ref → ref → ref`.
 - [ ] Bundled scripts / agents / assets are referenced from the body so the agent knows they exist.
+- [ ] Every `AskUserQuestion` menu and plain-text question lives in `references/menus.md` under an English H2, with the contract at its top; `SKILL.md` and the other references point at menus by section title and hold none inline.
