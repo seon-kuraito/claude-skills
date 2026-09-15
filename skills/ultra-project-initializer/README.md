@@ -28,7 +28,7 @@
 ## 這個 skill 做什麼（WHAT）
 
 - **補齊專案初始化設定**：
-  - 可依需要建立 `LICENSE`、空白 `.claude/CLAUDE.md`，或用 Conventional Commits type 標籤取代 GitHub 預設標籤
+  - 可依需要建立 `LICENSE`、空白 `.claude/CLAUDE.md`，或新增 Conventional Commits type 標籤
   - 可以替 `main` 套用分支保護，或建立部署分支（`develop`／`preparing`）
 - **可隨時插入的階段**：
   - 相對於 [`ultra-repo-creator`](../ultra-repo-creator) 的「建立」階段，這個 skill 負責「初始化」階段；通常在 repo 建好後先執行，也可在任意時間點插入
@@ -75,7 +75,7 @@
   - 沒有遠端時，Q2 會整題省略
 - **檔案建立走固定 branch 與 commit**：
   - 只要選到檔案建立項目，就建立 `chore/initial-project-setup` branch，並讓每個項目各產生一個固定訊息的 commit
-  - 標籤會先刪除 GitHub 的 9 個預設標籤，再建立 type 標籤；分支保護使用 ruleset 套到 `main`
+  - repo 已有標籤時，先詢問要刪除後新增、保留後新增，或沿用現有標籤；分支保護使用 ruleset 套到 `main`
   - 標籤與分支保護都只改 GitHub 端，不會產生 commit
 - **完成後提醒開 PR**：
   - 檔案 commit 會放在 `chore/initial-project-setup`，最後詢問是否開 PR（交給 [`ultra-pr-creator`](../ultra-pr-creator) 處理）
@@ -99,7 +99,9 @@
   - Proprietary 保留所有權利，不授予任何開源權利，適用於不對外開源的專案
 - **type 標籤**：
   - 取自 Conventional Commits 的 11 種分類（[`assets/type-labels.json`](assets/type-labels.json)，含名稱、顏色與描述）
-  - 建立前先刪除 GitHub 的 9 個預設標籤（`bug`、`documentation`、`duplicate`、`enhancement`、`good first issue`、`help wanted`、`invalid`、`question`、`wontfix`），自訂標籤保留
+  - 建立前先列出 repo 現有的標籤；若已存在標籤，詢問要刪除後新增、保留後新增，或沿用現有標籤
+  - 選擇保留後新增時，已存在的同名標籤維持原樣，不會被覆寫
+  - 不區分 GitHub 預設標籤與原本就有的標籤，皆列出供使用者決定
 - **分支保護 ruleset**：
   - [`assets/main-protection-ruleset.json`](assets/main-protection-ruleset.json)（鎖定 `~DEFAULT_BRANCH`、review count 0、無 admin bypass）
   - 要求透過 PR merge，並禁止刪除與 force push；協作 repo 可依需要調高 review count
