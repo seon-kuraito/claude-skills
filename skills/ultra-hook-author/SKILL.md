@@ -5,7 +5,7 @@ description: "Authors, refines, and reviews Claude Code hooks — the shell comm
 
 # Ultra Hook Author
 
-Handle any work on a Claude Code hook — choosing the event, writing the script, registering it in settings, testing it, licensing it, and publishing it to the hooks repo. The default flow is a lightweight three-step interview → draft → review; deterministic fixture testing is available behind a capability checkpoint when the user opts in.
+Handle any work on a Claude Code hook — choosing the event, writing the script, registering it in settings, testing it, licensing it, and publishing it to the hooks repo. The flow is a lightweight three-step interview → draft → review, closed by a verification pass that always runs: the structure tier plus the hook's own fixture tests.
 
 ## Jurisdiction — every hook the user works on
 
@@ -49,7 +49,6 @@ Identify the task type first — new hook or modifying an existing one. Then int
 
 Apply `references/writing-guide.md` (event selection, the five hook types, input parsing, output, security) and `references/schemas.md` (the JSON I/O contract) while drafting.
 
-**Capability checkpoint** — present the **Capabilities** menu — every menu this skill asks lives in `references/menus.md`; present each as written there. Its rule line says when to skip the checkpoint entirely. Detail: `references/testing.md`.
 
 ## Step 2: Draft the hook
 
@@ -61,7 +60,7 @@ Present the key decisions in bullets — event, matcher / `if`, type, the output
 
 For a deeper pass, spawn `agents/hook-reviewer.md` to adversarially check event-fit, the I/O contract, blocking semantics, and security.
 
-**Confirm point** — if the user opted into testing, ask whether to run the fixture tests now (see `references/testing.md`).
+**Verify — always.** Never a menu and never a question. Run `scripts/run-checks.sh <hook-name>` in `claude-hooks`: it covers the structure tier and then the hook's own `tests/run.sh`, built per `references/testing.md`. A hook has no model tier — nothing routes to it. Fix whatever the run reports, re-run, and move on only once it is clean. Contract: [ultra-skill-author's verification reference](../ultra-skill-author/references/verification.md).
 
 ## Registration & publishing
 
@@ -70,9 +69,9 @@ A hook only takes effect once it is **registered in `settings.json`** — the st
 ## References
 
 - `references/writing-guide.md` — choosing the event, the five hook types, input parsing, output (exit codes vs JSON), matchers / `if`, async / timeout, security, review checklist
-- `references/menus.md` — the capability checkpoint menu, with the menu contract at its top
 - `references/schemas.md` — the hook JSON I/O contract: events, input fields, settings config, output / `hookSpecificOutput`, matchers, environment variables
-- `references/testing.md` — deterministic fixture testing: payloads in, assert exit code / stdout / side effects (opt-in)
+- `references/testing.md` — the script tier: fixture payloads in, assert exit code / stdout / side effects
+- [`../ultra-skill-author/references/verification.md`](../ultra-skill-author/references/verification.md) — the family verification contract: tiers, runner interface, shared rules
 - `references/registration.md` — settings scopes & precedence, the repo's link-hook + declare-and-compare, matcher correctness, OS notes, `/hooks` + debugging
 - `references/publishing.md` — provenance → license files + the repo git / registration workflow
 - `references/readme-guide.md` — per-hook README house-style
