@@ -22,7 +22,7 @@ On stdin as JSON on (almost) every event:
 {
   "session_id": "abc123",
   "transcript_path": "/path/to/conversation.jsonl",
-  "cwd": "/Users/you/project",
+  "cwd": "/Users/<user>/project",
   "hook_event_name": "PreToolUse",
   "permission_mode": "default|plan|acceptEdits|auto|dontAsk|bypassPermissions"
 }

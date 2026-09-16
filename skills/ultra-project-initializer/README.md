@@ -86,7 +86,8 @@
 - **高影響操作前先確認**：
   - `gh label delete`、`gh label create`、套用 ruleset 的 `gh api --method POST`、push 前先列出即將執行的內容並取得確認
 - **提供確定性檢查**：
-  - `evals/check-assets.py` 用來驗證 `type-labels.json`、ruleset 與 `licenses/` 模板（靜態執行，不需要 LLM）
+  - `tests/checks/check-assets.py` 用來驗證 `type-labels.json`、ruleset 與 `licenses/` 模板（靜態執行，不需要 LLM）
+  - `tests/model.json` 收錄觸發案例與行為案例
 
 　
 

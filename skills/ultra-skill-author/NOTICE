@@ -9,20 +9,20 @@ Original work:
   Copyright 2026 Anthropic, PBC.
 
 This derivative modifies the original. Notable changes:
-  - Default flow reduced to a 3-step interview / draft / review; the eval,
-    description-tuning, and blind-comparison machinery is gated behind an
-    opt-in capability checkpoint for new skills rather than run by default,
-    and offered after the change when modifying an existing skill.
-  - Eval guidance extended for skills that ask the user (sandboxed runs,
-    verbatim menu recording, per-eval answer sheets), with neutral prompts,
-    reachable assertions, a git-based baseline snapshot, and blinded
-    comparator inputs that carry no side-identifying paths or assertions.
+  - The upstream eval, description-tuning, and blind-comparison machinery is
+    removed entirely — the eval and tuning scripts, the grader / analyzer /
+    comparator agents, the eval viewer, and their reference files.
+  - In its place the flow ends in a verification pass that always runs, with
+    three tiers: structure and script checks that cost no tokens, and a model
+    tier of one subagent per case. It is never offered as a menu option.
+  - The verification contract is a family-wide file, cited by the sibling
+    authoring skills for hooks and agents rather than restated by them.
   - Added an "ultra-<single-token>-<verber>" skill naming convention.
   - Review step presents structural decisions as bullets instead of pasting
     the full SKILL.md into the conversation.
   - Skill descriptions kept trigger-only; specification moved into the body.
-  - References reorganized into writing-guide / evals / description-tuning /
-    blind-comparison / environments for progressive disclosure.
+  - References reorganized into writing-guide / verification / publishing /
+    readme-guide / environments for progressive disclosure.
   - Claude Code treated as the primary environment; Claude.ai / Cowork
     instructions moved into a reference file.
   - Added a provenance gate at skill creation: original skills receive an
@@ -36,7 +36,7 @@ This derivative modifies the original. Notable changes:
     objective tone, full-width heading spacers, two-level bullets) captured
     in references/readme-guide.md.
 
-The bundled eval tooling under scripts/, agents/, eval-viewer/, and
-assets/eval_review.html is carried substantially unmodified from the
-original skill-creator. The file assets/license-mit.txt is original to
+The bundled scripts scripts/package_skill.py and scripts/quick_validate.py
+are carried substantially unmodified from the original skill-creator. The
+files assets/license-mit.txt and agents/skill-reviewer.md are original to
 this derivative.

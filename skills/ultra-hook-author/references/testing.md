@@ -1,6 +1,6 @@
 # Testing
 
-Optional but recommended for deterministic `command` hooks. Activate when the user opted into testing at the capability checkpoint, or asks to "test the hook", "does this hook work", and similar.
+The script tier for a hook. Every hook carries `tests/`; the test items bend to the hook's nature, never the requirement itself. Run it through `scripts/run-checks.sh <hook-name>`, which calls the hook's `tests/run.sh`.
 
 The mental model: a `command` hook is a pure function of (stdin JSON, environment) → (exit code, stdout, stderr, side effects). So you test it the way you test any script — feed it a fixture event payload, capture the outputs, and assert. No subagents, no grading model, no benchmark: the whole point of a hook is determinism, so the test is deterministic too. (`prompt` / `agent` hooks are non-deterministic — review them by hand and spot-check; don't assert exact output.)
 
@@ -61,9 +61,10 @@ Keep assertions objective and per-fixture. A good fixture set pairs each behavio
 
 When a test fails, read the hook against `references/writing-guide.md` (input read once? field defaulted? output mode single?), fix, and re-run the fixture. For the `Stop` block-cap loop, confirm `stop-active.json` (with `stop_hook_active: true`) makes the hook `exit 0`.
 
-## When testing isn't worth it
+## Shaping the items to the hook
 
-- A one-line side-effect hook (`osascript … notification`) — a single by-hand run is enough; skip fixtures.
-- `prompt` / `agent` hooks — non-deterministic; review the prompt and spot-check, don't assert exact output.
+Every hook gets `tests/`; what the fixtures assert depends on what the hook does.
 
-Reserve the fixture harness for hooks with real branching: guards, validators, formatters — anything that decides based on input.
+- **A guard, validator, or formatter** — anything that decides based on input — gets the full treatment: a fixture per branch, asserting exit code and stdout JSON.
+- **A one-line side-effect hook** (`osascript … notification`) still gets fixtures for the paths a script can see: the happy path exits 0, and the loop guard (`stop_hook_active: true`) exits 0 without re-firing. The notification itself is not assertable from a script — verify that once by hand and say so in the hook's README.
+- **`prompt` / `agent` hooks** are non-deterministic, so assert the frame rather than the words: the hook fires on the event it claims, and its output is well-formed. Review the prompt text by hand.

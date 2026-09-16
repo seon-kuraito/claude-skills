@@ -73,15 +73,15 @@ Default base branch: `main`. If the repo uses `master` / `develop` / a feature t
 
 ## Test precondition
 
-Before the Execution gate, the Test plan must be **verified, not just asserted** — run the change's relevant automated checks and only reach the gate once they pass.
+Before the Execution gate, the Test plan must be **verified, not just asserted**. This skill runs nothing itself — running a repo's checks belongs to the flow that made the change. Its job here is to gate: no verification, no PR.
 
-1. **Find what changed has logic.** From `git diff <base>...HEAD`, identify components with **logic** changes, not docs-only. In `claude-skills` that means a skill whose `SKILL.md` / scripts / `evals/` / references / assets changed — a README-only change is docs and needs no test. (In another repo, the equivalent is whatever automated checks cover the changed code.)
-2. **Fold their checks into the Test plan.** Add each such component's deterministic checks (e.g. `skills/<name>/evals/check-*.py`) as Test plan items, alongside the change-specific items you write anyway.
-3. **Run the runnable items.** Execute every Test plan item that runs without the user — the check scripts and any command-style items. Items only the user can confirm (e.g. "open the app, confirm X") are skipped and stay `[ ]`.
-4. **Block on failure.** If anything fails, **stop — do not open the PR.** Surface the failure; it must be resolved (fix the code or correct the test) before the precondition passes, then re-run. This is a gate, not a place to wave a red check through — and not a debugging loop the skill owns: fixing is ordinary work that happens because the gate blocks.
-5. **Tick what passed.** Mark verified items `[x]`; leave user-only items `[ ]`.
+1. **Establish what covers the change.** Ask what this repo runs over the changed code — a test suite, a lint task, a checks script. In this user's extension repos that is `scripts/run-checks.sh` plus the model-tier cases, run at the end of the authoring flow (see [ultra-skill-author](../ultra-skill-author/SKILL.md) Step 4).
+2. **Confirm it ran on this branch, and passed.** The evidence is the run itself — its output in this session, or the user saying it ran. Nothing is written to disk for you to read back, so when you cannot confirm it, treat it as not run.
+3. **Block when it did not run.** Stop — do not open the PR. Hand the work back to the flow that owns the checks, then return here once they pass.
+4. **Fold the outcome into the Test plan.** Each check that ran becomes a Test plan item, alongside the change-specific items you write anyway.
+5. **Tick what passed.** Mark verified items `[x]`; leave items only the user can confirm (e.g. "open the app, confirm X") `[ ]`.
 
-**Scope — deterministic only.** Run the token-free `check-*.py` scripts and runnable Test plan items; do **not** auto-run an LLM eval loop — its token cost is why it stays opt-in under [ultra-skill-author](../ultra-skill-author/SKILL.md). A change with no relevant automated checks (e.g. a pure-docs PR) has nothing to run — go straight to the gate.
+**Scope — never run the checks from here.** A repo's verification has its own home, and duplicating it here would run it twice and hide which run the Test plan is reporting. A change with no automated checks at all — a pure-docs PR — has nothing to confirm, so go straight to the gate.
 
 ## Conventions
 

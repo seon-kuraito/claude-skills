@@ -80,4 +80,4 @@ License files follow [ultra-skill-author's publishing reference](../../ultra-ski
 | `{{VERIFICATION_EVIDENCE}}` | Q5 |
 | `{{DIMENSIONS_AS_QUESTIONS}}` / `{{CITABLE_FRAMEWORK}}` | Q6（無 pass/fail 時） |
 
-The capability checkpoint that follows the interview is the **Capabilities** section of `menus.md`, presented from `SKILL.md`; isolation-rationale wording gathered along the way lands in the agent's `README.md`, not in the definition.
+Verification follows the interview on its own, with nothing to opt into — see *Verify* in `SKILL.md`. Isolation-rationale wording gathered along the way lands in the agent's `README.md`, not in the definition.

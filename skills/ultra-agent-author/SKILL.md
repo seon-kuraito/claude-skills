@@ -61,9 +61,10 @@ Then interview the user; each answer fills one contract field:
 
 Ask these with the fixed copy in `references/menus.md` — every menu and plain-text question this skill asks lives there; present each as written — in the order and modes `references/interview.md` sets, which maps each answer to its contract field. Cold start runs them as written, one at a time; when prior context already answers a field, present the inferred answer for confirmation instead of re-asking — fine-tune the copy, never skip the sign-off.
 
-**Capability checkpoint** — present the **Capabilities** menu (`references/menus.md`). Its rule line says when to skip the checkpoint entirely. Detail: Step 3.
 
 ## Step 2: Draft the agent
+
+The `description` carries a worked `<example>` after the routing sentence, and `assets/agent-body.md.tmpl` leaves four slots for it: `{{CONTEXT}}` (the situation in one clause), `{{USER_MESSAGE}}` (what the user actually types), `{{ASSISTANT_MOVE}}` (the main agent's one-line hand-off) and `{{WHY_THIS_DELEGATION}}` (the commentary saying why this agent and not the main window). Write them from the Step 1 answers; they are the example, not new decisions.
 
 Frontmatter — `name`, `description`, `tools`, `model` are the working set (Claude Code also supports `disallowedTools`, `permissionMode`, `skills`, `memory`, `background`, `maxTurns`, `mcpServers`, `hooks`, `isolation`). `tools` and `model` are the only hard constraints; body text is soft steering.
 
@@ -78,12 +79,12 @@ Present the key decisions as bullets — name, classification, the five contract
 
 For a deeper pass, spawn `agents/agent-reviewer.md` to adversarially check boundary fit, contract self-sufficiency, and the hard-constraint trim.
 
-**Confirm point** — if the user opted into validation, ask whether to run it now, by category:
+**Verify — always.** Never a menu and never a question. Run `scripts/run-checks.sh <agent-name>` in `claude-agents` for the structure and script tiers, then the agent's `tests/model.json` cases. Contract: [ultra-skill-author's verification reference](../ultra-skill-author/references/verification.md).
 
-- **Thinking** — discrimination: planted-flaw / known-outcome fixtures kept in the agent's own `fixtures/`, asserted as "the output catches flaw X"; divergence: sibling lenses must differ substantively (a comparative pass, kin of ultra-skill-author's blind comparison); actionability ("it stung a little" is a valid pass signal).
+The category decides what the cases assert:
+
+- **Thinking** — discrimination: planted-flaw / known-outcome fixtures kept in the agent's own `fixtures/`, asserted as "the output catches flaw X"; divergence: sibling lenses must differ substantively; actionability ("it stung a little" is a valid pass signal).
 - **Execution** — objective checks per task: fixtures, dry runs, output verification — confirm it actually relieves the main window.
-
-Reuse ultra-skill-author's eval machinery (`evals/evals.json`, the workspace layout, the grader) with the agent as the test subject.
 
 ## Publishing
 

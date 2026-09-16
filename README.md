@@ -57,6 +57,19 @@ scripts/link-skill.sh <skill-name>
 
 　
 
+## 驗證
+
+提交前檢查 repo 裡的 skill：
+
+```sh
+scripts/run-checks.sh              # 全部 skill
+scripts/run-checks.sh <skill-name> # 單一 skill
+```
+
+這支腳本執行結構層與腳本層檢查，兩者都不消耗模型 token。模型層的觸發與行為案例由 [`ultra-skill-author`](skills/ultra-skill-author) 在流程末端執行；詳細規格見 [`verification.md`](skills/ultra-skill-author/references/verification.md)。
+
+　
+
 ## 新增 skill
 
 1. 在 `skills/<skill-name>/` 下撰寫 skill（內含 `SKILL.md` 的資料夾）。
