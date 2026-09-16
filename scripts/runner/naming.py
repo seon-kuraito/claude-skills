@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""naming — ultra-<single-token>-<verber>, with `author` reserved for extension-authoring skills."""
+"""naming — sk-<single-token>-<verber>, with `author` reserved for extension-authoring skills."""
 import re
 import sys
 from _lib import items, frontmatter, report
 
-PATTERN = re.compile(r"^ultra-[a-z0-9]+-[a-z]+$")
-AUTHORS = {"ultra-skill-author", "ultra-hook-author", "ultra-agent-author"}
+PATTERN = re.compile(r"^sk-[a-z0-9]+-[a-z]+$")
+AUTHORS = {"sk-skill-author", "sk-hook-author", "sk-agent-author"}
 
 findings = []
 for name, path in items(sys.argv):
     if not PATTERN.match(name):
-        findings.append((name, "directory name is not ultra-<single-token>-<verber>"))
+        findings.append((name, "directory name is not sk-<single-token>-<verber>"))
     elif name.endswith("-author") and name not in AUTHORS:
         findings.append((name, "`author` is reserved for skills that author Claude Code extensions"))
     fields = frontmatter(path / "SKILL.md")

@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想要一個獨立的審查者，用自己的 context window 來挑我設計裡的毛病",
+      "expect": "sk-agent-author"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想要一個 agent，專門把長文件摘要成三個重點",
+      "assert": [
+        "把它歸類成思考型或執行型並說明理由",
+        "以 tools 與 model 欄位呈現限制，不僅以文字描述",
+        "五個契約欄位都填得出固定內容",
+        "沒有實際寫入 agent 定義檔"
+      ]
+    }
+  ]
+}

@@ -12,21 +12,21 @@
 
 | skill | 用途 | 來源 |
 | --- | --- | --- |
-| [`ultra-agent-author`](skills/ultra-agent-author) | 建立、改寫與驗證 Claude Code subagent 定義 | 原創 |
-| [`ultra-branch-creator`](skills/ultra-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
-| [`ultra-claudemd-composer`](skills/ultra-claudemd-composer) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
-| [`ultra-commit-creator`](skills/ultra-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
-| [`ultra-decision-griller`](skills/ultra-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
-| [`ultra-hook-author`](skills/ultra-hook-author) | 建立、改寫與驗證 Claude Code hook | 原創 |
-| [`ultra-notion-composer`](skills/ultra-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
-| [`ultra-pr-creator`](skills/ultra-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
-| [`ultra-project-cleaner`](skills/ultra-project-cleaner) | 診斷並清除專案在 Claude Code 與 VS Code 留下的狀態 | 原創 |
-| [`ultra-project-deployer`](skills/ultra-project-deployer) | 把專案部署到代管平台（例如：GitHub Pages） | 原創 |
-| [`ultra-project-initializer`](skills/ultra-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
-| [`ultra-project-migrator`](skills/ultra-project-migrator) | 搬遷本機專案路徑，並一併帶走 Claude Code 與 VS Code 的狀態 | 原創 |
-| [`ultra-react-publisher`](skills/ultra-react-publisher) | 全自動從零建立並部署一個 GitHub Pages 上的 React 專案 | 原創 |
-| [`ultra-repo-creator`](skills/ultra-repo-creator) | 依模板建立本地端與 GitHub repo | 原創 |
-| [`ultra-skill-author`](skills/ultra-skill-author) | 建立、改寫與驗證 Claude Code skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
+| [`sk-agent-author`](skills/sk-agent-author) | 建立、改寫與驗證 Claude Code subagent 定義 | 原創 |
+| [`sk-branch-creator`](skills/sk-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
+| [`sk-claudemd-composer`](skills/sk-claudemd-composer) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
+| [`sk-commit-creator`](skills/sk-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
+| [`sk-decision-griller`](skills/sk-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
+| [`sk-hook-author`](skills/sk-hook-author) | 建立、改寫與驗證 Claude Code hook | 原創 |
+| [`sk-notion-composer`](skills/sk-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
+| [`sk-pr-creator`](skills/sk-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
+| [`sk-project-cleaner`](skills/sk-project-cleaner) | 診斷並清除專案在 Claude Code 與 VS Code 留下的狀態 | 原創 |
+| [`sk-project-deployer`](skills/sk-project-deployer) | 把專案部署到代管平台（例如：GitHub Pages） | 原創 |
+| [`sk-project-initializer`](skills/sk-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
+| [`sk-project-migrator`](skills/sk-project-migrator) | 搬遷本機專案路徑，並一併帶走 Claude Code 與 VS Code 的狀態 | 原創 |
+| [`sk-react-publisher`](skills/sk-react-publisher) | 全自動從零建立並部署一個 GitHub Pages 上的 React 專案 | 原創 |
+| [`sk-repo-creator`](skills/sk-repo-creator) | 依模板建立本地端與 GitHub repo | 原創 |
+| [`sk-skill-author`](skills/sk-skill-author) | 建立、改寫與驗證 Claude Code skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
 
 　
 
@@ -51,7 +51,7 @@ skill 會逐一連結到執行環境：不論從哪個路徑編輯，改到的�
 scripts/link-skill.sh <skill-name>
 ```
 
-`<skill-name>` 是 `skills/` 下的資料夾名稱（例如：`ultra-skill-author`）。
+`<skill-name>` 是 `skills/` 下的資料夾名稱（例如：`sk-skill-author`）。
 
 腳本可重複執行：已連結的 skill 會略過，也不會覆蓋非自身管理的 symlink（例如：同名的第三方 skill）。
 
@@ -66,7 +66,7 @@ scripts/run-checks.sh              # 全部 skill
 scripts/run-checks.sh <skill-name> # 單一 skill
 ```
 
-這支腳本執行結構層與腳本層檢查，兩者都不消耗模型 token。模型層的觸發與行為案例由 [`ultra-skill-author`](skills/ultra-skill-author) 在流程末端執行；詳細規格見 [`verification.md`](skills/ultra-skill-author/references/verification.md)。
+這支腳本執行結構層與腳本層檢查，兩者都不消耗模型 token。模型層的觸發與行為案例由 [`sk-skill-author`](skills/sk-skill-author) 在流程末端執行；詳細規格見 [`verification.md`](skills/sk-skill-author/references/verification.md)。
 
 　
 

@@ -1,0 +1,29 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想把這個資料夾變成 git repo，然後推上 GitHub",
+      "expect": "sk-repo-creator"
+    },
+    {
+      "id": "not-initializer",
+      "default": true,
+      "prompt": "repo 已經建好了，幫我補上 LICENSE 跟 main 的分支保護",
+      "expect": "sk-project-initializer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把 ~/Developer/<user>/demo-app 這個資料夾變成 GitHub repo",
+      "assert": [
+        "先確認資料夾現況再決定要不要 git init",
+        "遠端動作停在執行閘門，先把指令攤開",
+        "初始 commit 內容符合規格，訊息是 chore: initialize repository",
+        "沒有實際執行 gh repo create 或 git push"
+      ]
+    }
+  ]
+}

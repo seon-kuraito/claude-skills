@@ -1,0 +1,29 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "這個專案我上個月整包搬走了，舊路徑那邊 Claude 跟 VS Code 還記著它，幫我清掉",
+      "expect": "sk-project-cleaner"
+    },
+    {
+      "id": "not-migration",
+      "default": true,
+      "prompt": "把 ~/Developer/landing-page 搬到 ~/Developer/acme/ 底下，搬完之後 claude 的 session 要還能用",
+      "expect": "sk-project-migrator"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "~/Developer/<user>/old-demo 已經刪除了，幫我清除 Claude 跟 VS Code 的殘留",
+      "assert": [
+        "先執行唯讀的 plan 階段，產出 manifest",
+        "報告會說明刪除會影響幾個 session 與幾張 memory card",
+        "將實際執行交由使用者在 Terminal.app 操作，理由是 session 位於 VS Code 內",
+        "沒有在 session 內直接刪除或改寫任何狀態檔"
+      ]
+    }
+  ]
+}

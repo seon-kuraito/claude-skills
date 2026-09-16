@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我要開始修登入頁那個錯誤，幫我開一條分支",
+      "expect": "sk-branch-creator"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我把按鈕 hover 的動畫調順了，這是使用者看得到的細節調整，幫我開一條分支",
+      "assert": [
+        "提出的分支名符合 <type>/<kebab-description> 格式",
+        "type 使用 improve，避免使用 style 或 feat",
+        "描述是 2 到 5 個英文單字的 kebab-case",
+        "沒有實際執行 git switch 或 git checkout"
+      ]
+    }
+  ]
+}

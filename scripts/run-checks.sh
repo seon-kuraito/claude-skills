@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # run-checks.sh — the structure and script tiers for this repo, per
-# skills/ultra-skill-author/references/verification.md.
+# skills/sk-skill-author/references/verification.md.
 #
 #   scripts/run-checks.sh            every skill
 #   scripts/run-checks.sh <skill>    one skill
@@ -25,8 +25,8 @@ fi
 fail=0
 
 # Drift check — every shared rule in the spec must have an implementation here.
-spec="$repo/skills/ultra-skill-author/references/verification.md"
-[ -f "$spec" ] || spec="$repo/../claude-skills/skills/ultra-skill-author/references/verification.md"
+spec="$repo/skills/sk-skill-author/references/verification.md"
+[ -f "$spec" ] || spec="$repo/../claude-skills/skills/sk-skill-author/references/verification.md"
 if [ -f "$spec" ]; then
   shared=$(awk '/^## Shared rules/{f=1; next} /^## Routed-item rules/{f=1; next} /^## /{f=0} f' "$spec" | grep -oE '^\| `[a-z][a-z-]*`' | tr -d '|` ')
   for rule in $shared; do

@@ -1,0 +1,42 @@
+sk-skill-author
+Copyright 2026 Seon Kuraito
+
+This skill is derived from "skill-creator", part of Anthropic's Agent Skills
+(https://github.com/anthropics/skills), licensed under the Apache License,
+Version 2.0. A copy of the license is included in LICENSE.
+
+Original work:
+  Copyright 2026 Anthropic, PBC.
+
+This derivative modifies the original. Notable changes:
+  - The upstream eval, description-tuning, and blind-comparison machinery is
+    removed entirely — the eval and tuning scripts, the grader / analyzer /
+    comparator agents, the eval viewer, and their reference files.
+  - In its place the flow ends in a verification pass that always runs, with
+    three tiers: structure and script checks that cost no tokens, and a model
+    tier of one subagent per case. It is never offered as a menu option.
+  - The verification contract is a family-wide file, cited by the sibling
+    authoring skills for hooks and agents rather than restated by them.
+  - Added an "sk-<single-token>-<verber>" skill naming convention.
+  - Review step presents structural decisions as bullets instead of pasting
+    the full SKILL.md into the conversation.
+  - Skill descriptions kept trigger-only; specification moved into the body.
+  - References reorganized into writing-guide / verification / publishing /
+    readme-guide / environments for progressive disclosure.
+  - Claude Code treated as the primary environment; Claude.ai / Cowork
+    instructions moved into a reference file.
+  - Added a provenance gate at skill creation: original skills receive an
+    MIT LICENSE automatically; derived skills receive the upstream LICENSE
+    plus a NOTICE stating attribution and changes.
+  - Added a repository publishing workflow (default into the skills repo,
+    branch, create or modify, link, verify, gated commit) that delegates
+    branch and commit authoring to sibling skills; opening the PR is left
+    to the user.
+  - Added a per-skill README standard (Traditional Chinese, fixed sections,
+    objective tone, full-width heading spacers, two-level bullets) captured
+    in references/readme-guide.md.
+
+The bundled scripts scripts/package_skill.py and scripts/quick_validate.py
+are carried substantially unmodified from the original skill-creator. The
+files assets/license-mit.txt and agents/skill-reviewer.md are original to
+this derivative.
