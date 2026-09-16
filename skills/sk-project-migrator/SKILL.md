@@ -18,7 +18,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 ## Flow
 
-1. **Pin down the moves** — exact old and new absolute paths, several pairs per run if needed. A new path must not exist yet, or be an empty folder. Confirm the pairs with the user before planning.
+1. **Pin down the moves** — exact old and new absolute paths, several pairs per run if needed. Confirm the pairs with the user before planning, even when the request already names exact paths, and say in that confirmation that each new path must not exist yet or must be an empty folder.
 2. **Plan** — run `bash <base>/scripts/plan.sh --move <old> <new> [--move <old> <new>]...`. It changes nothing and writes a manifest (default `~/Backups/<timestamp>-project-migrator/manifest.json`).
 3. **Report** — relay the printed report: each move with its size and uncommitted changes, session folders with their session and memory counts, config, history, and symlink counts, the VS Code items to clear, hard-coded old paths, warnings, and blockers. Resolve blockers with the user and plan again; `apply.sh` refuses a plan that has any.
 4. **Gate** — render `assets/execution-gate.md` for `apply.sh`.

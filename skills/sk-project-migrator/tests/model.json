@@ -18,9 +18,15 @@
       "id": "core",
       "default": true,
       "prompt": "幫我把 ~/Developer/<user>/demo-app 搬到 ~/Developer/<user>/acme/demo-app",
+      "replies": [
+        {
+          "when": "確認搬移路徑",
+          "reply": "對"
+        }
+      ],
       "assert": [
         "先執行唯讀的 plan 階段，產出 manifest 並列出 blocker",
-        "說明新路徑必須不存在或為空資料夾",
+        "規劃前先確認搬移路徑，並說明新路徑必須不存在或為空資料夾",
         "將 apply 交由使用者在 Terminal.app 執行",
         "舊資料夾保留到 finalize 才刪"
       ]
