@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把現在這條分支開成 pull request",
+      "expect": "sk-pr-creator"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "這條分支的改動都好了，幫我準備 PR 描述",
+      "assert": [
+        "先確認目標 repo 的驗證已執行且通過；缺少通過紀錄時停止建立 PR",
+        "PR body 寫入檔案，避免將全文輸出到終端機",
+        "body 有 📝 Summary、🎯 Scope、✅ Test plan 三段且順序固定",
+        "沒有實際執行 git push 或 gh pr create"
+      ]
+    }
+  ]
+}

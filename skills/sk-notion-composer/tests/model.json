@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "這份筆記幫我整理成 Notion 上的排版",
+      "expect": "sk-notion-composer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把「CSS Grid 的 fr 單位」這則筆記整理成 Notion 排版",
+      "assert": [
+        "先讀取目標資料庫或頁面的 schema，再決定 property 對應",
+        "產出的結構包含灰色引言摘要、中文數字編號的 h2、詞彙表",
+        "技術名詞用 inline code",
+        "沒有在使用者指定目標前就建立或覆寫頁面"
+      ]
+    }
+  ]
+}

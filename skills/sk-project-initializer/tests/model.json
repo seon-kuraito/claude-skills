@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "新專案的 GitHub label 跟分支保護幫我設一設",
+      "expect": "sk-project-initializer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "這個 repo 剛建好，幫我把型別標籤和 main 保護設起來",
+      "assert": [
+        "先讀現況再決定要套用哪些項目",
+        "說明 ruleset 在 GitHub Free 的 private repo 不生效",
+        "遠端動作停在執行閘門",
+        "沒有實際呼叫 gh api 寫入"
+      ]
+    }
+  ]
+}

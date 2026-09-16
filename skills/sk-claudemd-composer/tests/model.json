@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "這個專案幫我寫一份 CLAUDE.md，讓之後的 session 一進來就知道規矩",
+      "expect": "sk-claudemd-composer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我看一份 CLAUDE.md 該寫哪些東西，這個專案是一個 React 元件庫",
+      "assert": [
+        "先詢問或讀取專案現況，再產生內容",
+        "區分 CLAUDE.md 與 README 的分工",
+        "不列出會隨專案成長而失效的清單",
+        "沒有實際寫入任何檔案"
+      ]
+    }
+  ]
+}

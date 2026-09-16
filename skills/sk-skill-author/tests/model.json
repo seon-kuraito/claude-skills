@@ -1,0 +1,29 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想做一個 skill，把我平常在做的 code review 檢查表變成可以重複使用的流程",
+      "expect": "sk-skill-author"
+    },
+    {
+      "id": "not-hook",
+      "default": true,
+      "prompt": "每次 Claude 要動到放金鑰的設定檔，我都想自動擋下來",
+      "expect": "sk-hook-author"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把「每次寫測試前先列出邊界條件」這個習慣做成一個 skill",
+      "assert": [
+        "提出的名稱符合 sk-<single-token>-<verber>",
+        "先確認這該是 skill、hook 還是 agent",
+        "description 只留觸發訊號，規格放在 body",
+        "流程末端直接安排驗證"
+      ]
+    }
+  ]
+}

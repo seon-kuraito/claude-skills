@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想在 Claude 每次結束回合的時候自動跳一個通知",
+      "expect": "sk-hook-author"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想在每次編輯 package.json 之後自動執行 lint",
+      "assert": [
+        "事件選 PostToolUse，並說明 matcher 怎麼寫",
+        "說明輸出模式採用 exit code 或 JSON",
+        "提到 hook 要登記在 settings 才會生效",
+        "沒有實際寫入 settings.json"
+      ]
+    }
+  ]
+}
