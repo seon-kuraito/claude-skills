@@ -5,7 +5,7 @@ description: Authors, refines, and evaluates Claude agent skills (the `.claude/s
 
 # Ultra Skill Author
 
-Handle any work on a Claude skill — creating, refining, restructuring, naming, licensing, and evaluating. The default flow is a lightweight three-step interview / draft / review; heavier machinery — eval loops, blind A/B, description-tuning — is available behind a capability checkpoint when the user opts in.
+Handle any work on a Claude skill — creating, refining, restructuring, naming, licensing, and verifying. The flow is a lightweight interview / draft / review, closed by a verification pass that always runs: structure, script, and model tiers, per `references/verification.md`.
 
 ## Jurisdiction — every skill the user works on
 
@@ -35,7 +35,7 @@ When **modifying an existing skill that doesn't match this pattern**: offer to r
 **First, identify task type: new skill or modifying existing.**
 
 - **New skill** — proceed to the interview below.
-- **Modifying existing skill** — also consult `references/environments.md` (read-only path handling, `/tmp` staging, name preservation), `references/evals.md` (snapshot the existing skill as baseline), and `references/blind-comparison.md` (rigorous A/B between old and new versions).
+- **Modifying existing skill** — also consult `references/environments.md` (read-only path handling, `/tmp` staging, name preservation).
 
 Interview the user:
 
@@ -45,9 +45,7 @@ Interview the user:
 4. Any reference materials to bundle?
 5. **Provenance** — is this original to the user, or derived from existing work (another skill, a library, copied code)? If derived, identify the upstream source and its license **before drafting** — provenance dictates licensing (see `references/publishing.md`), and a copyleft or unclear source may mean the skill cannot be published at all.
 
-Then assess whether test cases are warranted — objective outputs (file transforms, code generation, fixed workflow steps) benefit from them; subjective outputs (writing style, design quality) usually don't. Details in `references/evals.md`.
-
-**Capability checkpoint (new skills only)** — a modification skips this menu: its scope is already set by the request, and asking up front which machinery to enable only interrupts it. Offer evals and blind A/B after the change instead (see *After the skill is complete*), and description tuning only when the change touches the `description`. For a new skill, present the **Capabilities** menu — every menu this skill asks lives in `references/menus.md`; present each as written there. Detail: evals → `references/evals.md`; description-tuning → `references/description-tuning.md`.
+Then assess what the skill's `tests/` will hold. An objective output — file transforms, code generation, fixed workflow steps — earns script-tier checks and a behavior case. A subjective output — writing style, design quality, a conversation — carries a trigger case alone. Either way the skill gets verified; the assessment only decides what the cases can assert. Details in `references/verification.md`.
 
 ## Step 2: Draft the skill
 
@@ -59,32 +57,25 @@ Present key decisions in bullet form — frontmatter `name` / `description`, bod
 
 For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigger correctness, structural discipline, and companion-file compliance.
 
-**Confirm point** — if the user opted into evals at the capability checkpoint, ask whether to proceed into the eval loop now. If yes, follow `references/evals.md`.
+## Step 4: Verify
 
-## Step 4: Tune the description (opt-in)
+Runs on a new skill and on every later change. Never a menu, never a question — follow `references/verification.md`:
 
-**Confirm point** — if the user opted into description-tuning at the capability checkpoint, ask whether to run the optimization loop now. If yes, follow `references/description-tuning.md`.
+1. **structure and script tiers** — run `scripts/run-checks.sh <skill-name>` in the repo. Both are deterministic and cost no tokens. Fix what it reports, then run it again.
+2. **model tier** — run the `default: true` cases in the skill's `tests/model.json`. One case is one subagent; state the count before running, and judge the assertions yourself from the subagent's report.
 
-Run it **here**, before publishing, for two reasons. The loop measures triggering by installing a probe skill, and an installed copy of the skill under test defeats that measurement — `references/publishing.md` step 5 links the skill into `~/.claude/skills/`, so once publishing has run the loop refuses to start. Tuning at this point also puts the improved description into the publishing commit instead of needing a follow-up one. An existing skill is already linked, so tuning it means unlinking for the duration of the run — see the prerequisite in `references/description-tuning.md`.
+The model tier needs the skill linked into `~/.claude/skills/`, because a subagent can only pick an installed skill. For a repo skill this pass therefore happens as step 6 of `references/publishing.md` — after the link, before the commit gate. A finding sends you back to fix the skill and re-run; only an all-clear moves the work on.
 
 ## Publishing & licensing
 
 When a skill is destined for the user's `claude-skills` repo, follow `references/publishing.md` end to end: pick the license files by provenance (MIT for original; upstream `LICENSE` + `NOTICE` for derived; copyleft / unclear → don't publish), then run the git workflow — branch → create/edit → sync catalog → link → verify → gated commit, delegating to ultra-branch-creator / ultra-commit-creator. Read it before creating or modifying a repo skill.
 
-## After the skill is complete
-
-**Modifying existing skill only** — proactively offer to run the skill's evals against a snapshot of the previous version, then blind A/B comparison between old and new versions. If the user accepts, follow `references/evals.md`, then `references/blind-comparison.md`.
-
 ## References
 
 - `references/writing-guide.md` — SKILL.md writing / Description format / Bundled resources / Review checklist / Interview depth / Communication style
-- `references/menus.md` — the capability checkpoint menu, with the menu contract at its top
 - `references/readme-guide.md` — per-skill README: sections / objective tone / heading spacers / two-level bullets
 - `references/publishing.md` — provenance → license files + the repo git workflow (branch → create/edit → sync catalog → link → verify → gated commit)
-- `references/evals.md` — Test cases / Workspace / Grading / Aggregation / Iteration (opt-in)
-- `references/schemas.md` — JSON schemas for the eval / benchmark / comparison artifacts
-- `references/description-tuning.md` — Trigger optimization loop (opt-in)
-- `references/blind-comparison.md` — Blind A/B between two skill versions (opt-in; surfaces only when modifying existing)
+- `references/verification.md` — the family verification contract: the three tiers, the runner interface, the shared rules, `tests/model.json`
 - `references/environments.md` — Claude.ai / Cowork / Claude Code branches + packaging + modifying-existing path handling
 
 ## Related

@@ -138,7 +138,7 @@ Skills appear in `available_skills` with their name + description. The agent dec
 - **Simple, one-step queries don't trigger skills.** "Read this PDF" may not trigger a PDF skill even with a perfect description, because the agent can handle it directly.
 - **Substantive, multi-step, specialized queries reliably trigger** when the description matches.
 
-This shapes how you write evals for description-tuning (`references/description-tuning.md`) — eval queries must be substantive enough that the agent would actually benefit from consulting the skill.
+This shapes how you write trigger cases (`references/verification.md`) — a trigger prompt must be substantive enough that the agent would actually benefit from consulting the skill.
 
 ## Bundled resources — what goes where
 
