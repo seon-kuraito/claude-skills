@@ -108,6 +108,7 @@ A prompt stored with a placeholder (`~/Developer/<user>/…`) has it substituted
       "id": "plan-first",
       "default": true,
       "prompt": "the single most representative task",
+      "replies": [{ "when": "asks to confirm the target paths", "reply": "yes" }],
       "assert": ["writes a plan file instead of deleting", "every listed path exists"]
     }
   ]
@@ -121,8 +122,11 @@ A prompt stored with a placeholder (`~/Developer/<user>/…`) has it substituted
 | `prompt` | both | the request as a real user would phrase it — never a description of the trap |
 | `expect` | trigger | the item that must win the request |
 | `assert` | behavior | objectively checkable statements about the run |
+| `replies` | behavior | optional; pre-written user answers, each a `when` (the question the flow asks) and a `reply` |
 
 Keep the prompt neutral. A prompt that names the pitfall lets any model reason around it, so the case stops measuring anything.
+
+**Answering a mid-flow question.** No user answers a subagent, so it stops at the first question the flow asks, and every assert past that point goes unseen. `replies` gets a case past such a question. Hand them to the subagent with the `prompt`: when the flow asks what a `when` describes, the subagent answers with its `reply` and goes on; any other question or confirmation still stops the run. Never put an Execution gate confirmation in `replies` — the run must stop at the gate, so nothing outward-facing or destructive runs.
 
 **Running a trigger case.** Hand the `prompt` to one subagent verbatim, followed by this constraint: say what you plan to do, change no file and no state, reading is fine. Reading has to stay allowed — loading a skill *is* a read, and a blanket "touch nothing" makes the subagent describe the skill it would have loaded instead of loading it, which measures intent rather than routing. Name no skill in the prompt: the point is which one the subagent reaches for on its own. The subagent's tool-use count tells you whether a skill was actually loaded; read its report to see which one, and ask it once if that stays unclear.
 
