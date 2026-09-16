@@ -1,0 +1,29 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我想把 ~/Developer 下面的專案改成用 owner 分資料夾，搬完 claude 的 session 跟記憶不能斷",
+      "expect": "ultra-project-migrator"
+    },
+    {
+      "id": "not-cleanup",
+      "default": true,
+      "prompt": "這個專案已經刪了，Claude 那邊殘留的東西幫我清一清",
+      "expect": "ultra-project-cleaner"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把 ~/Developer/<user>/demo-app 搬到 ~/Developer/<user>/acme/demo-app",
+      "assert": [
+        "先執行唯讀的 plan 階段，產出 manifest 並列出 blocker",
+        "說明新路徑必須不存在或為空資料夾",
+        "將 apply 交由使用者在 Terminal.app 執行",
+        "舊資料夾保留到 finalize 才刪"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把這個網站放上 GitHub Pages",
+      "expect": "ultra-project-deployer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "幫我把這個 Vite 專案部署到 GitHub Pages",
+      "assert": [
+        "先詢問平台與建置方式，再決定部署設定",
+        "部署分支的選項來自實際存在的分支",
+        "workflow 從 assets 的模板產生，只替換 DEPLOY_BRANCH",
+        "沒有實際呼叫 gh api 開啟 Pages"
+      ]
+    }
+  ]
+}
