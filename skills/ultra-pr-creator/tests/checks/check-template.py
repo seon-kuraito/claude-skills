@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Deterministic format check for ultra-pr-creator's body template.
 
-Run: python3 skills/ultra-pr-creator/evals/check-template.py  (exit 0 = pass)
+Run: python3 skills/ultra-pr-creator/tests/checks/check-template.py  (exit 0 = pass)
 
 Not an LLM eval — a static regression guard for the byte-exact template
 conventions that humans miss and a SKILL.md/template edit can silently break:
@@ -11,7 +11,7 @@ the three emoji-prefixed H2s in order, the U+3000 (　) section spacer, open
 import sys
 from pathlib import Path
 
-tpl = (Path(__file__).resolve().parent.parent / "assets" / "pr-body.md.tmpl").read_text()
+tpl = (Path(__file__).resolve().parents[2] / "assets" / "pr-body.md.tmpl").read_text()
 lines = tpl.split("\n")
 fails = []
 

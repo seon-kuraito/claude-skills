@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Deterministic checks for ultra-project-initializer's shipped assets.
 
-Run: python3 skills/ultra-project-initializer/evals/check-assets.py  (exit 0 = pass)
+Run: python3 skills/ultra-project-initializer/tests/checks/check-assets.py  (exit 0 = pass)
 
 Not an LLM eval — a static regression guard for the asset files the skill
 applies verbatim. Catches a silent edit that breaks the label set, a label
@@ -14,7 +14,7 @@ import re
 import sys
 from pathlib import Path
 
-ASSETS = Path(__file__).resolve().parent.parent / "assets"
+ASSETS = Path(__file__).resolve().parents[2] / "assets"
 fails = []
 
 
