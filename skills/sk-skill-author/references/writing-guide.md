@@ -246,29 +246,27 @@ Every menu and plain-text question this skill asks, one per section. Present eac
 `SKILL.md` keeps one sentence where its flow begins — *Every menu and plain-text question this skill asks lives in `references/menus.md`; present each as written there* — and points at each menu where the flow reaches it. What happens on each answer, the branch the flow takes, stays in the body beside that pointer: the menu file holds copy, not flow.
 
 - **Verbatim & ordered** — question, header, labels, and order are copied exactly, never rephrased or reordered. The only line allowed to vary is a `[Rule, not copy]` entry that filters the option *set* by a deterministic condition (an existing branch, a bound remote, a detected `vite` dependency).
-- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the section titles, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — the one deliberate exception to English-only authoring. The language split makes the two impossible to confuse.
+- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the section titles, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — a deliberate exception to English-only authoring, shared only with the *Execution gate* below. The language split makes the two impossible to confuse.
 - **Fully neutral** — no option is marked recommended and no surrounding prose nudges one; present the options as equals. If the skill asserts a default elsewhere, neutralize it so prose and menu agree.
 - **Descriptions baked in** — the guidance for choosing lives in each option's description, not in conversational prose before the menu.
 - **Silent collection** — emit no prose before, between, or after the menu calls of an input phase; call the tool and act on the answer. Narration resumes only once every selection for that phase is in. Stage-handoff gates ("enter the next stage?") follow the same no-prose-wrapping rule.
 
 ### Execution gate
 
-Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title bullet block, `## 🚧 Execution gate`, one sentence per bullet, **rendered as a framed callout** — a `---` rule above and below the block, each with a full-width `　` (U+3000) spacer line tight against it on the inner side (no blank-line padding, for a denser frame):
+Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title heading, `## 🚧 Execution gate`, followed by an item-keyed table — the same shape as the `## ✅ Delivery summary` recap, so a gate and a recap read alike. The whole block below the heading is user-facing copy in Chinese — the column headers (`項目 | 說明`), the fixed row labels, every cell (one sentence per cell), and any lead line. Like a menu, a gate is UI, not config, so it shares the menus' exception to English-only authoring; the heading itself stays English, as `## ✅ Delivery summary` does. No `---` rule and no `　` spacer frame the block:
 
 ```markdown
----
-　
 ## 🚧 Execution gate
 
-- **Triggers on** — <which outward-facing commands>: `cmd`, `cmd`.
-- **Stop & show** — surface exactly what will run before running it.
-- **Confirm** — wait for explicit confirmation; proceed only after.
-- **Never chain** — don't fold the steps into one uninterrupted run.
-　
----
+| 項目 | 說明 |
+| --- | --- |
+| 觸發條件 | <哪些對外指令>：`cmd`、`cmd`。 |
+| 列出內容 | 執行前列出將要執行的內容。 |
+| 確認 | 取得明確確認後再執行。 |
+| 分開執行 | 各步驟需分次處理。 |
 ```
 
-The four bullets are the spine; the `---`/`　` frame is part of the standard rendering, not optional decoration — reproduce both, every time. This guide isn't loaded at skill runtime, so each gate-emitting skill keeps the framed gate above in its own `assets/execution-gate.md`, and in SKILL.md keeps a short `## 🚧 Execution gate` pointer that names what triggers it and says to render that asset before proceeding. Extracting the frame to a file keeps the format syncable across skills; the bespoke `Triggers on` line stays per-skill. When a gate carries extra meaning, fold it into the relevant bullet rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on **Confirm**; what to show (title, body-as-link, flags) rides on **Stop & show**. Don't flatten that nuance away for the sake of uniformity.
+The four rows are the spine — `觸發條件` / `列出內容` / `確認` / `分開執行`, labels fixed (a gate whose last rule scopes remote access rather than step separation names it `遠端操作`); reproduce the heading and the table verbatim, every time. The table is fixed copy, not a form: never fill its cells with this run's details, rename a row, or change a column header. What the **列出內容** row names — the exact commands, a title, a body link, what would be lost — goes below the table as its own block; a skill may fix that block's labels (`sk-pr-creator` keeps **Title** / **Body** / **Flags** in English). An optional lead line may sit between the heading and the table when the gate needs to scope itself (e.g. "local steps run freely"). This guide isn't loaded at skill runtime, so each gate-emitting skill keeps the gate above in its own `assets/execution-gate.md`, and in SKILL.md keeps a short `## 🚧 Execution gate` pointer that names what triggers it and says to render that asset verbatim, with the 列出內容 content below it, before proceeding. Extracting the gate to a file keeps the format syncable across skills; the bespoke `觸發條件` row stays per-skill. When a gate carries extra meaning, fold it into the relevant row rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on the **確認** row; what to show (title, body-as-link, flags) rides on the **列出內容** row. Don't flatten that nuance away for the sake of uniformity.
 
 ### Locating paths on disk
 

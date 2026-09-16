@@ -40,7 +40,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 ## 🚧 Execution gate
 
-Before step 5, render `assets/execution-gate.md`: `apply.sh` deletes session folders, config entries, and editor state that cannot come back once the backup is gone.
+Before step 5, render `assets/execution-gate.md` verbatim, then show what its **列出內容** row names below the table. `apply.sh` deletes session folders, config entries, and editor state that cannot come back once the backup is gone.
 
 ## References
 

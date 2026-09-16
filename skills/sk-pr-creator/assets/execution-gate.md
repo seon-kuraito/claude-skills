@@ -1,19 +1,8 @@
-
-　
-
----
-
-　
-
 ## 🚧 Execution gate
 
-- **Triggers on** — any `gh` command (`pr create`, `pr edit`, `pr merge`, `pr close`, …) or the post-merge remote-branch prune (`git push origin --delete`).
-- **Stop & show** — surface the title, the body as a clickable editor link (e.g. `[/tmp/pr-<branch>.md](vscode://file/tmp/pr-<branch>.md)`, opened in the editor to review rather than pasted inline), and any behavior-affecting flags (merge method, `--delete-branch`, `--assignee`, `--label`).
-- **Confirm** — wait for explicit confirmation; proceed only after.
-- **Never chain** — don't fold creation and merging into a single uninterrupted step.
-
-　
-
----
-
-　
+| 項目 | 說明 |
+| --- | --- |
+| 觸發條件 | 任何 `gh` 指令（`pr create`、`pr edit`、`pr merge`、`pr close` 等），以及合併後刪除遠端分支（`git push origin --delete`）。 |
+| 列出內容 | 列出標題、可點開的 body 檔案連結（例如 `[/tmp/pr-<branch>.md](vscode://file/tmp/pr-<branch>.md)`，在編輯器開啟審閱，不貼全文），以及會影響行為的旗標（合併方式、`--delete-branch`、`--assignee`、`--label`）。 |
+| 確認 | 取得明確確認後再執行。 |
+| 分開執行 | 建立 PR 與合併 PR 需分成兩個步驟處理。 |
