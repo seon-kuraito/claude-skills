@@ -18,6 +18,12 @@
       "id": "core",
       "default": true,
       "prompt": "幫我把「每次寫測試前先列出邊界條件」這個習慣做成一個 skill",
+      "replies": [
+        {
+          "when": "確認 skill 名稱",
+          "reply": "名稱可以，其他照你的預設"
+        }
+      ],
       "assert": [
         "提出的名稱符合 sk-<single-token>-<verber>",
         "先確認這該是 skill、hook 還是 agent",
