@@ -88,8 +88,13 @@
 - **將模板與細節拆到 references／assets**：
   - 逐段深入指南放在 `references/`（例如：sections 與 examples）
   - PR body 模板獨立放在 `assets/pr-body.md.tmpl`
+- **送出前檢查 PR body 檔案**：
+  - body 寫入檔案後，格式問題通常要到 PR 公開後才容易發現，因此進入執行閘門前，先以 `scripts/check-body.py <body 檔> --commits <數量>` 檢查
+  - 檢查項目包含：非英文句子、三個段落是否齊全且順序正確、全形分隔是否保留、巢狀 bullet、附註列是否存在，以及 Summary 的 bullet 數是否低於 commit 數
+  - 非英文混入是常見問題；PR 討論通常使用非英文時，個別 bullet 容易沿用對話語言
 - **提供確定性檢查**：
   - `tests/checks/check-template.py` 用來驗證 PR body 模板格式（靜態執行，不需要 LLM）
+  - `tests/checks/check-body-script.py` 用來驗證 `check-body.py` 是否能偵測上述格式問題（靜態執行，不需要 LLM）
   - `tests/model.json` 收錄觸發案例與行為案例
 
 　
