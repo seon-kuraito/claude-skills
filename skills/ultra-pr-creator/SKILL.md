@@ -46,6 +46,18 @@ gh pr create --base main --head <branch> \
 
 `<type>` is the branch prefix (`feat/add-x` → `feat`). Fill every placeholder in and show this exact command at the Execution gate before running it.
 
+## Check the body before the gate
+
+The body is authored into a file, so a format slip is invisible until the PR is public. Run the checker over it, fix what it reports, and only then render the gate:
+
+```sh
+python3 scripts/check-body.py <body-file> --commits <count>
+```
+
+It reads what a reviewer cannot: a bullet that slipped out of English, a missing or reordered section, a collapsed `　` spacer, a nested bullet, a missing attribution footer, and a Summary carrying fewer bullets than the branch has commits. Exit 0 passes; every finding names its line.
+
+Non-English copy is the slip this catches most often, because the conversation around the PR is frequently in another language and one bullet follows it. The rule itself is in *Conventions*; this step is what enforces it.
+
 ## 🚧 Execution gate
 
 Before any `gh` PR command or the post-merge remote-branch prune (`git push origin --delete`), render `assets/execution-gate.md` (the framed gate) and wait for confirmation.
