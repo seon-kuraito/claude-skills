@@ -19,7 +19,7 @@ Every menu this skill asks lives in `references/menus.md` — present each as wr
 
 ## GitHub Pages
 
-Deploy via **GitHub Actions** (the modern Pages publishing source). First settle the **deploy branch** (see *Choose the deploy branch*), then follow `references/github-pages.md` for the full flow — choosing the build type (static / Vite SPA), the bundled workflow templates and their action versions, enabling Pages, allowing a non-`main` deploy branch in the `github-pages` environment, the Vite caveat, and the fixed commit `ci: add github pages deploy workflow` on `ci/deploy-github-pages`.
+Deploy via **GitHub Actions** (the modern Pages publishing source). First settle the **deploy branch** (see *Choose the deploy branch*), then follow `references/github-pages.md` for the full flow — choosing the build type (static / Vite SPA), the bundled workflow templates and their action versions, enabling Pages, allowing a non-`main` deploy branch in the `github-pages` environment, the Vite caveats (project-page `base`, lockfile), and the fixed commit `ci: add github pages deploy workflow` on `ci/deploy-github-pages`.
 
 ## Choose the deploy branch
 
@@ -51,7 +51,7 @@ Before any command that writes to the remote or repo settings (`gh api .../pages
 ## References
 
 - `references/menus.md` — every menu this skill asks (platform, build type, deploy branch), with the menu contract at its top
-- `references/github-pages.md` — the full GitHub Pages flow: build types, workflow templates, action versions, enabling Pages, the Vite caveat, and the version choices. Each future platform gets its own `references/<platform>.md`.
+- `references/github-pages.md` — the full GitHub Pages flow: build types, workflow templates, action versions, enabling Pages, the Vite caveats (project-page `base`, lockfile), and the version choices. Each future platform gets its own `references/<platform>.md`.
 
 ## Related
 
