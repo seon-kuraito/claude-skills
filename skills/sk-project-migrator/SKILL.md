@@ -46,7 +46,7 @@ The migrator finds the cleaner at `~/.claude/skills/sk-project-cleaner`, plans t
 
 ## 🚧 Execution gate
 
-Before step 5 and again before step 7, render `assets/execution-gate.md`: `apply.sh` changes state outside the project that the user cannot see, and `finalize.sh` deletes the old folders for good.
+Before step 5 and again before step 7, render `assets/execution-gate.md` verbatim, then show what its **列出內容** row names for that step below the table. `apply.sh` changes state outside the project that the user cannot see, and `finalize.sh` deletes the old folders for good.
 
 ## References
 

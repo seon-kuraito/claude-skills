@@ -46,7 +46,7 @@ The workflow commit lands on `ci/deploy-github-pages`, which needs a PR to reach
 
 ## 🚧 Execution gate
 
-Before any command that writes to the remote or repo settings (`gh api .../pages`, `git push`), render `assets/execution-gate.md` (the framed gate) and wait for confirmation.
+Before any command that writes to the remote or repo settings (`gh api .../pages`, `git push`), render `assets/execution-gate.md` verbatim, show the exact commands below the table, and wait for confirmation.
 
 ## References
 

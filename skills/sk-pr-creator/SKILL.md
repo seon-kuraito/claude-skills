@@ -60,7 +60,15 @@ Non-English copy is the slip this catches most often, because the conversation a
 
 ## 🚧 Execution gate
 
-Before any `gh` PR command or the post-merge remote-branch prune (`git push origin --delete`), render `assets/execution-gate.md` (the framed gate) and wait for confirmation.
+Before any `gh` PR command or the post-merge remote-branch prune (`git push origin --delete`), render `assets/execution-gate.md` verbatim, show what its **列出內容** row names below the table, and wait for confirmation. Below the table, write these three bullets with their labels kept in English, then the exact command in a `sh` block:
+
+```markdown
+- **Title**：`<title>`
+- **Body**：[<body-file>](vscode://file/<abs-path>)
+- **Flags**：`<flag>`、`<flag>`
+```
+
+**Flags** lists every behavior-affecting flag (merge method, `--delete-branch`, `--assignee`, `--label`). A merge or a remote-branch prune keeps only the lines that apply.
 
 ## Merging
 

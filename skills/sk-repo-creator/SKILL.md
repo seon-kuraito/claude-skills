@@ -36,7 +36,7 @@ A meta repo resolves its directory in its own interview (see [meta-repo](referen
 
 ## 🚧 Execution gate
 
-Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before creating a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` (the framed gate), resolve the GitHub account, and present the **Remote** menu. How the account is resolved, how 「換一個帳號」 loops back, and what each answer runs are in [`references/remote.md`](references/remote.md) — read it before the gate. A meta repo pushes the layer and its new members through one gate, with its own menu — see [meta-repo](references/meta-repo.md).
+Local steps — `git init`, commits, scaffolding — run freely; they're local and reversible. The **only** gate is the outward-facing one — before creating a remote or pushing (`gh repo create`, `git push`, `git remote add`), render `assets/execution-gate.md` verbatim, resolve the GitHub account, show the exact commands below the table, and present the **Remote** menu. How the account is resolved, how 「換一個帳號」 loops back, and what each answer runs are in [`references/remote.md`](references/remote.md) — read it before the gate. A meta repo pushes the layer and its new members through one gate, with its own menu — see [meta-repo](references/meta-repo.md).
 
 ## blank
 

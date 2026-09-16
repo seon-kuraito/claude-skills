@@ -1,19 +1,8 @@
-
-　
-
----
-
-　
-
 ## 🚧 Execution gate
 
-- **Triggers on** — any command that writes to the remote or the repo's settings: `gh api .../pages`, `git push`.
-- **Stop & show** — surface exactly what will run before running it.
-- **Confirm** — wait for explicit confirmation; proceed only after.
-- **Never chain** — don't fold the steps into one uninterrupted run.
-
-　
-
----
-
-　
+| 項目 | 說明 |
+| --- | --- |
+| 觸發條件 | 任何寫入遠端或 repo 設定的指令：`gh api .../pages`、`git push`。 |
+| 列出內容 | 執行前列出將要執行的內容。 |
+| 確認 | 取得明確確認後再執行。 |
+| 分開執行 | 各步驟需分次處理。 |

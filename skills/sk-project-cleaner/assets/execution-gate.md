@@ -1,10 +1,8 @@
----
-　
 ## 🚧 Execution gate
 
-- **Triggers on** — handing `apply.sh` to the user: it deletes the session folders, config entries, and editor state selected in the manifest.
-- **Stop & show** — the selected items grouped by project path, the sessions and memory cards that would be lost, the manifest path, and the exact Terminal command.
-- **Confirm** — wait for explicit confirmation; only then give the quit-and-run instructions.
-- **Never chain** — keep the backup until the user has checked the result; deleting it is a separate step.
-　
----
+| 項目 | 說明 |
+| --- | --- |
+| 觸發條件 | 把 `apply.sh` 交給使用者執行：它會刪除 manifest 中選取的 session 資料夾、設定項目與編輯器狀態。 |
+| 列出內容 | 依專案路徑分組的選取項目、會失去的 session 與 memory 卡、manifest 路徑，以及要在 Terminal 執行的完整指令。 |
+| 確認 | 取得明確確認後，再提供關閉程式與執行步驟。 |
+| 分開執行 | 使用者檢查結果前保留備份；刪除備份另行處理。 |

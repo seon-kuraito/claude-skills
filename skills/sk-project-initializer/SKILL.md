@@ -76,7 +76,7 @@ Never auto-enter it — always the user's choice (the same shape as sk-repo-crea
 
 ## 🚧 Execution gate
 
-Before any command that writes to the remote or repo settings (`gh label …`, the ruleset `gh api --method POST`, `git push`), render `assets/execution-gate.md` (the framed gate) and wait for confirmation.
+Before any command that writes to the remote or repo settings (`gh label …`, the ruleset `gh api --method POST`, `git push`), render `assets/execution-gate.md` verbatim, show the exact commands below the table, and wait for confirmation.
 
 ## Related
 
