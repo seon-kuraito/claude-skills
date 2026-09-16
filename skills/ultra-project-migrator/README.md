@@ -80,6 +80,9 @@
   - 驗證複本一致、沒有殘留的舊 `cwd`、工作階段除 `cwd` 外與備份相同，以及設定、歷史紀錄與 symlink 不含舊路徑
 - **VS Code 舊狀態由 cleaner 處理**：
   - 舊路徑的 VS Code 狀態由 `ultra-project-cleaner` 處理，同一次終端機執行中完成，使用者只需關閉一次 VS Code
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例，行為案例確認流程只產出唯讀 plan，且舊資料夾保留到 finalize
+  - `tests/checks/lib-functions.sh` 驗證 `lib.sh` 的純函式，包含欄位改寫只在路徑邊界生效、不會動到相鄰目錄（靜態執行，不需要 LLM）
 
 　
 

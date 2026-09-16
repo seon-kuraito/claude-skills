@@ -58,15 +58,16 @@
 ### 設計取向
 
 - **沿用建立流程，但依 hook 特性調整**：
-  - 保留「訪談 → 草擬 → 審閱」流程、能力選用關卡（Capability Checkpoint）、references 漸進式揭露（Progressive Disclosure）、出身判定與授權產出，以及發佈工作流
+  - 保留「訪談 → 草擬 → 審閱」流程、references 漸進式揭露（Progressive Disclosure）、出身判定與授權產出，以及發佈工作流
   - 整體流程參照 [`ultra-skill-author`](../ultra-skill-author)，但因 hook 的觸發與執行行為更確定，需重新設計註冊、測試與審查方式
 - **不做 description tuning**：
   - hook 不靠描述被 agent 觸發，因此沒有觸發描述需要調整
   - 正確性改由 `references/registration.md` 定義，包含事件選擇、`matcher`／`if` 條件，以及腳本的輸入／輸出契約
-- **以確定性測試取代 eval**：
-  - skill 的測試重點是「執行 skill，評估 LLM 產出是否符合預期」
-  - hook 的測試重點則是「以 fixture 事件 JSON 作為輸入，驗證 exit code、stdout 與 side effect 是否符合預期」
-  - 因此不沿用 benchmark、eval-viewer 與盲測等綁定 LLM 產出評分的工具，改用 `references/testing.md` 與 `scripts/run-hook-test.sh`
+- **驗證只有確定性的部分**：
+  - skill 的驗證包含模型層，確認請求會路由到它，且模型讀取後的產出符合規格
+  - hook 由事件觸發，沒有路由決策可測，因此沒有模型層
+  - 每個 hook 需提供 `tests/`，測項依 hook 性質調整；作法見 `references/testing.md` 與 `scripts/run-hook-test.sh`
+  - 驗證契約沿用 [`ultra-skill-author`](../ultra-skill-author) 的 `references/verification.md`
 - **補上 hook 註冊流程**：
   - skill 放進目錄後即可被探索與載入
   - hook 必須登記在 `settings.json` 才會生效，因此發佈流程需增加「在 `settings.hooks.json` 宣告 → 套用到 `settings.json`」這一步

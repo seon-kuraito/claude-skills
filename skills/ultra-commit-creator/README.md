@@ -71,8 +71,8 @@
   - 只有在 scope 能幫助理解變更範圍時才使用，避免為了格式完整而硬加
 - **攔截常見不良 commit message**：
   - `wip`、`update X`、`fix stuff`、非英文訊息、多段 prose body、單一 commit 混入多件事等情況，都會被改寫或要求拆分
-- **收錄 evals 測試案例**：
-  - `evals/evals.json` 用來驗證觸發條件與輸出格式
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例；前者確認請求會路由到這個 skill，後者確認產出符合規格
 
 　
 

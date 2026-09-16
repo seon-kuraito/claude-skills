@@ -78,6 +78,9 @@
   - 寫入前只備份一次資料庫，所有資料列在同一個交易（Transaction）中寫回
 - **可被其他 skill 沿用**：
   - `ultra-project-migrator` 搬遷專案時，沿用同一份清單檔格式清除舊路徑的 VS Code 狀態，使用者只需關閉一次 VS Code
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例，行為案例確認流程只產出唯讀 plan，並將實際刪除交由使用者執行
+  - `tests/checks/lib-functions.sh` 驗證 `lib.sh` 的純函式：路徑正規化、專案 key 編碼、前綴比對不會誤傷相鄰目錄（靜態執行，不需要 LLM）
 
 　
 

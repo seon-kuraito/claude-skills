@@ -68,8 +68,8 @@
   - 好的 branch 名應讓後續 commit message 大致可預期，而不是只描述模糊方向
 - **攔截常見不良 branch 格式**：
   - `feature/`、`bug/`、`hotfix/`、人名前綴、camelCase、snake_case、非英文命名等情況，都會被改寫為一致格式
-- **收錄 evals 測試案例**：
-  - `evals/evals.json` 用來驗證觸發條件與輸出格式
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例；前者確認請求會路由到這個 skill，後者確認產出符合規格
 
 　
 

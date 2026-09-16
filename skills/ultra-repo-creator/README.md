@@ -98,8 +98,9 @@
   - 放一份完全空白的 `README.md` 與一份標準 `.gitignore`
   - `.gitignore` 視為基礎設定，在追蹤任何檔案前先放好（blank 與 meta-repo 內建；framework 通常自帶）
   - 既有檔案先留在工作區並維持 untracked，之後再依實際需求整理到後續 commit
-- **收錄 evals 測試案例**：
-  - `evals/evals.json` 用來驗證關鍵行為與安全前提
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例，用於確認觸發正確，且關鍵行為與安全前提符合規格
+  - `tests/checks/templates.py` 驗證要複製的模板都存在，且 meta-repo 模板的佔位符都有文件說明（靜態執行，不需要 LLM）
 
 　
 

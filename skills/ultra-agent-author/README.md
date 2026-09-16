@@ -66,8 +66,10 @@
 - **不把 agent 寫成想像出來的人設**：
   - 評估準則應寫成問題，並錨定在該領域既有、可查證的框架
   - 角色語氣可以幫助理解，但不能取代判斷標準、輸出格式與驗證方法
-- **驗證要看得出差異**：
-  - 驗證屬於能力選用項目（Capability Checkpoint），選擇開啟後沿用 skills 的 eval 套件執行
+- **驗證是固定流程**：
+  - 每次新增或修改皆納入驗證流程
+  - 結構層與腳本層不消耗模型 token；模型層的觸發與行為案例各用一個 sub-agent
+  - 驗證契約沿用 [`ultra-skill-author`](../ultra-skill-author) 的 `references/verification.md`
   - 思考型 agent 需能通過鑑別力測試、分歧測試與可行動測試；執行型則依任務性質補上 fixture、dry run 或輸出檢查
 - **管轄涵蓋所有自建 subagent**：
   - 全域 agent 一律建立於 `claude-agents` repo，再逐檔 symlink 進 `~/.claude/agents/`；純屬單一專案的 agent 則作為例外，直接放進該專案的版控
@@ -75,6 +77,9 @@
 - **權威定義集中於本 skill**：
   - 定位、分類與設計準則以 [`SKILL.md`](SKILL.md) 為唯一權威，`claude-agents` 的文件僅保留指標
   - 不預先規劃 agent 清單，等真實重複需求出現才建檔
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例；前者確認請求會路由到這個 skill，後者確認產出符合規格
+  - `tests/checks/body-template.py` 驗證 `agent-body.md.tmpl` 的佔位符與訪談文件同步（靜態執行，不需要 LLM）
 
 　
 

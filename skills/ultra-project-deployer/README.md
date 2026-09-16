@@ -70,8 +70,9 @@
 - **只負責部署設定，不改原始碼**：
   - 這個 skill 不會自動修改使用者的原始碼（例如：Vite 的 `base` 設定）
   - 若部署需要額外調整，會以提醒方式告知
-- **收錄 evals 測試案例**：
-  - `evals/evals.json` 用來驗證關鍵行為與安全前提
+- **收錄驗證案例**：
+  - `tests/model.json` 收錄觸發案例與行為案例，用於確認觸發正確，且關鍵行為與安全前提符合規格
+  - `tests/checks/workflow-templates.py` 驗證兩份 Pages workflow 模板的權限、併發設定與 action 版本（靜態執行，不需要 LLM）
 
 ### 預設與相依
 
