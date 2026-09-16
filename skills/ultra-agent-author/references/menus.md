@@ -72,13 +72,3 @@ options:
   · 「衍生」 — 「以既有 agent 或範本為基礎；先確認上游授權，copyleft 或來源不明者不能發佈。」
 ```
 
-## Capabilities
-
-```
-single-select · header: 「能力選用」
-question: 「要為這個 agent 開啟驗證嗎？」
-options:
-  · 「開啟驗證」 — 「思考型執行鑑別力／分歧／可行動測試，執行型執行客觀檢查；沿用 skills 的 eval 套件。」
-  · 「不開啟」 — 「不建立驗證，僅於審閱步驟做結構確認。」
-[Rule, not copy] validation pays off when the agent's judgment will feed real decisions or its output is mechanically checkable; for a trivial delegation shim, skip this checkpoint entirely rather than posing it as if validation were always warranted. Detail: `SKILL.md` Step 3.
-```
