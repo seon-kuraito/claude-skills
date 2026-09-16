@@ -46,6 +46,14 @@ Local steps — `git init`, commits, scaffolding — run freely; they're local a
 2. `git init`.
 3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore.txt` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via sk-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
 4. Existing work stays **untracked** until the push decision; don't bundle it into the initial commit unless the user explicitly asks.
+5. **Never overwrite a file that is already there.** When a `README.md` already exists, the initial commit still holds an empty one: stage an empty blob under that name and leave the file on disk as it is, so the user's content stays as an uncommitted change.
+
+   ```sh
+   empty=$(git hash-object -w --stdin </dev/null)
+   git update-index --add --cacheinfo 100644,$empty,README.md
+   ```
+
+   Tell the user that `git status` now shows `README.md` as modified, and that discarding that change — `git restore`, `git stash`, `git reset --hard`, or VS Code's Discard Changes — replaces their content with the empty file. An existing `.gitignore` goes into the initial commit as it is, in place of the bundled one.
 
 **Push decision (*Execution gate*)** — run the gate and act on the answer as [remote](references/remote.md) describes: push to the shown `<account>/<name>`, or stay local-only. Either way, continue to the *Hand-off*.
 
