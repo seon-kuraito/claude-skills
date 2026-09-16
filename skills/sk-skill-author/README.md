@@ -1,4 +1,4 @@
-# Ultra Skill Author
+# Skill Author
 
 建立、改寫、評估 Claude Code skill 的個人化流程。
 
@@ -50,7 +50,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-skill-author
+  scripts/link-skill.sh sk-skill-author
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -70,7 +70,7 @@
   - 案例的 prompt 維持中性，不在題目中提示測試重點
   - 觸發案例的期望可指向其他 skill，用於確認相近觸發條件的邊界
 - **統一個人 skill 命名**：
-  - 採用 `ultra-<single-token>-<verber>` 命名格式，讓個人 skill 共用一致語彙
+  - 採用 `sk-<single-token>-<verber>` 命名格式，讓個人 skill 共用一致語彙
   - 遇到不符合規範的既有 skill，會主動提醒並提出改名建議
 - **審閱階段聚焦於決策**：
   - 審閱時只呈現關鍵結構、取捨與待確認事項
@@ -91,7 +91,7 @@
   - 衍生 skill 需先釐清上游來源，再補上對應的 `LICENSE` 與 `NOTICE`
 - **內建發佈工作流**：
   - 在 `claude-skills` repo 中建立或調整 skill，並串起「檢查 git 狀態 → 開 branch → 建立／調整 → symlink（新建）→ 驗證 → commit」
-  - branch 與 commit 分別委派給 [`ultra-branch-creator`](../ultra-branch-creator) 與 [`ultra-commit-creator`](../ultra-commit-creator)
+  - branch 與 commit 分別委派給 [`sk-branch-creator`](../sk-branch-creator) 與 [`sk-commit-creator`](../sk-commit-creator)
   - commit 前會停下讓使用者確認；PR 不會自動建立
 - **統一文件與發佈規格**：
   - 每個 skill 都附一份固定格式的 `README.md`，規範見 [`references/readme-guide.md`](references/readme-guide.md)
@@ -121,5 +121,5 @@
   - 如需指向其他 skills repo，從該 repo 執行 `scripts/link-skill.sh` 重新連結即可
   - 解析結果不是 git repo 時（例如：以複製而非 symlink 安裝），會退回「只在本機建立、跳過 git 流程」
 - **委派的 skills**：
-  - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
+  - 開 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

@@ -1,4 +1,4 @@
-# Ultra Project Migrator
+# Project Migrator
 
 搬遷或改名本機專案資料夾，並同步更新 Claude Code 與 VS Code 以路徑保存的狀態。
 
@@ -34,7 +34,7 @@
 - **更新 Claude Code 的狀態**：
   - 工作階段資料夾（含子資料夾的工作階段與記憶卡）、`~/.claude.json` 的 `projects` 與 `githubRepoPaths`、`history.jsonl`，以及指向舊路徑的 `~/.claude` symlink
 - **清除舊路徑的 VS Code 狀態**：
-  - 已安裝 [`ultra-project-cleaner`](../ultra-project-cleaner) 時，在同一次終端機執行中一併清除
+  - 已安裝 [`sk-project-cleaner`](../sk-project-cleaner) 時，在同一次終端機執行中一併清除
 - **列出專案內寫死的舊路徑**：
   - 只列出位置，由使用者決定是否修改
 - **完整規格集中在 SKILL.md**：
@@ -53,7 +53,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-project-migrator
+  scripts/link-skill.sh sk-project-migrator
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -79,7 +79,7 @@
 - **寫入後逐項檢查**：
   - 驗證複本一致、沒有殘留的舊 `cwd`、工作階段除 `cwd` 外與備份相同，以及設定、歷史紀錄與 symlink 不含舊路徑
 - **VS Code 舊狀態由 cleaner 處理**：
-  - 舊路徑的 VS Code 狀態由 `ultra-project-cleaner` 處理，同一次終端機執行中完成，使用者只需關閉一次 VS Code
+  - 舊路徑的 VS Code 狀態由 `sk-project-cleaner` 處理，同一次終端機執行中完成，使用者只需關閉一次 VS Code
 - **收錄驗證案例**：
   - `tests/model.json` 收錄觸發案例與行為案例，行為案例確認流程只產出唯讀 plan，且舊資料夾保留到 finalize
   - `tests/checks/lib-functions.sh` 驗證 `lib.sh` 的純函式，包含欄位改寫只在路徑邊界生效、不會動到相鄰目錄（靜態執行，不需要 LLM）
@@ -98,4 +98,4 @@
   - 清單檔與備份預設存放在 `~/Backups/<時間>-project-migrator/`
   - 各位置皆可用環境變數覆寫，細節見 `scripts/lib.sh`
 - **相依的 skill**：
-  - 清除舊路徑的 VS Code 狀態需要安裝 [`ultra-project-cleaner`](../ultra-project-cleaner)，未安裝時略過並提醒
+  - 清除舊路徑的 VS Code 狀態需要安裝 [`sk-project-cleaner`](../sk-project-cleaner)，未安裝時略過並提醒

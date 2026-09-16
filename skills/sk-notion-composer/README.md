@@ -1,4 +1,4 @@
-# Ultra Notion Composer
+# Notion Composer
 
 將筆記整理成符合固定 house style 的 Notion 頁面，統一屬性、頁面結構、全形標點與詞彙表。
 
@@ -48,7 +48,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-notion-composer
+  scripts/link-skill.sh sk-notion-composer
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入

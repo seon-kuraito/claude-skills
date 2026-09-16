@@ -1,4 +1,4 @@
-# Ultra Repo Creator
+# Repo Creator
 
 從零建立 repo 時，先選一種模板（blank／framework／meta-repo），最後再確認要不要推上遠端。
 
@@ -51,7 +51,7 @@
   - 若目標 repo 已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
   - 三種模板建好後都會詢問是否進入初始化階段
-  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給 [`ultra-project-initializer`](../ultra-project-initializer) 處理
+  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給 [`sk-project-initializer`](../sk-project-initializer) 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -68,7 +68,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-repo-creator
+  scripts/link-skill.sh sk-repo-creator
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -89,7 +89,7 @@
   - 本地完成後，三種模板都進入 push 確認與初始化交接流程；meta-repo 的 push 確認涵蓋所有成員，初始化只交接 meta repo
 - **只負責 repo 建立與編排**：
   - 本 skill 只處理 repo 建立與遠端綁定
-  - branch 保護交由 [`ultra-project-initializer`](../ultra-project-initializer) 在「初始化專案」階段選配
+  - branch 保護交由 [`sk-project-initializer`](../sk-project-initializer) 在「初始化專案」階段選配
 - **遠端操作前先確認**：
   - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
   - 確認時顯示完整的 `<account>/<name>`，選項包含直接 push、改選帳號、暫不綁遠端
@@ -123,5 +123,5 @@
   - 家族自己的目錄可對應到名稱不同的 Organization；該 Organization 需先手動建立，push 前再詢問名稱
   - 指令一律寫成 `gh repo create <account>/<name>`
 - **接續的初始化 skill**：
-  - 三種模板建好後都可接續交給「初始化專案」skill（例如：[`ultra-project-initializer`](../ultra-project-initializer)）
+  - 三種模板建好後都可接續交給「初始化專案」skill（例如：[`sk-project-initializer`](../sk-project-initializer)）
   - 該 skill 尚未建立或不存在時，確認後略過即可

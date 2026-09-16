@@ -1,4 +1,4 @@
-# Ultra Hook Author
+# Hook Author
 
 根據 Anthropic 官方 [Hooks Guide](https://code.claude.com/docs/en/hooks-guide) 與 [Hooks Reference](https://code.claude.com/docs/en/hooks)，整理出一套 hook 版的建立與審閱流程。
 
@@ -47,7 +47,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-hook-author
+  scripts/link-skill.sh sk-hook-author
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -59,7 +59,7 @@
 
 - **沿用建立流程，但依 hook 特性調整**：
   - 保留「訪談 → 草擬 → 審閱」流程、references 漸進式揭露（Progressive Disclosure）、出身判定與授權產出，以及發佈工作流
-  - 整體流程參照 [`ultra-skill-author`](../ultra-skill-author)，但因 hook 的觸發與執行行為更確定，需重新設計註冊、測試與審查方式
+  - 整體流程參照 [`sk-skill-author`](../sk-skill-author)，但因 hook 的觸發與執行行為更確定，需重新設計註冊、測試與審查方式
 - **不做 description tuning**：
   - hook 不靠描述被 agent 觸發，因此沒有觸發描述需要調整
   - 正確性改由 `references/registration.md` 定義，包含事件選擇、`matcher`／`if` 條件，以及腳本的輸入／輸出契約
@@ -67,7 +67,7 @@
   - skill 的驗證包含模型層，確認請求會路由到它，且模型讀取後的產出符合規格
   - hook 由事件觸發，沒有路由決策可測，因此沒有模型層
   - 每個 hook 需提供 `tests/`，測項依 hook 性質調整；作法見 `references/testing.md` 與 `scripts/run-hook-test.sh`
-  - 驗證契約沿用 [`ultra-skill-author`](../ultra-skill-author) 的 `references/verification.md`
+  - 驗證契約沿用 [`sk-skill-author`](../sk-skill-author) 的 `references/verification.md`
 - **補上 hook 註冊流程**：
   - skill 放進目錄後即可被探索與載入
   - hook 必須登記在 `settings.json` 才會生效，因此發佈流程需增加「在 `settings.hooks.json` 宣告 → 套用到 `settings.json`」這一步
@@ -84,7 +84,7 @@
 
 　
 
-> 附註：本 skill 為原創，內容全部重新撰寫；不沿用 `ultra-skill-author` 那批源自 `skill-creator` 的 Apache 程式碼，因此出身保持原創、授權為 MIT。
+> 附註：本 skill 為原創，內容全部重新撰寫；不沿用 `sk-skill-author` 那批源自 `skill-creator` 的 Apache 程式碼，因此出身保持原創、授權為 MIT。
 
 　
 
@@ -96,5 +96,5 @@
   - 如需指向其他 hooks repo，將它放在 skills repo 的同層即可
   - 解析結果不是 git repo 時（例如：以複製而非 symlink 安裝），會退回「只在本機建立、跳過 git 流程」
 - **委派的 skills**：
-  - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
+  - 開 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

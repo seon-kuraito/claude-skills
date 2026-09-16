@@ -1,4 +1,4 @@
-# Ultra Commit Creator
+# Commit Creator
 
 使用 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 格式撰寫 git commit 訊息，並將 description 收斂為單句、祈使語氣的英文。
 
@@ -47,7 +47,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-commit-creator
+  scripts/link-skill.sh sk-commit-creator
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -57,9 +57,9 @@
 
 ### 設計取向
 
-- **與 [`ultra-branch-creator`](../ultra-branch-creator) 共用同一套 type 語彙**：
-  - type 採用 Conventional Commits 的 11 種分類，並與 `ultra-branch-creator` 保持一致
-  - `ultra-commit-creator` 是 type 定義的維護來源，branch 命名只引用這套語彙，不重複定義
+- **與 [`sk-branch-creator`](../sk-branch-creator) 共用同一套 type 語彙**：
+  - type 採用 Conventional Commits 的 11 種分類，並與 `sk-branch-creator` 保持一致
+  - `sk-commit-creator` 是 type 定義的維護來源，branch 命名只引用這套語彙，不重複定義
 - **description 採單句祈使句**：
   - description 使用小寫開頭的祈使句，不加句尾句點，並盡量控制在 50 字以內
   - 如果一句話無法清楚描述變更，通常代表這個 commit 過於複雜，應該重新拆分
@@ -81,4 +81,4 @@
 - **語言慣例**：
   - description 與 body 一律以英文撰寫（可以根據需求調整）
 - **委派的 skill**：
-  - branch 命名交給 [`ultra-branch-creator`](../ultra-branch-creator)；沒有該 skill 時，branch 改依 `<type>/<kebab-description>` 慣例自行命名即可
+  - branch 命名交給 [`sk-branch-creator`](../sk-branch-creator)；沒有該 skill 時，branch 改依 `<type>/<kebab-description>` 慣例自行命名即可

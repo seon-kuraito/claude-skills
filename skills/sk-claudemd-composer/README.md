@@ -1,4 +1,4 @@
-# Ultra CLAUDE.md Composer
+# CLAUDE.md Composer
 
 將 CLAUDE.md 的寫作原則整理成可執行的建立、審閱與精修流程，協助專案保留真正能讓 agent 上手的脈絡。
 
@@ -49,7 +49,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-claudemd-composer
+  scripts/link-skill.sh sk-claudemd-composer
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入

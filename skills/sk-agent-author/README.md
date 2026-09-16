@@ -1,4 +1,4 @@
-# Ultra Agent Author
+# Agent Author
 
 用於建立、改寫與評估 Claude Code subagent 定義的個人化流程。
 
@@ -47,7 +47,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-agent-author
+  scripts/link-skill.sh sk-agent-author
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -59,7 +59,7 @@
 
 - **沿用建立流程，但依 subagent 特性調整**：
   - 保留「訪談 → 草擬 → 審閱」這條主線，以及命名、授權、README 與發佈工作流
-  - 整體流程參照 [`ultra-skill-author`](../ultra-skill-author)，但 subagent 會在獨立 context window 裡執行，因此需要重新處理觸發描述、工具白名單、model 選擇與驗證方式
+  - 整體流程參照 [`sk-skill-author`](../sk-skill-author)，但 subagent 會在獨立 context window 裡執行，因此需要重新處理觸發描述、工具白名單、model 選擇與驗證方式
 - **先區分思考型與執行型**：
   - 思考型（evaluator）主要追求獨立判斷，應偏向唯讀工具、明確評估準則與對抗性任務
   - 執行型（worker）主要追求 context 經濟與並行，重點是把可寫、可跑、可整理的工作留在主對話之外
@@ -69,7 +69,7 @@
 - **驗證是固定流程**：
   - 每次新增或修改皆納入驗證流程
   - 結構層與腳本層不消耗模型 token；模型層的觸發與行為案例各用一個 sub-agent
-  - 驗證契約沿用 [`ultra-skill-author`](../ultra-skill-author) 的 `references/verification.md`
+  - 驗證契約沿用 [`sk-skill-author`](../sk-skill-author) 的 `references/verification.md`
   - 思考型 agent 需能通過鑑別力測試、分歧測試與可行動測試；執行型則依任務性質補上 fixture、dry run 或輸出檢查
 - **管轄涵蓋所有自建 subagent**：
   - 全域 agent 一律建立於 `claude-agents` repo，再逐檔 symlink 進 `~/.claude/agents/`；純屬單一專案的 agent 則作為例外，直接放進該專案的版控
@@ -88,7 +88,7 @@
 - **家族路徑**：
   - agent 定義存放於 `claude-agents` repo，位置從本 skill 的 symlink 反推：以 `realpath` 解析安裝路徑，往上兩層取得 `claude-skills`，其同層即為 `claude-agents`
   - 不以工作目錄（Working Directory）為準，工作階段從哪個目錄啟動都不影響
-  - 發佈流程沿用 [`ultra-skill-author`](../ultra-skill-author) 的規範，目標 repo 則改為 `claude-agents`
+  - 發佈流程沿用 [`sk-skill-author`](../sk-skill-author) 的規範，目標 repo 則改為 `claude-agents`
 - **委派的 skills**：
-  - 開 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
+  - 開 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

@@ -1,4 +1,4 @@
-# Ultra PR Creator
+# PR Creator
 
 根據目前 branch 相對於 base branch 的 commits 與 diff，建立 GitHub PR（Pull Request），並撰寫 PR 標題與固定三段式 body。
 
@@ -47,7 +47,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-pr-creator
+  scripts/link-skill.sh sk-pr-creator
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -66,7 +66,7 @@
   - section 之間使用全形空格（U+3000）保留間距，讓內容在 GitHub 上更容易掃讀
 - **PR title 直接沿用 branch 名稱**：
   - 不另外替 PR title 造句，直接逐字使用目前 branch 名稱
-  - branch 命名品質由 [`ultra-branch-creator`](../ultra-branch-creator) 負責把關，PR creator 不重複改寫
+  - branch 命名品質由 [`sk-branch-creator`](../sk-branch-creator) 負責把關，PR creator 不重複改寫
 - **根據 branch 變更整理 body**：
   - 依據目前 branch 相對於 base branch 的 `git log` 與 `git diff` 整理內容
   - Summary 以 commit 為單位展開，每個 commit 至少對應一個項列點
@@ -112,5 +112,5 @@
   - gate 顯示 body 路徑時包成 `vscode://file/<絕對路徑>` 可點連結，預設在 VS Code 開啟
   - 換其他編輯器時改用對應 scheme（例如：`cursor://file/...`）
 - **委派的 skill**：
-  - 標題 branch 用 [`ultra-branch-creator`](../ultra-branch-creator)、發 commit 用 [`ultra-commit-creator`](../ultra-commit-creator)
+  - 標題 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

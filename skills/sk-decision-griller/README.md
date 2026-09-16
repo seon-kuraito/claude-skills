@@ -1,4 +1,4 @@
-# Ultra Decision Griller
+# Decision Griller
 
 逐一追問計畫或設計中的關鍵決策，沿決策樹一次走一個分支，直到雙方達成共識。
 
@@ -47,7 +47,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-decision-griller
+  scripts/link-skill.sh sk-decision-griller
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入

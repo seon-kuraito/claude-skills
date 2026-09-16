@@ -1,4 +1,4 @@
-# Ultra React Publisher
+# React Publisher
 
 一鍵從零建立並部署一個 React 專案，從 scaffold、初始化到部署到 GitHub Pages 都全程自動完成，過程不發問，也不停在授權提示。
 
@@ -52,10 +52,10 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-react-publisher
+  scripts/link-skill.sh sk-react-publisher
   ```
 
-  - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索為 `/ultra-react-publisher`（`disable-model-invocation`，只由使用者手動觸發）
+  - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索為 `/sk-react-publisher`（`disable-model-invocation`，只由使用者手動觸發）
   - 不覆寫同名的實體目錄，避免影響直接安裝在 `~/.claude/skills/` 的第三方 skill
 
 　
@@ -88,12 +88,12 @@
   - 自動把 `vite.config.ts` 的 `base` 設為 `/<專案名>/`，讓 GitHub Pages 子路徑下的資源能正確載入
   - 最後反覆檢查 live URL，直到回傳 HTTP 200，並以 `code .` 開啟 VS Code
 - **相依的 skill（required）**：
-  - [`ultra-repo-creator`](../ultra-repo-creator)
-  - [`ultra-project-initializer`](../ultra-project-initializer)
-  - [`ultra-project-deployer`](../ultra-project-deployer)
-  - [`ultra-branch-creator`](../ultra-branch-creator)
-  - [`ultra-commit-creator`](../ultra-commit-creator)
-  - [`ultra-pr-creator`](../ultra-pr-creator)
+  - [`sk-repo-creator`](../sk-repo-creator)
+  - [`sk-project-initializer`](../sk-project-initializer)
+  - [`sk-project-deployer`](../sk-project-deployer)
+  - [`sk-branch-creator`](../sk-branch-creator)
+  - [`sk-commit-creator`](../sk-commit-creator)
+  - [`sk-pr-creator`](../sk-pr-creator)
 - **執行環境**：
   - 需在 bypass-permissions 工作階段執行，啟動指令為 `claude --dangerously-skip-permissions`
   - 停用 `AskUserQuestion` 只會擋掉 skill 的提問，harness 對 `gh`／`git`／`npm` 的授權提示仍要靠 bypass 模式才會靜默

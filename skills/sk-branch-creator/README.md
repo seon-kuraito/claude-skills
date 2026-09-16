@@ -1,4 +1,4 @@
-# Ultra Branch Creator
+# Branch Creator
 
 使用 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 的語彙替 git branch 命名，讓 branch 和 commit 使用同一套命名語言。
 
@@ -47,7 +47,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-branch-creator
+  scripts/link-skill.sh sk-branch-creator
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -57,8 +57,8 @@
 
 ### 設計取向
 
-- **沿用 [`ultra-commit-creator`](../ultra-commit-creator) 的 type 定義**：
-  - branch type 與 Conventional Commits 完全一致，定義來源交給 `ultra-commit-creator` 維護
+- **沿用 [`sk-commit-creator`](../sk-commit-creator) 的 type 定義**：
+  - branch type 與 Conventional Commits 完全一致，定義來源交給 `sk-commit-creator` 維護
   - branch 與 commit 因此共用同一套語彙，避免出現 `feature/` 搭配 `feat:` 這類不一致格式
 - **scope 前置，讓相關 branch 自然群聚**：
   - `feat(00-blank): ...` 對應的 branch 寫成 `feat/00-blank-...`
@@ -78,4 +78,4 @@
 - **語言慣例**：
   - 一律英文、kebab-case（git／web 慣例）
 - **委派的 skill**：
-  - type 詞彙的完整定義交給 [`ultra-commit-creator`](../ultra-commit-creator)；沒有該 skill 時，改參照 Conventional Commits 規格即可
+  - type 詞彙的完整定義交給 [`sk-commit-creator`](../sk-commit-creator)；沒有該 skill 時，改參照 Conventional Commits 規格即可

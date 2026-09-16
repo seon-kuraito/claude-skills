@@ -1,4 +1,4 @@
-# Ultra Project Deployer
+# Project Deployer
 
 協助把專案部署到託管平台。目前支援 GitHub Pages，包含一般靜態網站與 Vite SPA；Vercel、Cloudflare 等平台仍在規劃中。
 
@@ -29,7 +29,7 @@
 - **使用 GitHub Actions 部署 GitHub Pages**：
   - 依官方建議建立 workflow，支援「靜態網站」與「Vite SPA」兩種 build 類型
 - **作為可隨時插入的部署階段**：
-  - 對應 [`ultra-project-initializer`](../ultra-project-initializer) 之後的部署流程，但不限定只能在初始化後使用
+  - 對應 [`sk-project-initializer`](../sk-project-initializer) 之後的部署流程，但不限定只能在初始化後使用
   - 只要專案需要部署，隨時都可以執行
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
@@ -45,7 +45,7 @@
 
   ```sh
   cd claude-skills
-  scripts/link-skill.sh ultra-project-deployer
+  scripts/link-skill.sh sk-project-deployer
   ```
 
   - 把 skill 連結進 `~/.claude/skills/`，讓 Claude Code 探索並載入
@@ -64,9 +64,9 @@
   - workflow 會改成由選定分支觸發；若選的是尚未存在的自訂分支，則從 `main` 建立並推上遠端
   - 非 `main` 分支會自動加入 `github-pages` environment 的部署分支白名單，避免被「只允許預設分支」的規則擋下
   - 只在分支不存在時補建，不設定保護，也不處理合併流程（分支管理不在這個 skill 的範圍內）
-  - 可以根據 [`ultra-project-initializer`](../ultra-project-initializer) 初始化建立的分支作為部署來源
+  - 可以根據 [`sk-project-initializer`](../sk-project-initializer) 初始化建立的分支作為部署來源
 - **完成後提醒開 PR**：
-  - workflow commit 完成後，會詢問是否要開 PR（交給 [`ultra-pr-creator`](../ultra-pr-creator) 處理）
+  - workflow commit 完成後，會詢問是否要開 PR（交給 [`sk-pr-creator`](../sk-pr-creator) 處理）
 - **只負責部署設定，不改原始碼**：
   - 這個 skill 不會自動修改使用者的原始碼（例如：Vite 的 `base` 設定）
   - 若部署需要額外調整，會以提醒方式告知
@@ -82,5 +82,5 @@
   - 模板放在 `assets/`，並依官方範本維護
   - 完整流程與版本請見 [`references/github-pages.md`](references/github-pages.md)
 - **委派的 skills**：
-  - 後續整理委派給 [`ultra-branch-creator`](../ultra-branch-creator)／[`ultra-commit-creator`](../ultra-commit-creator)／[`ultra-pr-creator`](../ultra-pr-creator)
+  - 後續整理委派給 [`sk-branch-creator`](../sk-branch-creator)／[`sk-commit-creator`](../sk-commit-creator)／[`sk-pr-creator`](../sk-pr-creator)
   - 若無這些 skill，替換為其他 branch／commit／PR 慣例即可
