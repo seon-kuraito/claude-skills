@@ -11,7 +11,7 @@ Each build type maps to a bundled template:
 | build type | template | structure | upload | `cancel-in-progress` | source |
 | --- | --- | --- | --- | --- | --- |
 | Static (no build) | `../assets/pages-static.yml.tmpl` | single job | `path: '.'` (narrow to a subfolder if the site lives in one) | `false` | [GitHub starter](https://github.com/actions/starter-workflows/blob/main/pages/static.yml) |
-| Vite SPA | `../assets/pages-vite.yml.tmpl` | single job (`npm ci` + `npm run build`) | `./dist` | `true` | [Vite official guide](https://vite.dev/guide/static-deploy#github-pages) |
+| Vite SPA | `../assets/pages-vite.yml.tmpl` | single job (`npm ci` + `npm run build`) | `./dist` | `false` | [Vite official guide](https://vite.dev/guide/static-deploy#github-pages) |
 
 Shared action versions (version tags, not SHA pins): `actions/checkout@v6`, `actions/setup-node@v6`, `actions/configure-pages@v6`, `actions/upload-pages-artifact@v5`, `actions/deploy-pages@v5`. The Vite template runs Node `lts/*`.
 
@@ -42,4 +42,4 @@ Surface this and let the user set `base` — do not silently edit their `vite.co
 
 - **Normalized to the newest set.** The GitHub starter and the Vite guide pin different majors; both templates use the newest versions for consistency — so the static template is not verbatim the starter's pins.
 - **Version tags, not SHA pins.** The Vite guide SHA-pins (with `# v6` comments); these templates use the matching version tags for readability. Switch to SHA pins for stricter supply-chain hardening.
-- **`cancel-in-progress` per source.** Static keeps the starter's `false` (let a production deploy finish); Vite keeps the guide's `true`.
+- **`cancel-in-progress: false` in both.** A production deploy always finishes: the static starter already uses `false`, and the Vite template overrides the guide's `true`.
