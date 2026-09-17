@@ -62,9 +62,9 @@ For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigg
 Runs on a new skill and on every later change. Never a menu, never a question — follow `references/verification.md`:
 
 1. **structure and script tiers** — run `scripts/run-checks.sh <skill-name>` in the repo. Both are deterministic and cost no tokens. Fix what it reports, then run it again.
-2. **model tier** — run the `default: true` cases in the skill's `tests/model.json`. One case is one subagent; state the count before running, and judge the assertions yourself from the subagent's report.
+2. **model tier** — run the `default: true` cases in the skill's `tests/model.json`. One case is one general-purpose subagent with `model: opus`; state the count before running, and judge the assertions yourself from the subagent's report.
 
-The model tier needs the skill linked into `~/.claude/skills/`, because a subagent can only pick an installed skill. For a repo skill this pass therefore happens as step 6 of `references/publishing.md` — after the link, before the commit gate. A finding sends you back to fix the skill and re-run; only an all-clear moves the work on.
+The model tier needs the skill linked into `~/.claude/skills/`, because a subagent can only pick an installed skill. For a repo skill this pass therefore happens as step 6 of `references/publishing.md` — after the link, before the commit gate. Run every case before fixing anything, then fix every finding together and re-run; only an all-clear moves the work on.
 
 ## Publishing & licensing
 
