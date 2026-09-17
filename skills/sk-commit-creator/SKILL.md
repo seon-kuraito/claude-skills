@@ -19,6 +19,12 @@ The output format is always:
 
 A correct example: `feat(00-blank): add intro fade-in animation`
 
+## Branch check
+
+Before committing, check which branch the commit lands on. When it would land on a long-lived branch such as `main` or `develop`, or on a detached HEAD, open a branch first: load [sk-branch-creator](../sk-branch-creator/SKILL.md) to name it, then commit there. Without that skill, name the branch `<type>/<kebab-description>` yourself.
+
+Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly — for example, a repo that folds every edit into its only commit with `git commit --amend`.
+
 ## Format
 
 - `<type>` — required, lowercase, exactly one of the 11 types below.
@@ -106,4 +112,4 @@ chore: bump remotion to 4.0.500
 
 ## Related
 
-For matching branch names that use the same type vocabulary, see [sk-branch-creator](../sk-branch-creator/SKILL.md).
+For matching branch names that use the same type vocabulary, see [sk-branch-creator](../sk-branch-creator/SKILL.md). This skill hands branch creation to it when a commit would land on a long-lived branch (see *Branch check*).
