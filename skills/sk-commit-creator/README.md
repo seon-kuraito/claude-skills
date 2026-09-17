@@ -69,6 +69,9 @@
 - **依序判定 scope**：
   - scope 依固定順序判定：專案 `CLAUDE.md` 定義的 scope 詞彙 → 變更檔案路徑 → 邏輯模組 → 省略
   - 只有在 scope 能幫助理解變更範圍時才使用，避免為了格式完整而硬加
+- **未推送 branch 的修正方式**：
+  - 若變更僅用於修正目前 branch 中自己建立的 commit，且該 branch 尚未推送，應將變更併入原 commit。最後一個 commit 使用 `git commit --amend`；較早的 commit 使用 `--fixup` 搭配 autosquash
+  - branch 推送後，修正內容一律以新的 commit 提交
 - **攔截常見不良 commit message**：
   - `wip`、`update X`、`fix stuff`、非英文訊息、多段 prose body、單一 commit 混入多件事等情況，都會被改寫或要求拆分
 - **收錄驗證案例**：
@@ -81,4 +84,5 @@
 - **語言慣例**：
   - description 與 body 一律以英文撰寫（可以根據需求調整）
 - **委派的 skill**：
-  - branch 命名交給 [`sk-branch-creator`](../sk-branch-creator)；沒有該 skill 時，branch 改依 `<type>/<kebab-description>` 慣例自行命名即可
+  - 若提交目標為 `main`、`develop` 等長期 branch，或目前處於 detached HEAD，應先交由 [`sk-branch-creator`](../sk-branch-creator) 建立 branch；若無法使用該 skill，則依 `<type>/<kebab-description>` 慣例命名
+  - 若 repo 的 CLAUDE.md 或使用者已明確允許直接提交至目前的 branch，則無須另建 branch
