@@ -24,7 +24,7 @@ Rules:
 
 - Always prefix with `sk-`
 - Single-token domain — collapse multi-word concepts into one token (`claudemd`, not `claude-md`)
-- Verb-er suffix matching the skill's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `sk-skill-author` and `sk-hook-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
+- Verb-er suffix matching the skill's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `sk-skill-author`, `sk-hook-author`, and `sk-agent-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
 
 When **creating a new skill**: propose a name in this format during Step 1 and confirm with the user before drafting.
 

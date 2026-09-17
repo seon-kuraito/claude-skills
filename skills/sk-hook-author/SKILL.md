@@ -28,7 +28,7 @@ Rules:
 
 - Always prefix with `sk-`
 - Single-token domain — collapse multi-word concepts into one token (`claudemd`, not `claude-md`)
-- Verb-er suffix matching the hook's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `sk-skill-author` and `sk-hook-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
+- Verb-er suffix matching the hook's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `sk-skill-author`, `sk-hook-author`, and `sk-agent-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
 
 In the `claude-hooks` repo, each hook lives one directory per hook under `hooks/<name>/`, holding a `hook.sh` entry point plus its own `README.md` and license files.
 
