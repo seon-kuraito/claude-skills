@@ -5,6 +5,12 @@
       "default": true,
       "prompt": "這個專案幫我寫一份 CLAUDE.md，讓之後的 session 一進來就知道規矩",
       "expect": "sk-claudemd-composer"
+    },
+    {
+      "id": "not-memory",
+      "default": true,
+      "prompt": "我想把「部署前一定要先跑 build」這條規則加到全域 CLAUDE.md，之後每個專案都要遵守",
+      "expect": "sk-memory-composer"
     }
   ],
   "behavior": [
