@@ -88,6 +88,8 @@ Such an item ships `tests/sandbox.sh`: it builds a throwaway copy of the state t
 
 A read-only flow can need the sandbox too. An audit reads the user's real state and reports what it finds there, so the case's result moves whenever that state moves, and the report fills with findings about the user rather than about the item. Give such a case a fixture with planted problems, and assert that the flow finds them.
 
+**Judge a real run from the disk, not from the report.** The run leaves its result in the sandbox — the commits, the files, the names — so read those asserts there. An item whose result has many parts ships `tests/verify.sh` beside the sandbox: it reads only, and prints one PASS or FAIL line per rule, so two rounds are judged the same way. Test the script once on a correct result and on a result broken on purpose; a verifier that never fails proves nothing.
+
 Three rules for the sandbox itself:
 
 - **Build the fixture from the real shape, never from a document.** A fixture of `githubRepoPaths` that mapped a repo name to a path *string* passed straight through both scripts and tested nothing; the real file maps a repo name to an *array* of paths. Read one real record before writing the fixture.
