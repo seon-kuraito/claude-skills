@@ -61,7 +61,7 @@ Apply the writing rules in `references/writing-guide.md` — SKILL.md structure,
 
 ## Step 3: Review with user
 
-Present key decisions in bullet form — frontmatter `name` / `description`, body section structure, scope guards, non-obvious choices. Do NOT paste full SKILL.md / reference content unless the user explicitly asks; full-content paste floods the terminal and obscures the structural decisions worth confirming. After structural OK via bullets, write files; the user can read full content in their editor and request edits there. Iterate on feedback.
+Present key decisions in bullet form — frontmatter `name` / `description`, body section structure, scope guards, non-obvious choices. Show the drafted `description` word for word: it is the trigger, and the one line the user has to be able to judge before any file exists. Do NOT paste full SKILL.md / reference content unless the user explicitly asks; full-content paste floods the terminal and obscures the structural decisions worth confirming. After structural OK via bullets, write files; the user can read full content in their editor and request edits there. Iterate on feedback.
 
 For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigger correctness, structural discipline, and companion-file compliance.
 
