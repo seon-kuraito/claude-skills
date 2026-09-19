@@ -76,7 +76,7 @@ Placeholders (same set across templates):
 - `{{OWNER}}` — the owner directory name resolved in the interview: a local folder under `~/Developer`, not a GitHub account. The templates never state which account the members push to; each member's own `origin` records that.
 - `{{MEMBER_PREFIX}}` — the derived naming switch: **empty** when `{{OWNER}}` equals `{{FAMILY}}`, otherwise `{{FAMILY}}-`. Every member name in the templates is written `{{MEMBER_PREFIX}}<token>`, so one substitution covers both cases.
 - `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member in the member list's order (path `../{{MEMBER_PREFIX}}<token>`), then a final self-row for the layer with path `.`. English in `CLAUDE.md`, Traditional Chinese in `README.md`.
-- `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" },` line per member, in the same order as `{{MEMBER_TABLE}}` (workspace).
+- `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" }` line per member, in the same order as `{{MEMBER_TABLE}}`, joined with `,` — the last line carries no comma, so the workspace stays strict JSON.
 
 The commit holds the three files at once, message `chore: scaffold {{FAMILY}} coordination layer`. The workspace is not in it — it lives outside the repo.
 
