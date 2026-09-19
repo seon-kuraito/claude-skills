@@ -71,6 +71,7 @@ Two case types, both driven by the single most representative task:
 Rules that keep the cost countable:
 
 - One case is one general-purpose subagent with `model: opus`. Never a `claude -p` probe loop, and never an Explore or Plan subagent: both skip CLAUDE.md, so a case that depends on the user's CLAUDE.md fails for a reason unrelated to the item.
+- Dispatch every case the same way, every round: in the background, one at a time, the next one only after the last has ended. A round that mixes dispatch modes, or runs cases side by side, cannot be compared with the round before it.
 - Run the cases from the session the family's work starts in: where the family has a `*-meta` coordination repo, a session rooted there; with one repo alone, its root. A case then loads the CLAUDE.md layers a real request loads.
 - A subagent does load the installed skills and triggers on its own — verified 2026-09-16, one probe, 40,550 tokens.
 - Judge the assertions yourself from the subagent's report. Never spawn a grader.
