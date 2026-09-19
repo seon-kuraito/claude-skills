@@ -60,7 +60,7 @@ Read everything else from the pasted list:
 
 ## 2 · Layer
 
-`git init` the layer, generate these files into it from `assets/meta-repo/`, substituting the interview answers (placeholder legend below the table), and make it **one commit** — no setup branch, no merge.
+`git init -b main` the layer, generate these files into it from `assets/meta-repo/`, substituting the interview answers (placeholder legend below the table), and make it **one commit** — no setup branch, no merge.
 
 | File | Template | Filled with |
 |---|---|---|
@@ -84,7 +84,7 @@ The commit holds the three files at once, message `chore: scaffold {{FAMILY}} co
 
 Create each member from the list, in list order, the way *blank* in `SKILL.md` builds a repo:
 
-1. Create `~/Developer/{{OWNER}}/<name>` and `git init` it.
+1. Create `~/Developer/{{OWNER}}/<name>` and `git init -b main` it.
 2. Add an empty `README.md` and a `.gitignore` copied verbatim from `assets/blank/gitignore.txt` — the blank template's file, not the layer's.
 3. Commit both as one commit, fixed message `chore: initialize <name> repository` with the member's repo name for `<name>` (verbatim — not via sk-commit-creator).
 

@@ -39,6 +39,7 @@ one_commit() {
   rule "$label — tracks exactly: $tracked" "[ \"\$(git -C '$d' ls-tree -r --name-only HEAD | sort | tr '\n' ' ' | sed 's/ \$//')\" = '$tracked' ]"
   rule "$label — committed .gitignore equals $(basename "$(dirname "$ignore")")/gitignore.txt" "git -C '$d' show HEAD:.gitignore | cmp -s - '$ignore'"
   rule "$label — has no remote" "[ -z \"\$(git -C '$d' remote)\" ]"
+  rule "$label — the branch is main" "[ \"\$(git -C '$d' symbolic-ref --short HEAD)\" = main ]"
 }
 
 mode="${1:-}"
