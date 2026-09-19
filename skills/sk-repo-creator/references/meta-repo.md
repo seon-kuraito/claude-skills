@@ -60,7 +60,7 @@ Read everything else from the pasted list:
 
 ## 2 · Layer
 
-`git init` the layer, generate these files into it from `assets/meta-repo/`, substituting the interview answers (placeholder legend below the table), and make it **one commit** — no setup branch, no merge.
+`git init -b main` the layer, generate these files into it from `assets/meta-repo/`, substituting the interview answers (placeholder legend below the table), and make it **one commit** — no setup branch, no merge.
 
 | File | Template | Filled with |
 |---|---|---|
@@ -76,7 +76,7 @@ Placeholders (same set across templates):
 - `{{OWNER}}` — the owner directory name resolved in the interview: a local folder under `~/Developer`, not a GitHub account. The templates never state which account the members push to; each member's own `origin` records that.
 - `{{MEMBER_PREFIX}}` — the derived naming switch: **empty** when `{{OWNER}}` equals `{{FAMILY}}`, otherwise `{{FAMILY}}-`. Every member name in the templates is written `{{MEMBER_PREFIX}}<token>`, so one substitution covers both cases.
 - `{{MEMBER_TABLE}}` — a `| repo | what it is | path |` markdown table, one row per member in the member list's order (path `../{{MEMBER_PREFIX}}<token>`), then a final self-row for the layer with path `.`. English in `CLAUDE.md`, Traditional Chinese in `README.md`.
-- `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" },` line per member, in the same order as `{{MEMBER_TABLE}}` (workspace).
+- `{{MEMBER_WORKSPACE_FOLDERS}}` — one `{ "name": "{{MEMBER_PREFIX}}<token>", "path": "./{{MEMBER_PREFIX}}<token>" }` line per member, in the same order as `{{MEMBER_TABLE}}`, joined with `,` — the last line carries no comma, so the workspace stays strict JSON.
 
 The commit holds the three files at once, message `chore: scaffold {{FAMILY}} coordination layer`. The workspace is not in it — it lives outside the repo.
 
@@ -84,7 +84,7 @@ The commit holds the three files at once, message `chore: scaffold {{FAMILY}} co
 
 Create each member from the list, in list order, the way *blank* in `SKILL.md` builds a repo:
 
-1. Create `~/Developer/{{OWNER}}/<name>` and `git init` it.
+1. Create `~/Developer/{{OWNER}}/<name>` and `git init -b main` it.
 2. Add an empty `README.md` and a `.gitignore` copied verbatim from `assets/blank/gitignore.txt` — the blank template's file, not the layer's.
 3. Commit both as one commit, fixed message `chore: initialize <name> repository` with the member's repo name for `<name>` (verbatim — not via sk-commit-creator).
 

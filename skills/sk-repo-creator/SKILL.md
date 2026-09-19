@@ -43,7 +43,7 @@ Local steps — `git init`, commits, scaffolding — run freely; they're local a
 **Local (no confirmation):**
 
 1. **Guard first.** If the working directory already has files but is *not* a git repo, flag it before writing anything more — don't wait for the user to notice.
-2. `git init`.
+2. `git init -b main` — the default branch is `main` from the start, also for a repo that never gets a remote.
 3. The **initial commit contains a blank `README.md`** (an empty file) **and a standard `.gitignore`** (copied verbatim from `assets/blank/gitignore.txt` — macOS + editor/IDE + log artifacts), fixed message `chore: initialize repository` (verbatim — not via sk-commit-creator). The `.gitignore` is infrastructure rather than your work, so it belongs in the first commit — ignore rules should be in place *before* anything gets tracked.
 4. Existing work stays **untracked** until the push decision; don't bundle it into the initial commit unless the user explicitly asks.
 5. **Never overwrite a file that is already there.** When a `README.md` already exists, the initial commit still holds an empty one: stage an empty blob under that name and leave the file on disk as it is, so the user's content stays as an uncommitted change.
