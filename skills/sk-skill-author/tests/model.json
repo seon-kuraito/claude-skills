@@ -9,7 +9,7 @@
     {
       "id": "not-hook",
       "default": true,
-      "prompt": "每次 Claude 要動到放金鑰的設定檔，我都想自動擋下來",
+      "prompt": "Claude 每次修改 migration 檔案時，我都希望能自動提醒我更新 schema 文件",
       "expect": "sk-hook-author"
     }
   ],

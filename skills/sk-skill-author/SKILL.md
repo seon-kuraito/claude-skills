@@ -32,7 +32,15 @@ When **modifying an existing skill that doesn't match this pattern**: offer to r
 
 ## Step 1: Gather requirements
 
-**First, identify task type: new skill or modifying existing.**
+**First, confirm a skill is the right extension.** Three shapes carry work, and only a skill is picked by the model's own judgement:
+
+- **Skill** — a way of working, loaded when the model judges the request needs it.
+- **Hook** — a rule the harness enforces on an event, whether the model agrees or not. Hand it to [sk-hook-author](../sk-hook-author/SKILL.md).
+- **Agent** — a separate context with its own tools, for work that needs isolation or an independent read. Hand it to [sk-agent-author](../sk-agent-author/SKILL.md).
+
+A request that says "every time" or "always" usually wants a hook, or a hook beside the skill. Say which shape you picked, and why, before drafting.
+
+**Then identify task type: new skill or modifying existing.**
 
 - **New skill** — proceed to the interview below.
 - **Modifying existing skill** — also consult `references/environments.md` (read-only path handling, `/tmp` staging, name preservation).
