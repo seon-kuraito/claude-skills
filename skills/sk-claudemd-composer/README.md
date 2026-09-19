@@ -32,7 +32,11 @@
   - 協助整理文件，讓內容更短、更準，也更容易維護
 - **支援新檔起稿與既有檔審閱**：
   - 新檔可先用 `/init` 起稿，再依寫作原則修整
+  - 使用者層級的 `~/.claude/CLAUDE.md` 適用於所有專案；建立時略過 `/init`，直接從空白檔起稿
   - 既有檔則會依長度、品質與用途判斷該刪、該拆或該保留，也涵蓋 monorepo 中多份 CLAUDE.md 的取捨
+- **記憶區段交給 `sk-memory-composer`**：
+  - 結尾含有 global-memory 查詢指示的區段，以及記憶寫入的分流規則，均由 [`sk-memory-composer`](../sk-memory-composer) 處理
+  - 審閱或精簡 CLAUDE.md 時，應保留這些區段中的規則行
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -72,5 +76,14 @@
 - **先用 `/init` 起稿，再人工精修**：
   - `/init` 適合用來產生第一版草稿，協助打破空白頁
   - 產出後仍需要人工修整，刪掉過度列舉的檔案清單、內聯程式碼、過細的風格規則，以及其他不適合長期放在 `CLAUDE.md` 裡的內容
+- **與 `sk-memory-composer` 分工**：
+  - 本 skill 負責整份 CLAUDE.md，`sk-memory-composer` 負責其中的記憶區段。區段格式統一定義於該 skill，本 skill 僅引用該定義
+  - 記憶區段中的規則行應予保留。各項規則的適用時機未納入查詢指示的涵蓋範圍，因此不視為修補累積（Hotfix Accretion）
+  - `sk-memory-composer` 需要空白的使用者層級 CLAUDE.md 時，由本 skill 建立空白檔，再交由該 skill 繼續處理
 - **收錄驗證案例**：
-  - `tests/model.json` 收錄觸發案例與行為案例；前者確認請求會路由到這個 skill，後者確認產出符合規格
+  - `tests/model.json` 收錄觸發案例與行為案例；觸發案例用於確認一般請求會路由至本 skill，記憶相關請求會交由 `sk-memory-composer` 處理；行為案例則用於確認產出符合規格
+
+### 預設與相依
+
+- **相依的 skill**：
+  - 記憶區段交由 [`sk-memory-composer`](../sk-memory-composer) 處理。若該 skill 無法使用，應保留區段原文，並在報告中說明

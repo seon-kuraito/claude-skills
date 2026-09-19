@@ -1,6 +1,6 @@
 ---
 name: sk-claudemd-composer
-description: Create, refine, and trim CLAUDE.md / AGENTS.md files (the per-project agent-onboarding doc loaded into every session by Claude Code / OpenCode / Cursor / Codex / Zed). Use whenever the user wants to scaffold one from scratch, is writing / editing / restructuring an existing CLAUDE.md (or AGENTS.md), asking what belongs in one, reviewing it for length / quality, deciding whether to split content out, or comparing CLAUDE.md across projects — regardless of exact wording or language. Do NOT trigger for general markdown docs, READMEs, design docs, or unrelated docs work.
+description: Create, refine, and trim CLAUDE.md / AGENTS.md files (the agent-onboarding doc loaded into every session by Claude Code / OpenCode / Cursor / Codex / Zed — per project, or user-level for every project). Use whenever the user wants to scaffold one from scratch, is writing / editing / restructuring an existing CLAUDE.md (or AGENTS.md), asking what belongs in one, reviewing it for length / quality, deciding whether to split content out, or comparing CLAUDE.md across projects — regardless of exact wording or language. Do NOT trigger for general markdown docs, READMEs, design docs, or unrelated docs work, nor for memory work — saving, routing, or restructuring memories and the CLAUDE.md sections that route to them belong to sk-memory-composer.
 ---
 
 # CLAUDE.md Composer
@@ -15,6 +15,7 @@ These principles are distilled from Kyle Mistele's ["Writing a good CLAUDE.md"](
 
 - **No CLAUDE.md exists** — invoke `/init` to generate a starting scaffold from the codebase, then apply every principle below. `/init`'s output is a *first draft*, not a finished file — treat it like a junior engineer's first PR: keep what earns its place, cut or rewrite the rest against the *Common pitfalls* checklist below before shipping.
 - **CLAUDE.md exists** — proceed straight to review / refine / trim against the principles below.
+- **The user-level CLAUDE.md (`~/.claude/CLAUDE.md`) does not exist** — do not invoke `/init`: it scaffolds from a codebase, and the user-level file belongs to none. Create an empty file, then write only what holds in every project the user works in.
 
 `/init` breaks the blank page; this skill makes the result good. Don't ship `/init`'s output as-is, and don't skip `/init` for a brand-new file unless the project is small enough that you'd rather hand-write from a blank page.
 
@@ -68,7 +69,8 @@ If you have rules a linter can't enforce, consider a Stop hook that runs the lin
 
 The patterns below are what to cut or move, whether reviewing an existing CLAUDE.md or cleaning up a fresh `/init` scaffold — both produce the same offenders:
 
-- **Hotfix accretion** — lines appended to "fix" past misbehavior, not actually broadly applicable. Almost always cut.
+- **Hotfix accretion** — lines appended to "fix" past misbehavior, not actually broadly applicable. Almost always cut — except inside a memory section (see *Memory sections*).
+- **README content** — what the project is, why it exists, how a person installs it. That is the README's job; CLAUDE.md carries what an agent needs in order to act. When both want the same fact, keep it in the README and point at it.
 - **Style / formatting rules** — belongs in the linter.
 - **Code snippets** — will go stale. Replace with `path:line` pointers.
 - **Filesystem-mirror lists** — replace with directory + naming convention.
@@ -87,6 +89,17 @@ Claude Code (and similar harnesses) load CLAUDE.md by walking up the directory t
 
 Don't duplicate the same content at multiple levels — duplication is the enemy of trust in the file. If you find yourself writing the same paragraph in two CLAUDE.md files, hoist it.
 
+## Memory sections
+
+A CLAUDE.md — usually the user-level one — can carry memory sections: a section that ends with a lookup line sending the session into `~/.claude/global-memory/<case>/`, and the line in `## Memory` that routes a new memory there. `sk-memory-composer` owns them; their shape is defined once, in its `references/architecture.md`.
+
+- **Hand them over.** When a review or a trim reaches a memory section, leave it to `sk-memory-composer`. Its rule lines are there on purpose: each states a rule whose moment the lookup line does not cover, so they only look like hotfix accretion.
+- **Without that skill**, leave memory sections untouched and say so in the report.
+
+## Called from another skill
+
+`sk-memory-composer` asks this skill for a blank user-level CLAUDE.md when `~/.claude/CLAUDE.md` does not exist. Create it as an empty file, write nothing else, and hand back: the calling skill adds its own section.
+
 ## When applying these principles to a real edit
 
 1. Read the file end to end. Identify which lines serve WHY, WHAT, or HOW.
@@ -96,3 +109,7 @@ Don't duplicate the same content at multiple levels — duplication is the enemy
 5. Before you add "always do X", check whether a hook, linter, or slash command can enforce it deterministically. Prefer the deterministic option.
 
 When in doubt, read [the source article](https://www.humanlayer.dev/blog/writing-a-good-claude-md) for the full reasoning behind these calls.
+
+## Related
+
+- [sk-memory-composer](../sk-memory-composer/SKILL.md) — the memory sections inside a CLAUDE.md and the memories they route to. This skill hands those sections over; that skill asks this one for a blank user-level CLAUDE.md.

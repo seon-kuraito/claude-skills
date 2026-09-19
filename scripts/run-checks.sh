@@ -9,8 +9,18 @@
 # Exit 0 passes, exit 1 fails.
 set -uo pipefail
 
+# Leave no __pycache__ behind: a model-tier case that forbids every write still
+# runs this script.
+export PYTHONDONTWRITEBYTECODE=1
+
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 runner="$repo/scripts/runner"
+
+if command -v uv > /dev/null 2>&1; then
+  python_cmd=(uv run --quiet)
+else
+  python_cmd=(python3)
+fi
 
 if [ $# -gt 0 ]; then
   items=("$@")
@@ -53,7 +63,7 @@ for rule_file in "$runner"/*; do
   rule="$(basename "${rule_file%.*}")"
   case "$rule" in _*) continue ;; esac
   case "$rule_file" in
-    *.py) runner_cmd=(python3 "$rule_file") ;;
+    *.py) runner_cmd=("${python_cmd[@]}" "$rule_file") ;;
     *.sh) runner_cmd=(bash "$rule_file") ;;
     *) echo "FAIL  $rule — unsupported rule file extension"; fail=1; continue ;;
   esac

@@ -24,7 +24,7 @@ Rules:
 
 - Always prefix with `sk-`
 - Single-token domain — collapse multi-word concepts into one token (`claudemd`, not `claude-md`)
-- Verb-er suffix matching the skill's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `sk-skill-author` and `sk-hook-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
+- Verb-er suffix matching the skill's action (`creator`, `composer`, `griller`, `publisher`, etc.). **`author` is reserved** for skills / hooks that author Claude Code *extensions* — `sk-skill-author`, `sk-hook-author`, and `sk-agent-author`; doc / content skills use `composer` / `formatter` / `curator` instead.
 
 When **creating a new skill**: propose a name in this format during Step 1 and confirm with the user before drafting.
 
@@ -32,7 +32,15 @@ When **modifying an existing skill that doesn't match this pattern**: offer to r
 
 ## Step 1: Gather requirements
 
-**First, identify task type: new skill or modifying existing.**
+**First, confirm a skill is the right extension.** Three shapes carry work, and only a skill is picked by the model's own judgement:
+
+- **Skill** — a way of working, loaded when the model judges the request needs it.
+- **Hook** — a rule the harness enforces on an event, whether the model agrees or not. Hand it to [sk-hook-author](../sk-hook-author/SKILL.md).
+- **Agent** — a separate context with its own tools, for work that needs isolation or an independent read. Hand it to [sk-agent-author](../sk-agent-author/SKILL.md).
+
+A request that says "every time" or "always" usually wants a hook, or a hook beside the skill. Say which shape you picked, and why, before drafting.
+
+**Then identify task type: new skill or modifying existing.**
 
 - **New skill** — proceed to the interview below.
 - **Modifying existing skill** — also consult `references/environments.md` (read-only path handling, `/tmp` staging, name preservation).
@@ -53,7 +61,7 @@ Apply the writing rules in `references/writing-guide.md` — SKILL.md structure,
 
 ## Step 3: Review with user
 
-Present key decisions in bullet form — frontmatter `name` / `description`, body section structure, scope guards, non-obvious choices. Do NOT paste full SKILL.md / reference content unless the user explicitly asks; full-content paste floods the terminal and obscures the structural decisions worth confirming. After structural OK via bullets, write files; the user can read full content in their editor and request edits there. Iterate on feedback.
+Present key decisions in bullet form — frontmatter `name` / `description`, body section structure, scope guards, non-obvious choices. Show the drafted `description` word for word: it is the trigger, and the one line the user has to be able to judge before any file exists. Do NOT paste full SKILL.md / reference content unless the user explicitly asks; full-content paste floods the terminal and obscures the structural decisions worth confirming. After structural OK via bullets, write files; the user can read full content in their editor and request edits there. Iterate on feedback.
 
 For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigger correctness, structural discipline, and companion-file compliance.
 
@@ -62,9 +70,9 @@ For a deeper pass, spawn `agents/skill-reviewer.md` to adversarially check trigg
 Runs on a new skill and on every later change. Never a menu, never a question — follow `references/verification.md`:
 
 1. **structure and script tiers** — run `scripts/run-checks.sh <skill-name>` in the repo. Both are deterministic and cost no tokens. Fix what it reports, then run it again.
-2. **model tier** — run the `default: true` cases in the skill's `tests/model.json`. One case is one subagent; state the count before running, and judge the assertions yourself from the subagent's report.
+2. **model tier** — run the `default: true` cases in the skill's `tests/model.json`. One case is one general-purpose subagent with `model: opus`; state the count before running, and judge the assertions yourself from the subagent's report.
 
-The model tier needs the skill linked into `~/.claude/skills/`, because a subagent can only pick an installed skill. For a repo skill this pass therefore happens as step 6 of `references/publishing.md` — after the link, before the commit gate. A finding sends you back to fix the skill and re-run; only an all-clear moves the work on.
+The model tier needs the skill linked into `~/.claude/skills/`, because a subagent can only pick an installed skill. For a repo skill this pass therefore happens as step 6 of `references/publishing.md` — after the link, before the commit gate. Run every case before fixing anything, then fix every finding together and re-run; only an all-clear moves the work on.
 
 ## Publishing & licensing
 

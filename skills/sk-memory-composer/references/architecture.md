@@ -21,6 +21,8 @@ The harness names a project's memory folder after the project's absolute path, w
 
 Every folder name starts with `-`, so a command that takes one as a bare argument reads it as an option. Pass the name as a path (`./-Users-…`, or the full `~/.claude/projects/-Users-…`), or after `--`.
 
+A project's folder holds more than `memory/`: the harness keeps that project's session transcripts beside it. Search `~/.claude/projects/*/memory`, never `~/.claude/projects/` as a whole — a transcript quotes every memory its session read, so a wider search returns the same text many times over.
+
 ## Lookup lines
 
 A lookup line is the only way a session reaches a case. Every case has a section in the user-level CLAUDE.md — or a line in the closest section — that ends with:
