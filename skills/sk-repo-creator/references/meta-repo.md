@@ -117,6 +117,16 @@ Then render `assets/execution-gate.md` verbatim, list each `<account>/<name>` an
 
 Then hand off the layer only: present the *Hand-off* menu once, for the meta repo. A member enters the initialize stage later, on its own.
 
+## Binding a family later
+
+A family that chose 「先不綁遠端」 stays local until the user asks to push it. That request re-enters this flow at step 5 — nothing is built again:
+
+1. Find the layer by path (`<family>-meta`, or `meta` inside `~/Developer/<family>/`), and read the member list from the table in its `CLAUDE.md`; the path column gives each repo's location.
+2. Run `git -C <path> remote` on the layer and on every member. A repo that already has `origin` stays out of the gate; name it in the report.
+3. Resolve the account, present the **Visibility** menu, render the gate, and present the **Family remote** menu for the repos that remain.
+
+Say one thing before the gate: the push publishes the layer's scaffold commit, so every later edit lands as a new commit, never as an amend.
+
 ## Scope
 
 The Meta Repo template **creates a new family**: the coordination layer and the member repos listed for it. It does **not**:

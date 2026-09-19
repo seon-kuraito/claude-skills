@@ -13,7 +13,7 @@ options:
   · 「空白專案 Blank」 — 「建立一般專案使用的純 git repo，包含 git init、空白 README 與標準 .gitignore。」
   · 「框架專案 Framework」 — 「建立 Next.js / Vite 等框架專案，可選擇已整理好的模板，或依需求逐步建立。」
   · 「專案協調層 Meta-Repo」 — 「建立用來協調多個 sibling repo 的 meta repo。」
-[Rule, not copy] if the repo the user means already exists under ~/Developer with a .git (resuming a half-built repo), skip the menu and keep the repo as it stands. Judge by that repo's path, never by the cwd — the cwd is wherever the session happened to start.
+[Rule, not copy] if the repo the user means already exists under ~/Developer with a .git (resuming a half-built repo), skip the menu and keep the repo as it stands; a request to push a family that stayed local goes to *Binding a family later* in `meta-repo.md`. Judge by that repo's path, never by the cwd — the cwd is wherever the session happened to start.
 ```
 
 ## Owner directory
@@ -134,5 +134,5 @@ options:
   · 「建立遠端並 push」 — 「在 GitHub 的 <account> 建立 <repos>，全部設為 <visibility> 並 push。」
   · 「換一個帳號」 — 「改選 GitHub 帳號或 organization，完成後再次確認。」
   · 「先不綁遠端」 — 「保留於本機，不建立遠端，也不 push。」
-[Rule, not copy] <count> counts the layer and every member; <repos> lists their names joined with 「、」, the layer first, then the members in list order; <visibility> is the answer from the **Visibility** menu. On 「換一個帳號」, present the **Account** menu; the chosen account applies to every repo, and the visibility stays as answered.
+[Rule, not copy] <count> counts the repos the gate lists — the layer and every member for a new family, only the repos still without `origin` on a later bind; <repos> lists their names joined with 「、」, the layer first, then the members in list order; <visibility> is the answer from the **Visibility** menu. On 「換一個帳號」, present the **Account** menu; the chosen account applies to every repo, and the visibility stays as answered.
 ```
