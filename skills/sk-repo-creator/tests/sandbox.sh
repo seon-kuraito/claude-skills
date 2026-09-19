@@ -10,6 +10,10 @@
 # yet". Tell the subagent to treat DEVELOPER_DIR as the user's ~/Developer, so
 # the folder already sits under an owner directory and nothing has to move.
 #
+# A family case needs nothing more: the meta-repo template creates the family's
+# own directory under DEVELOPER_DIR, and no such directory exists here. Judge
+# either result with verify.sh, beside this file.
+#
 # Not covered: the remote half. The run stops at the Execution gate, so
 # `gh repo create` and `git push` never run — test those by hand.
 set -euo pipefail
