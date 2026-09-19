@@ -18,6 +18,12 @@
       "id": "core",
       "default": true,
       "prompt": "幫我把 ~/Developer/<user>/demo-app 這個資料夾變成 GitHub repo",
+      "replies": [
+        {
+          "when": "asks which template to use",
+          "reply": "空白專案 Blank"
+        }
+      ],
       "assert": [
         "先確認資料夾現況再決定要不要 git init",
         "遠端動作停在執行閘門，先把指令攤開",

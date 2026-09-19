@@ -42,6 +42,8 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 Before step 5, render `assets/execution-gate.md` verbatim, then show what its **列出內容** row names below the table. `apply.sh` deletes session folders, config entries, and editor state that cannot come back once the backup is gone.
 
+Beside the Terminal command, say in one line why the user runs it there and the session does not: this session lives inside VS Code and Claude Code, and both rewrite their state files while they run. A user asked to close everything and paste a command is owed the reason.
+
 ## References
 
 - `references/state-map.md` — every store, how a record maps to a path, safe editing, and which stores need VS Code closed

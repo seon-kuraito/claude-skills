@@ -63,7 +63,7 @@ After 「框架專案 Framework」, pick **which template** — present the **Fr
 
 ## meta-repo
 
-A new family: a coordination layer plus the member repos listed for it, all created new, side by side in one owner directory. Its second-round interview resolves the owner directory, which fixes the member names; one push gate then covers the layer and every member.
+A new family: a coordination layer plus the member repos listed for it, all created new, side by side in one owner directory. Its second-round interview resolves the owner directory, which fixes the member names; one push gate then covers the layer and every member. A family that stayed local re-enters at that gate later (*Binding a family later*).
 
 **Full procedure — read it before running: [`references/meta-repo.md`](references/meta-repo.md).**
 

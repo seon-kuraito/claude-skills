@@ -43,6 +43,7 @@
   - 提供固定格式的清單供使用者複製修改，只需填寫成員名稱，順序依清單排列
   - 清單上的成員比照 blank 建立成新專案，帶標準 `.gitignore` 與空白 `README.md`
   - push 確認前先詢問可見性（public/private）；確認後 meta repo 與所有成員一起建立遠端；初始化只交接 meta repo
+  - 建立時選擇先不綁定遠端的家族，後續可從 push 確認步驟繼續；已有遠端的 repo 不會列入確認清單
   - 既有專案併入家族屬於搬遷，不在本 skill 範圍
 - **先完成本地流程再碰遠端**：
   - 先在本地把 repo 建好（`git init`＋commit／scaffold），中途不再額外確認
