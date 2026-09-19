@@ -9,6 +9,10 @@
 # Exit 0 passes, exit 1 fails.
 set -uo pipefail
 
+# Leave no __pycache__ behind: a model-tier case that forbids every write still
+# runs this script.
+export PYTHONDONTWRITEBYTECODE=1
+
 repo="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 runner="$repo/scripts/runner"
 
