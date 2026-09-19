@@ -30,6 +30,40 @@
         "初始 commit 內容符合規格，訊息是 chore: initialize repository",
         "沒有實際執行 gh repo create 或 git push"
       ]
+    },
+    {
+      "id": "new-family",
+      "default": false,
+      "prompt": "幫我建立新的 acme 家族，放在專屬目錄 ~/Developer/acme。家族類型為同型，成員包括 web、api、docs",
+      "replies": [
+        {
+          "when": "asks which template to use",
+          "reply": "專案協調層 Meta-Repo"
+        },
+        {
+          "when": "asks where the meta repo goes",
+          "reply": "acme"
+        },
+        {
+          "when": "asks which family type it is",
+          "reply": "同型家族 Typed"
+        },
+        {
+          "when": "shows the member list to copy and asks for it back",
+          "reply": "- `web`\n- `api`\n- `docs`"
+        },
+        {
+          "when": "says the Chinese README is ready and waits for a review before the scaffold commit",
+          "reply": "README 已確認，可以 commit"
+        }
+      ],
+      "assert": [
+        "協調層命名為 meta，各成員不帶家族前綴，且均位於 ~/Developer/acme 目錄下",
+        "協調層只有一個 commit，包含 CLAUDE.md、README.md 與 .gitignore，訊息為 chore: scaffold acme coordination layer，檔案中沒有殘留佔位符",
+        "每個成員皆有一個 commit，包含空白 README.md 與標準 .gitignore，訊息為 chore: initialize <name> repository",
+        "workspace 檔案位於擁有者目錄，依序列出協調層與所有成員，且未納入任何 repo 的版本控制",
+        "所有 repo 均未綁定遠端，且未實際執行 gh repo create 或 git push"
+      ]
     }
   ]
 }
