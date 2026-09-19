@@ -51,13 +51,16 @@ JSON
 cleaner="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../sk-project-cleaner" && pwd -P)"
 
 # UV_CACHE_DIR keeps `uv run` inside the sandbox, so a case that forbids every
-# outside write can still run the scripts.
+# outside write can still run the scripts. DEVELOPER_DIR is not read by the
+# scripts; it is for the brief: a case told to treat it as the user's
+# ~/Developer looks for projects in the fixture, not across the user's repos.
 cat <<ENV
 CLEANER_DIR=$cleaner
 CLAUDE_DIR=$sb/claude
 CLAUDE_JSON=$sb/claude.json
 VSCODE_USER_DIR=$sb/vscode-user
 BACKUP_ROOT=$sb/backups
+DEVELOPER_DIR=$sb/dev
 OLD=$old
 NEW=$new
 UV_CACHE_DIR=$sb/.uv-cache
