@@ -18,6 +18,7 @@
 | [`sk-commit-creator`](skills/sk-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
 | [`sk-decision-griller`](skills/sk-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
 | [`sk-hook-author`](skills/sk-hook-author) | 建立、改寫與驗證 Claude Code hook | 原創 |
+| [`sk-memory-composer`](skills/sk-memory-composer) | 管理與稽核 Claude Code 的專案記憶和全域記憶 | 原創 |
 | [`sk-notion-composer`](skills/sk-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
 | [`sk-pr-creator`](skills/sk-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
 | [`sk-project-cleaner`](skills/sk-project-cleaner) | 診斷並清除專案在 Claude Code 與 VS Code 留下的狀態 | 原創 |
