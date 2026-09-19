@@ -25,6 +25,12 @@ Before committing, check which branch the commit lands on. When it would land on
 
 Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly — for example, a repo that folds every edit into its only commit with `git commit --amend`.
 
+## Corrections on an unpushed branch
+
+When a change only corrects one of your own commits, and the branch has not been pushed (`git rev-parse @{u}` fails), fold it into that commit instead of adding one that walks it back: `git commit --amend --no-edit` for the last commit; `git commit --fixup=<sha>`, then `git rebase --autosquash <base>`, for an older one. Once the branch is pushed, a correction is a new commit.
+
+Why: a branch that collects back-and-forth commits has to be regrouped before its pull request, and the regrouping rewrites every commit at once.
+
 ## Format
 
 - `<type>` — required, lowercase, exactly one of the 11 types below.
