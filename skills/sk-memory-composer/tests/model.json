@@ -1,0 +1,62 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "以後每個專案都要遵守這條規則：改完程式後，先跑過測試再提交。幫我記下來。",
+      "expect": "sk-memory-composer"
+    },
+    {
+      "id": "not-claudemd",
+      "default": true,
+      "prompt": "這個專案的 CLAUDE.md 內容過長，請幫我精簡",
+      "expect": "sk-claudemd-composer"
+    },
+    {
+      "id": "not-cleanup",
+      "default": false,
+      "prompt": "舊專案已經刪除，請一併清除它在 Claude Code 留下的 session 和記憶資料夾",
+      "expect": "sk-project-cleaner"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "請檢查我的記憶中是否有重複內容或存放位置錯誤",
+      "assert": [
+        "列出沙盒內所有專案的記憶資料夾與 case，並逐一檢查",
+        "在報告中引用 scripts/check.py 的輸出",
+        "依據 maintain/ 中的偏好，指出 demo 專案的記憶內文包含日期",
+        "指出兩個專案資料夾中的重複規則應移至全域記憶",
+        "指出 talk case 中的專案事實應移至對應的專案記憶",
+        "使用表格回報，且未移動、改寫或刪除任何檔案"
+      ]
+    },
+    {
+      "id": "mid-task-save",
+      "default": true,
+      "prompt": "請說明這個 repo 的 README 內容。另外，後續回報結果時請先說明結論，再補充細節。",
+      "assert": [
+        "決定記下這條規則之前，先載入 sk-memory-composer",
+        "將這條規則寫入沙盒的 global-memory，未寫入專案記憶",
+        "未修改沙盒以外的任何檔案",
+        "在 CLAUDE.md 新增規則行之前先詢問，並依回覆保留 CLAUDE.md 原文"
+      ],
+      "replies": [
+        {
+          "when": "詢問是否也要在 CLAUDE.md 新增這條規則",
+          "reply": "不用加到 CLAUDE.md，存進記憶就好"
+        }
+      ]
+    },
+    {
+      "id": "cold-start-lookup",
+      "default": true,
+      "prompt": "這個 branch 的 commit 已整理完成，請幫我推送至遠端",
+      "assert": [
+        "執行 push 之前，依使用者層級 CLAUDE.md 的查詢指示列出對應的 case 目錄，並讀取相符的檔案"
+      ]
+    }
+  ]
+}

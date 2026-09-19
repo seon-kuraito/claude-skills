@@ -1,0 +1,3 @@
+## Memory
+
+- Before writing any memory, check whether it belongs in `~/.claude/global-memory/<case>` instead. A rule that follows the user across projects goes there. Only a fact that is useless outside the current project goes to that project's `MEMORY.md`.
