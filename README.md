@@ -25,7 +25,7 @@
 | [`sk-project-deployer`](skills/sk-project-deployer) | 把專案部署到代管平台（例如：GitHub Pages） | 原創 |
 | [`sk-project-initializer`](skills/sk-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
 | [`sk-project-migrator`](skills/sk-project-migrator) | 搬遷本機專案路徑，並一併帶走 Claude Code 與 VS Code 的狀態 | 原創 |
-| [`sk-react-publisher`](skills/sk-react-publisher) | 全自動從零建立並部署一個 GitHub Pages 上的 React 專案 | 原創 |
+| [`sk-react-publisher`](skills/sk-react-publisher) | 從零自動建立 React 專案並部署至 GitHub Pages（需以 `/sk-react-publisher` 手動呼叫） | 原創 |
 | [`sk-repo-creator`](skills/sk-repo-creator) | 依模板建立本地端與 GitHub repo | 原創 |
 | [`sk-skill-author`](skills/sk-skill-author) | 建立、改寫與驗證 Claude Code skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
 
@@ -80,6 +80,6 @@ scripts/run-checks.sh <skill-name> # 單一 skill
    - **來源**：原創，或衍生自哪個上游專案
    - **授權**：適用的 license 與相關聲明
 4. commit 前確認來源與授權：
-   - **原創作品**：採用本 repo 的授權
+   - **原創作品**：在 skill 資料夾內放置一份採用 MIT License 的 `LICENSE` 檔案
    - **衍生自寬鬆授權的上游**：保留上游授權，並在 skill 資料夾內以 `NOTICE` 標明來源、作者與修改內容
    - **來源不明或授權不相容**：不收入本 repo
