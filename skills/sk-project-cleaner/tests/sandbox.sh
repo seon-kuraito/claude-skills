@@ -43,10 +43,13 @@ cat > "$sb/vscode-user/workspaceStorage/ffff1111/workspace.json" <<JSON
 JSON
 mkdir -p "$sb/dev/kept"
 
+# UV_CACHE_DIR keeps `uv run` inside the sandbox, so a case that forbids every
+# outside write can still run the scripts.
 cat <<ENV
 CLAUDE_DIR=$sb/claude
 CLAUDE_JSON=$sb/claude.json
 VSCODE_USER_DIR=$sb/vscode-user
 BACKUP_ROOT=$sb/backups
 TARGET=$gone
+UV_CACHE_DIR=$sb/.uv-cache
 ENV

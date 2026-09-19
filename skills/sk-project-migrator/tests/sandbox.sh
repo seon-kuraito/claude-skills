@@ -50,6 +50,8 @@ JSON
 # sandbox; CLEANER_DIR is the override that keeps the hand-off testable.
 cleaner="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../sk-project-cleaner" && pwd -P)"
 
+# UV_CACHE_DIR keeps `uv run` inside the sandbox, so a case that forbids every
+# outside write can still run the scripts.
 cat <<ENV
 CLEANER_DIR=$cleaner
 CLAUDE_DIR=$sb/claude
@@ -58,4 +60,5 @@ VSCODE_USER_DIR=$sb/vscode-user
 BACKUP_ROOT=$sb/backups
 OLD=$old
 NEW=$new
+UV_CACHE_DIR=$sb/.uv-cache
 ENV
