@@ -284,4 +284,6 @@ This build sends `last_assistant_message` / `effort` / `background_tasks` / `ses
 
 `SubagentStop` carries `agent_id` / `agent_type` / `agent_transcript_path` that a main `Stop` does **not** — so a hook can distinguish a subagent stop from a main-agent stop by these. (Confirms §1's "subagent context adds agent_id / agent_type.") A subagent finishing fires `SubagentStop`, never the main `Stop`.
 
+`PreToolUse` from a subagent (observed 2026-09): a `command` hook registered once in the user `settings.json` also fired for a subagent's `Bash` call, and its input carried a non-empty `agent_id`. One registration therefore covers the main session and every subagent, and `(.agent_id // "") == ""` tells the two apart — enough to mark a log line `main` or `subagent`. Only the presence of the field was checked, not the full payload.
+
 **No controlling tty** (confirmed): a hook opening `/dev/tty` fails — it has no controlling terminal. So a hook can't write directly to the terminal; emit terminal sequences via the `terminalSequence` output field instead (docs-described, not yet first-hand confirmed).
