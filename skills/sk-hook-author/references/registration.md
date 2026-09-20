@@ -46,6 +46,18 @@ A blocking hook fails open: a missing `jq`, a timeout, or a script error lets th
 - **The hook hides the rule.** Both layers block the same names and the hook answers first, so a normal read cannot show whether the deny rule works. Test with a name only the deny layer knows: add a throwaway rule such as `Read(//**/*.zzprobe)`, read a probe file with that extension from a scratch folder, and expect `File is in a directory that is denied by your permission settings`. Then remove the rule and the file.
 - **Rules apply at once.** A change to `permissions.deny` took effect in the running session, with no restart.
 
+## Renaming a hook
+
+The registered `command` names the hook's directory, so a rename breaks the live path the moment the directory moves. Do it in this order, and keep the old path alive until nothing calls it:
+
+1. Rename the directory in the repo and update what names it: `settings.hooks.json`, the catalog row in the repo README (which also moves, to stay alphabetical), the hook's own README, the header comment of `hook.sh`.
+2. Run `scripts/link-hook.sh <new-name>`.
+3. Change the `command` path in the live `settings.json`. The running session picked the new path up at once (observed 2026-09).
+4. Point the OLD symlink at the new directory instead of deleting it: `ln -sfn <repo>/hooks/<new-name> ~/.claude/hooks/<old-name>`. A session that started before the rename may still call the old path; this keeps its guard on.
+5. When no such session is left, remove the old symlink.
+
+A hook that derives its own name from its directory (`HOOK_NAME="${HOOK_DIR##*/}"`) reports whichever name it was called through, so during step 4 its messages and its log file can carry the old name. When the working tree the symlink points at is the live hook, do the rename on a separate `git worktree` first and run the fixtures there.
+
 ## OS notes
 
 The script body is shell, so the platform matters for side-effect commands:
