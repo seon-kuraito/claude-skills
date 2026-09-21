@@ -12,6 +12,12 @@
       "id": "core",
       "default": true,
       "prompt": "這條分支的改動都好了，幫我準備 PR 描述",
+      "replies": [
+        {
+          "when": "asks what this repo runs over the changed code",
+          "reply": "scripts/run-checks.sh，這條分支上還沒跑過"
+        }
+      ],
       "assert": [
         "先確認目標 repo 的驗證已執行且通過；缺少通過紀錄時停止建立 PR",
         "PR body 寫入檔案，避免將全文輸出到終端機",
