@@ -31,7 +31,7 @@
   - 套用固定 house style，讓屬性、頁面結構、全形標點與詞彙表保持一致
 - **支援既有頁與新頁建立**：
   - 可格式化既有頁
-  - 新建時會先選目標 database，再用該 database 的 template 建立，並支援一次建立多頁
+  - 新建時會先選擇目標 database，再使用其中的 template 建立頁面；若有多個 template，則依 `Category` 選擇對應項目。支援一次建立多個頁面
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -64,6 +64,7 @@
 - **支援既有頁與新頁建立**：
   - 可格式化既有頁面（提供 URL 或 page ID）
   - 新建時先選目標 database（命名為 `XXX Base`），再用該 database 的 page template 建立，並支援一次建立多個頁面
+  - 有多個 template 時，依筆記的 `Category` 選擇同名 template；若無對應項目或有多個項目符合，則列出選項供使用者選擇。無可用 template 時仍會建立頁面，並註明該頁面無法繼承 icon 與預設屬性
 - **統一屬性與頁面結構**：
   - 屬性規則：`Title` 只放筆記本身的標題，`Category` 負責分類（選項依 database 而異），Icon 則用來代表主題
   - 頁面結構：以灰底 Summary 開頭，接著是編號 h2 內容段落，最後以詞彙表收尾
