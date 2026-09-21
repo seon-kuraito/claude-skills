@@ -11,12 +11,30 @@
     {
       "id": "core",
       "default": true,
-      "prompt": "這個 repo 剛建好，幫我把型別標籤和 main 保護設起來",
+      "prompt": "這個 repo 剛建立，請幫我補齊專案的基本設定",
+      "replies": [
+        {
+          "when": "asks which local files to create",
+          "reply": "建立 LICENSE 授權檔"
+        },
+        {
+          "when": "asks which GitHub settings to apply",
+          "reply": "建立部署分支"
+        },
+        {
+          "when": "asks which license template to use",
+          "reply": "MIT"
+        },
+        {
+          "when": "asks which deploy branch to create",
+          "reply": "develop"
+        }
+      ],
       "assert": [
-        "先讀現況再決定要套用哪些項目",
-        "說明 ruleset 在 GitHub Free 的 private repo 不生效",
-        "遠端動作停在執行閘門",
-        "沒有實際呼叫 gh api 寫入"
+        "先檢查現況，再決定需要套用的項目",
+        "使用 assets 中的模板建立 LICENSE，僅替換 {{YEAR}}；在 chore/initial-project-setup 分支以固定訊息 chore: add MIT LICENSE 提交",
+        "遠端操作停在執行閘門，並列出預計執行的指令",
+        "未實際執行 git push；remote 僅有 main 分支"
       ]
     }
   ]
