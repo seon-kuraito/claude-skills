@@ -18,7 +18,7 @@ The answer derives the defaults (trim to the contract in Step 2, never widen sil
 | classification | `tools` default | `model` default | template blocks | extras |
 | --- | --- | --- | --- | --- |
 | 思考型（evaluator） | read-only（Read, Grep, Glob） | `opus` | `{{#thinking}}` | adversarial mandate 段落固定進入內文 |
-| 執行型（worker） | working set（加上任務需要的 Write／Edit／Bash） | `sonnet`（瑣碎機械工作可降 `haiku`） | `{{#execution}}` | — |
+| 執行型（worker） | `Read, Grep, Glob` 起步，再加上交付物需要的 `Write`／`Edit`／`Bash` | `sonnet`（瑣碎機械工作可降 `haiku`） | `{{#execution}}` | — |
 
 ## Q2 — Scope / boundary *(open)*
 

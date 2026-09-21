@@ -12,6 +12,20 @@
       "id": "core",
       "default": true,
       "prompt": "幫我把這個 Vite 專案部署到 GitHub Pages",
+      "replies": [
+        {
+          "when": "asks which platform to deploy to",
+          "reply": "GitHub Pages"
+        },
+        {
+          "when": "asks which build type to use",
+          "reply": "Vite SPA"
+        },
+        {
+          "when": "asks which deploy branch to use",
+          "reply": "develop"
+        }
+      ],
       "assert": [
         "先詢問平台與建置方式，再決定部署設定",
         "部署分支的選項來自實際存在的分支",

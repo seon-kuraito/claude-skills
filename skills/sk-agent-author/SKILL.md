@@ -75,7 +75,7 @@ Body — a work contract, not a résumé: materialize `assets/agent-body.md.tmpl
 
 ## Step 3: Review with user
 
-Present the key decisions as bullets — name, classification, the five contract fields, tools/model — not the full file. After structural OK, write the files.
+Present the key decisions as bullets — name, classification, the five contract fields, tools/model — not the full file. Write `tools` and `model` as the frontmatter lines they will become, with every tool name spelled out: they are the only hard constraints, and a sentence describing them is not one. After structural OK, write the files.
 
 For a deeper pass, spawn `agents/agent-reviewer.md` to adversarially check boundary fit, contract self-sufficiency, and the hard-constraint trim.
 
