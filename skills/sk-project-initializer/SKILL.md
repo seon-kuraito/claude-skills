@@ -20,7 +20,7 @@ If no repository exists yet, point the user to [sk-repo-creator](../sk-repo-crea
 
 ## Companions
 
-Load [sk-branch-creator](../sk-branch-creator/SKILL.md) and [sk-commit-creator](../sk-commit-creator/SKILL.md) for the branch and commits this stage lands; if either is absent, follow the conventions below without blocking.
+Load [sk-branch-creator](../sk-branch-creator/SKILL.md) for the branch this stage lands; if it is absent, follow the conventions below without blocking. Do not load [sk-commit-creator](../sk-commit-creator/SKILL.md) for the commits: their messages are fixed copy in `references/applying-selection.md`, so there is nothing for it to author.
 
 ## Feature selection
 
@@ -81,5 +81,6 @@ Before any command that writes to the remote or repo settings (`gh label …`, t
 ## Related
 
 - [sk-repo-creator](../sk-repo-creator/SKILL.md) — the **create** stage (git init / remote) this stage follows.
-- [sk-branch-creator](../sk-branch-creator/SKILL.md) / [sk-commit-creator](../sk-commit-creator/SKILL.md) — the branch and commits this stage lands.
+- [sk-branch-creator](../sk-branch-creator/SKILL.md) — the branch this stage lands.
+- [sk-commit-creator](../sk-commit-creator/SKILL.md) — the convention the fixed commit messages follow; this stage does not load it.
 - `sk-project-deployer` — the **deploy** stage; like this one, an insertable, project-level stage.

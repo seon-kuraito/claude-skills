@@ -11,7 +11,7 @@ Formats a note into a Notion page following the user's fixed house style. The ru
 
 - **Identify the target.** Two paths:
   - **Format an existing page** — ask the user for the page (URL or ID) and operate on it.
-  - **Create new page(s) under a domain database** — when the user wants fresh notes and gives no page URL, first pick the target database. The note databases are named `<domain> Base` (e.g. `Frontend Base`, `Backend Base`, `Infra Base`), so `notion-search` for `Base`, list the matches, and let the user choose. Then create the page(s) under the chosen database using its page template (`template_id`) — the template carries the house icon and default properties, so a created page is not an orphan. Batch creation is fine — one call can produce many pages.
+  - **Create new page(s) under a domain database** — when the user wants fresh notes and gives no page URL, first pick the target database. The note databases are named `<domain> Base` (e.g. `Frontend Base`, `Backend Base`, `Infra Base`), so `notion-search` for `Base`, list the matches, and let the user choose. Then create the page(s) under the chosen database from one of its page templates (`template_id`; *Creating new page(s) from a template* says which one) — the template carries the house icon and default properties, so a created page is not an orphan. Batch creation is fine — one call can produce many pages.
 - **Fetch first.** For an existing page, fetch it to read its title, properties, and the draft / source content. For creation, fetch the **chosen** database to get its data-source schema — the exact property names, its `Category` select options (which differ per database), and the `<templates>` section (template IDs). Why: property names, the `Category` options, and the title property differ across databases — rely on the fetched schema, never guess.
 - Content is written in **Notion-flavored Markdown**. The syntax used below (block color, inline span color, Quote block, callout, `<details>` toggle, `<empty-block/>`) is verified against the spec. If you hit anything not covered here, read the MCP resource `notion://docs/enhanced-markdown-spec` rather than guessing.
 
@@ -129,7 +129,15 @@ Every note closes with a glossary as its last h2:
 
 **Creating new page(s) from a template:**
 
-1. Create each page with `notion-create-pages`: `parent` = the chosen database's `data_source_id`, `template_id` = that database's template (inherits icon + default properties), and `properties` = the title plus `Category` (an option from that database's schema). Don't pass `content` — the template provides the starting content.
+Pick the template for each note from the `<templates>` section of the fetched database:
+
+- **One template** — use it.
+- **Several** — a database usually keeps one template per topic, named after its `Category` options. Use the template whose name matches the `Category` you are setting for that note (`Redux` matches `Redux Toolkit`). When no name matches, or two could, list the templates and let the user choose. Never fall back to the first one: a wrong template plants the wrong icon and default properties on the page.
+- **None** — create the page without `template_id`, and tell the user it has no icon or default properties to inherit.
+
+Never take the template from a view's `defaultPageTemplate`: that setting can point at a template that no longer exists.
+
+1. Create each page with `notion-create-pages`: `parent` = the chosen database's `data_source_id`, `template_id` = the template picked above (inherits icon + default properties), and `properties` = the title plus `Category` (an option from that database's schema). Don't pass `content` — the template provides the starting content.
 2. Write the formatted body into each new page with `update_page` (`replace_content`), summary block first.
 3. For a batch, repeat per note (one `create-pages` call takes up to 100 pages). Report the list of created pages and what each got.
 
