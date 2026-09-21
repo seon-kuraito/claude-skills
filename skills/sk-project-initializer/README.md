@@ -82,7 +82,7 @@
   - 只選會直接改 GitHub 端的項目（標籤／分支保護）時，沒有 branch／commit，也就沒有 PR
 - **只負責初始化，不重做建立階段**：
   - 不處理 `git init`／遠端（由 [`sk-repo-creator`](../sk-repo-creator) 負責）
-  - branch、commit 的命名與撰寫委派給 [`sk-branch-creator`](../sk-branch-creator) 與 [`sk-commit-creator`](../sk-commit-creator)
+  - branch 命名交由 [`sk-branch-creator`](../sk-branch-creator) 處理；commit 訊息使用固定文案，無須載入 [`sk-commit-creator`](../sk-commit-creator)
 - **高影響操作前先確認**：
   - `gh label delete`、`gh label create`、套用 ruleset 的 `gh api --method POST`、push 前先列出即將執行的內容並取得確認
 - **提供確定性檢查**：
@@ -115,5 +115,5 @@
 - **空白檔**：
   - `.claude/CLAUDE.md` 建為空白檔
 - **委派的 skills**：
-  - 後續整理委派給 [`sk-branch-creator`](../sk-branch-creator)／[`sk-commit-creator`](../sk-commit-creator)／[`sk-pr-creator`](../sk-pr-creator)
-  - 若無這些 skill，改用其他 branch／commit／PR 慣例即可
+  - 後續的 branch 與 PR 整理由 [`sk-branch-creator`](../sk-branch-creator)／[`sk-pr-creator`](../sk-pr-creator) 處理
+  - 若未提供上述 skill，則依現有的 branch／PR 慣例處理
