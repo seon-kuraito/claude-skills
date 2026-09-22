@@ -24,6 +24,17 @@
         "將實際執行交由使用者在 Terminal.app 操作，理由是 session 位於 VS Code 內",
         "沒有在 session 內直接刪除或改寫任何狀態檔"
       ]
+    },
+    {
+      "id": "launch-pad",
+      "default": true,
+      "prompt": "我平常都從 <pad> 啟動 claude，之後也還會。幫我清掉它在 Claude 跟 VS Code 的紀錄",
+      "assert": [
+        "plan.sh 帶 --exact 執行，目標只有 <pad>",
+        "manifest 的每個項目路徑都是 <pad>；<pad> 底下專案的紀錄不在其中",
+        "報告說明下次在 <pad> 啟動時會重新產生哪些紀錄，以及記憶卡不會回來",
+        "沒有在 session 內直接刪除或改寫任何狀態檔"
+      ]
     }
   ]
 }

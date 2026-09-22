@@ -12,12 +12,13 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 ## Pick a mode
 
 - **Targeted** — the user names project paths, gone or still on disk. Every record at or under them is a candidate and starts selected. Turn a vague project name into exact paths with the user before planning.
+- **Targeted, exact** — the named path is a launch pad: sessions start there, and its sub-folders hold other projects. `~` is the usual case. Add `--exact`, so only records at that path itself are candidates, none under it; without it, `plan.sh` refuses `~` and the other paths that would take every project. A targeted report that groups records under several separate projects, not sub-folders of the one named, points to the same case: re-plan with `--exact`.
 - **Diagnose** — no path named ("anything I can clean up?"). Only records whose path no longer exists become candidates, none selected; the user picks all or some. Orphan session folders and paths under `/Volumes/` are reported as info and cannot be selected: an orphan's path cannot be proven gone, and a missing path on a volume may be an unplugged drive.
 
 ## Flow
 
-1. **Plan** — run `bash <base>/scripts/plan.sh --paths <path>...` or `bash <base>/scripts/plan.sh --diagnose`. It changes nothing and writes a manifest (default `~/Backups/<timestamp>-project-cleaner/manifest.json`).
-2. **Report** — per project path: which records exist, how many sessions and memory cards a session-folder deletion loses, what is not selectable and why, the info section, and the `scanned` counts, so "no candidates" reads as checked rather than skipped. In diagnose mode, ask which candidates to clear.
+1. **Plan** — run `bash <base>/scripts/plan.sh --paths <path>... [--exact]` or `bash <base>/scripts/plan.sh --diagnose`. It changes nothing and writes a manifest (default `~/Backups/<timestamp>-project-cleaner/manifest.json`).
+2. **Report** — per project path: which records exist, how many sessions and memory cards a session-folder deletion loses, what is not selectable and why, the info section, and the `scanned` counts, so "no candidates" reads as checked rather than skipped. In diagnose mode, ask which candidates to clear. In exact mode, also say what comes back: the next session started at that path recreates the session folder, and a terminal session recreates the project entry once the trust dialog is accepted again and the history lines as prompts are typed; the memory cards do not come back.
 3. **Record the selection** — set `selected` on the chosen items; only `selectable` items count (`references/manifest.md`).
 4. **Gate** — render `assets/execution-gate.md` (see *🚧 Execution gate*).
 5. **Hand off** — once confirmed, tell the user to quit VS Code with Cmd+Q, close every Claude Code session including this one, run `bash <base>/scripts/apply.sh <manifest>` in Terminal.app, then reopen VS Code and `/resume` this session.
@@ -29,7 +30,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 - **Change state only through the scripts** — never delete a session folder or edit `~/.claude.json`, `history.jsonl`, or VS Code's files from inside the session, however small the change looks: both apps rewrite those files while they run, and only `apply.sh` backs up, re-checks, and refuses while they are open.
 - **Back up before deleting** — `apply.sh` copies every file, folder, and database it changes into `backup/` beside the manifest first. Keep it until the user has checked the result.
 - **Act on the manifest only** — `apply.sh` re-checks each selected item and skips any whose state changed since planning; it never widens the selection.
-- **Protect live work** — records of a project a Claude Code session runs in cannot be selected, and `apply.sh` refuses to start while any session or VS Code is still open.
+- **Protect live work** — records of a project a Claude Code session runs in cannot be selected, and `apply.sh` refuses to start while any session or VS Code is still open. Under `--exact`, only a session at that very path counts: a session in a project under the launch pad does not use the pad's records.
 - **Say what is lost** — deleting a session folder removes its sessions and memory cards for good once the backup is gone; state the counts at the gate.
 - **Leave the rest of `~/.claude.json` alone** — only `projects` and `githubRepoPaths` entries change; every other field is Claude Code's own.
 - **Know why** — `references/state-map.md` explains each store, how a record maps to a path, and why it is changed the way it is.

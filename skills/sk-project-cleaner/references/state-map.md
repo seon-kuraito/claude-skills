@@ -63,6 +63,7 @@ Each record only saves work for a path VS Code may meet again, and none of these
 
 - **Unplugged drives** — a path under `/Volumes/` looks missing while its drive is detached, so diagnose mode never offers it.
 - **Reused paths** — a new folder at an old project's path makes the old records look alive. Diagnose mode cannot see that; targeted mode covers it.
+- **Launch pads** — a path sessions start from whose sub-folders hold other projects, `~` above all. Its records are keyed to that path alone, but a targeted plan matches the whole subtree and would take every project under it; `plan.sh --exact` takes the path alone, and only a session at that very path locks its records.
 
 ## Why the change runs from Terminal.app
 

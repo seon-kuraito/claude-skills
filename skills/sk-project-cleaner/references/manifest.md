@@ -11,6 +11,7 @@
   "created": "<UTC timestamp>",
   "mode": "diagnose | paths",
   "only": "all | claude | vscode",
+  "exact": false,
   "targets": ["<absolute path>"],
   "env": { "claude_dir": "…", "claude_json": "…", "vscode_user_dir": "…" },
   "scanned": { "<kind>": 12 },
@@ -26,6 +27,8 @@
 ```
 
 For a record of a project a Claude Code session runs in, `reason` gains ` (live Claude Code session)` and `selectable` is `false`.
+
+`exact` is `true` when the plan ran with `--exact`, so the verify step can rerun the same command. `apply.sh` does not read it: it matches every item by its identifying fields either way.
 
 ## Kinds
 

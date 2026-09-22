@@ -6,12 +6,15 @@
 #
 # Usage:
 #   plan.sh --diagnose         [--only claude|vscode] [--out <manifest>]
-#   plan.sh --paths <path>...  [--only claude|vscode] [--out <manifest>]
+#   plan.sh --paths <path>...  [--exact] [--only claude|vscode] [--out <manifest>]
 #
 #   --diagnose  every record whose project path no longer exists is a candidate;
 #               paths under /Volumes/ are skipped; nothing starts selected
 #   --paths     every record at or under the given paths is a candidate, whether
 #               or not the path still exists; candidates start selected
+#   --exact     with --paths: only records at the given paths themselves, none
+#               under them — for a launch pad such as ~ whose sub-folders hold
+#               other projects; lifts the refusal of paths that match everything
 #   --only      plan one side only
 #   --out       manifest file (default ~/Backups/<timestamp>-project-cleaner/manifest.json)
 #   --no-live-guard
@@ -26,17 +29,18 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 # shellcheck source=lib.sh
 . "$here/lib.sh"
 
-mode=""; only=""; out=""; targets=(); live_guard=1
+mode=""; only=""; out=""; targets=(); live_guard=1; exact=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --diagnose) mode=diagnose; shift ;;
+    --exact) exact=1; shift ;;
     --no-live-guard) live_guard=0; shift ;;
     --paths)
       mode=paths; shift
       while [ $# -gt 0 ] && [ "${1#--}" = "$1" ]; do targets+=("$(abspath "$1")"); shift; done ;;
     --only) [ $# -ge 2 ] || die "--only needs claude or vscode"; only="$2"; shift 2 ;;
     --out) [ $# -ge 2 ] || die "--out needs a file"; out="$2"; shift 2 ;;
-    -h|--help) sed -n '3,22p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help) sed -n '3,25p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) die "unknown argument: $1" ;;
   esac
 done
@@ -45,9 +49,13 @@ require_env
 case "$only" in ""|claude|vscode) ;; *) die "--only takes claude or vscode" ;; esac
 if [ "$mode" = paths ]; then
   [ "${#targets[@]}" -gt 0 ] || die "--paths needs at least one path"
-  for t in "${targets[@]}"; do
-    case "$t" in "/"|"$HOME"|"$HOME/Developer"|"$CLAUDE_DIR"*) die "refusing a path that would match everything: $t" ;; esac
-  done
+  if [ "$exact" = 0 ]; then
+    for t in "${targets[@]}"; do
+      case "$t" in "/"|"$HOME"|"$HOME/Developer"|"$CLAUDE_DIR"*) die "refusing a path that would match everything: $t (add --exact to target the path itself)" ;; esac
+    done
+  fi
+elif [ "$exact" = 1 ]; then
+  die "--exact needs --paths"
 fi
 
 LIVE="$(live_session_cwds)"
@@ -55,12 +63,18 @@ items="$(mktemp)"; info="$(mktemp)"; scanned="$(mktemp)"
 trap 'rm -f "$items" "$info" "$scanned"' EXIT
 n=0
 
+# True when a path ($1) belongs to a target ($2): at or under it by default,
+# equal to it under --exact.
+belongs() {
+  if [ "$exact" = 1 ]; then [ "$1" = "$2" ]; else under "$1" "$2"; fi
+}
+
 # Candidate reason for a record's path: targeted | missing | volume | (empty).
 reason_for() {
   local p="$1" t
   if [ "$mode" = paths ]; then
     for t in "${targets[@]}"; do
-      if under "$p" "$t"; then echo targeted; return 0; fi
+      if belongs "$p" "$t"; then echo targeted; return 0; fi
     done
     return 0
   fi
@@ -69,15 +83,17 @@ reason_for() {
 }
 
 # True when a live Claude Code session runs at or under the record's path, or —
-# in --paths mode — anywhere under the target that contains the record.
+# in --paths mode — anywhere under the target that contains the record. Under
+# --exact only a session at the very path counts: the records of a launch pad
+# are not the records of the projects under it.
 protected() {
   local c t
   while IFS= read -r c; do
     [ -n "$c" ] || continue
-    if under "$c" "$1"; then return 0; fi
+    if belongs "$c" "$1"; then return 0; fi
     if [ "$mode" = paths ]; then
       for t in "${targets[@]}"; do
-        if under "$c" "$t" && under "$1" "$t"; then return 0; fi
+        if belongs "$c" "$t" && belongs "$1" "$t"; then return 0; fi
       done
     fi
   done <<< "$LIVE"
@@ -147,7 +163,7 @@ if [ "$only" != vscode ]; then
 
     if [ "$mode" = paths ]; then
       for t in "${targets[@]}"; do
-        if [ "$key" = "$(encode_key "$t")" ] || { [ -n "$path" ] && under "$path" "$t"; }; then
+        if [ "$key" = "$(encode_key "$t")" ] || { [ -n "$path" ] && belongs "$path" "$t"; }; then
           emit claude-key-dir "${path:-$t}" targeted "$extra"; break
         fi
       done
@@ -261,14 +277,16 @@ fi
 mkdir -p "$(dirname "$out")"
 targets_json="$(printf '%s\n' ${targets[@]+"${targets[@]}"} | jq -R . | jq -sc 'map(select(length > 0))')"
 jq -n --arg created "$(date -u +%Y-%m-%dT%H:%M:%SZ)" --arg mode "$mode" --arg only "${only:-all}" \
+  --argjson exact "$([ "$exact" = 1 ] && echo true || echo false)" \
   --argjson targets "$targets_json" --argjson env "$(env_json)" \
   --slurpfile items "$items" --slurpfile info "$info" \
   --argjson scanned "$(sort "$scanned" | uniq -c | awk '{ print $2 "\t" $1 }' | jq -R 'split("\t") | {(.[0]): (.[1] | tonumber)}' | jq -sc 'add // {}')" \
-  '{tool: "sk-project-cleaner", version: 1, created: $created, mode: $mode, only: $only,
+  '{tool: "sk-project-cleaner", version: 1, created: $created, mode: $mode, only: $only, exact: $exact,
     targets: $targets, env: $env, scanned: $scanned, items: $items, info: $info}' > "$out"
 
 # ---------------------------------------------------------------- report
-echo "== sk-project-cleaner plan — $mode${only:+ ($only only)}"
+label="$mode"; [ "$exact" = 0 ] || label="$mode, exact"
+echo "== sk-project-cleaner plan — $label${only:+ ($only only)}"
 jq -r '
   if (.items | length) == 0 then "\nno candidates"
   else .items | group_by(.path)[] |
