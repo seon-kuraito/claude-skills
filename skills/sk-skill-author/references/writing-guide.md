@@ -246,27 +246,18 @@ Every menu and plain-text question this skill asks, one per section. Present eac
 `SKILL.md` keeps one sentence where its flow begins — *Every menu and plain-text question this skill asks lives in `references/menus.md`; present each as written there* — and points at each menu where the flow reaches it. What happens on each answer, the branch the flow takes, stays in the body beside that pointer: the menu file holds copy, not flow.
 
 - **Verbatim & ordered** — question, header, labels, and order are copied exactly, never rephrased or reordered. The only line allowed to vary is a `[Rule, not copy]` entry that filters the option *set* by a deterministic condition (an existing branch, a bound remote, a detected `vite` dependency).
-- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the section titles, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — a deliberate exception to English-only authoring, shared only with the *Execution gate* below. The language split makes the two impossible to confuse.
+- **Copy vs. direction, split by language** — everything inside 「」 is user-facing copy, written in the user's language and reproduced verbatim; everything outside 「」 (the field labels, the section titles, the `[Rule, not copy]` line) is English direction to the agent and is never shown. A menu is UI, not config — the one deliberate exception to English-only authoring. The language split makes the two impossible to confuse.
 - **Fully neutral** — no option is marked recommended and no surrounding prose nudges one; present the options as equals. If the skill asserts a default elsewhere, neutralize it so prose and menu agree.
 - **Descriptions baked in** — the guidance for choosing lives in each option's description, not in conversational prose before the menu.
 - **Silent collection** — emit no prose before, between, or after the menu calls of an input phase; call the tool and act on the answer. Narration resumes only once every selection for that phase is in. Stage-handoff gates ("enter the next stage?") follow the same no-prose-wrapping rule.
 
 ### Execution gate
 
-Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. Standardize it as a fixed-title heading, `## 🚧 Execution gate`, followed by an item-keyed table — the same shape as the `## ✅ Delivery summary` recap, so a gate and a recap read alike. The whole block below the heading is user-facing copy in Chinese — the column headers (`項目 | 說明`), the fixed row labels, every cell (one sentence per cell), and any lead line. Like a menu, a gate is UI, not config, so it shares the menus' exception to English-only authoring; the heading itself stays English, as `## ✅ Delivery summary` does. No `---` rule and no `　` spacer frame the block:
+Skills that run outward-facing or irreversible actions — anything touching a remote, repo settings, or another user's view — need a confirmation gate before those actions. SKILL.md carries a short `## Execution gate` section that states three things and nothing else: what triggers the gate, what the skill lists before anything runs, and that it waits for an explicit go. Write them in prose, and add the per-gate nuance there too — a gate that forks on the answer ("confirm = push, decline = stay local"), a gate that runs twice in one flow, a gate whose confirmation only covers the step in front of it.
 
-```markdown
-## 🚧 Execution gate
+Use the words *execution gate* verbatim. A user's own configuration may key on that term to supply the rendering, and a synonym never reaches it.
 
-| 項目 | 說明 |
-| --- | --- |
-| 觸發條件 | <哪些對外指令>：`cmd`、`cmd`。 |
-| 列出內容 | 執行前列出將要執行的內容。 |
-| 確認 | 取得明確確認後再執行。 |
-| 分開執行 | 各步驟需分次處理。 |
-```
-
-The four rows are the spine — `觸發條件` / `列出內容` / `確認` / `分開執行`, labels fixed (a gate whose last rule scopes remote access rather than step separation names it `遠端操作`); reproduce the heading and the table verbatim, every time. The table is fixed copy, not a form: never fill its cells with this run's details, rename a row, or change a column header. What the **列出內容** row names — the exact commands, a title, a body link, what would be lost — goes below the table as its own block; a skill may fix that block's labels (`sk-pr-creator` keeps **Title** / **Body** / **Flags** in English). An optional lead line may sit between the heading and the table when the gate needs to scope itself (e.g. "local steps run freely"). This guide isn't loaded at skill runtime, so each gate-emitting skill keeps the gate above in its own `assets/execution-gate.md`, and in SKILL.md keeps a short `## 🚧 Execution gate` pointer that names what triggers it and says to render that asset verbatim, with the 列出內容 content below it, before proceeding. Extracting the gate to a file keeps the format syncable across skills; the bespoke `觸發條件` row stays per-skill. When a gate carries extra meaning, fold it into the relevant row rather than adding noise — e.g. a gate that *is* a fork in the flow ("confirm = push, decline = stay local") says so on the **確認** row; what to show (title, body-as-link, flags) rides on the **列出內容** row. Don't flatten that nuance away for the sake of uniformity.
+**A skill never specifies what the block looks like.** No heading emoji, no column headers, no row labels, no table, and no `assets/execution-gate.md`. The shape belongs to the user: one who has defined it gets it applied, one who has not gets whatever the agent renders at the time, and both are correct. Fixing the shape inside skills was the earlier design — every gate-emitting skill then carried its own copy of the rendered table, a change to the shape meant editing all of them, and the copies drifted apart.
 
 ### Locating paths on disk
 

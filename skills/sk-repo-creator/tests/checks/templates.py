@@ -12,7 +12,6 @@ assets = root / "assets"
 failures = []
 
 required = [
-    "execution-gate.md",
     "blank/gitignore.txt",
     "meta-repo/CLAUDE.md.tmpl",
     "meta-repo/README.md.tmpl",
@@ -24,10 +23,6 @@ for rel in required:
     path = assets / rel
     if not path.exists() or not path.read_text().strip():
         failures.append(f"assets/{rel} is missing or empty")
-
-gate = assets / "execution-gate.md"
-if gate.exists() and "🚧" not in gate.read_text():
-    failures.append("execution-gate.md carries no 🚧 gate marker")
 
 # Every placeholder in a meta-repo template must be explained where the skill fills it.
 reference = (root / "references" / "meta-repo.md").read_text()
