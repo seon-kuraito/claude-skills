@@ -21,7 +21,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 1. **Pin down the moves** — exact old and new absolute paths, several pairs per run if needed. Confirm the pairs with the user before planning, even when the request already names exact paths, and say in that confirmation that each new path must not exist yet or must be an empty folder.
 2. **Plan** — run `bash <base>/scripts/plan.sh --move <old> <new> [--move <old> <new>]...`. It changes nothing and writes a manifest (default `~/Backups/<timestamp>-project-migrator/manifest.json`).
 3. **Report** — relay the printed report: each move with its size and uncommitted changes, session folders with their session and memory counts, config, history, and symlink counts, the VS Code items to clear, hard-coded old paths, warnings, and blockers. Resolve blockers with the user and plan again; `apply.sh` refuses a plan that has any.
-4. **Gate** — render `assets/execution-gate.md` for `apply.sh`.
+4. **Gate** — stop at an execution gate for `apply.sh`.
 5. **Hand off** — tell the user to quit VS Code with Cmd+Q, close every Claude Code session including this one, and run `bash <base>/scripts/apply.sh <manifest>` in Terminal.app. When it prints `migration finished`, open the new path with File › Open Folder or `code -n <new path>` and `/resume` this session there. Warn against File › Open Recent: it still lists the old path, the old folder stays on disk until step 7, and a resume there finds no sessions.
 6. **Check at the new path** — read `apply-output.log` beside the manifest and make sure every verify line reads `ok`. Check that `git status` matches the plan, then go through the hard-coded old paths with the user.
 7. **Finalize** — run `bash <base>/scripts/finalize.sh --dry-run <manifest>` and render the gate again with its output. After confirmation, run it without `--dry-run`: it deletes the old folders and the manifest folder, backups included.
@@ -44,9 +44,9 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 The migrator finds the cleaner at `~/.claude/skills/sk-project-cleaner`, plans the old paths with its `plan.sh --paths <old>... --only vscode --no-live-guard` during the preview, and runs its `apply.sh` inside the same Terminal run, so the user quits VS Code once. A user who wants a project's state deleted rather than moved needs the cleaner itself, not this skill.
 
-## 🚧 Execution gate
+## Execution gate
 
-Before step 5 and again before step 7, render `assets/execution-gate.md` verbatim, then show what its **列出內容** row names for that step below the table. `apply.sh` changes state outside the project that the user cannot see, and `finalize.sh` deletes the old folders for good.
+Before step 5 and again before step 7, stop at an execution gate and wait for an explicit go. For `apply.sh`, show the size of every move and any uncommitted changes, the Claude Code state to move, the VS Code entries to clear, the hard-coded old paths left for the user, the manifest path, and the full command to run in Terminal; for `finalize.sh`, show its `--dry-run` output. `apply.sh` changes state outside the project that the user cannot see, and `finalize.sh` deletes the old folders for good. The two gates stay separate, and the user checks the result at the new path between them.
 
 ## References
 

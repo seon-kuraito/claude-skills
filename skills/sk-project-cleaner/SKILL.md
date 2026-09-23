@@ -20,7 +20,7 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 1. **Plan** — run `bash <base>/scripts/plan.sh --paths <path>... [--exact]` or `bash <base>/scripts/plan.sh --diagnose`. It changes nothing and writes a manifest (default `~/Backups/<timestamp>-project-cleaner/manifest.json`).
 2. **Report** — per project path: which records exist, how many sessions and memory cards a session-folder deletion loses, what is not selectable and why, the info section, and the `scanned` counts, so "no candidates" reads as checked rather than skipped. In diagnose mode, ask which candidates to clear. In exact mode, also say what comes back: the next session started at that path recreates the session folder, and a terminal session recreates the project entry once the trust dialog is accepted again and the history lines as prompts are typed; the memory cards do not come back.
 3. **Record the selection** — set `selected` on the chosen items; only `selectable` items count (`references/manifest.md`).
-4. **Gate** — render `assets/execution-gate.md` (see *🚧 Execution gate*).
+4. **Gate** — stop at an execution gate (see *Execution gate*).
 5. **Hand off** — once confirmed, tell the user to quit VS Code with Cmd+Q, close every Claude Code session including this one, run `bash <base>/scripts/apply.sh <manifest>` in Terminal.app, then reopen VS Code and `/resume` this session.
 6. **Verify** — after the resume, read `apply-log.jsonl` beside the manifest and rerun the same `plan.sh` command: applied items must be gone, and every skipped item needs its reason explained.
 7. **Finish** — when the user confirms the result, delete the manifest folder, which holds the backup. Remind them that File › Open Recent entries are removed by hand.
@@ -39,9 +39,9 @@ Supports macOS with VS Code (stable) only; anywhere else, say so and stop. The s
 
 `sk-project-migrator` hands its old paths to this skill: `plan.sh --paths <old>... --only vscode --no-live-guard --out <file>` during its preview, and `apply.sh <file>` inside its own Terminal run, so the user quits VS Code once. The contract is in `references/manifest.md`.
 
-## 🚧 Execution gate
+## Execution gate
 
-Before step 5, render `assets/execution-gate.md` verbatim, then show what its **列出內容** row names below the table. `apply.sh` deletes session folders, config entries, and editor state that cannot come back once the backup is gone.
+Before step 5, stop at an execution gate and wait for an explicit go. Show the selected items grouped by project path, the sessions and memory cards that go away, the manifest path, and the full command to run in Terminal. `apply.sh` deletes session folders, config entries, and editor state that cannot come back once the backup is gone. The backup stays until the user has checked the result, and removing it is a separate step.
 
 Beside the Terminal command, say in one line why the user runs it there and the session does not: this session lives inside VS Code and Claude Code, and both rewrite their state files while they run. A user asked to close everything and paste a command is owed the reason.
 

@@ -74,9 +74,9 @@ Only when the **deploy branch** option was selected — that branch exists preci
 
 Never auto-enter it — always the user's choice (the same shape as sk-repo-creator's hand-off into this stage).
 
-## 🚧 Execution gate
+## Execution gate
 
-Before any command that writes to the remote or repo settings (`gh label …`, the ruleset `gh api --method POST`, `git push`), render `assets/execution-gate.md` verbatim, show the exact commands below the table, and wait for confirmation.
+Before any command that writes to the remote or repo settings (`gh label …`, the ruleset `gh api --method POST`, `git push`), stop at an execution gate, show the exact commands, and wait for an explicit go. The selected features run one at a time, each through its own gate.
 
 ## Related
 

@@ -33,7 +33,7 @@ for name in ("consent-gate.md", "pr-vite-config.md"):
         failures.append(f"{name} is missing or empty")
 
 gate = assets / "consent-gate.md"
-if gate.exists() and not any(mark in gate.read_text() for mark in ("🛑", "🚧")):
+if gate.exists() and not any(mark in gate.read_text() for mark in ("🛑",)):
     failures.append("consent-gate.md carries no gate marker")
 
 for message in failures:

@@ -44,9 +44,9 @@ The workflow commit lands on `ci/deploy-github-pages`, which needs a PR to reach
 - **Yes** → hand to [sk-pr-creator](../sk-pr-creator/SKILL.md).
 - **No** → leave the branch in place for the user.
 
-## 🚧 Execution gate
+## Execution gate
 
-Before any command that writes to the remote or repo settings (`gh api .../pages`, `git push`), render `assets/execution-gate.md` verbatim, show the exact commands below the table, and wait for confirmation.
+Before any command that writes to the remote or repo settings (`gh api .../pages`, `git push`), stop at an execution gate, show the exact commands, and wait for an explicit go. Each step passes through its own gate.
 
 ## References
 

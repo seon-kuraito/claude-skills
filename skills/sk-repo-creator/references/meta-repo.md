@@ -110,7 +110,7 @@ Every commit lands directly on each repo's `main` before the gate, so nothing by
 
 Unlike blank and framework, which are always public, a family's visibility is a choice. Settle it before the gate with the **Visibility** menu — one answer applies to the layer and every member.
 
-Then render `assets/execution-gate.md` verbatim, list each `<account>/<name>` and its command below the table, and present the **Family remote** menu in place of the single-repo **Remote** menu.
+Then stop at an execution gate, list each `<account>/<name>` and its command, and present the **Family remote** menu in place of the single-repo **Remote** menu.
 
 - **建立遠端並 push** → for each repo in that order: `git -C <path> branch -M main`, then `gh repo create <account>/<name> --<visibility> --source <path> --remote origin --push`. Stop at the first failure and report which repos now have a remote and which stayed local.
 - **先不綁遠端** → every repo stays local-only.
