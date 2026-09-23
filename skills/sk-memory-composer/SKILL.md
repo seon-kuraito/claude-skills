@@ -54,9 +54,9 @@ The steps are in `references/flows.md`. In outline:
 - **Never list the cases inside a memory** — say how to find them (`ls ~/.claude/global-memory/`). A list goes stale the day a case is added.
 - **Never invent a fact to fill a field** — a date, a source, a reason: ask, or leave it out.
 
-## 🚧 Execution gate
+## Execution gate
 
-Before a Restructure, a case rename, deleting any memory, or applying an Audit's changes, render `assets/execution-gate.md` verbatim. Below the table, list every file to be created, changed, moved, or deleted, the backup folder, and the CLAUDE.md diff.
+Before a Restructure, a case rename, deleting any memory, or applying an Audit's changes, stop at an execution gate and wait for an explicit go. List every file to be created, changed, moved, or deleted, the backup folder, and the CLAUDE.md diff. The backup lasts only until the session ends or the machine reboots, so finish the change and the check in one session.
 
 ## References
 

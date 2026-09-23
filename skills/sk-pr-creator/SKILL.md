@@ -58,9 +58,9 @@ It reads what a reviewer cannot: a bullet that slipped out of English, a missing
 
 Non-English copy is the slip this catches most often, because the conversation around the PR is frequently in another language and one bullet follows it. The rule itself is in *Conventions*; this step is what enforces it.
 
-## 🚧 Execution gate
+## Execution gate
 
-Before any `gh` PR command or the post-merge remote-branch prune (`git push origin --delete`), render `assets/execution-gate.md` verbatim, show what its **列出內容** row names below the table, and wait for confirmation. Below the table, write these three bullets with their labels kept in English, then the exact command in a `sh` block:
+Before any `gh` PR command or the post-merge remote-branch prune (`git push origin --delete`), stop at an execution gate and wait for an explicit go. Creating a PR and merging one pass through separate gates. Write these three bullets with their labels kept in English, then the exact command in a `sh` block:
 
 ```markdown
 - **Title**：`<title>`
