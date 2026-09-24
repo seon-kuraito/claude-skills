@@ -11,9 +11,20 @@ What makes the two memory layers work for any user. Everything here is structure
 | Index | `MEMORY.md`, one line per file | The lookup lines in the user-level CLAUDE.md |
 | Holds | Facts useless outside the project: its state, pending work, file coupling, repo conventions | Rules that follow the user into every project |
 
-**Routing test:** would this still be true in a different repo? Yes → global memory. No → project memory.
+**Routing test** (step 2 of *Memory or skill* below): would this still be true in a different repo? Yes → global memory. No → project memory.
 
 Why two layers: a project folder loads only for sessions started in that project. A rule about how the user works, saved there, is missing from every other project — and gets saved again elsewhere, in different words.
+
+## Memory or skill
+
+Before the two layers, one more destination: a skill. A rule whose moment sits inside an installed skill's flow, and whose content is a rule for that flow — when to stop, what to list, what to read or write — belongs in that skill, not in a memory. How a block renders, how the user wants to be addressed, and a gate the user set for themselves stay in memory, whatever flow they touch.
+
+**Routing test, in order:**
+
+1. Does the rule govern a step of an installed skill's flow, and is it a flow rule rather than rendering, tone, or a personal gate? Yes → that skill: hand the rule to `sk-skill-author` — or to `sk-hook-author` when the harness should enforce it on an event — and write no memory. When that authoring skill is not installed, say so and go on to step 2.
+2. Would this still be true in a different repo? Yes → global memory. No → project memory.
+
+Why: a memory loads for one user at the moment a lookup line names, while a skill loads for every session that runs it — peers, subagents, other users. A flow rule kept only in memory is missing for every other reader, and a copy in both places drifts. The same boundary, seen from the skill's side, is in `sk-skill-author`'s writing guide.
 
 ## Path encoding
 
@@ -43,9 +54,9 @@ Why: the lookup line fires only at its own moment. A rule for another moment —
 
 ## The write entry
 
-The `## Memory` section carries one fixed line, from `assets/claude-md-memory-section.txt`: before writing any memory, check whether it belongs in global memory. It is not a rule line, and the rule-line test above never removes it.
+The `## Memory` section carries one fixed line, from `assets/claude-md-memory-section.txt`: before writing any memory, check whether it belongs in a skill or in global memory. It is not a rule line, and the rule-line test above never removes it.
 
-Why: lookup lines only bring a session in to read. A session that has not loaded this skill follows the harness's own memory instructions, which point at the project folder; this line is what makes it consider global memory at all. The line states the rule; how to decide stays in this skill.
+Why: lookup lines only bring a session in to read. A session that has not loaded this skill follows the harness's own memory instructions, which point at the project folder; this line is what makes it consider a skill or global memory at all. The line states the rule; how to decide stays in this skill.
 
 ## Cases
 
@@ -78,7 +89,7 @@ Why: a session picks a case by the moment it is in, so a name that states the mo
 
 ## Architecture or preference
 
-Belongs here: what the layers need in order to work for every user — the layout, loading, lookup lines, rule lines, the write entry, case and file naming, links, indexes, and the check.
+Belongs here: what the layers need in order to work for every user — the routing between a skill and the two layers, the layout, loading, lookup lines, rule lines, the write entry, case and file naming, links, indexes, and the check.
 
 Belongs in the user's global memory: how that user wants memories written and kept.
 

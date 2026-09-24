@@ -18,7 +18,7 @@ Before any flow, find the lookup line in the user-level CLAUDE.md that covers me
 - **Project memory** — `~/.claude/projects/<encoded-path>/memory/`, one file per memory plus a `MEMORY.md` index. The harness loads the index into sessions started in that project, and nowhere else.
 - **Global memory** — `~/.claude/global-memory/<case>/<name>.md`. Nothing loads these files on its own.
 - **Lookup lines** — every case has a CLAUDE.md section that ends with the line in `assets/lookup-line.tmpl`. It is the only thing that sends a session into a case, and only at the moment it names.
-- **Write entry** — the `## Memory` section carries the routing line in `assets/claude-md-memory-section.txt`. Lookup lines only bring a session in to read; this line makes a session that never loaded this skill consider global memory when it writes.
+- **Write entry** — the `## Memory` section carries the routing line in `assets/claude-md-memory-section.txt`. Lookup lines only bring a session in to read; this line makes a session that never loaded this skill consider a skill or global memory when it writes.
 - **Preferences stay out** — body language, extra frontmatter, body shapes, granularity, and when to delete or hand off belong to the user's cases.
 
 The full rules and their reasons: `references/architecture.md`.
@@ -28,7 +28,7 @@ The full rules and their reasons: `references/architecture.md`.
 | The task | Flow |
 | --- | --- |
 | No `~/.claude/global-memory/` yet | Init |
-| Save or update a memory, including one Claude decides on mid-task or a standing rule the user states in passing | Write |
+| Save or update a memory, including one Claude decides on mid-task or a standing rule the user states in passing — the Write flow first asks whether the rule belongs in a skill instead | Write |
 | A rule fits no case, or a case name no longer says when to look it up | Case |
 | Is the memory in order — duplicates, drift, misplaced rules | Audit |
 | Split, merge, migrate, or delete memories | Restructure |
@@ -37,7 +37,7 @@ The full rules and their reasons: `references/architecture.md`.
 The steps are in `references/flows.md`. In outline:
 
 - **Init** — make sure the user-level CLAUDE.md exists: when it does not, load `sk-claudemd-composer` for a blank one and come back; without that skill, create the blank file yourself. Then create `~/.claude/global-memory/`, add the `## Memory` section, and run the check.
-- **Write** — route to global or project, pick the case by reading the CLAUDE.md sections, write or update the file, update the index, decide whether the rule needs its own CLAUDE.md line, run the check.
+- **Write** — route to a skill, global, or project, pick the case by reading the CLAUDE.md sections, write or update the file, update the index, decide whether the rule needs its own CLAUDE.md line, run the check.
 - **Case** — add a case only when nothing fits, name it by the rules, give it a section and a lookup line; to rename one, move it and rewrite every lookup line, link, and path that names it.
 - **Audit** — run the check, build the inventory from disk, compare every memory with the user's preferences, and report every finding before changing anything.
 - **Restructure** — list the changes, pass the gate, back up, apply, run the check.

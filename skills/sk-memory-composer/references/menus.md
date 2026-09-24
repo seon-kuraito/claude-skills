@@ -5,11 +5,13 @@ Every menu and plain-text question this skill asks, one per section. Present eac
 ## Route
 
 ```
-single-select · header: 「放哪一層」
-question: 「這則記憶要放在哪一層？」
+single-select · header: 「放哪裡」
+question: 「這條規則要放在哪裡？」
 options:
+  · 「寫進 skill」 — 「適用於某個已安裝 skill 流程的規則，交由 sk-skill-author 寫入該 skill，不另存為記憶」
   · 「全域記憶」 — 「適用於多個專案的規則，存放於 global-memory 下的 case」
   · 「專案記憶」 — 「僅適用於目前專案的資訊，存放於此專案的記憶資料夾」
+[Rule, not copy] include 「寫進 skill」 only when sk-skill-author or sk-hook-author is installed.
 ```
 
 ## CLAUDE.md rule line
