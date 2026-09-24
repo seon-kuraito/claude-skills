@@ -69,6 +69,9 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 
 - **<bold label>**：
   - <sub-point>
+- **委派對象**：
+  - <the sibling skill this flow hands work to, linked, and what it takes over>
+  - <the fallback when that skill is not installed>
 ````
 
 ## Sections — required vs conditional
@@ -83,7 +86,7 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 - **`## 如何使用這個 skill（HOW）`** — a wrapper holding three `h3` subsections:
   - **`### 安裝`** — always present. Two methods (**手動複製** / **執行腳本**), the `sh` code block indented two spaces to nest under 執行腳本.
   - **`### 設計取向`** — for a *derived* skill, the deltas from the upstream (named in `## 聲明`'s `來源`, not the heading). For an original skill, include only if there are design choices worth recording.
-  - **`### 預設與相依`** — only when the skill hard-codes environment / personal assumptions (a repo path, sibling skills). Omit if none.
+  - **`### 預設與相依`** — only when the skill hard-codes environment / personal assumptions (a repo path, sibling skills). Omit if none. A sibling skill the flow hands work to goes under the fixed label `委派對象`: one sub-bullet names the skill (linked) and what it takes over, one states the fallback when it is not installed. When the flow cannot run without the sibling, the label is `委派對象（required）` and the sub-bullets list the skills alone.
 - **`> 附註`** — only when there is something to disclose honestly (e.g. bundled code carried verbatim from upstream). Attaches to the section above it.
 
 ## Tone & language
