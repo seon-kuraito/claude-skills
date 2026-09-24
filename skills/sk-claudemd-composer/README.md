@@ -85,5 +85,5 @@
 
 ### 預設與相依
 
-- **相依的 skill**：
+- **委派對象**：
   - 記憶區段交由 [`sk-memory-composer`](../sk-memory-composer) 處理。若該 skill 無法使用，應保留區段原文，並在報告中說明

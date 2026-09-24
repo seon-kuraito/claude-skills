@@ -1,6 +1,6 @@
 ---
 name: sk-project-migrator
-description: Moves or renames local project folders on macOS and carries along what Claude Code and VS Code remember about them, so sessions, memory, and project settings survive the new path. Use when the user wants to move, rename, relocate, or reorganize project folders (for example into per-owner directories), or asks how to keep Claude Code sessions and memory after changing a project's path — regardless of exact wording or language. Not for moving files inside a project, cloning a repo elsewhere, or deleting a retired project's leftovers.
+description: Moves or renames local project folders on macOS and carries along what Claude Code and VS Code remember about them, so sessions, memory, and project settings survive the new path. Use when the user wants to move, rename, relocate, or reorganize project folders (for example into per-owner directories), or asks how to keep Claude Code sessions and memory after changing a project's path — regardless of exact wording or language. Not for moving files inside a project, cloning a repo elsewhere, or deleting a retired project's leftovers (that is sk-project-cleaner).
 ---
 
 # Project Migrator
@@ -51,3 +51,8 @@ Before step 5 and again before step 7, stop at an execution gate and wait for an
 ## References
 
 - `references/procedure.md` — manifest fields, plan checks, what each `apply.sh` phase changes and checks, restore per phase, finalize, and notes on each store
+
+## Related
+
+- [sk-project-cleaner](../sk-project-cleaner/SKILL.md) — the state of a project that is gone or retired. This skill calls it for the old paths' VS Code state (see *Working with sk-project-cleaner*); deleting a project's state rather than moving it is its work, not this skill's.
+- [sk-memory-composer](../sk-memory-composer/SKILL.md) — the memory files themselves and where a memory belongs. This skill moves the folder that holds them and changes nothing inside a memory file.

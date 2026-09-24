@@ -31,6 +31,16 @@
 
 　
 
+## 配合運作的 skill
+
+以下三組 skill 配合處理相關工作，各自的 `SKILL.md` 皆在 `## Related` 段落中連結至另一方：
+
+- `sk-claudemd-composer`／`sk-memory-composer`：`sk-claudemd-composer` 負責整份 CLAUDE.md，`sk-memory-composer` 負責其中的記憶區段；使用者層級的 CLAUDE.md 不存在時，由 `sk-claudemd-composer` 建立空白檔案
+- `sk-branch-creator`／`sk-commit-creator`：兩者共用 Conventional Commits 的 type 語彙，並由 `sk-commit-creator` 維護相關定義；若 commit 將直接提交至 `main` 等長期 branch，`sk-commit-creator` 會先將 branch 建立工作交由 `sk-branch-creator` 處理
+- `sk-project-cleaner`／`sk-project-migrator`：`sk-project-cleaner` 清除已刪除或封存專案的殘留狀態，`sk-project-migrator` 搬遷專案及其相關狀態；搬遷時，由 `sk-project-cleaner` 清除舊路徑的 VS Code 狀態
+
+　
+
 ## 運作方式
 
 Claude Code 會掃描 `~/.claude/skills/` 來探索可用的 skill。本 repo 不直接版控執行目錄，因為裡面可能有第三方安裝的 skill，也緊鄰私人 session 資料。這裡只保存自己維護的檔案，並逐一連結過去：

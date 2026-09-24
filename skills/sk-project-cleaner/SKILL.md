@@ -1,6 +1,6 @@
 ---
 name: sk-project-cleaner
-description: Diagnoses and clears what Claude Code and VS Code remember about local project paths on macOS — session and memory folders, ~/.claude.json project and GitHub-repo entries, prompt history, VS Code workspace storage, window-restore registrations, recent terminal directories, and extension caches. Use when a project was deleted, archived, or already moved away and its leftovers at the old path should go, when the user asks whether anything can be cleaned up, or when stale projects keep appearing in Claude Code or VS Code — regardless of exact wording or language. Not for moving or renaming a project or keeping its sessions working at a new path, nor for deleting a project's own files, build output, or dependencies.
+description: Diagnoses and clears what Claude Code and VS Code remember about local project paths on macOS — session and memory folders, ~/.claude.json project and GitHub-repo entries, prompt history, VS Code workspace storage, window-restore registrations, recent terminal directories, and extension caches. Use when a project was deleted, archived, or already moved away and its leftovers at the old path should go, when the user asks whether anything can be cleaned up, or when stale projects keep appearing in Claude Code or VS Code — regardless of exact wording or language. Not for moving or renaming a project or keeping its sessions working at a new path (that is sk-project-migrator), nor for deleting a project's own files, build output, or dependencies.
 ---
 
 # Project Cleaner
@@ -49,3 +49,8 @@ Beside the Terminal command, say in one line why the user runs it there and the 
 
 - `references/state-map.md` — every store, how a record maps to a path, safe editing, and which stores need VS Code closed
 - `references/manifest.md` — manifest fields, selection, per-item re-checks, apply output, and the calling contract
+
+## Related
+
+- [sk-project-migrator](../sk-project-migrator/SKILL.md) — a project that moves to a new path and keeps its state. That skill calls this one for the old paths' VS Code state (see *Called from another skill*); a move is its work, not this skill's.
+- [sk-memory-composer](../sk-memory-composer/SKILL.md) — the memory files themselves and where a memory belongs. This skill only deletes the folder that holds them.

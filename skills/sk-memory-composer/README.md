@@ -74,6 +74,9 @@
 - **變更前先備份與確認**：
   - 修改多個檔案前，先備份至工作階段的暫存目錄（Scratchpad），並於同一個工作階段內完成檢查
   - 移動、改寫或刪除記憶前，須先完成執行確認（Execution Gate）
+- **與 `sk-claudemd-composer` 分工**：
+  - 本 skill 僅負責 CLAUDE.md 中的記憶區段，包括以查詢指示結尾的區段與寫入入口；其餘內容由 `sk-claudemd-composer` 負責
+  - 使用者層級的 CLAUDE.md 不存在時，由 `sk-claudemd-composer` 建立空白檔，再由本 skill 加入記憶區段
 - **收錄驗證案例**：
   - `tests/model.json` 收錄觸發案例與行為案例，用於確認稽核僅回報結果而不修改檔案、工作期間寫入記憶前會載入此 skill，以及新工作階段會依查詢指示讀取規則
   - `tests/checks/` 使用臨時目錄驗證 `check.py` 與 `backup.py` 的判斷及輸出；測試採靜態執行，不需要 LLM
@@ -88,7 +91,7 @@
 - **位置**：
   - 全域記憶固定放在 `~/.claude/global-memory/`，查詢指示寫在 `~/.claude/CLAUDE.md`
   - 備份存放於工作階段的暫存目錄；若無該目錄，則使用系統暫存目錄。工作階段結束或系統重新開機後，備份不予保留
-- **相依的 skill**：
+- **委派對象**：
   - 使用者層級的 CLAUDE.md 不存在時，由 [`sk-claudemd-composer`](../sk-claudemd-composer) 建立空白檔；若未安裝該 skill，則直接建立空白檔
 - **驗證案例的前提**：
   - 查詢指示的行為案例須在已完成初始化，且有 case 涵蓋 `git push` 時機的環境中執行

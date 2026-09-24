@@ -114,6 +114,6 @@
   - 可以交給 [`sk-project-deployer`](../sk-project-deployer) 作為部署來源分支
 - **空白檔**：
   - `.claude/CLAUDE.md` 建為空白檔
-- **委派的 skills**：
+- **委派對象**：
   - 後續的 branch 與 PR 整理由 [`sk-branch-creator`](../sk-branch-creator)／[`sk-pr-creator`](../sk-pr-creator) 處理
   - 若未提供上述 skill，則依現有的 branch／PR 慣例處理

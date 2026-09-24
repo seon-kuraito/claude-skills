@@ -77,5 +77,5 @@
 
 - **語言慣例**：
   - 一律英文、kebab-case（git／web 慣例）
-- **委派的 skill**：
+- **委派對象**：
   - type 詞彙的完整定義交給 [`sk-commit-creator`](../sk-commit-creator)；沒有該 skill 時，改參照 Conventional Commits 規格即可

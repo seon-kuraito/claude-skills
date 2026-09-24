@@ -133,4 +133,4 @@ chore: bump remotion to 4.0.500
 
 ## Related
 
-For matching branch names that use the same type vocabulary, see [sk-branch-creator](../sk-branch-creator/SKILL.md). This skill hands branch creation to it when a commit would land on a long-lived branch (see *Branch check*).
+- [sk-branch-creator](../sk-branch-creator/SKILL.md) — the branch the commit lands on. It reuses the type vocabulary this skill defines, and this skill loads it when a commit would land on a long-lived branch (see *Branch check*).

@@ -87,7 +87,7 @@
   - 部署目標是 GitHub Pages（Vite SPA）
   - 自動把 `vite.config.ts` 的 `base` 設為 `/<專案名>/`，讓 GitHub Pages 子路徑下的資源能正確載入
   - 最後反覆檢查 live URL，直到回傳 HTTP 200，並以 `code .` 開啟 VS Code
-- **相依的 skill（required）**：
+- **委派對象（required）**：
   - [`sk-repo-creator`](../sk-repo-creator)
   - [`sk-project-initializer`](../sk-project-initializer)
   - [`sk-project-deployer`](../sk-project-deployer)
