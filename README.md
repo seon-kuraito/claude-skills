@@ -1,8 +1,8 @@
 # Claude Skills
 
-個人維護的 Claude Code [Skills](https://docs.claude.com/en/docs/claude-code/skills)。這個 repo 保存實際檔案並負責版控，再透過 symlink 掛進 Claude Code 的執行環境。
+本 repo 用於維護個人使用的 Claude Code [Skills](https://docs.claude.com/en/docs/claude-code/skills)。實際檔案由 repo 進行版本控制，並透過 symlink 連結至 Claude Code 的執行環境。
 
-在 claude-* 家族的分工裡，skill 負責「專業能力」：把做事的方式與偏好載入當前 session，引導 AI 按特定流程工作。獨立視角與隔離歸 `claude-agents`，強制性規則歸 `claude-hooks`。
+在 claude-* 系列專案中，skill 負責載入特定工作方式與偏好，引導 AI 依指定流程執行任務；獨立視角與隔離由 `claude-agents` 處理，強制性規則由 `claude-hooks` 處理。
 
 　
 
@@ -50,7 +50,7 @@ Claude Code 會掃描 `~/.claude/skills/` 來探索可用的 skill。本 repo �
 ~/.claude/skills/<name>                            ← symlink，逐一建立
 ```
 
-skill 會逐一連結到執行環境：不論從哪個路徑編輯，改到的都是同一份檔案，且變更會立即生效，git 也看得到。直接安裝在 `~/.claude/skills/` 的第三方 skill 不會進入本 repo。
+各 skill 會分別連結至執行環境，因此從任一路徑編輯時，修改的都是同一份檔案；變更會立即生效，也能由 git 追蹤。直接安裝在 `~/.claude/skills/` 的第三方 skill 不會納入本 repo。
 
 　
 
@@ -64,7 +64,7 @@ scripts/link-skill.sh <skill-name>
 
 `<skill-name>` 是 `skills/` 下的資料夾名稱（例如：`sk-skill-author`）。
 
-腳本可重複執行：已連結的 skill 會略過，也不會覆蓋非自身管理的 symlink（例如：同名的第三方 skill）。
+腳本可重複執行：已連結的 skill 會跳過，也不會覆蓋非本 repo 管理的 symlink（例如：同名的第三方 skill）。
 
 　
 

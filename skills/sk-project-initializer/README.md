@@ -14,9 +14,9 @@
 
 　
 
-## 為什麼做這個 skill（WHY）
+## 設計背景（WHY）
 
-- **repo 建好後還有一串瑣碎設定**：
+- **repo 建立後仍有零散設定待補**：
   - `LICENSE`、`CLAUDE.md`、main 分支保護、GitHub 標籤與部署分支等設定常常要手動補上，容易遺漏或不一致
 - **repo 建立與 project 設定要分開處理**：
   - `git init`／遠端通常只做一次；`LICENSE`、`CLAUDE.md` 這類設定則跟著實際 project 走，monorepo 裡可能需要處理多次
@@ -25,7 +25,7 @@
 
 　
 
-## 這個 skill 做什麼（WHAT）
+## 功能範圍（WHAT）
 
 - **補齊專案初始化設定**：
   - 可依需要建立 `LICENSE`、空白 `.claude/CLAUDE.md`，或新增 Conventional Commits type 標籤
@@ -42,7 +42,7 @@
 
 　
 
-## 如何使用這個 skill（HOW）
+## 使用方式（HOW）
 
 ### 安裝
 
