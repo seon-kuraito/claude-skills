@@ -12,6 +12,7 @@ Interview me relentlessly to resolve every decision in this plan or design until
 - **One branch at a time.** Don't bundle questions. Pick the most upstream unresolved decision, ask, then move to the next once it's settled.
 - **Use `AskUserQuestion` whenever the branch has 2–4 plausible answers.** Multi-choice converges faster than open-ended prose. Reserve plain-text questions for genuinely open inputs (names, numbers, free-form design).
 - **If a question can be answered by exploring the codebase, explore the codebase instead.** Don't make me look up something the repo can tell us.
+- **Answer a question inside my answer before the next branch.** When my reply to a question dialog carries a question of its own, or shows I did not follow, reply with the explanation only and end the turn; open the next dialog after I answer. A dialog covers the screen while it is open, so a question put beside it goes unanswered.
 
 ## How to recommend
 
