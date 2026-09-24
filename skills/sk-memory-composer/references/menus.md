@@ -14,14 +14,6 @@ options:
 [Rule, not copy] include 「寫進 skill」 only when sk-skill-author or sk-hook-author is installed.
 ```
 
-## CLAUDE.md rule line
-
-```
-plain text
-question: 「這條規則已寫入 `<case>`，目前會在『<trigger>』時查詢。若其他時機也需要套用，是否要在 CLAUDE.md 加入這條規則？」
-[Rule, not copy] <case> is the case the memory was written to; <trigger> is the moment that case's lookup line names, in the user's language.
-```
-
 ## Case name
 
 ```

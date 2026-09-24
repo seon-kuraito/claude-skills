@@ -17,7 +17,7 @@ Every flow starts by reading the user's preferences (`SKILL.md`, *Read the user'
 3. Look for a memory on the same subject — in the target folder, and for a global rule in every project folder too. Update it instead of writing a second one; a copy in a project folder moves through the Restructure flow.
 4. Write the file. `name` equals the file name; a global file name leaves out the case; a link to a global file is `[[<case>/<name>]]`.
 5. For project memory, add the file's line to `MEMORY.md`.
-6. For global memory, ask the **CLAUDE.md rule line** question in `references/menus.md`. When the answer is yes, add the rule itself as one imperative line above the lookup line, showing the diff first.
+6. For global memory, when the case's lookup line does not name the moment the rule applies, add that moment to its trigger, showing the diff first. Add no line for the rule itself.
 7. Run the check.
 
 A save decided mid-task takes the same steps. Route first; never write to the project folder and move the file later.
@@ -62,6 +62,7 @@ Each rule answers a way an audit has reached a wrong conclusion:
    - a project fact in a case → that project's folder
    - memories that repeat each other → one memory
    - a preference file that restates `references/architecture.md` → remove the restated part
+   - a line in a memory section of CLAUDE.md that restates a rule from a file → remove the line, and widen the trigger when its moment is missing
    - a rule that an installed skill's flow owns, sitting in a memory → that skill, through `sk-skill-author` or `sk-hook-author`; the memory keeps only what is rendering, tone, or a personal gate
 4. Report every finding before changing anything, naming the memory and the change you propose. How a report is laid out is the user's preference, not this skill's.
 5. Apply what the user approves through the Restructure flow.

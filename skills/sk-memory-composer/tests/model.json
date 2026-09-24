@@ -41,13 +41,7 @@
         "決定記下這條規則之前，先載入 sk-memory-composer",
         "將這條規則寫入沙盒的 global-memory，未寫入專案記憶",
         "未修改沙盒以外的任何檔案",
-        "在 CLAUDE.md 新增規則行之前先詢問，並依回覆保留 CLAUDE.md 原文"
-      ],
-      "replies": [
-        {
-          "when": "詢問是否也要在 CLAUDE.md 新增這條規則",
-          "reply": "不用加到 CLAUDE.md，存進記憶就好"
-        }
+        "未在 CLAUDE.md 新增規則；如有修改，僅擴大既有查詢指示的適用時機，並事先顯示 diff"
       ]
     },
     {
