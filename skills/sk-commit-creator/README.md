@@ -14,9 +14,9 @@
 
 　
 
-## 為什麼做這個 skill（WHY）
+## 設計背景（WHY）
 
-- **commit message 隨手寫**：
+- **commit message 內容空泛**：
   - `wip`、`update X`、`fix stuff` 這類訊息，事後從 git log 很難看出實際變更
 - **格式飄移**：
   - type、scope 與語氣每次不同，跨專案更難維持一致
@@ -25,7 +25,7 @@
 
 　
 
-## 這個 skill 做什麼（WHAT）
+## 功能範圍（WHAT）
 
 - **產生一致的 git commit 訊息**：
   - 格式固定 Conventional Commits 的 `<type>(<scope>): <description>`（例如：`feat(00-blank): add intro fade-in animation`）
@@ -36,7 +36,7 @@
 
 　
 
-## 如何使用這個 skill（HOW）
+## 使用方式（HOW）
 
 ### 安裝
 

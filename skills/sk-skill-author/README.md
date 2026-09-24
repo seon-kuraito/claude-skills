@@ -14,18 +14,18 @@
 
 　
 
-## 為什麼做這個 skill（WHY）
+## 設計背景（WHY）
 
-- **要顧的太多、太散**：
+- **skill 建立環節繁多**：
   - 建立一個 skill 牽涉 `SKILL.md` 結構、description 觸發、授權、README、測試，缺一條統一流程就容易漏、每次品質不一
 - **嚴謹度與執行成本需要平衡**：
   - 完整評測成本較高，例行流程需要可預估、可執行的驗證範圍
-- **個人 skill 容易各長各的**：
+- **個人 skill 缺乏共同規範**：
   - 命名與文件樣式若沒有規範，久了風格就容易發散
 
 　
 
-## 這個 skill 做什麼（WHAT）
+## 功能範圍（WHAT）
 
 - **涵蓋完整 skill 工作流**：
   - 支援 skill 的建立、改寫、重構、命名、授權與評估
@@ -39,7 +39,7 @@
 
 　
 
-## 如何使用這個 skill（HOW）
+## 使用方式（HOW）
 
 ### 安裝
 
@@ -82,7 +82,7 @@
 - **限制 description 的責任範圍**：
   - `description` 只保留觸發 skill 所需的辨識訊號
   - 範本、涵蓋清單、輸出格式與執行細節應移到 body 或 references
-  - 因為 `description` 會在每個工作階段常駐，塞入過多規格不會讓觸發更準，只會稀釋訊號
+  - 因為 `description` 會在每個工作階段常駐，納入過多規格無助於提高觸發準確度，並會稀釋辨識訊號
 - **以漸進式揭露（Progressive Disclosure）拆分 references**：
   - 將原本集中在單體文件中的內容，拆成 `writing-guide`、`verification`、`publishing`、`readme-guide` 與 `environments`
   - 主線只保留必要規則，細節依任務需要再載入，讓常駐內容維持精簡

@@ -14,10 +14,10 @@
 
 　
 
-## 為什麼做這個 skill（WHY）
+## 設計背景（WHY）
 
-- **PR body 每次長得不一樣**：
-  - 格式、段落與詳略各憑當下判斷，reviewer 每次都要重新摸索閱讀方式
+- **PR body 結構每次不同**：
+  - 格式、段落與詳略若缺乏一致規範，reviewer 需要重新適應每份 PR 的內容結構
 - **從零整理 PR 內容重複耗時**：
   - 把 commits 與 diff 收斂成 summary、scope、test plan，每次都要重做一遍
 - **gh 指令容易誤操作**：
@@ -25,7 +25,7 @@
 
 　
 
-## 這個 skill 做什麼（WHAT）
+## 功能範圍（WHAT）
 
 - **整理 PR 的標題與 body**：
   - 標題沿用 branch 名稱；body 固定三段 📝 Summary／🎯 Scope／✅ Test plan
@@ -36,7 +36,7 @@
 
 　
 
-## 如何使用這個 skill（HOW）
+## 使用方式（HOW）
 
 ### 安裝
 
@@ -60,8 +60,8 @@
 - **PR body 固定三段式結構**：
   - body 一律包含 Summary、Scope 與 Test plan 三段，並搭配 emoji 標題
   - 固定結構讓 reviewer 每次都能用相同方式掃讀 PR，降低理解成本
-- **body 寫進檔案、不倒進終端機**：
-  - PR body 一律寫進獨立檔案，透過 `--body-file` 帶入，不把全文倒進終端機，只在終端機顯示一個可點的編輯器連結（`vscode://file/...`）供開檔審閱
+- **以獨立檔案保存 body**：
+  - PR body 一律寫進獨立檔案，透過 `--body-file` 帶入，不在終端機顯示全文，只在終端機顯示一個可點的編輯器連結（`vscode://file/...`）供開檔審閱
   - 檔案存放原始 markdown，不再外包一層 code fence（那層只為了終端機顯示）
   - section 之間使用全形空格（U+3000）保留間距，讓內容在 GitHub 上更容易掃讀
 - **PR title 直接沿用 branch 名稱**：

@@ -21,14 +21,14 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 
 　
 
-## 為什麼做這個 skill（WHY）
+## 設計背景（WHY）
 
 - **<痛點 label>**：
   - <the difficulty this skill addresses, framed as the problem>
 
 　
 
-## 這個 skill 做什麼（WHAT）
+## 功能範圍（WHAT）
 
 - **<bold label>**：
   - <what it does, more specific than the tagline>
@@ -37,7 +37,7 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 
 　
 
-## 如何使用這個 skill（HOW）
+## 使用方式（HOW）
 
 ### 安裝
 
@@ -77,13 +77,13 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 ## Sections — required vs conditional
 
 - **`# H1` + tagline + `## 聲明` + the three frame sections** — always present. The H1 is the skill name **without the `sk-` prefix**, in **Title Case** (`Repo Creator`), matching the SKILL.md H1 — same acronym / filename rules (`PR`, `CLAUDE.md`). The tagline is a one-line, keyword-bearing gist of what the skill does (not just provenance).
-- **The three frame headings are fixed, verbatim** — `## 為什麼做這個 skill（WHY）` / `## 這個 skill 做什麼（WHAT）` / `## 如何使用這個 skill（HOW）`. Don't paraphrase them per skill; only swap `skill` → `hook` for a hook README. The trailing `（WHY/WHAT/HOW）` is a deliberate exception to the no-parenthetical / no-English heading rule (see Tone & language).
+- **The three frame headings are fixed, verbatim** — `## 設計背景（WHY）` / `## 功能範圍（WHAT）` / `## 使用方式（HOW）`. Don't paraphrase them per skill; a hook README carries the same three headings. The trailing `（WHY/WHAT/HOW）` is a deliberate exception to the no-parenthetical / no-English heading rule (see Tone & language).
 - **`## 聲明`** ties to the `Licensing` decision:
   - **Original** → `來源`：原創；`授權`：MIT（[`LICENSE`](LICENSE)）. No `NOTICE`.
   - **Derived** → `來源`：延伸自 `<upstream>`（link）；`授權`：the upstream license, pointing to [`LICENSE`](LICENSE) and [`NOTICE`](NOTICE).
-- **`## 為什麼做這個 skill（WHY）`** — the pain points / motivation this skill addresses, as `- **label**：` bullets. Each is a difficulty that existed *before* the skill; the design choices that answer them live in `### 設計取向`, so frame WHY as the problem, not the solution.
-- **`## 這個 skill 做什麼（WHAT）`** — what the skill does and when to use it, as bullets, more specific than the tagline. Kept consistent in scope with the skill's `description` (not narrower); no deep spec — point to [`SKILL.md`](SKILL.md).
-- **`## 如何使用這個 skill（HOW）`** — a wrapper holding three `h3` subsections:
+- **`## 設計背景（WHY）`** — the pain points / motivation this skill addresses, as `- **label**：` bullets. Each is a difficulty that existed *before* the skill; the design choices that answer them live in `### 設計取向`, so frame WHY as the problem, not the solution.
+- **`## 功能範圍（WHAT）`** — what the skill does and when to use it, as bullets, more specific than the tagline. Kept consistent in scope with the skill's `description` (not narrower); no deep spec — point to [`SKILL.md`](SKILL.md).
+- **`## 使用方式（HOW）`** — a wrapper holding three `h3` subsections:
   - **`### 安裝`** — always present. Two methods (**手動複製** / **執行腳本**), the `sh` code block indented two spaces to nest under 執行腳本.
   - **`### 設計取向`** — for a *derived* skill, the deltas from the upstream (named in `## 聲明`'s `來源`, not the heading). For an original skill, include only if there are design choices worth recording.
   - **`### 預設與相依`** — only when the skill hard-codes environment / personal assumptions (a repo path, sibling skills). Omit if none. A sibling skill the flow hands work to goes under the fixed label `委派對象`: one sub-bullet names the skill (linked) and what it takes over, one states the fallback when it is not installed. When the flow cannot run without the sibling, the label is `委派對象（required）` and the sub-bullets list the skills alone.
@@ -97,12 +97,12 @@ Every skill in the repo carries a `README.md` beside its `SKILL.md`. They serve 
 - **Gloss an English term on first mention, then use the Chinese.** First appearance takes the form 中文（English Title Case）— e.g. 漸進式揭露（Progressive Disclosure）, 觸發案例（Trigger Case）; later mentions in the same file use the Chinese alone. The English inside the parentheses is Title Case.
 - **Examples take the form 「（例如：X）」.** Fullwidth parentheses, fullwidth colon, no space after `例如` — e.g. （例如：`feat/00-blank-intro-animation`）or （例如：教學系列）. Inline mid-sentence examples get the same parenthetical form, not a bare `，例如 …`.
 - **Fullwidth punctuation in Chinese prose.** Chinese sentences take fullwidth marks — `，。：；（）「」` — not halfwidth ASCII. Use halfwidth `,.:;()` only where the punctuated content is itself English or code: an English fragment like `Anthropic, PBC`, parentheses wrapping a bare code span or English term, and markdown link syntax `[text](url)` (always halfwidth). Parentheses around Chinese — even Chinese mixed with English — take fullwidth `（）`, e.g. `（可選）`.
-- **The three frame headings are bilingual; every other heading is plain Chinese.** Only `## 為什麼做這個 skill（WHY）` / `（WHAT）` / `（HOW）` carry the English marker in fullwidth parentheses. Every other heading — `## 聲明`, `### 安裝`, `### 設計取向`, `### 預設與相依` — stays plain Chinese, no parenthetical and no English.
+- **The three frame headings are bilingual; every other heading is plain Chinese.** Only `## 設計背景（WHY）` / `（WHAT）` / `（HOW）` carry the English marker in fullwidth parentheses. Every other heading — `## 聲明`, `### 安裝`, `### 設計取向`, `### 預設與相依` — stays plain Chinese, no parenthetical and no English.
 - **Referenceable pointers become links.** A "見 X" pointer to a repo file (`LICENSE`, `SKILL.md`, `references/readme-guide.md`) or a sibling skill (`sk-branch-creator`) becomes a markdown link that keeps the inline-code label: `[`SKILL.md`](SKILL.md)`, `[`sk-branch-creator`](../sk-branch-creator)` — a sibling skill links to its directory `../<name>`. A file mentioned descriptively, not as "go see X", stays a plain backtick span.
 
 ## Formatting
 
-- **Heading spacer.** Before every `##` *and* `###` heading, write three lines: a blank line, a line holding one full-width space `　` (U+3000), and a blank line. It renders as breathing room on GitHub; a plain blank line collapses. **Exception:** an `###` that immediately follows its parent `##` with nothing between (e.g. `## 如何使用這個 skill（HOW）` → `### 安裝`) gets a single blank line, no spacer. A footnote (`> 附註`) belonging to the section above also gets no spacer — keep it attached with a single blank line.
+- **Heading spacer.** Before every `##` *and* `###` heading, write three lines: a blank line, a line holding one full-width space `　` (U+3000), and a blank line. It renders as breathing room on GitHub; a plain blank line collapses. **Exception:** an `###` that immediately follows its parent `##` with nothing between (e.g. `## 使用方式（HOW）` → `### 安裝`) gets a single blank line, no spacer. A footnote (`> 附註`) belonging to the section above also gets no spacer — keep it attached with a single blank line.
 - **Two-level bullets.** Every labeled list — `## 聲明`, the WHY / WHAT bullets, and the `### 安裝` / `### 設計取向` / `### 預設與相依` lists — is two-level: a bold label, ending with a full-width `：`, as the top bullet, each point as a sub-bullet beneath (2-space indent), even a single point, for consistency.
 - **Nest the install code block.** Under `### 安裝`'s **執行腳本** bullet, indent the `sh` code block two spaces so it — and the sub-bullets after it — nest under the bullet; a fence at column 0 ends the list and orphans what follows.
 - **No trailing period on bullets.** Bullet items read as fragments — drop the trailing `。`. The tagline (the one prose line) keeps its period; a `> 附註` footnote keeps its too.

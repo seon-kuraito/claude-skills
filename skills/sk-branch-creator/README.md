@@ -14,9 +14,9 @@
 
 　
 
-## 為什麼做這個 skill（WHY）
+## 設計背景（WHY）
 
-- **branch 命名各憑感覺**：
+- **branch 命名缺乏統一規則**：
   - `feature/`、`bug/`、人名前綴、camelCase 混在一起，久了 branch 列表就難以閱讀
 - **branch 與 commit 對不上**：
   - branch 和 commit 各用一套詞時，很容易出現 `feature/` 搭配 `feat:` 這類不一致格式
@@ -25,7 +25,7 @@
 
 　
 
-## 這個 skill 做什麼（WHAT）
+## 功能範圍（WHAT）
 
 - **產生一致的 git branch 名稱**：
   - 格式固定 `<type>/<kebab-description>`（例如：`feat/00-blank-intro-animation`）
@@ -36,7 +36,7 @@
 
 　
 
-## 如何使用這個 skill（HOW）
+## 使用方式（HOW）
 
 ### 安裝
 
