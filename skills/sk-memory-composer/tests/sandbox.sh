@@ -38,6 +38,15 @@
 # every write has no way to run the scripts: `uv run` writes a cache, and the
 # user's own default is uv rather than bare python3. Pass the line to the case,
 # and say that writes under the sandbox are what the sandbox is for.
+
+# The demo project carries a project CLAUDE.md that is longer than it needs to
+# be, so a request to shorten a project's CLAUDE.md has a file to act on
+# (trigger not-claudemd). Without it the model finds nothing to shorten and
+# loads no skill at all.
+#
+# BACKUP_DIR points inside the sandbox too. The Write and Restructure flows back
+# up CLAUDE.md before they change it, and the skill's default destination is the
+# session scratchpad, which is outside the sandbox. Pass the line to the case.
 set -euo pipefail
 
 sb="${1:-$(mktemp -d)}"
@@ -48,7 +57,7 @@ demo_key="$(printf '%s' "$demo" | sed 's/[^A-Za-z0-9]/-/g')"
 other_key="$(printf '%s' "$other" | sed 's/[^A-Za-z0-9]/-/g')"
 
 mkdir -p "$claude/global-memory/gate" "$claude/global-memory/talk" "$claude/global-memory/output" "$claude/global-memory/maintain" \
-         "$claude/projects/$demo_key/memory" "$claude/projects/$other_key/memory" "$demo" "$other" "$sb/.uv-cache"
+         "$claude/projects/$demo_key/memory" "$claude/projects/$other_key/memory" "$demo/.claude" "$other" "$sb/.uv-cache" "$sb/.backup"
 
 cat > "$claude/CLAUDE.md" <<'MD'
 # Global Instructions
@@ -217,9 +226,63 @@ Ask the user before you add a new dependency.
 MD
 done
 
+
+# A project CLAUDE.md with more than it needs: a component list, code style
+# that lint owns, a snippet, and facts that already sit in memory.
+cat > "$demo/.claude/CLAUDE.md" <<'MD'
+# demo
+
+A small React app. Read this file before you change anything.
+
+## Stack
+
+- React 18 with TypeScript
+- Vite for dev and build
+- Vitest for tests
+- ESLint and Prettier for formatting
+
+## Components
+
+- `src/components/Button.tsx` — the primary button
+- `src/components/Card.tsx` — a content card
+- `src/components/Modal.tsx` — a modal dialog
+- `src/components/Table.tsx` — a data table
+- `src/components/Tabs.tsx` — tab navigation
+
+## Commands
+
+- `make demo` builds the project.
+- `npm test` runs the tests.
+- `npm run lint` runs the linter.
+
+## Code style
+
+- Use two spaces for indentation.
+- Use single quotes in TypeScript.
+- Put one component per file.
+- Sort imports alphabetically.
+- Never leave a console.log in committed code.
+
+## Example
+
+```ts
+import { Button } from './components/Button';
+
+export function App() {
+  return <Button label="Save" onClick={save} />;
+}
+```
+
+## Notes
+
+- The project ships on Fridays.
+- Ask before you add a dependency.
+MD
+
 cat <<ENV
 CLAUDE_DIR=$claude
 HOME_DIR=$sb
 PROJECT=$demo
 UV_CACHE_DIR=$sb/.uv-cache
+BACKUP_DIR=$sb/.backup
 ENV
