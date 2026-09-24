@@ -17,7 +17,7 @@ Q2 · header: 「GitHub / 遠端」
     · 「GitHub 標籤」 — 「新增 Conventional Commits 類型標籤；repo 已有標籤時，會先詢問處理方式。」
     · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。（GitHub 免費方案只對 public repo 生效）」
     · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 preparing。」
-[Rule, not copy] include Q2 only when a remote exists (check `git remote` or the sk-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Each question caps at 4 options. If nothing is selected across both questions, stop.
+[Rule, not copy] include Q2 only when a remote exists (check `git remote` or the sk-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Drop the 「專案說明書 CLAUDE.md」 option when the repo is a family member — a sibling `*-meta` or `meta` directory's `CLAUDE.md` names this repo's directory; SKILL.md *Feature selection* gives the check and says why. Each question caps at 4 options. If nothing is selected across both questions, stop.
 ```
 
 ## License

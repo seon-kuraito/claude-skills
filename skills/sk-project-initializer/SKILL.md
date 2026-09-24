@@ -28,6 +28,8 @@ Every menu this skill asks lives in `references/menus.md` — present each as wr
 
 Present the **Features** menu — **one `AskUserQuestion` call with up to two `multiSelect` questions**; the `questions` array renders as tabs in a single interaction (never split into separate calls, never ask one feature at a time).
 
+A repo that belongs to a family gets no CLAUDE.md option. A family runs its sessions from its coordination repo, which holds the instructions for every member, so a member's own `.claude/CLAUDE.md` would never load. Before the menu, look for a sibling coordination repo whose `CLAUDE.md` names this repo's directory: list the siblings named `*-meta` or `meta` with `find .. -maxdepth 1 -type d \( -name '*-meta' -o -name meta \)`, then grep each one's `CLAUDE.md` for `$(basename "$PWD")`. On a hit, the menu's rule line drops the option; once the selection phase is over, say in one line that it was left out and why. A user who wants the file anyway names it under *Other*, and it is created as usual.
+
 ## License template
 
 Only when `LICENSE` is selected. Present the **License** menu.
