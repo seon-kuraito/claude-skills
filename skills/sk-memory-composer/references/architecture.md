@@ -42,19 +42,24 @@ A lookup line is the only way a session reaches a case. Every case has a section
 Before you <trigger>, `ls ~/.claude/global-memory/<case>/` and read the file that matches.
 ```
 
-- `<trigger>` names the moment the case's rules apply, as an action: "explain an unfamiliar topic", "touch agent config".
+- `<trigger>` names every moment the case's rules apply, as actions: "explain a topic", "put a decision to him", "touch agent config". When a new rule's moment is missing, widen the trigger.
 - One line may name several cases that share a moment.
 - A session follows the line only at the moment it names.
 
-## Rule lines
+## Always-loaded lines
 
-Above its lookup line, a section states the rules that apply at a moment the lookup line does not cover. Write the rule itself as an imperative, never a pointer to its file. A rule whose moment matches the lookup line needs no line: the lookup already brings the session to it.
+A memory section carries its lookup line and nothing else. The rule's text lives in its file, and the lookup line names its moment. When a rule's moment is missing from the trigger, widen the trigger; never add the rule as a line of its own. A line that restates a rule from a file is a copy: it drifts from the file, and the audit reports it.
 
-Why: the lookup line fires only at its own moment. A rule for another moment — before a push, while a background agent runs — is never looked up in time unless CLAUDE.md states it.
+Two kinds of line stay in CLAUDE.md outside this rule:
+
+- Content with no moment — who the user is, the language they speak — cannot be looked up, because a lookup line needs a moment. It sits in a section of its own, which belongs to `sk-claudemd-composer`.
+- A rule that applies on nearly every tool call — a package manager, a shell's traps, where scratch files go — stays as an always-loaded line above its section's lookup line. A lookup before every call is impractical. The user names the section that holds these lines; the audit reports an always-loaded line anywhere else.
+
+Why: every line of CLAUDE.md loads into every session, and a copy of a rule outside its file drifts. Widening a trigger costs a few words and keeps the rule in one place.
 
 ## The write entry
 
-The `## Memory` section carries one fixed line, from `assets/claude-md-memory-section.txt`: before writing any memory, check whether it belongs in a skill or in global memory. It is not a rule line, and the rule-line test above never removes it.
+The `## Memory` section carries one fixed line, from `assets/claude-md-memory-section.txt`: before writing any memory, check whether it belongs in a skill or in global memory. It is not a copy of any file, and the rule above never removes it.
 
 Why: lookup lines only bring a session in to read. A session that has not loaded this skill follows the harness's own memory instructions, which point at the project folder; this line is what makes it consider a skill or global memory at all. The line states the rule; how to decide stays in this skill.
 
@@ -89,7 +94,7 @@ Why: a session picks a case by the moment it is in, so a name that states the mo
 
 ## Architecture or preference
 
-Belongs here: what the layers need in order to work for every user — the routing between a skill and the two layers, the layout, loading, lookup lines, rule lines, the write entry, case and file naming, links, indexes, and the check.
+Belongs here: what the layers need in order to work for every user — the routing between a skill and the two layers, the layout, loading, lookup lines, always-loaded lines, the write entry, case and file naming, links, indexes, and the check.
 
 Belongs in the user's global memory: how that user wants memories written and kept.
 

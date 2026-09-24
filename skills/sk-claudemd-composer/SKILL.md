@@ -93,7 +93,7 @@ Don't duplicate the same content at multiple levels — duplication is the enemy
 
 A CLAUDE.md — usually the user-level one — can carry memory sections: a section that ends with a lookup line sending the session into `~/.claude/global-memory/<case>/`, and the line in `## Memory` that routes a new memory there. `sk-memory-composer` owns them; their shape is defined once, in its `references/architecture.md`.
 
-- **Hand them over.** When a review or a trim reaches a memory section, leave it to `sk-memory-composer`. Its rule lines are there on purpose: each states a rule whose moment the lookup line does not cover, so they only look like hotfix accretion.
+- **Hand them over.** When a review or a trim reaches a memory section, leave it to `sk-memory-composer`. A memory section carries its lookup line and nothing else; a rule that seems to belong there goes into a file under its case, and the trigger widens to name its moment.
 - **Without that skill**, leave memory sections untouched and say so in the report.
 
 ## Called from another skill

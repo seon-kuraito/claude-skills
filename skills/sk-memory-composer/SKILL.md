@@ -17,7 +17,8 @@ Before any flow, find the lookup line in the user-level CLAUDE.md that covers me
 
 - **Project memory** — `~/.claude/projects/<encoded-path>/memory/`, one file per memory plus a `MEMORY.md` index. The harness loads the index into sessions started in that project, and nowhere else.
 - **Global memory** — `~/.claude/global-memory/<case>/<name>.md`. Nothing loads these files on its own.
-- **Lookup lines** — every case has a CLAUDE.md section that ends with the line in `assets/lookup-line.tmpl`. It is the only thing that sends a session into a case, and only at the moment it names.
+- **Lookup lines** — every case has a CLAUDE.md section that ends with the line in `assets/lookup-line.tmpl`. It is the only thing that sends a session into a case, and only at the moment it names. Its trigger names every moment the case covers.
+- **Nothing else in a memory section** — a rule's text lives in its file. When a rule's moment is missing from the trigger, widen the trigger; never add the rule as a line. The only always-loaded lines are the write entry, content with no moment, and the rules that apply on nearly every tool call — `references/architecture.md`, *Always-loaded lines*.
 - **Write entry** — the `## Memory` section carries the routing line in `assets/claude-md-memory-section.txt`. Lookup lines only bring a session in to read; this line makes a session that never loaded this skill consider a skill or global memory when it writes.
 - **Preferences stay out** — body language, extra frontmatter, body shapes, granularity, and when to delete or hand off belong to the user's cases.
 
@@ -37,7 +38,7 @@ The full rules and their reasons: `references/architecture.md`.
 The steps are in `references/flows.md`. In outline:
 
 - **Init** — make sure the user-level CLAUDE.md exists: when it does not, load `sk-claudemd-composer` for a blank one and come back; without that skill, create the blank file yourself. Then create `~/.claude/global-memory/`, add the `## Memory` section, and run the check.
-- **Write** — route to a skill, global, or project, pick the case by reading the CLAUDE.md sections, write or update the file, update the index, decide whether the rule needs its own CLAUDE.md line, run the check.
+- **Write** — route to a skill, global, or project, pick the case by reading the CLAUDE.md sections, write or update the file, update the index, widen the lookup line's trigger when it does not name the rule's moment, run the check.
 - **Case** — add a case only when nothing fits, name it by the rules, give it a section and a lookup line; to rename one, move it and rewrite every lookup line, link, and path that names it.
 - **Audit** — run the check, build the inventory from disk, compare every memory with the user's preferences, and report every finding before changing anything.
 - **Restructure** — list the changes, pass the gate, back up, apply, run the check.
@@ -60,7 +61,7 @@ Before a Restructure, a case rename, deleting any memory, or applying an Audit's
 
 ## References
 
-- `references/architecture.md` — the two layers, path encoding, lookup lines, rule lines, the write entry, cases, files, links, indexes, and where architecture ends and preferences begin
+- `references/architecture.md` — the two layers, path encoding, lookup lines, always-loaded lines, the write entry, cases, files, links, indexes, and where architecture ends and preferences begin
 - `references/flows.md` — every flow step by step, and the evidence rules an audit follows
 - `references/menus.md` — every menu and plain-text question
 

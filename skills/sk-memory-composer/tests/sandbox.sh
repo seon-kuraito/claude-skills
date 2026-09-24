@@ -59,8 +59,7 @@ cat > "$claude/CLAUDE.md" <<'MD'
 
 ## Gates
 
-- Stop and wait for an explicit go before any outward git action: push, `gh pr create`, merge.
-- Before any action above, `ls ~/.claude/global-memory/gate/` and read the file that matches.
+- Before any outward git action — push, `gh pr create`, merge — `ls ~/.claude/global-memory/gate/` and read the file that matches.
 
 ## Language and Output
 
