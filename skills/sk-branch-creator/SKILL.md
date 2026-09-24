@@ -70,4 +70,4 @@ chore/upgrade-remotion
 
 ## Related
 
-For commit message authoring using the same type vocabulary, see [sk-commit-creator](../sk-commit-creator/SKILL.md).
+- [sk-commit-creator](../sk-commit-creator/SKILL.md) — the commit that lands on the branch. It owns the type vocabulary this skill reuses (see *Type vocabulary*), and it loads this skill when a commit would land on a long-lived branch.
