@@ -111,6 +111,6 @@
 - **可點連結的編輯器 scheme**：
   - gate 顯示 body 路徑時包成 `vscode://file/<絕對路徑>` 可點連結，預設在 VS Code 開啟
   - 換其他編輯器時改用對應 scheme（例如：`cursor://file/...`）
-- **委派的 skill**：
+- **委派對象**：
   - 標題 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

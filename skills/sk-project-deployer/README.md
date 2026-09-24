@@ -81,6 +81,6 @@
 - **workflow 模板**：
   - 模板放在 `assets/`，並依官方範本維護
   - 完整流程與版本請見 [`references/github-pages.md`](references/github-pages.md)
-- **委派的 skills**：
+- **委派對象**：
   - 後續整理委派給 [`sk-branch-creator`](../sk-branch-creator)／[`sk-commit-creator`](../sk-commit-creator)／[`sk-pr-creator`](../sk-pr-creator)
   - 若無這些 skill，替換為其他 branch／commit／PR 慣例即可

@@ -124,6 +124,6 @@
   - 不以工作目錄（Working Directory）為準，工作階段從哪個目錄啟動都不影響
   - 如需指向其他 skills repo，從該 repo 執行 `scripts/link-skill.sh` 重新連結即可
   - 解析結果不是 git repo 時（例如：以複製而非 symlink 安裝），會退回「只在本機建立、跳過 git 流程」
-- **委派的 skills**：
+- **委派對象**：
   - 開 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可
