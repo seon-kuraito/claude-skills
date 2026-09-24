@@ -259,6 +259,12 @@ Use the words *execution gate* verbatim. A user's own configuration may key on t
 
 **A skill never specifies what the block looks like.** No heading emoji, no column headers, no row labels, no table, and no `assets/execution-gate.md`. The shape belongs to the user: one who has defined it gets it applied, one who has not gets whatever the agent renders at the time, and both are correct. Fixing the shape inside skills was the earlier design — every gate-emitting skill then carried its own copy of the rendered table, a change to the shape meant editing all of them, and the copies drifted apart.
 
+### The skill's rules and the user's configuration
+
+A skill carries the rules of its own flow: when to stop, what to list, what to read and write, in what order. It never carries how a block renders, how the user is addressed, or a gate the user set for themselves — those live in the user's configuration (CLAUDE.md and memory), and a skill must work without them. The execution gate above is the worked example: the skill says when to stop and what to list, and the user's configuration supplies the shape.
+
+The boundary runs the other way too. A rule whose moment sits inside a skill's flow, and whose content is a flow rule rather than rendering or tone, belongs in that skill — not in the user's memory. A memory loads for one user, at the moment a lookup line names; the skill loads for every session that runs it, peers and subagents included. A rule kept in memory alone is missing for every other reader, and a copy in both places drifts. `sk-memory-composer` routes a candidate memory by this test and hands the skill-bound ones here.
+
 ### Locating paths on disk
 
 A skill that needs a real location on the user's machine derives it at runtime instead of writing an absolute path into the skill. Decide by what the path points at:
@@ -327,3 +333,4 @@ After drafting, verify:
 - [ ] Reference depth is one level: `SKILL.md → references/<file>.md`, not `SKILL.md → ref → ref → ref`.
 - [ ] Bundled scripts / agents / assets are referenced from the body so the agent knows they exist.
 - [ ] Every `AskUserQuestion` menu and plain-text question lives in `references/menus.md` under an English H2, with the contract at its top; `SKILL.md` and the other references point at menus by section title and hold none inline.
+- [ ] The body holds the flow's own rules only — no rendered shape, no tone, no personal gate; those belong to the user's configuration. And no rule that governs this flow is left in the user's memory instead.
