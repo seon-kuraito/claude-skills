@@ -23,7 +23,16 @@ A correct example: `feat(00-blank): add intro fade-in animation`
 
 Before committing, check which branch the commit lands on. When it would land on a long-lived branch such as `main` or `develop`, or on a detached HEAD, open a branch first: load [sk-branch-creator](../sk-branch-creator/SKILL.md) to name it, then commit there. Without that skill, name the branch `<type>/<kebab-description>` yourself.
 
-Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly — for example, a repo that folds every edit into its only commit with `git commit --amend`.
+Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly.
+
+One case is decided by two checks, not by a note: a coordination repo (`*-meta`) with no remote and only its scaffold commit takes no branch. Run both checks every time, because a repo can gain a remote or a second commit later:
+
+```sh
+git remote                  # empty → no remote
+git rev-list --count HEAD   # 1 → only the scaffold commit
+```
+
+When both hold, stay on `main` and fold the edit into that commit with `git commit --amend --no-edit`. When either fails — the repo has a remote or more than one commit — whether to amend or to branch is the user's call: ask before you commit. Once a scaffold commit is pushed, amending it needs a force push that rewrites published history.
 
 ## Corrections on an unpushed branch
 
