@@ -40,6 +40,12 @@ When a change only corrects one of your own commits, and the branch has not been
 
 Why: a branch that collects back-and-forth commits has to be regrouped before its pull request, and the regrouping rewrites every commit at once.
 
+## Prose in Traditional Chinese needs review
+
+Before you commit, search the staged diff for CJK text: `git diff --cached | rg -n '\p{Han}'` (without ripgrep: `git diff --cached | perl -CSD -ne 'print if /\p{Han}/'`). When the diff adds or changes prose in Traditional Chinese — a README, a decision record, a design doc, UI copy, the 「」 copy of a menu — stop before the commit: say which files are ready for review, hand them over, and commit only after the user says the prose is done. An English config file whose only CJK is a literal that must match — a heading name, a search token, a menu label quoted from `menus.md` — follows the usual flow. Never say a change holds no Chinese without running the search.
+
+Why: this user writes Traditional Chinese natively and polishes the prose before it lands. A commit made first has to be undone with `git reset` so the prose returns to the working tree.
+
 ## Format
 
 - `<type>` — required, lowercase, exactly one of the 11 types below.
