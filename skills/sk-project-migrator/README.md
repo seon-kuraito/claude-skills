@@ -97,5 +97,5 @@
   - Claude Code 狀態預設位於 `~/.claude/` 與 `~/.claude.json`，VS Code 狀態位於 `~/Library/Application Support/Code/User/`
   - 清單檔與備份預設存放在 `~/Backups/<時間>-project-migrator/`
   - 各位置皆可用環境變數覆寫，細節見 `scripts/lib.sh`
-- **相依的 skill**：
-  - 清除舊路徑的 VS Code 狀態需要安裝 [`sk-project-cleaner`](../sk-project-cleaner)，未安裝時略過並提醒
+- **委派對象**：
+  - 舊路徑的 VS Code 狀態由 [`sk-project-cleaner`](../sk-project-cleaner) 清除；若未安裝該 skill，則略過此項並提醒使用者
