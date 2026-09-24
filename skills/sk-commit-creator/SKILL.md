@@ -23,13 +23,28 @@ A correct example: `feat(00-blank): add intro fade-in animation`
 
 Before committing, check which branch the commit lands on. When it would land on a long-lived branch such as `main` or `develop`, or on a detached HEAD, open a branch first: load [sk-branch-creator](../sk-branch-creator/SKILL.md) to name it, then commit there. Without that skill, name the branch `<type>/<kebab-description>` yourself.
 
-Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly — for example, a repo that folds every edit into its only commit with `git commit --amend`.
+Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly.
+
+One case is decided by two checks, not by a note: a coordination repo (`*-meta`) with no remote and only its scaffold commit takes no branch. Run both checks every time, because a repo can gain a remote or a second commit later:
+
+```sh
+git remote                  # empty → no remote
+git rev-list --count HEAD   # 1 → only the scaffold commit
+```
+
+When both hold, stay on `main` and fold the edit into that commit with `git commit --amend --no-edit`. When either fails — the repo has a remote or more than one commit — whether to amend or to branch is the user's call: ask before you commit. Once a scaffold commit is pushed, amending it needs a force push that rewrites published history.
 
 ## Corrections on an unpushed branch
 
 When a change only corrects one of your own commits, and the branch has not been pushed (`git rev-parse @{u}` fails), fold it into that commit instead of adding one that walks it back: `git commit --amend --no-edit` for the last commit; `git commit --fixup=<sha>`, then `git rebase --autosquash <base>`, for an older one. Once the branch is pushed, a correction is a new commit.
 
 Why: a branch that collects back-and-forth commits has to be regrouped before its pull request, and the regrouping rewrites every commit at once.
+
+## Prose in Traditional Chinese needs review
+
+Before you commit, search the staged diff for CJK text: `git diff --cached | rg -n '\p{Han}'` (without ripgrep: `git diff --cached | perl -CSD -ne 'print if /\p{Han}/'`). When the diff adds or changes prose in Traditional Chinese — a README, a decision record, a design doc, UI copy, the 「」 copy of a menu — stop before the commit: say which files are ready for review, hand them over, and commit only after the user says the prose is done. An English config file whose only CJK is a literal that must match — a heading name, a search token, a menu label quoted from `menus.md` — follows the usual flow. Never say a change holds no Chinese without running the search.
+
+Why: this user writes Traditional Chinese natively and polishes the prose before it lands. A commit made first has to be undone with `git reset` so the prose returns to the working tree.
 
 ## Format
 

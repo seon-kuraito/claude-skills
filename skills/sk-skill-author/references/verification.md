@@ -18,7 +18,11 @@ The model tier needs the item linked into `~/.claude/`, because a subagent can o
 
 Run every case before fixing anything: a finding goes on the list and the next case starts. After the last case, fix every finding together, then re-run all three tiers. Only an all-clear allows the work to move on to the commit gate and to `sk-pr-creator`.
 
-Never ask whether to run the structure and script tiers; they cost nothing. Always state the model tier's call count before running it.
+A finding is a failed assert. A judgment call in a report that fails no assert is noise: do not fix it and do not list it. After a fix, list every assert that reads the file you changed and reread each one against the new text before the rerun — a fix for one assert once removed the sentence another assert observed.
+
+While the model tier runs, change nothing the cases load: the branch under test, the user-level and project CLAUDE.md, global memory, and the installed skills, hooks, and agents. Every subagent loads them when it starts, so an edit between two cases puts one round's cases in different environments. Hold the change until the last case has ended and apply it together with the fixes. This holds when a peer session runs the cases, and between the batches of one round.
+
+Never ask whether to run the structure and script tiers; they cost nothing. The model tier spends tokens, so it starts only on a go: see *Proposing the run* below.
 
 ## Runner contract
 
@@ -37,7 +41,7 @@ scripts/run-checks.sh <item>     # one item
 
 ## Shared rules
 
-Every repo implements these four, under these exact file names. Each repo judges its own targets — `claude-skills` reads `SKILL.md` frontmatter, `claude-hooks` reads `hooks/<name>/`, and so on.
+Every repo implements these five, under these exact file names. Each repo judges its own targets — `claude-skills` reads `SKILL.md` frontmatter, `claude-hooks` reads `hooks/<name>/`, and so on.
 
 | Rule id | Intent |
 | --- | --- |
@@ -45,6 +49,7 @@ Every repo implements these four, under these exact file names. Each repo judges
 | `no-real-paths` | no hard-coded machine paths, no real account or project names — placeholders only |
 | `readme-catalog` | the repo README lists this item, sorted alphabetically |
 | `license` | the item carries `LICENSE`, plus `NOTICE` when it is derived |
+| `no-cjk-passages` | agent-facing text is English direction: a run of 12 or more CJK characters sits only where copy lives — inside 「」, in backticks, in fenced code, in `menus.md`, `README.md`, `assets/`, or `tests/` |
 
 ## Routed-item rules
 
@@ -71,14 +76,20 @@ Two case types, both driven by the single most representative task:
 Rules that keep the cost countable:
 
 - One case is one general-purpose subagent with `model: opus`. Never a `claude -p` probe loop, and never an Explore or Plan subagent: both skip CLAUDE.md, so a case that depends on the user's CLAUDE.md fails for a reason unrelated to the item.
-- Dispatch every case the same way, every round: in the background, one at a time, the next one only after the last has ended. A round that mixes dispatch modes, or runs cases side by side, cannot be compared with the round before it.
+- Dispatch every case the same way, every round: in the background, one at a time, the next one only after the last has ended. A round that mixes dispatch modes, or runs cases side by side, cannot be compared with the round before it. A background report arrives in the conversation as a message with nothing to mark it as test output: say before the first case that the reports are test output and that a question inside one needs no answer, relay what matters in your own words, and never paste a report.
 - Run the cases from the session the family's work starts in: where the family has a `*-meta` coordination repo, a session rooted there; with one repo alone, its root. A case then loads the CLAUDE.md layers a real request loads.
 - A subagent does load the installed skills and triggers on its own — verified 2026-09-16, one probe, 40,550 tokens.
 - Judge the assertions yourself from the subagent's report. Never spawn a grader.
 - Every item needs at least one `default: true` trigger case. One exception: a command-only item — `disable-model-invocation: true`, reached by the user typing its name — has no routing decision to measure, so it carries no `model.json` at all. The `description` and `model-cases` rules skip it. Behavior cases are optional; an item whose output is a conversation has nothing objective to assert.
 - `default: true` cases run on every change. `default: false` cases run only when the user asks for a deeper pass, so a growing case list never raises the routine cost.
-- State the count first: N default cases means N calls. A case costs roughly 40k to 150k tokens — a trigger case that loads one small item sits near the low end, a case whose flow reads many files near the high end — so estimate each case from what its flow reads.
+- Propose the run before it starts and wait for a go — see *Proposing the run* below. A case costs roughly 40k to 150k tokens — a trigger case that loads one small item sits near the low end, a case whose flow reads many files near the high end — so estimate each case from what its flow reads.
 - No subagents in this host? Skip the tier and say so.
+
+### Proposing the run
+
+The model tier is a spend decision, so it starts only on a go. Write the plan as a proposal and stop: the count (N default cases means N calls), the estimated cost per case and in total, the batch size (default 5) and what each batch covers, and what the subagents can read — a brief that allows reading lets them read the user's other projects and settings files, not only the repos under test. Then wait for an explicit go. A statement of the count is not the go, and a plan message from earlier in the session is not one either.
+
+Launch one batch, report its results, and ask before the next. Never fan the whole set out in one message. The rerun after the fixes is a run like the first one: it takes the same proposal and the same go.
 
 ### A case that touches real state
 

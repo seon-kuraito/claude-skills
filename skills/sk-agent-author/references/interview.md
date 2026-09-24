@@ -17,8 +17,8 @@ The answer derives the defaults (trim to the contract in Step 2, never widen sil
 
 | classification | `tools` default | `model` default | template blocks | extras |
 | --- | --- | --- | --- | --- |
-| 思考型（evaluator） | read-only（Read, Grep, Glob） | `opus` | `{{#thinking}}` | adversarial mandate 段落固定進入內文 |
-| 執行型（worker） | `Read, Grep, Glob` 起步，再加上交付物需要的 `Write`／`Edit`／`Bash` | `sonnet`（瑣碎機械工作可降 `haiku`） | `{{#execution}}` | — |
+| 思考型（evaluator） | read-only (Read, Grep, Glob) | `opus` | `{{#thinking}}` | the adversarial-mandate paragraph always goes into the body |
+| 執行型（worker） | start from `Read, Grep, Glob`, then add the `Write` / `Edit` / `Bash` the deliverable needs | `sonnet` (drop to `haiku` for trivial mechanical work) | `{{#execution}}` | — |
 
 ## Q2 — Scope / boundary *(open)*
 
@@ -28,7 +28,7 @@ Ask the **Scope** question — for a thinking agent, its follow-up line as well.
 | --- | --- |
 | 授權處理 | `{{SCOPE_HANDLE}}` |
 | 絕對不碰 | `{{SCOPE_NEVER}}` |
-| 視角（思考型） | `{{LENS}}`；其錨定框架由 Q6 補上 `{{CITABLE_FRAMEWORK}}` |
+| 視角（思考型） | `{{LENS}}`; the framework it anchors to comes from Q6 as `{{CITABLE_FRAMEWORK}}` |
 
 ## Q3 — Inputs *(open)*
 
@@ -42,8 +42,8 @@ Thinking: ask the **Deliverable (thinking)** menu. Execution *(open)*: ask the *
 
 | classification | fills |
 | --- | --- |
-| 思考型・預設三段式 | `{{VERDICT_SHAPE}}` 只需補結論的量尺（例如：做／不做／補證據再議） |
-| 思考型・自訂 | 以自訂形狀取代模板的三段式區塊 |
+| 思考型・預設三段式 | `{{VERDICT_SHAPE}}` — only the verdict's scale is left to fill (for example: do / don't / gather evidence first) |
+| 思考型・自訂 | the custom shape replaces the template's three-part block |
 | 執行型 | `{{DELIVERABLE_SHAPE}}` |
 
 **[Rule, not copy]** "depends on the task" fails the boundary rule — this question doubles as that gate: split the unit or stop the flow.
@@ -70,14 +70,14 @@ License files follow [sk-skill-author's publishing reference](../../sk-skill-aut
 
 | placeholder | source |
 | --- | --- |
-| `{{AGENT_NAME}}` / `{{AGENT_TITLE}}` | naming step（`sk-<single-token>-<verber>`，Step 1 提案、用戶確認；title 是去掉 `sk-` 前綴的 Title Case） |
-| `{{ROUTER_DESCRIPTION}}` ＋ `<example>` 區塊 | Step 2 起草，取材自 Q2–Q4（輸入形狀與交付形狀，不寫職業） |
-| `{{TOOLS}}` / `{{MODEL}}` | Q1 預設 → Step 2 裁剪 |
-| `{{ONE_LINE_MISSION}}` | Q2 範圍的一句話濃縮 |
+| `{{AGENT_NAME}}` / `{{AGENT_TITLE}}` | the naming step (`sk-<single-token>-<verber>`, proposed in Step 1 and confirmed by the user; the title is the name without the `sk-` prefix, in Title Case) |
+| `{{ROUTER_DESCRIPTION}}` + `<example>` blocks | drafted in Step 2 from Q2–Q4 (the input shape and the deliverable shape, never a job title) |
+| `{{TOOLS}}` / `{{MODEL}}` | the Q1 defaults, trimmed in Step 2 |
+| `{{ONE_LINE_MISSION}}` | the Q2 scope condensed into one sentence |
 | `{{SCOPE_HANDLE}}` / `{{SCOPE_NEVER}}` / `{{LENS}}` | Q2 |
 | `{{INPUTS}}` | Q3 |
 | `{{VERDICT_SHAPE}}` / `{{DELIVERABLE_SHAPE}}` | Q4 |
 | `{{VERIFICATION_EVIDENCE}}` | Q5 |
-| `{{DIMENSIONS_AS_QUESTIONS}}` / `{{CITABLE_FRAMEWORK}}` | Q6（無 pass/fail 時） |
+| `{{DIMENSIONS_AS_QUESTIONS}}` / `{{CITABLE_FRAMEWORK}}` | Q6 (when there is no pass/fail) |
 
 Verification follows the interview on its own, with nothing to opt into — see *Verify* in `SKILL.md`. Isolation-rationale wording gathered along the way lands in the agent's `README.md`, not in the definition.

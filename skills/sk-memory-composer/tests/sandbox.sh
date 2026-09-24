@@ -68,7 +68,7 @@ cat > "$claude/CLAUDE.md" <<'MD'
 
 ## Memory
 
-- Before writing any memory, check whether it belongs in `~/.claude/global-memory/<case>` instead. A rule that follows the user across projects goes there. Only a fact that is useless outside the current project goes to that project's `MEMORY.md`.
+- Before writing any memory, check whether it belongs in a skill or in `~/.claude/global-memory/<case>` instead. A rule for a step of an installed skill's flow goes into that skill. A rule that follows the user across projects goes to global memory. Only a fact that is useless outside the current project goes to that project's `MEMORY.md`.
 - Before you write, delete, hand off, or audit a memory, `ls ~/.claude/global-memory/maintain/` and read the file that matches.
 MD
 

@@ -12,6 +12,7 @@ Interview me relentlessly to resolve every decision in this plan or design until
 - **One branch at a time.** Don't bundle questions. Pick the most upstream unresolved decision, ask, then move to the next once it's settled.
 - **Use `AskUserQuestion` whenever the branch has 2–4 plausible answers.** Multi-choice converges faster than open-ended prose. Reserve plain-text questions for genuinely open inputs (names, numbers, free-form design).
 - **If a question can be answered by exploring the codebase, explore the codebase instead.** Don't make me look up something the repo can tell us.
+- **Answer a question inside my answer before the next branch.** When my reply to a question dialog carries a question of its own, or shows I did not follow, reply with the explanation only and end the turn; open the next dialog after I answer. A dialog covers the screen while it is open, so a question put beside it goes unanswered.
 
 ## How to recommend
 
@@ -28,4 +29,4 @@ Leading with your recommendation anchors me to it. Letting me commit first surfa
 Stop when every branch you can think of has a settled answer, *and* I haven't surfaced new branches in the last 1–2 turns. At that point:
 
 1. Summarize the resolved decisions inline as a bulleted list — branch → decision → one-line rationale.
-2. Ask whether to persist the summary, and where. Propose a target based on context — append to a doc we've been working in, or write a new file (`DECISIONS.md` is a fine default). Don't write anything without my say-so.
+2. Ask whether to persist the summary, and where. Propose a target based on context — append to a doc we've been working in, or write a new file (`DECISIONS.md` is a fine default). Don't write anything without my say-so. A decision record holds the current state only: for each decision, the facts and the directions that hold now, with no dates and no log of how it changed. When a decision changes later, rewrite its entry in place — the version history keeps the old state.
