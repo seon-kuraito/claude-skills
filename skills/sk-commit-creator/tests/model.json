@@ -17,7 +17,7 @@
     {
       "id": "core",
       "default": true,
-      "prompt": "我在另一個專案中，把 README 的安裝步驟從 npm 改成 pnpm，幫我寫 commit message",
+      "prompt": "我已將 README 的安裝步驟從 npm 改為 pnpm，請幫我撰寫 commit message",
       "assert": [
         "訊息只有一行主旨，沒有 body",
         "格式是 <type>(<scope>): <description>，type 取自 11 種之一",
