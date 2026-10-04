@@ -43,17 +43,18 @@ This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates 
 | --- | --- |
 | repo-creator · template | framework → **Vite + React** |
 | repo-creator · remote decision | bind a **public** remote and push |
-| initializer · features | **every option, both menus** — MIT `LICENSE`, blank `.claude/CLAUDE.md`, the 11 type labels, **main protection**, deploy branch **`preparing`** |
+| initializer · features | **every option, both menus** — MIT `LICENSE`, blank `.claude/CLAUDE.md`, the type labels, **main protection**, deploy branch **`staging`** |
+| initializer · release flow | **「不需要」** — no release branch, so the Publish menu never appears; the dual-land flow below is the whole git flow |
 | deployer · platform / build type | **GitHub Pages** / **Vite SPA** |
-| deployer · deploy branch `T` | **`preparing`** |
+| deployer · deploy branch `T` | **`staging`** |
 | every PR | open it, then **self-merge** (main-protection review-count is 0, so `--merge` needs no `--admin`) |
 | end condition | **poll the live URL until HTTP 200** |
 
 ## Git flow
 
-`preparing` is forked from `main` at Step 2 (the pristine scaffold) and mirrors `main` plus the deploy workflow. **Dual-land** = merge into `preparing` (`--no-ff`, no PR) + push, then PR into `main` + self-merge.
+`staging` is forked from `main` at Step 2 (the pristine scaffold) and mirrors `main` plus the deploy workflow. **Dual-land** = merge into `staging` (`--no-ff`, no PR) + push, then PR into `main` + self-merge.
 
-End: `main` = scaffold + ① + ②; `preparing` = the same + ③.
+End: `main` = scaffold + ① + ②; `staging` = the same + ③.
 
 ## Runbook (order is load-bearing — do not reorder)
 
@@ -63,7 +64,7 @@ Load `sk-repo-creator`, `sk-project-initializer`, `sk-project-deployer` and foll
 
 **Step 1: Scaffold (repo-creator · Vite + React).** From `~/Developer` (`D`'s parent, *not* the launch dir — repo-creator scaffolds in the CWD), run repo-creator's Vite + React template → `~/Developer/N/`. **Leave its initial commit pristine** (exact create-vite output); `base` + icon go in Step 4.
 
-**Step 2: Remote + main protection + `preparing` + labels.** repo-creator's remote decision (public, push) puts the pristine scaffold on `main`; then, before any PR, run initializer's GitHub setup — apply **main-protection**, fork `preparing` from `main` (= pristine scaffold), and create the 11 type labels. From here, everything reaches `main` through a PR.
+**Step 2: Remote + main protection + `staging` + labels.** repo-creator's remote decision (public, push) puts the pristine scaffold on `main`; then, before any PR, run initializer's GitHub setup — apply **main-protection**, fork `staging` from `main` (= pristine scaffold), and create the type labels. From here, everything reaches `main` through a PR.
 
 **Step 3: ① Land `chore/initial-project-setup`.** initializer's `LICENSE` + blank `.claude/CLAUDE.md` on the branch (cut from `main`); **dual-land**, PR into `main` `--label chore`, body `assets/pr-into-main.md`.
 
@@ -73,10 +74,10 @@ Load `sk-repo-creator`, `sk-project-initializer`, `sk-project-deployer` and foll
 - `fix: reference icons sprite via base url` — **only if** the demo still has `public/icons.svg` + `<use href="/icons.svg#…">`: add `icon(id)` returning `import.meta.env.BASE_URL + 'icons.svg#' + id`, route every `<use href>` through it. Skip if absent.
 - Build-verify: `npm install && npm run build` in `D`; on failure stop, do not land.
 
-**Step 5: ③ Publish (deployer · GitHub Pages, Vite SPA, `T = preparing`).** deployer owns Pages, the `github-pages` env allow-list for `preparing`, the workflow, and the deploy PR. `ci/deploy-github-pages` is cut from `preparing`, PR into `preparing` only (`--label ci`, body `assets/pr-into-preparing.md`). Merging triggers the first deploy.
+**Step 5: ③ Publish (deployer · GitHub Pages, Vite SPA, `T = staging`).** deployer owns Pages, the `github-pages` env allow-list for `staging`, the workflow, and the deploy PR. `ci/deploy-github-pages` is cut from `staging`, PR into `staging` only (`--label ci`, body `assets/pr-into-staging.md`). Merging triggers the first deploy.
 
 **Step 6: Confirm live.** Poll `https://O.github.io/N/` until HTTP 200 (`curl -sf -o /dev/null -w '%{http_code}' <url>`), ~5 min. Report the URL; on failure surface `gh run list` / `gh run view`.
 
-**Step 7: Sync local, switch to `main`.** The PR merges land on GitHub, so local branches lag — `git fetch origin`, fast-forward local `main` and `preparing` to `origin`, then `git switch main`, leaving `D` on an up-to-date `main`.
+**Step 7: Sync local, switch to `main`.** The PR merges land on GitHub, so local branches lag — `git fetch origin`, fast-forward local `main` and `staging` to `origin`, then `git switch main`, leaving `D` on an up-to-date `main`.
 
 **Step 8: Open the editor.** `cd` into `D`, run `code .` — best-effort; skip silently if `code` is not on `PATH`.

@@ -11,7 +11,7 @@ assets = Path(__file__).resolve().parents[2] / "assets"
 failures = []
 SECTIONS = ["## 📝 Summary", "## 🎯 Scope", "## ✅ Test plan"]
 
-for name in ("pr-into-main.md", "pr-into-preparing.md"):
+for name in ("pr-into-main.md", "pr-into-staging.md"):
     path = assets / name
     if not path.exists():
         failures.append(f"{name} is missing")
