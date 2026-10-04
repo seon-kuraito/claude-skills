@@ -43,6 +43,15 @@ Identical to Conventional Commits. See [sk-commit-creator](../sk-commit-creator/
 - **Lead with the scope when applicable.** A branch for `feat(00-blank): add intro fade-in` becomes `feat/00-blank-intro-fade-in` — related branches sort together in alphabetical listings.
 - **Match the upcoming commit's intent.** The branch description should make the planned commit message obvious.
 
+## Branches outside this format
+
+Four names are not work branches, and this skill never renames them:
+
+- `main`, `develop`, `staging` — long-lived branches. `develop` is an integration branch and `staging` a test-environment branch; a project has at most one of the two.
+- `release/x.y.z` — the release branch of one version (`release/0.2.0`). [sk-release-creator](../sk-release-creator/SKILL.md) names and cuts it. `release` is not a type: a work branch called `release/add-login` is wrong — that is `feat/add-login`.
+
+Cut a work branch from `develop` when the repo has one, otherwise from `main` — never from `staging` or from a release branch.
+
 ## Anti-patterns
 
 Reject and rewrite. Each pattern, then why it fails:
@@ -70,4 +79,5 @@ chore/upgrade-remotion
 
 ## Related
 
+- [sk-release-creator](../sk-release-creator/SKILL.md) — owns the one branch name outside this format, `release/x.y.z`.
 - [sk-commit-creator](../sk-commit-creator/SKILL.md) — the commit that lands on the branch. It owns the type vocabulary this skill reuses (see *Type vocabulary*), and it loads this skill when a commit would land on a long-lived branch.
