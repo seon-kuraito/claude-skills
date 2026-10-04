@@ -28,6 +28,10 @@
         {
           "when": "asks which deploy branch to create",
           "reply": "develop"
+        },
+        {
+          "when": "asks whether the project needs a release flow",
+          "reply": "不需要"
         }
       ],
       "assert": [
