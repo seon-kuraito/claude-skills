@@ -26,6 +26,7 @@
 | [`sk-project-initializer`](skills/sk-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
 | [`sk-project-migrator`](skills/sk-project-migrator) | 搬遷本機專案路徑，並一併帶走 Claude Code 與 VS Code 的狀態 | 原創 |
 | [`sk-react-publisher`](skills/sk-react-publisher) | 從零自動建立 React 專案並部署至 GitHub Pages（需以 `/sk-react-publisher` 手動呼叫） | 原創 |
+| [`sk-release-creator`](skills/sk-release-creator) | 透過 release branch、release PR、tag 與 GitHub Release 發布版本 | 原創 |
 | [`sk-repo-creator`](skills/sk-repo-creator) | 依模板建立本地端與 GitHub repo | 原創 |
 | [`sk-skill-author`](skills/sk-skill-author) | 建立、改寫與驗證 Claude Code skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
 
