@@ -21,7 +21,7 @@ A correct example: `feat(00-blank): add intro fade-in animation`
 
 ## Branch check
 
-Before committing, check which branch the commit lands on. When it would land on a long-lived branch such as `main` or `develop`, or on a detached HEAD, open a branch first: load [sk-branch-creator](../sk-branch-creator/SKILL.md) to name it, then commit there. Without that skill, name the branch `<type>/<kebab-description>` yourself.
+Before committing, check which branch the commit lands on. When it would land on a long-lived branch — `main`, `develop`, `staging`, or a `release/x.y.z` branch — or on a detached HEAD, open a branch first: load [sk-branch-creator](../sk-branch-creator/SKILL.md) to name it, then commit there. A merge or a revert that a release flow runs on `staging` is a step of that flow, not a commit to move onto a branch. Without that skill, name the branch `<type>/<kebab-description>` yourself.
 
 Skip the check when the repo's CLAUDE.md or the user says commits land on that branch directly.
 
