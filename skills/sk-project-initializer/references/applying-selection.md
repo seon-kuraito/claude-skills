@@ -2,7 +2,7 @@
 
 How each option chosen in *Feature selection* (SKILL.md) is carried out. Read this before running any of it — the GitHub-side steps touch the remote and pass through the SKILL.md *Execution gate*.
 
-The file options land on a dedicated branch; the labels, branch-protection, and deploy-branch options are GitHub-side effects with no commit (the deploy branch forks from `main`, so it carries no new commit of its own).
+The file options land on a dedicated branch; the labels, branch-protection, deploy-branch, and release-flow items are GitHub-side effects with no commit (the deploy branch and a release branch fork from an existing branch, so they carry no new commit of their own).
 
 1. **File options** (`LICENSE`, `.claude/CLAUDE.md`) — if any is selected, create the branch `chore/initial-project-setup` (hand to sk-branch-creator), then apply each selected one as its own commit, using these **fixed messages verbatim** (they do *not* go through sk-commit-creator):
    - `LICENSE` → `chore: add <license> LICENSE` (the chosen id, e.g. `chore: add MIT LICENSE`)
@@ -42,9 +42,10 @@ The file options land on a dedicated branch; the labels, branch-protection, and 
      - **No admin bypass by default.** Rulesets ship with an empty bypass list, so the owner is also forced through PRs on `main` — that is the intent.
      - **`~DEFAULT_BRANCH`** tracks whichever branch is default, so renaming the default branch never breaks the rule.
      - **Going private later drops the protection.** On GitHub Free the ruleset holds only while the repo is public — flipping it to private silently stops enforcing it (and it does not come back on its own). Say so when the user plans to make the repo private.
-4. **Deploy branch** — create the chosen branch (`develop` / `preparing`) from `main` and push it to `origin` (see *Deploy branch* in SKILL.md). A GitHub side-effect: needs a remote to push to, makes no commit. If the repo is local-only, explain and skip this item.
+4. **Deploy branch** — create the chosen branch (`develop` / `staging`) from `main` and push it to `origin` (see *Deploy branch* in SKILL.md). A GitHub side-effect: needs a remote to push to, makes no commit. If the repo is local-only, explain and skip this item.
 
    ```sh
    git branch <name> main      # fork from main
    git push -u origin <name>   # push so the deployer can deploy from it
    ```
+5. **Release flow** — only when the **Release flow** menu (`menus.md`) was answered 「需要」. Load sk-release-creator and follow its *Start a version*: it asks for the version number, and where its flow cuts the release branch at the start, it creates that branch and pushes it. Run this after item 4, because sk-release-creator reads the deploy branch from `origin` to tell which of its two flows the repo runs. A GitHub side-effect: needs a remote, makes no commit.

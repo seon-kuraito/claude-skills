@@ -16,8 +16,8 @@ Q2 · header: 「GitHub / 遠端」
   options:
     · 「GitHub 標籤」 — 「新增 Conventional Commits 類型標籤；repo 已有標籤時，會先詢問處理方式。」
     · 「分支保護」 — 「對 main 套用標準 ruleset，要求 PR 並禁止刪除與強制推送。（GitHub 免費方案只對 public repo 生效）」
-    · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 preparing。」
-[Rule, not copy] include Q2 only when a remote exists (check `git remote` or the sk-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Drop the 「專案說明書 CLAUDE.md」 option when the repo is a family member — a sibling `*-meta` or `meta` directory's `CLAUDE.md` names this repo's directory; SKILL.md *Feature selection* gives the check and says why. Each question caps at 4 options. If nothing is selected across both questions, stop.
+    · 「部署分支」 — 「從 main 建立部署分支供 deployer 使用，選擇後再指定 develop 或 staging。」
+[Rule, not copy] include Q2 only when a remote exists (check `git remote` or the sk-repo-creator hand-off state); on a local-only repo, omit Q2 entirely — every option there needs the remote. Drop the 「專案說明書 CLAUDE.md」 option when the repo is a family member — a sibling `*-meta` or `meta` directory's `CLAUDE.md` names this repo's directory; SKILL.md *Feature selection* gives the check and says why. Each question caps at 4 options. If nothing is selected across both questions, go on to the Release flow menu when a remote exists; on a local-only repo, stop.
 ```
 
 ## License
@@ -40,7 +40,18 @@ single-select · header: 「建立部署分支」
 question: 「要建立哪一條部署分支？」
 options:
   · 「develop」 — 「整合分支（integration branch）。」
-  · 「preparing」 — 「測試環境分支（testing environment branch）。」
+  · 「staging」 — 「測試環境分支（testing environment branch）。」
+```
+
+## Release flow
+
+```
+single-select · header: 「release 流程」
+question: 「這個專案是否需要 release 流程？」
+options:
+  · 「需要」 — 「每個版本透過 release branch 彙整，經 release PR 合併至 main，並建立版本 tag 與 GitHub Release。」
+  · 「不需要」 — 「不建立 release branch，變更透過一般 PR 合併至 main 或 develop。」
+[Rule, not copy] present it on every run that has a remote — after the Deploy branch menu, or right after Features when no deploy branch was selected. On a local-only repo, omit it.
 ```
 
 ## Existing labels
@@ -64,4 +75,15 @@ options:
   · 「進入部署階段」 — 「載入 sk-project-deployer，使用這條部署分支部署。」
   · 「不進入」 — 「先停在這，後續交給我處理。」
 [Rule, not copy] if the deployer skill is unavailable, say so and stop instead of loading one.
+```
+
+## Publish
+
+```
+single-select · header: 「發布版本」
+question: 「是否要立即發布這個版本？」
+options:
+  · 「發布」 — 「載入 sk-release-creator，建立 release PR，merge 後建立版本 tag 與 GitHub Release。」
+  · 「先不發布」 — 「版本維持開啟，之後再發布。」
+[Rule, not copy] present it only when the Release flow answer was 「需要」 and the setup PR merged in this run. If sk-release-creator is unavailable, say so and stop instead of loading one.
 ```

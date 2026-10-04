@@ -12,9 +12,9 @@
 # (`npm ci` fails without one). Shape taken from a real Vite project, not from
 # the skill's documentation.
 #
-# Branches are the point of this fixture. `main` and `develop` exist; `preparing`
+# Branches are the point of this fixture. `main` and `develop` exist; `staging`
 # does not. The deploy-branch menu is built from what exists, so a run that
-# offers `preparing` has invented an option and the assert catches it. The remote
+# offers `staging` has invented an option and the assert catches it. The remote
 # is a bare repo inside the sandbox, so `git ls-remote --heads origin` answers
 # for real and nothing reaches GitHub.
 #

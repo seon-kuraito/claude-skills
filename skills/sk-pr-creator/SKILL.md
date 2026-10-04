@@ -29,9 +29,9 @@ The PR title is the branch name, verbatim — e.g. branch `chore/initial-project
 On `gh pr create`, default to two flags:
 
 - **`--assignee @me`** — self-assign every PR, so open PRs are easy to track. `@me` resolves to the authenticated `gh` account rather than the repo owner, so it works unchanged on an organization's repo.
-- **`--label <type>`** — tag the PR with its type, taken verbatim from the branch prefix (`feat/add-x` → `feat`). The repo carries one label per Conventional Commits type — the same vocabulary as [sk-branch-creator](../sk-branch-creator/SKILL.md) and [sk-commit-creator](../sk-commit-creator/SKILL.md): `feat` `fix` `improve` `perf` `refactor` `style` `test` `docs` `build` `ci` `chore` (lowercase, matching the branch / commit type).
+- **`--label <type>`** — tag the PR with its type, taken verbatim from the branch prefix (`feat/add-x` → `feat`). The repo carries one label per Conventional Commits type — the same vocabulary as [sk-branch-creator](../sk-branch-creator/SKILL.md) and [sk-commit-creator](../sk-commit-creator/SKILL.md): `feat` `fix` `improve` `perf` `refactor` `style` `test` `docs` `build` `ci` `chore` (lowercase, matching the branch / commit type). A twelfth label, `release`, belongs to the release PR that [sk-release-creator](../sk-release-creator/SKILL.md) opens.
 
-Both are behavior-affecting — include them in the Execution gate preview. `--label` only adds an already-existing label; the eleven type labels are set up in this repo, so for a *different* repo that lacks them, drop `--label` rather than letting the command error.
+Both are behavior-affecting — include them in the Execution gate preview. `--label` only adds an already-existing label; [sk-project-initializer](../sk-project-initializer/SKILL.md) sets the labels up, so for a repo that lacks them, drop `--label` rather than letting the command error.
 
 ## The `gh pr create` command
 
@@ -39,12 +39,44 @@ Push the branch, then create the PR. Title is the branch name, body is the file 
 
 ```sh
 git push -u origin <branch>
-gh pr create --base main --head <branch> \
+gh pr create --base <base> --head <branch> \
   --title "<branch>" --body-file <body-file> \
   --assignee @me --label <type>
 ```
 
-`<type>` is the branch prefix (`feat/add-x` → `feat`). Fill every placeholder in and show this exact command at the Execution gate before running it.
+`<type>` is the branch prefix (`feat/add-x` → `feat`), and `<base>` is what *Picking the base* gives. Fill every placeholder in and show this exact command at the Execution gate before running it.
+
+## Picking the base
+
+Read the base from the repo's branches — `git ls-remote --heads origin develop 'release/*'` — unless the calling flow names one:
+
+| `origin` has | base |
+| --- | --- |
+| `develop` | `develop` |
+| no `develop`, and an open `release/x.y.z` | that release branch |
+| neither | `main` — or `master` / a feature trunk, inferred from `git remote show origin` |
+
+- **A base the calling flow names wins.** sk-project-deployer, for one, sends its workflow PR into the deploy branch.
+- **`develop` is read first**, because a develop-flow repo also shows a release branch for a short time while a version is published.
+- **Version tags but no open release branch and no `develop`** means a release flow with no version open. A work-branch PR never targets `main` there: say so and offer [sk-release-creator](../sk-release-creator/SKILL.md)'s *Start a version*. Fall back to `main` only when the user says the repo runs no release flow.
+- **More than one open release branch** — ask once which version the change belongs to.
+- **A release PR is not authored here.** A `release/x.y.z` branch going into `main` belongs to sk-release-creator, whose body is a plain list of PRs: hand it over rather than fitting it into the three sections.
+
+## Merge into `staging` first
+
+When `origin` has a `staging` branch, and the base is neither `develop` nor `staging` itself, the work branch goes through `staging` before its PR opens. `staging` is the test-environment branch: the change is confirmed there first, and the PR is the step after.
+
+```sh
+git switch staging
+git pull --ff-only origin staging
+git merge --no-ff <branch>
+git push origin staging
+git switch <branch>
+```
+
+Show these commands at an execution gate of their own and wait for a go. After the push, ask the user to confirm the change in the test environment or the CI run, and go on to the PR only once they have. `--no-ff` leaves one merge commit for each work branch, so a change that never reaches the base is cleared with one `git revert -m 1 <merge-commit>`.
+
+Skip the step when `origin/staging` already holds the branch tip (`git branch -r --contains <branch>` lists it), or when the calling flow says it merged the branch itself.
 
 ## Check the body before the gate
 
@@ -60,7 +92,7 @@ Non-English copy is the slip this catches most often, because the conversation a
 
 ## Execution gate
 
-Before any `gh` PR command or the post-merge remote-branch prune (`git push origin --delete`), stop at an execution gate and wait for an explicit go. Creating a PR and merging one pass through separate gates. Write these three bullets with their labels kept in English, then the exact command in a `sh` block:
+Before any `gh` PR command, the merge into `staging`, or the post-merge remote-branch prune (`git push origin --delete`), stop at an execution gate and wait for an explicit go. The `staging` merge, creating a PR, and merging one pass through separate gates. Write these three bullets with their labels kept in English, then the exact command in a `sh` block:
 
 ```markdown
 - **Title**：`<title>`
@@ -89,15 +121,17 @@ Before drafting, read:
 
 Then map the commits into Summary bullets — **at least one bullet per commit**: the commit count is the floor, never fewer. Each bullet corresponds to a commit, or to one distinct change within it — a commit that bundled several changes expands into several bullets, so the bullet count is `≥` the number of commits. Write each bullet a notch more descriptively than its commit subject: clear enough that a reviewer grasps the change without opening the commit, but no more. This assumes a curated branch where every commit is one real change (this family's commits already are); squash a fixup-heavy WIP branch first (see *Merging*), then the floor follows the squashed commits.
 
-Default base branch: `main`. If the repo uses `master` / `develop` / a feature trunk, infer from `git remote show origin` or ask the user once.
+`<base>` is the branch *Picking the base* gives — never assume `main`.
 
 ## Test precondition
 
 Before the Execution gate, the Test plan must be **verified, not just asserted**. This skill runs nothing itself — running a repo's checks belongs to the flow that made the change. Its job here is to gate: no verification, no PR.
 
+The precondition gates the PR, not the draft. Write the body file first — every section filled in, every Test plan item unticked — and run the body check over it; then settle the steps below before the Execution gate. A request for the description alone still gets its file.
+
 1. **Establish what covers the change.** Ask what this repo runs over the changed code — a test suite, a lint task, a checks script. In this user's extension repos that is `scripts/run-checks.sh` plus the model-tier cases, run at the end of the authoring flow (see [sk-skill-author](../sk-skill-author/SKILL.md) Step 4).
 2. **Confirm it ran on this branch, and passed.** The evidence is the run itself — its output in this session, or the user saying it ran. Nothing is written to disk for you to read back, so when you cannot confirm it, treat it as not run.
-3. **Block when it did not run.** Stop — do not open the PR. Hand the work back to the flow that owns the checks, then return here once they pass.
+3. **Block when it did not run.** Stop before the Execution gate — no push, no PR. The drafted body file stays where it is, its Test plan unticked. Hand the work back to the flow that owns the checks, then return here once they pass.
 4. **Fold the outcome into the Test plan.** Each check that ran becomes a Test plan item, alongside the change-specific items you write anyway.
 5. **Tick what passed.** Mark verified items `[x]`; leave items only the user can confirm (e.g. "open the app, confirm X") `[ ]`.
 
@@ -135,3 +169,4 @@ Reject and rewrite. Each pattern, then why it fails:
 
 - [sk-branch-creator](../sk-branch-creator/SKILL.md) — authors the branch name, which doubles as the PR title.
 - [sk-commit-creator](../sk-commit-creator/SKILL.md) — authors per-commit messages in imperative-mood, single-sentence style.
+- [sk-release-creator](../sk-release-creator/SKILL.md) — the release flow: it starts a version, and it authors the release PR this skill hands over.

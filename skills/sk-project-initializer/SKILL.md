@@ -1,11 +1,11 @@
 ---
 name: sk-project-initializer
-description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the Conventional Commits type labels on GitHub, optional main branch protection, and an optional deploy branch (develop / preparing) for sk-project-deployer. The initialize stage sk-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is sk-repo-creator.
+description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the type labels on GitHub, optional main branch protection, an optional deploy branch (develop / staging) for sk-project-deployer, and the choice of a release flow for sk-release-creator. The initialize stage sk-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is sk-repo-creator.
 ---
 
 # Project Initializer
 
-Initialize a project's working setup once its repository exists — a `LICENSE`, a blank `.claude/CLAUDE.md`, the Conventional Commits type labels on GitHub, and optional `main` branch protection. This is the **initialize** stage that pairs with [sk-repo-creator](../sk-repo-creator/SKILL.md)'s **create** stage.
+Initialize a project's working setup once its repository exists — a `LICENSE`, a blank `.claude/CLAUDE.md`, the type labels on GitHub, optional `main` branch protection, an optional deploy branch, and the choice of a release flow. This is the **initialize** stage that pairs with [sk-repo-creator](../sk-repo-creator/SKILL.md)'s **create** stage.
 
 ## Stage & entry
 
@@ -20,7 +20,7 @@ If no repository exists yet, point the user to [sk-repo-creator](../sk-repo-crea
 
 ## Companions
 
-Load [sk-branch-creator](../sk-branch-creator/SKILL.md) for the branch this stage lands; if it is absent, follow the conventions below without blocking. Do not load [sk-commit-creator](../sk-commit-creator/SKILL.md) for the commits: their messages are fixed copy in `references/applying-selection.md`, so there is nothing for it to author.
+Load [sk-branch-creator](../sk-branch-creator/SKILL.md) for the branch this stage lands; if it is absent, follow the conventions below without blocking. Do not load [sk-commit-creator](../sk-commit-creator/SKILL.md) for the commits: their messages are fixed copy in `references/applying-selection.md`, so there is nothing for it to author. Load [sk-release-creator](../sk-release-creator/SKILL.md) only when the user opts into a release flow (see *Release flow*).
 
 ## Feature selection
 
@@ -47,6 +47,15 @@ A project runs one branching model, so pick exactly one (like the license templa
 
 Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [sk-project-deployer](../sk-project-deployer/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
 
+## Release flow
+
+Present the **Release flow** menu on every run that has a remote — after the deploy-branch choice, and equally when no deploy branch or no feature at all was selected. A release flow lives on GitHub (a release branch, a release PR, a version tag, a GitHub Release), so on a local-only repo leave the menu out and say so in one line.
+
+- **需要** → load [sk-release-creator](../sk-release-creator/SKILL.md) and follow its *Start a version*: it asks for the version number and cuts the release branch where its flow needs one. If that skill is not installed, say so and carry on without a release flow.
+- **不需要** → no release branch; a change reaches `main` (or `develop`) through an ordinary PR.
+
+This skill only asks. Which flow the repo runs, and every step after the start, belong to sk-release-creator — a family member and a standalone project get the same menu.
+
 ## Existing labels
 
 Only when **GitHub labels** is selected. List the repo's labels first (read-only — see `references/applying-selection.md`). With none, create the type labels without asking. With any — a GitHub default or a label that was already there, never told apart — present the **Existing labels** menu.
@@ -56,16 +65,25 @@ Only when **GitHub labels** is selected. List the repo's labels first (read-only
 How each selected option is carried out — the full `gh`-command procedure (commands, ruleset pre-flight / verify, and the solo-repo gotchas) lives in [`references/applying-selection.md`](references/applying-selection.md); read it before running any of these:
 
 - **File options** (`LICENSE`, `.claude/CLAUDE.md`) land as their own fixed-message commits on a dedicated `chore/initial-project-setup` branch.
-- **GitHub labels, branch protection, and the deploy branch** are GitHub-side effects with no commit — each needs a remote (skip on a local-only repo; branch protection on GitHub Free also needs a public repo).
+- **GitHub labels, branch protection, the deploy branch, and the start of a release flow** are GitHub-side effects with no commit — each needs a remote (skip on a local-only repo; branch protection on GitHub Free also needs a public repo).
 
 ## Wrap up — open a PR
 
-The file commits land on `chore/initial-project-setup`, which always needs a PR to reach `main`. After the commits, ask the user whether to open one now:
+The file commits land on `chore/initial-project-setup`, which always needs a PR to land. After the commits, and after every GitHub-side item is applied, ask the user whether to open one now:
 
-- **Yes** → hand to [sk-pr-creator](../sk-pr-creator/SKILL.md).
+- **Yes** → hand to [sk-pr-creator](../sk-pr-creator/SKILL.md). It reads the base from the repo's branches — `develop`, an open release branch, or `main` — and merges the branch into `staging` first when the repo has one. That is why the deploy branch and the release branch go to `origin` before this step.
 - **No** → leave the branch in place for the user.
 
-If only side-effect options were selected (GitHub labels, branch protection, and/or deploy branch), there is no branch or commit — skip this step.
+If only side-effect options were selected (GitHub labels, branch protection, the deploy branch, and/or the release flow), there is no branch or commit — skip this step.
+
+## Publish the first version
+
+Only when the **Release flow** answer was 「需要」 and the setup PR merged in this run. Present the **Publish** menu.
+
+- **發布** → hand to sk-release-creator's *Publish a version*.
+- **先不發布** → stop here; the version stays open for more work.
+
+Never publish on your own — always the user's choice. Without a merged setup PR the version holds nothing yet, so leave the menu out.
 
 ## Hand-off to the deploy stage
 
@@ -86,3 +104,4 @@ Before any command that writes to the remote or repo settings (`gh label …`, t
 - [sk-branch-creator](../sk-branch-creator/SKILL.md) — the branch this stage lands.
 - [sk-commit-creator](../sk-commit-creator/SKILL.md) — the convention the fixed commit messages follow; this stage does not load it.
 - `sk-project-deployer` — the **deploy** stage; like this one, an insertable, project-level stage.
+- [sk-release-creator](../sk-release-creator/SKILL.md) — the release flow this stage offers: it starts the version and later publishes it.

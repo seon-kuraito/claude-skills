@@ -17,10 +17,11 @@ Shared action versions (version tags, not SHA pins): `actions/checkout@v6`, `act
 
 ## Steps
 
-1. **Pick the deploy branch `T`** — `main` / `develop` / `preparing` / custom (SKILL.md *Choose the deploy branch*). If `T` is not `main` and does not exist yet, create it from `main` and push it to `origin` first.
+1. **Pick the deploy branch `T`** — `main` / `develop` / `staging` / custom (SKILL.md *Choose the deploy branch*). If `T` is not `main` and does not exist yet, create it from `main` and push it to `origin` first.
 2. **Add the workflow** — for Vite, check the lockfile first (*Vite lockfile caveat*). Copy the chosen template to `.github/workflows/deploy-pages.yml`, substituting `{{DEPLOY_BRANCH}}` → `T`.
-3. **Enable Pages** — set the publishing source to Actions: `gh api --method POST /repos/<owner>/<repo>/pages -f build_type=workflow` (if Pages already exists, use `--method PUT`). Branch-agnostic — Pages serves whatever the workflow uploads.
-4. **Allow `T` in the `github-pages` environment** — **only when `T` ≠ `main`**. Enabling Pages auto-creates a `github-pages` environment whose deployment branch policy permits only the default branch, so a non-default `T` is rejected with `Branch "<T>" is not allowed to deploy to github-pages`. Switch it to a custom branch policy and add `T`:
+3. **Commit** on `ci/deploy-github-pages` — cut from `T`, not from `main` (hand to sk-branch-creator) — with the fixed message `ci: add github pages deploy workflow` — verbatim; it does *not* go through sk-commit-creator. The PR merges into `T` (SKILL.md *Wrap up*). In a repo with a release flow and `T = staging`, the branch is cut from `main` and the PR goes into the open release branch instead (SKILL.md *A repo with a release flow*). The workflow file and this commit are local; the two steps below write to GitHub and pass the Execution gate.
+4. **Enable Pages** — set the publishing source to Actions: `gh api --method POST /repos/<owner>/<repo>/pages -f build_type=workflow` (if Pages already exists, use `--method PUT`). Branch-agnostic — Pages serves whatever the workflow uploads.
+5. **Allow `T` in the `github-pages` environment** — **only when `T` ≠ `main`**. Enabling Pages auto-creates a `github-pages` environment whose deployment branch policy permits only the default branch, so a non-default `T` is rejected with `Branch "<T>" is not allowed to deploy to github-pages`. Switch it to a custom branch policy and add `T`:
 
    ```sh
    # PUT also creates the environment if it does not exist yet
@@ -28,7 +29,6 @@ Shared action versions (version tags, not SHA pins): `actions/checkout@v6`, `act
      | gh api --method PUT /repos/<owner>/<repo>/environments/github-pages --input -
    gh api --method POST /repos/<owner>/<repo>/environments/github-pages/deployment-branch-policies -f name='<T>'
    ```
-5. **Commit** on `ci/deploy-github-pages` — cut from `T`, not from `main` (hand to sk-branch-creator) — with the fixed message `ci: add github pages deploy workflow` — verbatim; it does *not* go through sk-commit-creator. The PR merges into `T` (SKILL.md *Wrap up*).
 
 The PR prompt and the Execution gate are handled by the general flow in `SKILL.md`.
 

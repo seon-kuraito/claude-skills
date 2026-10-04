@@ -34,11 +34,12 @@
 
 ## 配合運作的 skill
 
-以下三組 skill 配合處理相關工作，各自的 `SKILL.md` 皆在 `## Related` 段落中連結至另一方：
+以下四組 skill 會配合處理相關工作，各自的 `SKILL.md` 均會在 `## Related` 段落連結相關 skill：
 
 - `sk-claudemd-composer`／`sk-memory-composer`：`sk-claudemd-composer` 負責整份 CLAUDE.md，`sk-memory-composer` 負責其中的記憶區段；使用者層級的 CLAUDE.md 不存在時，由 `sk-claudemd-composer` 建立空白檔案
 - `sk-branch-creator`／`sk-commit-creator`：兩者共用 Conventional Commits 的 type 語彙，並由 `sk-commit-creator` 維護相關定義；若 commit 將直接提交至 `main` 等長期 branch，`sk-commit-creator` 會先將 branch 建立工作交由 `sk-branch-creator` 處理
 - `sk-project-cleaner`／`sk-project-migrator`：`sk-project-cleaner` 清除已刪除或封存專案的殘留狀態，`sk-project-migrator` 搬遷專案及其相關狀態；搬遷時，由 `sk-project-cleaner` 清除舊路徑的 VS Code 狀態
+- `sk-pr-creator`／`sk-release-creator`：`sk-pr-creator` 負責 work branch 的 PR，`sk-release-creator` 負責開始與發布版本；從 `release/x.y.z` 合併至 `main` 的 release PR 由 `sk-release-creator` 撰寫
 
 　
 

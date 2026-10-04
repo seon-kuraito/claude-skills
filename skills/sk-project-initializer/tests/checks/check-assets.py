@@ -24,8 +24,10 @@ def check(cond, msg):
 
 
 # --- type-labels.json -------------------------------------------------------
+# The eleven Conventional Commits types in importance order, then `release`:
+# not a commit type, the label of the PR that takes a release branch into main.
 EXPECTED = ["feat", "fix", "improve", "perf", "refactor",
-            "style", "test", "docs", "build", "ci", "chore"]
+            "style", "test", "docs", "build", "ci", "chore", "release"]
 labels = json.loads((ASSETS / "type-labels.json").read_text())
 check(isinstance(labels, list), "type-labels.json must be a JSON array")
 names = [l.get("name") for l in labels]
@@ -36,6 +38,11 @@ for l in labels:
           f"{l.get('name')}: color must be 6-digit lowercase hex, got {l.get('color')!r}")
     check(bool(str(l.get("description", "")).strip()),
           f"{l.get('name')}: description must be non-empty")
+by_name = {l.get("name"): l for l in labels}
+check(by_name.get("chore", {}).get("color") == "000000",
+      "chore: color must be 000000")
+check(by_name.get("release", {}).get("color") == "ffffff",
+      "release: color must be ffffff")
 
 # --- main-protection-ruleset.json ------------------------------------------
 rs = json.loads((ASSETS / "main-protection-ruleset.json").read_text())

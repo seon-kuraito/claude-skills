@@ -33,7 +33,7 @@ question: 「要使用哪一條部署分支？」
 options:
   · 「main」 — 「推送到 main 時即進行部署，維持最簡單的原本行為。」
   · 「develop」 — 「整合分支（integration branch）。」
-  · 「preparing」 — 「測試環境分支（testing environment branch）。」
+  · 「staging」 — 「測試環境分支（testing environment branch）。」
   · 「custom」 — 「使用其他任一分支，若不存在則從 main 開出並推送。」
-[Rule, not copy] `main` is always offered. Include `develop` / `preparing` each only if it already exists (created by sk-project-initializer's deploy-branch option) — typically just one is present, presented by what it is, not by a flow label. For `custom`, ask for the name and, if it does not exist, create it from `main` and push it (proceed conversationally, the same shape as sk-repo-creator's `framework` option).
+[Rule, not copy] `main` is always offered. Include `develop` / `staging` each only if it already exists (created by sk-project-initializer's deploy-branch option) — typically just one is present, presented by what it is, not by a flow label. For `custom`, ask for the name and, if it does not exist, create it from `main` and push it (proceed conversationally, the same shape as sk-repo-creator's `framework` option).
 ```

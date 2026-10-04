@@ -66,10 +66,15 @@
 - **branch 名應預示後續 commit**：
   - branch description 應清楚描述這條分支預期完成的變更
   - 好的 branch 名應讓後續 commit message 大致可預期，而不是只描述模糊方向
+- **不適用此格式的 branch**：
+  - `main`、`develop` 與 `staging` 為長期 branch，不套用此命名格式
+  - `release/x.y.z` 為單一版本的 release branch，由 [`sk-release-creator`](../sk-release-creator) 命名與建立；`release` 僅用於版本分支，不列入 work branch type
+  - repo 有 `develop` 時，work branch 從 `develop` 開出；其餘情況則從 `main` 開出
 - **攔截常見不良 branch 格式**：
   - `feature/`、`bug/`、`hotfix/`、人名前綴、camelCase、snake_case、非英文命名等情況，都會被改寫為一致格式
 - **收錄驗證案例**：
   - `tests/model.json` 收錄觸發案例與行為案例；前者確認請求會路由到這個 skill，後者確認產出符合規格
+  - `tests/sandbox.sh` 建立帶有未 commit 修改的測試 repo，讓行為案例有實際的修改可以命名
 
 　
 

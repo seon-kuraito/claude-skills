@@ -29,7 +29,10 @@
 
 - **補齊專案初始化設定**：
   - 可依需要建立 `LICENSE`、空白 `.claude/CLAUDE.md`，或新增 Conventional Commits type 標籤
-  - 可以替 `main` 套用分支保護，或建立部署分支（`develop`／`preparing`）
+  - 可以替 `main` 套用分支保護，或建立部署分支（`develop`／`staging`）
+- **確認是否需要 release 流程**：
+  - repo 有遠端時，每次都會詢問；選擇採用後，由 [`sk-release-creator`](../sk-release-creator) 開始第一個版本
+  - 設定檔的 PR merge 後，再確認是否立即發布該版本
 - **可隨時插入的階段**：
   - 相對於 [`sk-repo-creator`](../sk-repo-creator) 的「建立」階段，這個 skill 負責「初始化」階段；通常在 repo 建好後先執行，也可在任意時間點插入
 - **project 層級**：
@@ -79,6 +82,7 @@
   - 標籤與分支保護都只改 GitHub 端，不會產生 commit
 - **完成後提醒開 PR**：
   - 檔案 commit 會放在 `chore/initial-project-setup`，最後詢問是否開 PR（交給 [`sk-pr-creator`](../sk-pr-creator) 處理）
+  - PR 的 base 由 `sk-pr-creator` 根據 repo branch 判斷，因此部署分支與 release branch 會先推送至遠端
   - 只選會直接改 GitHub 端的項目（標籤／分支保護）時，沒有 branch／commit，也就沒有 PR
 - **只負責初始化，不重做建立階段**：
   - 不處理 `git init`／遠端（由 [`sk-repo-creator`](../sk-repo-creator) 負責）
@@ -99,7 +103,7 @@
   - GPL-3.0 依 FSF 要求逐字保留，年份／作者寫在各檔案標頭而非 `LICENSE`，因此不做替換
   - Proprietary 保留所有權利，不授予任何開源權利，適用於不對外開源的專案
 - **type 標籤**：
-  - 取自 Conventional Commits 的 11 種分類（[`assets/type-labels.json`](assets/type-labels.json)，含名稱、顏色與描述）
+  - 包含 Conventional Commits 的 11 種分類，以及 release PR 專用的 `release`，共 12 個（[`assets/type-labels.json`](assets/type-labels.json)，含名稱、顏色與描述）
   - 建立前先列出 repo 現有的標籤；若已存在標籤，詢問要刪除後新增、保留後新增，或沿用現有標籤
   - 選擇保留後新增時，已存在的同名標籤維持原樣，不會被覆寫
   - 不區分 GitHub 預設標籤與原本就有的標籤，皆列出供使用者決定
@@ -108,10 +112,13 @@
   - 要求透過 PR merge，並禁止刪除與 force push；協作 repo 可依需要調高 review count
   - GitHub 免費方案的 ruleset 只對 public repo 生效，repo 之後轉為 private 會讓保護失效
 - **部署分支**：
-  - 可以選擇 `develop`（整合線）與 `preparing`（測試環境線），分支會從 `main` 開出並推上遠端
+  - 可以選擇 `develop`（整合線）與 `staging`（測試環境線），分支會從 `main` 開出並推上遠端
   - 依照個人使用習慣整理出的分支命名，不完全等同於標準的 git-flow／gitlab-flow
   - 只在分支不存在時補建，不設定保護，也不處理合併流程（分支管理不在這個 skill 的範圍內）
   - 可以交給 [`sk-project-deployer`](../sk-project-deployer) 作為部署來源分支
+- **release 流程**：
+  - 此 skill 負責確認是否採用 release 流程；流程判斷、版本建立與發布均由 [`sk-release-creator`](../sk-release-creator) 處理
+  - 無法使用該 skill 時，說明原因並以未採用 release 流程的方式繼續
 - **空白檔**：
   - `.claude/CLAUDE.md` 建為空白檔
 - **委派對象**：
