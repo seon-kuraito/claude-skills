@@ -76,6 +76,7 @@
   - `wip`、`update X`、`fix stuff`、非英文訊息、多段 prose body、單一 commit 混入多件事等情況，都會被改寫或要求拆分
 - **收錄驗證案例**：
   - `tests/model.json` 收錄觸發案例與行為案例；前者確認請求會路由到這個 skill，後者確認產出符合規格
+  - `tests/sandbox.sh` 建立包含 staged changes 的測試 repo，供行為案例根據實際 diff 撰寫訊息
 
 　
 
@@ -84,5 +85,5 @@
 - **語言慣例**：
   - description 與 body 一律以英文撰寫（可以根據需求調整）
 - **委派對象**：
-  - 若提交目標為 `main`、`develop` 等長期 branch，或目前處於 detached HEAD，應先交由 [`sk-branch-creator`](../sk-branch-creator) 建立 branch；若無法使用該 skill，則依 `<type>/<kebab-description>` 慣例命名
+  - 若提交目標為 `main`、`develop`、`staging` 或 `release/x.y.z` 等長期 branch，或目前處於 detached HEAD，應先交由 [`sk-branch-creator`](../sk-branch-creator) 建立 branch；若無法使用該 skill，則依 `<type>/<kebab-description>` 慣例命名
   - 若 repo 的 CLAUDE.md 或使用者已明確允許直接提交至目前的 branch，則無須另建 branch

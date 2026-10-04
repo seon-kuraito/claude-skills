@@ -71,6 +71,13 @@
   - 依據目前 branch 相對於 base branch 的 `git log` 與 `git diff` 整理內容
   - Summary 以 commit 為單位展開，每個 commit 至少對應一個項列點
   - Scope 從 diff 判斷影響範圍，Test plan 則整理已驗證與應補測的重點
+- **依 repo 的 branch 判斷 base**：
+  - 遠端有 `develop` 時，PR 以 `develop` 為 base；若沒有 `develop`，但有進行中的 `release/x.y.z`，則以該 release branch 為 base；兩者皆無時使用 `main`
+  - 呼叫端指定 base 時，以指定的為準
+  - 從 `release/x.y.z` 合併至 `main` 的 release PR 交由 [`sk-release-creator`](../sk-release-creator) 撰寫，不套用三段式 body
+- **repo 有 `staging` 時先合併至 `staging`**：
+  - 開 PR 前，先以 `git merge --no-ff` 將 work branch 合併至 `staging` 並 push；使用者在測試環境確認後，再建立 PR
+  - 此步驟有獨立的確認關卡；branch 已合併至 `staging`，或 base 為 `develop`／`staging` 時略過
 - **發 PR 前確認驗證已執行**：
   - 這個 skill 會先確認目標 repo 的驗證已執行且通過；缺少通過紀錄時，先停止建立 PR
   - 驗證由各 repo 自己的流程負責，`claude-*` 家族是由 author skill 在流程末端執行
@@ -104,8 +111,9 @@
 - **PR 的 assignee 與 label**：
   - 預設自我指派（`@me` 解析為目前 gh 登入的帳號，不是 repo 擁有者），並貼上 branch type 對應的標籤
   - 依賴 repo 已先建好 11 個 type 標籤（與 branch／commit 同一套）；換到沒有這些標籤的 repo 時，跳過 `--label`
-- **預設 main 為 base branch**：
-  - 使用 `master`、`develop` 或 feature trunk 時，先自行推斷；不確定時再詢問一次
+  - 第 12 個標籤 `release` 保留給 release PR 使用
+- **依 repo 狀態選擇 base branch**：
+  - 依遠端 branch 判斷；若使用 `master` 或 feature trunk，先根據 repo 狀態推斷，無法確認時再詢問一次
 - **語言慣例**：
   - PR body 一律用英文撰寫，方便後續被 changelog、release note 或其他自動化工具引用
 - **可點連結的編輯器 scheme**：
@@ -113,4 +121,5 @@
   - 換其他編輯器時改用對應 scheme（例如：`cursor://file/...`）
 - **委派對象**：
   - 標題 branch 用 [`sk-branch-creator`](../sk-branch-creator)、發 commit 用 [`sk-commit-creator`](../sk-commit-creator)
+  - 開始版本與建立 release PR 的工作交由 [`sk-release-creator`](../sk-release-creator) 處理
   - 若無這兩個 skill，將對應步驟替換為其他 branch／commit 慣例即可

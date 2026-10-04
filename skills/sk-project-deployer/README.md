@@ -60,11 +60,15 @@
   - 支援靜態網站與 Vite SPA 兩種 build 類型，對應模板放在 `assets/`
   - GitHub Pages 的完整流程與版本依據記錄在 [`references/github-pages.md`](references/github-pages.md)
 - **可選擇部署來源分支**：
-  - 部署前會先讀取 repo 現有分支，選單只列出 `main`、已建立的 `develop`／`preparing` 以及自訂分支
+  - 部署前會先讀取 repo 的現有分支；選單只列出 `main`、已建立的 `develop`／`staging` 與自訂分支
   - workflow 會改成由選定分支觸發；若選的是尚未存在的自訂分支，則從 `main` 建立並推上遠端
   - 非 `main` 分支會自動加入 `github-pages` environment 的部署分支白名單，避免被「只允許預設分支」的規則擋下
   - 只在分支不存在時補建，不設定保護，也不處理合併流程（分支管理不在這個 skill 的範圍內）
   - 可以根據 [`sk-project-initializer`](../sk-project-initializer) 初始化建立的分支作為部署來源
+- **release 流程中的 workflow 會隨版本進入 `main`**：
+  - 部署分支為 `staging` 且 repo 採用 release 流程時，workflow branch 從 `main` 開出，先合併至 `staging` 以觸發首次部署，再透過 PR 合併至進行中的 release branch
+  - `staging` 與 `main` 使用內容相同的 workflow 檔案。觸發條件僅包含部署分支，因此 push 至 `main` 不會觸發部署
+  - 未採用 release 流程時，branch 從部署分支開出，PR 也以部署分支為 base
 - **完成後提醒開 PR**：
   - workflow commit 完成後，會詢問是否要開 PR（交給 [`sk-pr-creator`](../sk-pr-creator) 處理）
 - **只負責部署設定，不改原始碼**：
