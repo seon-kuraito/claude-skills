@@ -1,0 +1,30 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "這個版本的 PR 都已經 merge，請幫我建立 release PR，再發布 GitHub Release",
+      "expect": "sk-release-creator"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "我要開始製作這個專案的第一個版本，請幫我建立版本流程",
+      "replies": [
+        {
+          "when": "asks for the version number",
+          "reply": "0.0.1"
+        }
+      ],
+      "assert": [
+        "先讀取遠端分支，判斷 repo 採用的流程",
+        "詢問版本號，並提出依預設規則得到的號碼",
+        "從 main 建立 release/0.0.1 分支，且不直接在該分支加入 commit",
+        "推送前停在執行閘門，並列出預計執行的指令",
+        "未實際執行 git push；remote 僅有 main 分支"
+      ]
+    }
+  ]
+}
