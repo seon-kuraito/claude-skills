@@ -127,9 +127,11 @@ Then map the commits into Summary bullets — **at least one bullet per commit**
 
 Before the Execution gate, the Test plan must be **verified, not just asserted**. This skill runs nothing itself — running a repo's checks belongs to the flow that made the change. Its job here is to gate: no verification, no PR.
 
+The precondition gates the PR, not the draft. Write the body file first — every section filled in, every Test plan item unticked — and run the body check over it; then settle the steps below before the Execution gate. A request for the description alone still gets its file.
+
 1. **Establish what covers the change.** Ask what this repo runs over the changed code — a test suite, a lint task, a checks script. In this user's extension repos that is `scripts/run-checks.sh` plus the model-tier cases, run at the end of the authoring flow (see [sk-skill-author](../sk-skill-author/SKILL.md) Step 4).
 2. **Confirm it ran on this branch, and passed.** The evidence is the run itself — its output in this session, or the user saying it ran. Nothing is written to disk for you to read back, so when you cannot confirm it, treat it as not run.
-3. **Block when it did not run.** Stop — do not open the PR. Hand the work back to the flow that owns the checks, then return here once they pass.
+3. **Block when it did not run.** Stop before the Execution gate — no push, no PR. The drafted body file stays where it is, its Test plan unticked. Hand the work back to the flow that owns the checks, then return here once they pass.
 4. **Fold the outcome into the Test plan.** Each check that ran becomes a Test plan item, alongside the change-specific items you write anyway.
 5. **Tick what passed.** Mark verified items `[x]`; leave items only the user can confirm (e.g. "open the app, confirm X") `[ ]`.
 
