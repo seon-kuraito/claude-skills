@@ -75,7 +75,7 @@
   - 多個 repo 共用版本時，先發布成員 repo，再發布協調 repo
   - 協調 repo（`meta`／`*-meta`）的 release PR 會連結各成員的 release PR，Release 則連結各成員的 Release
 - **高影響操作前先確認**：
-  - 執行 push、建立 PR、merge、建立 Release 或刪除遠端 branch 前，先列出指令並取得確認；各步驟分別確認
+  - 執行 push、建立 PR、merge、建立 Release 或刪除遠端 branch 前，先列出指令並取得確認；各步驟需分別確認，並在檢查執行結果後再進行下一步
 - **提供確定性檢查**：
   - `tests/sandbox.sh` 建立帶有本機 remote 的測試專案，`tests/verify.sh` 逐條檢查執行結果
   - `tests/model.json` 收錄觸發案例與行為案例

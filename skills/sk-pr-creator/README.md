@@ -86,6 +86,7 @@
 - **執行 gh 高影響指令前先確認**：
   - 執行 `create`、`edit`、`merge`、`close` 前，先攤開 title、body 與影響旗標，交由使用者確認
   - 不把建立 PR 與 merge 串成一步，避免在未確認的情況下改變遠端狀態
+  - merge 與刪除遠端分支應分別執行；確認 PR 已合併後，再刪除遠端分支。若提前刪除，尚未合併的 PR 會直接關閉
 - **merge 時保留 commit 歷史與本地 branch**：
   - 預設使用 `--merge` 產生 merge commit，保留已整理過的逐筆 commit
   - 預設不使用 `--delete-branch`，讓本地 branch 標籤保留下來
