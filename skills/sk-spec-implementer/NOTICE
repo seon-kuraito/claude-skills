@@ -1,0 +1,23 @@
+sk-spec-implementer
+Copyright 2026 Seon Kuraito
+
+This skill is derived from "implement", part of Matt Pocock's skills collection
+(https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md),
+licensed under the MIT License. A copy of the license is included in LICENSE.
+
+Original work:
+  Copyright (c) 2026 Matt Pocock
+
+This derivative modifies the original. Notable changes:
+  - Add the steps before the code: check the spec is complete, read the glossary and the
+    decision record, start the version when the release branch is missing, and cut the
+    work branch, stacked on a dependency when the spec names one.
+  - Add the steps after the code: the commit and the PR through sibling skills.
+  - Add three checkpoints at which the user reads the tests, the code, and the review.
+  - Name a sibling skill for every step instead of the original's tdd and code-review.
+  - Make the skill model-invocable with a narrow description so that the spec planner
+    can load it.
+
+The core — one piece of work from a spec, tests first at pre-agreed seams, typecheck and
+single test files as you go with the full suite once at the end, a review, then a commit —
+is carried from the original.
