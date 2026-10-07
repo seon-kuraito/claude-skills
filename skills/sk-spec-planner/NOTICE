@@ -1,0 +1,27 @@
+sk-spec-planner
+Copyright 2026 Seon Kuraito
+
+This skill is derived from "to-spec" and "to-tickets", part of Matt Pocock's skills
+collection (https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md
+and https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md),
+licensed under the MIT License. A copy of the license is included in LICENSE.
+
+Original work:
+  Copyright (c) 2026 Matt Pocock
+
+This derivative modifies the original. Notable changes:
+  - Merge the two skills into one flow: the spec and its phase split are written together.
+  - Publish nothing to an issue tracker: every artifact is a local markdown file (the spec,
+    a decision record, a glossary) at the root of the repo or of a family's coordination repo.
+  - Replace tickets with phase specs: a slice is a spec file of its own, one branch and one
+    PR each.
+  - Add the decision record and the glossary as the durable layer, with their layout rules.
+  - Add a version table and a version-number question that reads a sibling skill's rule.
+  - Add an entry check that loads an interview skill when the context is too thin, and a
+    closing hand-over to an implementer skill.
+  - Write the spec in Traditional Chinese from a bundled template, with developer stories
+    for refactors.
+
+The core concept and several rules (seams agreed before writing, the seven-section spec
+template, tracer-bullet slices with blocking edges, prefactor first, expand–contract for wide
+refactors, no file paths or code in a spec) are carried from the originals.

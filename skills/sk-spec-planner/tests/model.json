@@ -1,0 +1,21 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "剛才討論的匯出功能已大致定案，請幫我整理成一份 spec，之後會依照這份 spec 實作",
+      "expect": "sk-spec-planner"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "seams-first",
+      "default": true,
+      "prompt": "請將這項功能整理成 spec：在設定頁新增「匯出 CSV」按鈕，點選後將目前的紀錄表匯出為 CSV 檔供使用者下載。資料取自現有的 records API，欄位依照表格順序排列，檔名包含日期。",
+      "assert": [
+        "提出測試 seams，透過 Seams 問題向使用者確認，並等待回覆",
+        "沙箱專案中未新增 specs/、DECISIONS.md 或 GLOSSARY.md，其他檔案也未變更"
+      ]
+    }
+  ]
+}
