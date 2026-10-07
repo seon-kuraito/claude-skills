@@ -50,7 +50,7 @@ Four names are not work branches, and this skill never renames them:
 - `main`, `develop`, `staging` — long-lived branches. `develop` is an integration branch and `staging` a test-environment branch; a project has at most one of the two.
 - `release/x.y.z` — the release branch of one version (`release/0.2.0`). [sk-release-creator](../sk-release-creator/SKILL.md) names and cuts it. `release` is not a type: a work branch called `release/add-login` is wrong — that is `feat/add-login`.
 
-Cut a work branch from `develop` when the repo has one, otherwise from `main` — never from `staging` or from a release branch.
+Cut a work branch from `develop` when the repo has one, otherwise from `main` — never from `staging` or from a release branch. One exception: a phase spec that depends on another phase's code is cut from that phase's work branch (a stacked branch); its PR still targets the release branch.
 
 ## Anti-patterns
 

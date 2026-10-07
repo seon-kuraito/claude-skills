@@ -27,7 +27,7 @@ Cut the release branch as the first step of the version, once its content is set
 
 sk-pr-creator carries these out for each work branch; they are listed here so the whole flow reads in one place.
 
-1. Cut the work branch from `main`.
+1. Cut the work branch from `main` — or, for a phase spec that depends on another phase, from that phase's work branch, with the PR still into the release branch.
 2. When the repo has `staging`, merge the work branch into it and push, then confirm the change in the test environment or the CI run:
 
    ```sh

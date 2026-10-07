@@ -1,0 +1,26 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "請依照 specs/export-csv.md 實作匯出功能",
+      "expect": "sk-spec-implementer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "start-version",
+      "default": true,
+      "prompt": "請實作 specs/export-csv.md",
+      "replies": [
+        { "when": "asks to confirm the version number", "reply": "0.0.2" }
+      ],
+      "assert": [
+        "讀取 spec、GLOSSARY.md 與 DECISIONS.md，並從版本表取得版本 0.0.2",
+        "確認遠端沒有 release/0.0.2，並載入 sk-release-creator 啟動版本",
+        "在本機從 main 建立 release/0.0.2，並在 push gate 等待使用者確認",
+        "未撰寫任何程式碼或測試；遠端僅有 main"
+      ]
+    }
+  ]
+}
