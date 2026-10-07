@@ -47,7 +47,7 @@ When the user says the version is complete:
 3. **Open the release PR** — title = the branch name, base `main`, label `release`, body = the list. It does not use sk-pr-creator's three-section body or its body check.
 4. **Merge it** with a merge commit: `gh pr merge <n> --merge`.
 5. **Tag and release** with one command: `gh release create vX.Y.Z --target main --title vX.Y.Z --notes-file <list-file>`. The tag is the lightweight tag this command makes.
-6. **Delete the remote release branch**, and keep the local one.
+6. **Delete the remote release branch** once `gh pr view <n> --json state` shows `MERGED`, and keep the local one. A branch deleted before its PR merged closes the PR unmerged.
 7. **Compare the branches** — `git diff origin/main origin/staging --stat` in the main flow with `staging`, `git diff origin/main origin/develop --stat` in the develop flow. No output means the two hold the same content; report every file it lists.
 
 ## A coordination repo and its members
@@ -56,7 +56,7 @@ A family of repos that share a version releases its members first and its coordi
 
 ## Execution gate
 
-Before any command that writes to the remote — `git push`, `gh pr create`, `gh pr merge`, `gh release create`, `git push origin --delete` — stop at an execution gate, show the exact commands, and wait for an explicit go. Each step of *Publish a version* passes through its own gate: a go for the release PR is not a go for the merge, the Release, or the branch delete.
+Before any command that writes to the remote — `git push`, `gh pr create`, `gh pr merge`, `gh release create`, `git push origin --delete` — stop at an execution gate, show the exact commands, and wait for an explicit go. Each step of *Publish a version* passes through its own gate: a go for the release PR is not a go for the merge, the Release, or the branch delete. Run each command as its own call and read its result before the next; a refused merge stops the flow there.
 
 ## References
 
