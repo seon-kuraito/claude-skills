@@ -1,0 +1,27 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "請使用 TDD 在專案中新增 formatAmount 函式，將數字格式化為千分位字串",
+      "expect": "sk-code-tester"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "red-before-green",
+      "default": true,
+      "prompt": "請使用 TDD 在這個專案中新增 formatAmount 函式，將數字格式化為千分位字串，例如將 1234567 轉換為 1,234,567，並保留負數的負號。",
+      "replies": [
+        { "when": "asks whether the proposed seams match expectations", "reply": "是，請使用這個 seam" }
+      ],
+      "assert": [
+        "在撰寫任何測試前，先透過 Seams 問題確認 seam",
+        "測試檔先於實作檔建立（依工具呼叫順序判定）",
+        "先執行測試並確認失敗，再撰寫實作",
+        "最後 npm test 通過（在隔離環境中重新執行以確認結果）",
+        "隔離環境以外的檔案均未變更"
+      ]
+    }
+  ]
+}
