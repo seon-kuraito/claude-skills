@@ -1,0 +1,25 @@
+sk-code-tester
+Copyright 2026 Seon Kuraito
+
+This skill is derived from "tdd", part of Matt Pocock's skills collection
+(https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md),
+licensed under the MIT License. A copy of the license is included in LICENSE.
+
+Original work:
+  Copyright (c) 2026 Matt Pocock
+
+This derivative modifies the original. Notable changes:
+  - Add the level rule: end-to-end or integration tests first, unit tests only for what the
+    higher level cannot reach or to fill a gap (after the Testing Trophy).
+  - Add the assertion rules from the Implicit Assertions article: delete explicit assertions
+    that an action or an equality check already implies, keep the one that states the
+    intention, and check the test setup with a plain throw.
+  - Take the seams from a spec's testing decisions when one exists, and ask the Seams
+    question as fixed copy otherwise.
+  - Add two landing rules: a slice's test and code go in one commit, and throwaway tests
+    stay in the session scratchpad.
+  - Point refactoring and review at a sibling review skill; drop the call to a
+    codebase-design skill; read DECISIONS.md in place of ADRs.
+
+The bundled references/tests.md and references/mocking.md are carried from the original
+with light edits.

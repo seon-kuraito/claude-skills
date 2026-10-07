@@ -7,7 +7,9 @@ from _lib import report
 
 repo = Path(sys.argv[1])
 names = sys.argv[2:]
-listed = re.findall(r"\]\(skills/([a-z0-9-]+)\)", (repo / "README.md").read_text())
+readme = (repo / "README.md").read_text()
+table = re.search(r"^## Skills 一覽\n(.*?)(?=^## )", readme, re.S | re.M)
+listed = re.findall(r"\]\(skills/([a-z0-9-]+)\)", table.group(1) if table else readme)
 
 findings = [(name, "missing from the Skills 一覽 table in README.md") for name in names if name not in listed]
 if listed != sorted(listed):
