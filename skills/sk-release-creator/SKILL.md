@@ -11,7 +11,7 @@ Run a project's release flow: start a version, let its work collect, and publish
 
 An **insertable stage**, entered at two moments: when a version starts, and when it is published. It works on one repository at a time.
 
-**Entry precondition:** a GitHub remote — the release PR, the tag, and the Release live there. With no remote, point the user to [sk-repo-creator](../sk-repo-creator/SKILL.md) and stop.
+**Entry precondition:** a remote `origin`, because the release branch is pushed there as soon as it is cut. With no remote, point the user to [sk-repo-creator](../sk-repo-creator/SKILL.md) and stop. The release PR, the tag, and the Release live on GitHub: at the first `gh` step of *Publish a version*, check that `origin` is a GitHub remote (`gh repo view`), and stop there when it is not.
 
 Every menu and plain-text question this skill asks lives in `references/menus.md` — present each as written there.
 
