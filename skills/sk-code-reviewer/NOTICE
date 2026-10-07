@@ -1,0 +1,34 @@
+sk-code-reviewer
+Copyright 2026 Seon Kuraito
+
+This skill is derived from three MIT-licensed works. A copy of each license is included
+in LICENSE.
+
+1. "code-review", part of Matt Pocock's skills collection
+   (https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md)
+   Copyright (c) 2026 Matt Pocock
+   Carried: the two original axes (Standards with the Fowler smell baseline, Spec against
+   the originating document), one subagent per axis, the fixed-point and diff rules, and
+   the rule never to merge or rerank across axes. Changed: the spec is found through a
+   decision record's version table and a local specs/ directory instead of an issue
+   tracker; three smells moved to the new Simplicity axis; the run asks the user whether
+   the subagents run in parallel or one at a time; the subagent briefs carry a reading
+   scope.
+
+2. "claude-code-security-review", the security-review command
+   (https://github.com/anthropics/claude-code-security-review)
+   Copyright (c) 2025 Anthropic
+   Carried, in references/security.md: the vulnerability categories, the high-confidence
+   bar, the three-phase method, the report fields and severity guide, and the exclusion
+   and precedent lists, condensed. Changed: it runs as one of four review axes instead of
+   a stand-alone command, with no false-positive filtering subtasks.
+
+3. "ponytail-review", part of the ponytail project
+   (https://github.com/DietrichGebert/ponytail)
+   Copyright (c) 2026 DietrichGebert
+   Carried, in references/simplicity.md: the tags, the one-line format, the examples, the
+   net-lines scoring, and the boundaries, with light edits. Changed: it runs as the
+   Simplicity axis of this review and takes over three Fowler smells.
+
+The OWASP Top 10 quick-reference table in references/security.md is a concept distilled
+from the security instructions of github/awesome-copilot (MIT).

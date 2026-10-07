@@ -1,0 +1,38 @@
+{
+  "trigger": [
+    {
+      "id": "core",
+      "default": true,
+      "prompt": "請 review 這個分支的變更，確認是否存在問題",
+      "expect": "sk-code-reviewer"
+    }
+  ],
+  "behavior": [
+    {
+      "id": "before-dispatch",
+      "default": true,
+      "prompt": "請 review feat/export-csv 分支的變更",
+      "assert": [
+        "以 main 為 fixed point，列出 diff 與 commit 清單",
+        "找到 specs/export-csv.md 作為 spec 來源",
+        "分派前先說明所需的 subagent 數量，呈現 Run mode 選單後等待使用者回覆",
+        "未啟動任何 subagent，隔離環境內外的檔案均未變更"
+      ]
+    },
+    {
+      "id": "full-run",
+      "default": false,
+      "prompt": "請 review feat/export-csv 分支的變更",
+      "replies": [
+        { "when": "asks how to run the subagents (parallel or one at a time)", "reply": "循序執行" }
+      ],
+      "assert": [
+        "報告有 Standards、Spec、Security、Simplicity 四個標題，各自獨立，沒有合併排名",
+        "Security 面向指出 execSync 以使用者提供的路徑組成 shell 指令",
+        "Simplicity 面向指出只有一個實作的 ExporterFactory",
+        "Spec 面向指出檔名沒有帶日期",
+        "Standards 面向指出 doIt 未清楚表達用途"
+      ]
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 | [`sk-agent-author`](skills/sk-agent-author) | 建立、改寫與驗證 Claude Code subagent 定義 | 原創 |
 | [`sk-branch-creator`](skills/sk-branch-creator) | 依 Conventional Commits 語彙命名 branch | 原創 |
 | [`sk-claudemd-composer`](skills/sk-claudemd-composer) | 建立、審閱與精修 CLAUDE.md | 觀念提煉自 [Writing a good CLAUDE.md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) |
+| [`sk-code-reviewer`](skills/sk-code-reviewer) | 從 standards、spec、資安與簡化四個面向分別審查變更 | 延伸自 [code-review](https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md)、[claude-code-security-review](https://github.com/anthropics/claude-code-security-review) 與 [ponytail-review](https://github.com/DietrichGebert/ponytail) |
 | [`sk-code-tester`](skills/sk-code-tester) | 在已確認的 seams 進行紅→綠迴圈，先撰寫 E2E／integration 測試，再以 unit 測試補足 | 延伸自 [tdd](https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md) |
 | [`sk-commit-creator`](skills/sk-commit-creator) | 撰寫 Conventional Commits 訊息 | 原創 |
 | [`sk-decision-griller`](skills/sk-decision-griller) | 逐一釐清計畫或設計中的關鍵決策 | 延伸自 [grill-me](https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md) |
