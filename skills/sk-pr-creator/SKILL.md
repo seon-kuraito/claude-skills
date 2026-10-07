@@ -92,7 +92,7 @@ Non-English copy is the slip this catches most often, because the conversation a
 
 ## Execution gate
 
-Before any `gh` PR command, the merge into `staging`, or the post-merge remote-branch prune (`git push origin --delete`), stop at an execution gate and wait for an explicit go. The `staging` merge, creating a PR, and merging one pass through separate gates. Write these three bullets with their labels kept in English, then the exact command in a `sh` block:
+Before any `gh` PR command, the merge into `staging`, or the post-merge remote-branch prune (`git push origin --delete`), stop at an execution gate and wait for an explicit go. The `staging` merge, creating a PR, and merging one pass through separate gates. One go covers a merge and its prune, but they still run as separate calls, each result read before the next. Write these three bullets with their labels kept in English, then the exact command in a `sh` block:
 
 ```markdown
 - **Title**：`<title>`
@@ -109,6 +109,7 @@ Default to `--merge` without `--delete-branch` (`gh pr merge <n> --merge`): it c
 - **Do not `--squash`** a branch whose commits were intentionally curated — squashing collapses them into one and discards that structure. Reserve `--squash` for genuinely messy WIP branches where a single clean commit is the goal.
 - `--rebase` replays the commits onto the base without a merge commit, but loses the "this was one PR" grouping.
 - **Keep the local branch, prune the remote.** Don't pass `--delete-branch` — it removes the local branch too, and this user keeps merged branch labels. Instead, after every merge, delete only the *remote* branch by default: `git push origin --delete <branch>`. This clears the stale remote PR branch while the local label stays — a standard post-merge step, not an optional afterthought (show it at the Execution gate like any remote-touching command).
+- **One outward command per call; read the result before the next.** Run the merge alone, then confirm it — `gh pr view <n> --json state` shows `MERGED` — before the prune. Deleting the head branch of a PR that did not merge closes the PR unmerged, and GitHub can refuse a merge right after a push ("Base branch was modified"): retry the merge, never go on to the prune.
 - **Delete the temp body file.** Once the merge is confirmed, remove the staging file written for `--body-file` (e.g. `rm /tmp/pr-<branch>.md`). Keep it while the PR is open — a `gh pr edit --body-file` may still need it — and delete it only after merge.
 
 ## Populating from the branch
