@@ -1,11 +1,11 @@
 ---
 name: sk-release-creator
-description: Runs a project's release flow on GitHub — starts a version, then publishes it through a release pull request, a version tag, and a GitHub Release. Use whenever a version or a release is in play — picking the next version number, cutting a release branch, opening or merging a release PR, tagging a version, publishing a GitHub Release, or asking how work reaches main in a repo that has a release flow — regardless of exact wording or language. Also the stage sk-project-initializer hands off to when a project opts into a release flow. Not an ordinary work-branch PR (that is sk-pr-creator), and not a deployment (that is sk-project-deployer).
+description: Runs a project's release flow on GitHub — starts a version, then publishes it through a release pull request, a version tag, and a GitHub Release. Use whenever a version or a release is in play — picking the next version number, cutting a release branch, opening or merging a release PR, tagging a version, publishing a GitHub Release, or asking how work reaches main in a repo that has a release flow — regardless of exact wording or language. Also the stage sk-repo-initializer hands off to when a project opts into a release flow. Not an ordinary work-branch PR (that is sk-pr-creator), and not a deployment (that is sk-repo-deployer).
 ---
 
 # Release Creator
 
-Run a project's release flow: start a version, let its work collect, and publish it into `main` with a release PR, a version tag, and a GitHub Release. Loading this skill means the project has a release flow — never ask whether it needs one; that question belongs to [sk-project-initializer](../sk-project-initializer/SKILL.md).
+Run a project's release flow: start a version, let its work collect, and publish it into `main` with a release PR, a version tag, and a GitHub Release. Loading this skill means the project has a release flow — never ask whether it needs one; that question belongs to [sk-repo-initializer](../sk-repo-initializer/SKILL.md).
 
 ## Stage & entry
 
@@ -66,7 +66,7 @@ Before any command that writes to the remote — `git push`, `gh pr create`, `gh
 
 ## Related
 
-- [sk-project-initializer](../sk-project-initializer/SKILL.md) — asks whether a project needs a release flow, and hands off here.
+- [sk-repo-initializer](../sk-repo-initializer/SKILL.md) — asks whether a project needs a release flow, and hands off here.
 - [sk-pr-creator](../sk-pr-creator/SKILL.md) — every work-branch PR, with the base and the `staging` merge this flow needs.
 - [sk-branch-creator](../sk-branch-creator/SKILL.md) — names the work branches; `release/x.y.z` is the one branch name this skill sets itself.
-- [sk-project-deployer](../sk-project-deployer/SKILL.md) — deploys from `staging` or `develop`; in a repo with this flow its workflow lands as an ordinary change.
+- [sk-repo-deployer](../sk-repo-deployer/SKILL.md) — deploys from `staging` or `develop`; in a repo with this flow its workflow lands as an ordinary change.

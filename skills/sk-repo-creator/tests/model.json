@@ -10,7 +10,7 @@
       "id": "not-initializer",
       "default": true,
       "prompt": "repo 已經建好了，幫我補上 LICENSE 跟 main 的分支保護",
-      "expect": "sk-project-initializer"
+      "expect": "sk-repo-initializer"
     }
   ],
   "behavior": [

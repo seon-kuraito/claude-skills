@@ -71,7 +71,7 @@ A new family: a coordination layer plus the member repos listed for it, all crea
 
 Applies to **all three templates** — for a meta repo, to the layer only. Once the repo is built (local, or local + remote), present the **Next step** menu.
 
-- **進入 initialize 階段** → load the initialization skill (e.g. `sk-project-initializer`) if it is available; if it is not present, say so and stop.
+- **進入 initialize 階段** → load the initialization skill (e.g. `sk-repo-initializer`) if it is available; if it is not present, say so and stop.
 - **不進入** → stop here and leave the next move to the user.
 
 The initialize stage holds the optional scaffolding — a blank `.claude/CLAUDE.md`, a `LICENSE`, GitHub labels, and branch protection. `.gitignore` is the create stage's job (blank and meta-repo build it in; framework brings its own). Labels and branch protection need a remote, so they're skipped on a local-only repo. Never auto-enter it — it is always the user's choice.

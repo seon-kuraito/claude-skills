@@ -20,8 +20,8 @@
 - 系統需要有 `gh`（且已登入）、`git`、`node`
 - 已安裝 6 個相依 skill：
   - `sk-repo-creator`
-  - `sk-project-initializer`
-  - `sk-project-deployer`
+  - `sk-repo-initializer`
+  - `sk-repo-deployer`
   - `sk-branch-creator`
   - `sk-commit-creator`
   - `sk-pr-creator`

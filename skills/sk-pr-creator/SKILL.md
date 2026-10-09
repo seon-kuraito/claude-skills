@@ -31,7 +31,7 @@ On `gh pr create`, default to two flags:
 - **`--assignee @me`** — self-assign every PR, so open PRs are easy to track. `@me` resolves to the authenticated `gh` account rather than the repo owner, so it works unchanged on an organization's repo.
 - **`--label <type>`** — tag the PR with its type, taken verbatim from the branch prefix (`feat/add-x` → `feat`). The repo carries one label per Conventional Commits type — the same vocabulary as [sk-branch-creator](../sk-branch-creator/SKILL.md) and [sk-commit-creator](../sk-commit-creator/SKILL.md): `feat` `fix` `improve` `perf` `refactor` `style` `test` `docs` `build` `ci` `chore` (lowercase, matching the branch / commit type). A twelfth label, `release`, belongs to the release PR that [sk-release-creator](../sk-release-creator/SKILL.md) opens.
 
-Both are behavior-affecting — include them in the Execution gate preview. `--label` only adds an already-existing label; [sk-project-initializer](../sk-project-initializer/SKILL.md) sets the labels up, so for a repo that lacks them, drop `--label` rather than letting the command error.
+Both are behavior-affecting — include them in the Execution gate preview. `--label` only adds an already-existing label; [sk-repo-initializer](../sk-repo-initializer/SKILL.md) sets the labels up, so for a repo that lacks them, drop `--label` rather than letting the command error.
 
 ## The `gh pr create` command
 
@@ -56,7 +56,7 @@ Read the base from the repo's branches — `git ls-remote --heads origin develop
 | no `develop`, and an open `release/x.y.z` | that release branch |
 | neither | `main` — or `master` / a feature trunk, inferred from `git remote show origin` |
 
-- **A base the calling flow names wins.** sk-project-deployer, for one, sends its workflow PR into the deploy branch.
+- **A base the calling flow names wins.** sk-repo-deployer, for one, sends its workflow PR into the deploy branch.
 - **`develop` is read first**, because a develop-flow repo also shows a release branch for a short time while a version is published.
 - **Version tags but no open release branch and no `develop`** means a release flow with no version open. A work-branch PR never targets `main` there: say so and offer [sk-release-creator](../sk-release-creator/SKILL.md)'s *Start a version*. Fall back to `main` only when the user says the repo runs no release flow.
 - **More than one open release branch** — ask once which version the change belongs to.
