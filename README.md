@@ -24,12 +24,12 @@
 | [`sk-notion-composer`](skills/sk-notion-composer) | 將筆記整理成固定樣式的 Notion 頁面 | 原創 |
 | [`sk-pr-creator`](skills/sk-pr-creator) | 建立 GitHub PR 並撰寫三段式 body | 原創 |
 | [`sk-project-cleaner`](skills/sk-project-cleaner) | 診斷並清除專案在 Claude Code 與 VS Code 留下的狀態 | 原創 |
-| [`sk-project-deployer`](skills/sk-project-deployer) | 把專案部署到代管平台（例如：GitHub Pages） | 原創 |
-| [`sk-project-initializer`](skills/sk-project-initializer) | 補齊 repo 建立後的專案設定 | 原創 |
 | [`sk-project-migrator`](skills/sk-project-migrator) | 搬遷本機專案路徑，並一併帶走 Claude Code 與 VS Code 的狀態 | 原創 |
 | [`sk-react-publisher`](skills/sk-react-publisher) | 從零自動建立 React 專案並部署至 GitHub Pages（需以 `/sk-react-publisher` 手動呼叫） | 原創 |
 | [`sk-release-creator`](skills/sk-release-creator) | 透過 release branch、release PR、tag 與 GitHub Release 發布版本 | 原創 |
 | [`sk-repo-creator`](skills/sk-repo-creator) | 依模板建立本地端與 GitHub repo | 原創 |
+| [`sk-repo-deployer`](skills/sk-repo-deployer) | 將 repo 中的網站或 app 部署至代管平台（例如：GitHub Pages） | 原創 |
+| [`sk-repo-initializer`](skills/sk-repo-initializer) | 補齊 repo 建立後所需的設定 | 原創 |
 | [`sk-skill-author`](skills/sk-skill-author) | 建立、改寫與驗證 Claude Code skill | 延伸自 [skill-creator](https://github.com/anthropics/skills/tree/main/skills/skill-creator) |
 | [`sk-spec-implementer`](skills/sk-spec-implementer) | 依已定案的 spec 完成實作並建立 PR，涵蓋版本啟動、分支建立、測試、code、審查與 commit | 延伸自 [implement](https://github.com/mattpocock/skills/blob/main/skills/engineering/implement/SKILL.md) |
 | [`sk-spec-planner`](skills/sk-spec-planner) | 將已定案的決策整理成 spec、決策紀錄與詞彙表 | 延伸自 [to-spec](https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md) 與 [to-tickets](https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md) |
