@@ -38,6 +38,13 @@ Members, all siblings under `~/Developer/{{OWNER}}/` — reach them at `../<memb
 - **The coupling rule.** A convention worth keeping in one member is often worth carrying to the others. When you touch shared structure in one, check whether the siblings want the same move.
 - **Run coordination from here.** This file loads only in `{{MEMBER_PREFIX}}meta` sessions, so cross-member work should be driven from this layer — reach the siblings at `../<member>` (the workspace lists them too). Scope `Grep`/`Glob` to those sibling paths explicitly; a bare `.` search stays inside this repo and won't reach them. Commits still land in each real repo, never here.
 
+## Development flow
+
+- **The map.** `DECISIONS.md` is the current state: the decisions that hold, the rejected options, and the version table of the versions in progress. `GLOSSARY.md` holds the family's terms and their identifiers in code; specs, records, and code use them. `specs/` holds one spec per unit of work, frozen once its version ships — read a spec only when the version table points at it.
+- **Specification.** Load `sk-spec-planner` to turn settled decisions into a spec; it loads `sk-decision-griller` when the decisions are not settled, and writes the spec, the record, and the glossary here.
+- **Execution.** Load `sk-spec-implementer` with the spec's path. It starts the version through `sk-release-creator` when the release branch is missing, cuts the work branch, loads `sk-code-tester` first and `sk-code-reviewer` last, and lands the commit and the PR through `sk-commit-creator` and `sk-pr-creator`. A member's code lands in the member repo; the spec stays here.
+- **Exceptions.** None.
+
 ## North star & judgment frame
 
 - **Personal-fit is the hard constraint.** These repos serve the maintainer's own workflow first; when fitting that workflow conflicts with outside reusability, personal-fit wins. Hard-coded preferences and Chinese READMEs are deliberate.
