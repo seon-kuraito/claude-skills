@@ -35,7 +35,7 @@
   - main 流程：開始版本時從 `main` 建立 release branch，work branch 的 PR 以 release branch 為 base；repo 有 `staging` 時，先合併至 `staging`
   - develop 流程：work branch 的 PR 以 `develop` 為 base，發布時再從 `develop` 建立 release branch
 - **可隨時插入的階段**：
-  - 專案選擇需要 release 流程時，由 [`sk-project-initializer`](../sk-project-initializer) 交接；也可在版本開始或發布時直接使用
+  - 若 repo 採用 release 流程，可由 [`sk-repo-initializer`](../sk-repo-initializer) 交接，也可在開始版本或發布版本時直接使用
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -88,7 +88,7 @@
   - 依事件決定版本號：原型前使用 `0.0.z`，原型使用 `0.1.0`，首次交付使用者時使用 `1.0.0`；其間新增功能遞增 minor，僅修正問題時遞增 patch（[`references/version-numbers.md`](references/version-numbers.md)）
   - 僅作為預設建議，以使用者回答的版本號為準
 - **`release` 標籤**：
-  - release PR 使用 `release` 標籤，由 [`sk-project-initializer`](../sk-project-initializer) 與 type 標籤一併建立；repo 沒有該標籤時略過 `--label`
+  - release PR 使用 `release` 標籤；該標籤由 [`sk-repo-initializer`](../sk-repo-initializer) 與 type 標籤一併建立。若 repo 中沒有該標籤，則略過 `--label`
 - **委派對象**：
   - work branch 的 PR（包含 base 判斷與合併至 `staging`）由 [`sk-pr-creator`](../sk-pr-creator) 處理，work branch 的命名由 [`sk-branch-creator`](../sk-branch-creator) 處理
   - 若未提供上述 skill，則依 [`references/flows.md`](references/flows.md) 列出的步驟處理

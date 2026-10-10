@@ -90,8 +90,8 @@
   - 最後反覆檢查 live URL，直到回傳 HTTP 200，並以 `code .` 開啟 VS Code
 - **委派對象（required）**：
   - [`sk-repo-creator`](../sk-repo-creator)
-  - [`sk-project-initializer`](../sk-project-initializer)
-  - [`sk-project-deployer`](../sk-project-deployer)
+  - [`sk-repo-initializer`](../sk-repo-initializer)
+  - [`sk-repo-deployer`](../sk-repo-deployer)
   - [`sk-branch-creator`](../sk-branch-creator)
   - [`sk-commit-creator`](../sk-commit-creator)
   - [`sk-pr-creator`](../sk-pr-creator)

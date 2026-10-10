@@ -4,7 +4,7 @@
       "id": "core",
       "default": true,
       "prompt": "幫我把這個網站放上 GitHub Pages",
-      "expect": "sk-project-deployer"
+      "expect": "sk-repo-deployer"
     }
   ],
   "behavior": [

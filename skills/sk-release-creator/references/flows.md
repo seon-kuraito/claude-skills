@@ -90,7 +90,7 @@ git diff origin/main origin/staging --stat     # main flow with staging; expect 
 git diff origin/main origin/develop --stat     # develop flow; expect no output
 ```
 
-- `--label release` needs the `release` label on the repo; sk-project-initializer creates it with the type labels. On a repo without it, drop the flag rather than let the command fail.
+- `--label release` needs the `release` label on the repo; sk-repo-initializer creates it with the type labels. On a repo without it, drop the flag rather than let the command fail.
 - Do not pass `--generate-notes`, and do not create an annotated tag first. The Release can be edited afterwards when a version needs more than the list.
 - In the develop flow, a file the last diff lists is work that reached `develop` after the release branch was cut. It belongs to the next version; say so instead of treating it as an error.
 

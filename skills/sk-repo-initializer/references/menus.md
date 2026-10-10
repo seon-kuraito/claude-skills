@@ -72,7 +72,7 @@ options:
 single-select · header: 「下一步」
 question: 「要現在進入部署階段嗎？」
 options:
-  · 「進入部署階段」 — 「載入 sk-project-deployer，使用這條部署分支部署。」
+  · 「進入部署階段」 — 「載入 sk-repo-deployer，使用這條部署分支部署。」
   · 「不進入」 — 「先停在這，後續交給我處理。」
 [Rule, not copy] if the deployer skill is unavailable, say so and stop instead of loading one.
 ```

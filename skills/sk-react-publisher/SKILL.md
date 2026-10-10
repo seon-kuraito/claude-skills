@@ -24,8 +24,8 @@ This skill runs a long, outward-facing, hard-to-reverse pipeline — it creates 
 - [ ] **`git`** — installed (`command -v git`).
 - [ ] **`node`** — installed (`command -v node`); it bundles `npm`, which the scaffold and build use. (`curl`, used by the live-URL poll, is a macOS built-in — not checked here.)
 - [ ] **`sk-repo-creator`** — create stage: scaffold (Vite + React) and bind the remote.
-- [ ] **`sk-project-initializer`** — initialize stage: `LICENSE`, `.claude/CLAUDE.md`, type labels, main protection, deploy branch.
-- [ ] **`sk-project-deployer`** — deploy stage: GitHub Pages.
+- [ ] **`sk-repo-initializer`** — initialize stage: `LICENSE`, `.claude/CLAUDE.md`, type labels, main protection, deploy branch.
+- [ ] **`sk-repo-deployer`** — deploy stage: GitHub Pages.
 - [ ] **`sk-branch-creator`** — branch names.
 - [ ] **`sk-commit-creator`** — commit messages.
 - [ ] **`sk-pr-creator`** — PR title / body / flags / gate.
@@ -58,7 +58,7 @@ End: `main` = scaffold + ① + ②; `staging` = the same + ③.
 
 ## Runbook (order is load-bearing — do not reorder)
 
-Load `sk-repo-creator`, `sk-project-initializer`, `sk-project-deployer` and follow each for the exact commands, assets, ruleset, templates, and pinned versions. Override every menu and Execution gate with the defaults above. Branch / commit / PR ceremony goes through `sk-branch-creator` / `sk-commit-creator` / `sk-pr-creator` — load `sk-pr-creator` for the PR shape (`--assignee @me --label <type>`, the gate). Each PR **title is the branch name** (never the commit message) and its **body is the bundled asset** named in its Step — passed to `--body-file` unchanged, not authored dynamically.
+Load `sk-repo-creator`, `sk-repo-initializer`, `sk-repo-deployer` and follow each for the exact commands, assets, ruleset, templates, and pinned versions. Override every menu and Execution gate with the defaults above. Branch / commit / PR ceremony goes through `sk-branch-creator` / `sk-commit-creator` / `sk-pr-creator` — load `sk-pr-creator` for the PR shape (`--assignee @me --label <type>`, the gate). Each PR **title is the branch name** (never the commit message) and its **body is the bundled asset** named in its Step — passed to `--body-file` unchanged, not authored dynamically.
 
 **Task-track the run.** Before Step 1, mirror the Steps below into a task list (`TaskCreate`, one per Step, title = the `Step N: …` line); mark each `in_progress` on entry and `completed` on finish — the run's live stage tracker.
 

@@ -10,7 +10,7 @@ The **Framework** template (from `SKILL.md`'s *Pick a template* menu) scaffolds 
 4. **Push decision (*Execution gate*)** — same as blank (`remote.md`).
 5. **Hand off** to the initialize stage (`SKILL.md`).
 
-Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **not** set here; they belong to the deploy stage ([sk-project-deployer](../../sk-project-deployer/SKILL.md)'s Vite caveat).
+Deploy-time concerns — Vite's `base` path and a routing `404.html` — are **not** set here; they belong to the deploy stage ([sk-repo-deployer](../../sk-repo-deployer/SKILL.md)'s Vite caveat).
 
 ## Conversational — local (no confirmation)
 

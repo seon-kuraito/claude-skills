@@ -4,7 +4,7 @@
       "id": "core",
       "default": true,
       "prompt": "新專案的 GitHub label 跟分支保護幫我設一設",
-      "expect": "sk-project-initializer"
+      "expect": "sk-repo-initializer"
     }
   ],
   "behavior": [

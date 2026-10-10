@@ -1,15 +1,15 @@
 ---
-name: sk-project-initializer
-description: Initializes a project's working setup after its repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the type labels on GitHub, optional main branch protection, an optional deploy branch (develop / staging) for sk-project-deployer, and the choice of a release flow for sk-release-creator. The initialize stage sk-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing project. An insertable, project-level stage (a repo may hold several projects). Not git init / remote — that is sk-repo-creator.
+name: sk-repo-initializer
+description: Initializes a repo's working setup once the repo exists — adds a LICENSE, a blank .claude/CLAUDE.md, the type labels on GitHub, optional main branch protection, an optional deploy branch (develop / staging) for sk-repo-deployer, and the choice of a release flow for sk-release-creator. The initialize stage sk-repo-creator hands off to once the repo is created; also use it directly to add any of these to an existing repo. An insertable, repo-level stage. Not git init / remote — that is sk-repo-creator.
 ---
 
-# Project Initializer
+# Repo Initializer
 
-Initialize a project's working setup once its repository exists — a `LICENSE`, a blank `.claude/CLAUDE.md`, the type labels on GitHub, optional `main` branch protection, an optional deploy branch, and the choice of a release flow. This is the **initialize** stage that pairs with [sk-repo-creator](../sk-repo-creator/SKILL.md)'s **create** stage.
+Initialize a repo's working setup once the repository exists — a `LICENSE`, a blank `.claude/CLAUDE.md`, the type labels on GitHub, optional `main` branch protection, an optional deploy branch, and the choice of a release flow. This is the **initialize** stage that pairs with [sk-repo-creator](../sk-repo-creator/SKILL.md)'s **create** stage.
 
 ## Stage & entry
 
-An **insertable stage**, not a fixed step in a pipeline — run it whenever the need arises (usually right after the repo is created, but any time is fine). It works at the **project** level, and a single repo may hold several projects (a monorepo); when that applies, confirm which project before acting.
+An **insertable stage**, not a fixed step in a pipeline — run it whenever the need arises (usually right after the repo is created, but any time is fine). It works at the **repo** level: the labels, the branch protection, the deploy branch, and the release flow are one per repo.
 
 **Entry precondition — a repository must already exist:**
 
@@ -45,7 +45,7 @@ Only when **deploy branch** is selected. Present the **Deploy branch** menu.
 
 A project runs one branching model, so pick exactly one (like the license template). They are personal-fit names, not textbook git-flow / gitlab-flow.
 
-Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [sk-project-deployer](../sk-project-deployer/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
+Create the chosen branch **from `main` and push it to `origin`** — the single shared rule for these branches, kept identical in [sk-repo-deployer](../sk-repo-deployer/SKILL.md) (which create-if-absent's the same way at deploy time). This skill only *creates* the branch — it sets no protection and manages no merge / lifecycle (out of scope). A GitHub-side effect that needs the remote; it makes no commit.
 
 ## Release flow
 
@@ -89,7 +89,7 @@ Never publish on your own — always the user's choice. Without a merged setup P
 
 Only when the **deploy branch** option was selected — that branch exists precisely to be deployed from. After the wrap-up, present the **Next step** menu.
 
-- **進入部署階段** → load [sk-project-deployer](../sk-project-deployer/SKILL.md) if available; if it is not present, say so and stop.
+- **進入部署階段** → load [sk-repo-deployer](../sk-repo-deployer/SKILL.md) if available; if it is not present, say so and stop.
 - **不進入** → stop here and leave the next move to the user.
 
 Never auto-enter it — always the user's choice (the same shape as sk-repo-creator's hand-off into this stage).
@@ -103,5 +103,5 @@ Before any command that writes to the remote or repo settings (`gh label …`, t
 - [sk-repo-creator](../sk-repo-creator/SKILL.md) — the **create** stage (git init / remote) this stage follows.
 - [sk-branch-creator](../sk-branch-creator/SKILL.md) — the branch this stage lands.
 - [sk-commit-creator](../sk-commit-creator/SKILL.md) — the convention the fixed commit messages follow; this stage does not load it.
-- `sk-project-deployer` — the **deploy** stage; like this one, an insertable, project-level stage.
+- `sk-repo-deployer` — the **deploy** stage; like this one, an insertable, repo-level stage.
 - [sk-release-creator](../sk-release-creator/SKILL.md) — the release flow this stage offers: it starts the version and later publishes it.

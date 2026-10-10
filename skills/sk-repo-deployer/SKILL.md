@@ -1,15 +1,15 @@
 ---
-name: sk-project-deployer
-description: Deploys a project to a hosting platform — currently GitHub Pages (static or Vite SPA), with Vercel / Cloudflare planned. Asks which platform, then sets up that platform's deployment (a GitHub Actions workflow for Pages) on a per-platform branch. An insertable, project-level stage; the deploy counterpart to sk-project-initializer. Use when deploying, publishing, or putting a site / app online.
+name: sk-repo-deployer
+description: Deploys a repo's site or app to a hosting platform — currently GitHub Pages (static or Vite SPA), with Vercel / Cloudflare planned. Asks which platform, then sets up that platform's deployment (a GitHub Actions workflow for Pages) on a per-platform branch. An insertable, repo-level stage; the deploy counterpart to sk-repo-initializer. Use when deploying, publishing, or putting a site / app online.
 ---
 
-# Project Deployer
+# Repo Deployer
 
-Deploy a project to a hosting platform. This is the **deploy** stage — an insertable, project-level stage, the counterpart to [sk-project-initializer](../sk-project-initializer/SKILL.md). Scope today: **GitHub Pages**; Vercel and Cloudflare are planned.
+Deploy a repo's site or app to a hosting platform. This is the **deploy** stage — an insertable, repo-level stage, the counterpart to [sk-repo-initializer](../sk-repo-initializer/SKILL.md). Scope today: **GitHub Pages**; Vercel and Cloudflare are planned.
 
 ## Stage & entry
 
-An **insertable stage** — run it whenever a deploy is wanted, not only at the very end (it can follow initialization directly). It works at the **project** level; in a monorepo, confirm which project to deploy.
+An **insertable stage** — run it whenever a deploy is wanted, not only at the very end (it can follow initialization directly). It works at the **repo** level: GitHub Pages serves one site per repo, from one deploy branch. In a monorepo, confirm which package the workflow builds.
 
 **Entry precondition:** a GitHub remote must exist — Pages and the deploy workflow live on GitHub. If there is no repo / remote yet, point the user to [sk-repo-creator](../sk-repo-creator/SKILL.md).
 
@@ -31,11 +31,11 @@ The chosen branch is the deploy target `T`, and everything keys off it uniformly
 - `ci/deploy-github-pages` is cut **from `T`** (not from `main`), so its PR diff is only the workflow file.
 - The setup PR merges **into `T`**; that merge is the first push to `T`, and it triggers the first deploy.
 
-**Ensure `T` is on `origin`.** A menu-listed `develop` / `staging` already exists; only a custom name might not — create it from `main` and push it before cutting `ci/deploy-github-pages`. `T = main` needs nothing. (Creating a deploy branch from `main` is the single shared rule, kept identical in [sk-project-initializer](../sk-project-initializer/SKILL.md).)
+**Ensure `T` is on `origin`.** A menu-listed `develop` / `staging` already exists; only a custom name might not — create it from `main` and push it before cutting `ci/deploy-github-pages`. `T = main` needs nothing. (Creating a deploy branch from `main` is the single shared rule, kept identical in [sk-repo-initializer](../sk-repo-initializer/SKILL.md).)
 
 **Allow `T` in the `github-pages` environment** (when `T` ≠ `main`). Enabling Pages auto-creates a `github-pages` environment that defaults to deploying only the default branch — a non-`main` `T` is otherwise blocked with `Branch "<T>" is not allowed to deploy to github-pages`. The flow in `references/github-pages.md` adds `T` to that environment's deployment branch policy.
 
-**Scope — branch only, no management.** This skill creates `T` only when you name a new branch via Custom; it sets no protection, no merge policy, no lifecycle. `T` is left unprotected, so a direct push deploys; `main` protection (if any) is sk-project-initializer's concern and stays untouched.
+**Scope — branch only, no management.** This skill creates `T` only when you name a new branch via Custom; it sets no protection, no merge policy, no lifecycle. `T` is left unprotected, so a direct push deploys; `main` protection (if any) is sk-repo-initializer's concern and stays untouched.
 
 ## A repo with a release flow
 
@@ -65,7 +65,7 @@ Before any command that writes to the remote or repo settings (`gh api .../pages
 
 ## Related
 
-- [sk-project-initializer](../sk-project-initializer/SKILL.md) — the **initialize** stage; this is its deploy counterpart, the same insertable, project-level shape.
+- [sk-repo-initializer](../sk-repo-initializer/SKILL.md) — the **initialize** stage; this is its deploy counterpart, the same insertable, repo-level shape.
 - [sk-repo-creator](../sk-repo-creator/SKILL.md) — the **create** stage, needed before a remote exists.
 - [sk-release-creator](../sk-release-creator/SKILL.md) — the release flow; in a repo that runs one, the workflow lands as an ordinary change of the open version.
 - [sk-branch-creator](../sk-branch-creator/SKILL.md) / [sk-commit-creator](../sk-commit-creator/SKILL.md) / [sk-pr-creator](../sk-pr-creator/SKILL.md) — branch, commit, and PR hand-offs.

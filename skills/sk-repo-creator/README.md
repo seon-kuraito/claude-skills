@@ -51,8 +51,8 @@
 - **可接續既有 repo**：
   - 若目標 repo 已有 `.git`，跳過模板選擇，直接補完缺的步驟
 - **建立完成後可接續初始化專案**：
-  - 三種模板建好後都會詢問是否進入初始化階段
-  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選配項目交給 [`sk-project-initializer`](../sk-project-initializer) 處理
+  - 三種模板建立完成後，都會詢問是否進入初始化階段
+  - `LICENSE`、`.claude/CLAUDE.md`、GitHub Labels、branch 保護等選用設定由 [`sk-repo-initializer`](../sk-repo-initializer) 處理
 - **完整規格集中在 SKILL.md**：
   - 詳細流程與規則見 [`SKILL.md`](SKILL.md)
 
@@ -90,7 +90,7 @@
   - 本地完成後，三種模板都進入 push 確認與初始化交接流程；meta-repo 的 push 確認涵蓋所有成員，初始化只交接 meta repo
 - **只負責 repo 建立與編排**：
   - 本 skill 只處理 repo 建立與遠端綁定
-  - branch 保護交由 [`sk-project-initializer`](../sk-project-initializer) 在「初始化專案」階段選配
+  - branch 保護可在「初始化 repo」階段透過 [`sk-repo-initializer`](../sk-repo-initializer) 設定
 - **遠端操作前先確認**：
   - 綁遠端／push（`gh repo create`、`git push`）前，先列出即將執行的內容並取得確認
   - 確認時顯示完整的 `<account>/<name>`，選項包含直接 push、改選帳號、暫不綁遠端
@@ -124,5 +124,5 @@
   - 家族自己的目錄可對應到名稱不同的 Organization；該 Organization 需先手動建立，push 前再詢問名稱
   - 指令一律寫成 `gh repo create <account>/<name>`
 - **接續的初始化 skill**：
-  - 三種模板建好後都可接續交給「初始化專案」skill（例如：[`sk-project-initializer`](../sk-project-initializer)）
-  - 該 skill 尚未建立或不存在時，確認後略過即可
+  - 三種模板建立完成後，皆可接續使用「初始化 repo」skill（例如：[`sk-repo-initializer`](../sk-repo-initializer)）
+  - 若無法使用該 skill，經確認後略過此階段

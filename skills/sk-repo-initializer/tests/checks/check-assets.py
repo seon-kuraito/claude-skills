@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Deterministic checks for sk-project-initializer's shipped assets.
+"""Deterministic checks for sk-repo-initializer's shipped assets.
 
-Run: python3 skills/sk-project-initializer/tests/checks/check-assets.py  (exit 0 = pass)
+Run: python3 skills/sk-repo-initializer/tests/checks/check-assets.py  (exit 0 = pass)
 
 Not an LLM eval — a static regression guard for the asset files the skill
 applies verbatim. Catches a silent edit that breaks the label set, a label
